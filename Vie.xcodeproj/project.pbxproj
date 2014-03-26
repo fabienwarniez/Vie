@@ -192,6 +192,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
+					46330F9518E2964100E5C7EC = {
+						DevelopmentTeam = HC9GUA88Q8;
+					};
 					46330FB018E2964100E5C7EC = {
 						TestTargetID = 46330F9518E2964100E5C7EC;
 					};
@@ -360,10 +363,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "DD280783-43EA-47A5-9019-04D841FF07AA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -373,10 +379,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "DD280783-43EA-47A5-9019-04D841FF07AA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -440,6 +449,7 @@
 				46330FC418E2964100E5C7EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46330FC518E2964100E5C7EC /* Build configuration list for PBXNativeTarget "VieTests" */ = {
 			isa = XCConfigurationList;
@@ -448,6 +458,7 @@
 				46330FC718E2964100E5C7EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
