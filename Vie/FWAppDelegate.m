@@ -3,10 +3,17 @@
 //  Vie
 //
 //  Created by Fabien Warniez on 2014-03-25.
-//  Copyright (c) 2014 ___FULLUSERNAME___. All rights reserved.
+//  Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
 #import "FWAppDelegate.h"
+#import "FWGameViewController.h"
+
+@interface FWAppDelegate ()
+
+@property (nonatomic, strong) FWGameViewController *gameViewController;
+
+@end
 
 @implementation FWAppDelegate
 
@@ -15,7 +22,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    // Override point
+    self.gameViewController = [[FWGameViewController alloc] initWithSize:self.window.bounds.size];
+
+    self.window.rootViewController = self.gameViewController;
     
     [self.window makeKeyAndVisible];
     

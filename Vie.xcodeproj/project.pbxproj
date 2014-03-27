@@ -19,6 +19,9 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
+		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
+		A6BD857935F006E562D59215 /* FWCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD838C05C9C56987CA9F58 /* FWCell.m */; };
+		A6BD873E1C63CF1B1B718ECA /* FWCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD802F9102D1375E558FB7 /* FWCellView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,12 @@
 		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
+		A6BD802F9102D1375E558FB7 /* FWCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellView.m; sourceTree = "<group>"; };
+		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
+		A6BD838C05C9C56987CA9F58 /* FWCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCell.m; sourceTree = "<group>"; };
+		A6BD888D333C52769E424DBD /* FWCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellView.h; sourceTree = "<group>"; };
+		A6BD8A2E44E2D89FFF694DD0 /* FWCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCell.h; sourceTree = "<group>"; };
+		A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +120,9 @@
 				46330FA918E2964100E5C7EC /* FWAppDelegate.m */,
 				46330FAB18E2964100E5C7EC /* Images.xcassets */,
 				46330FA018E2964100E5C7EC /* Supporting Files */,
+				A6BD8013992770013A7E2DCC /* View Controllers */,
+				A6BD8E7878082940867AADB3 /* Views */,
+				A6BD85C9170D14B5DD851835 /* Models */,
 			);
 			path = Vie;
 			sourceTree = "<group>";
@@ -142,6 +154,33 @@
 				46330FBB18E2964100E5C7EC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A6BD8013992770013A7E2DCC /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD81239C5465908CDDAA83 /* FWGameViewController.m */,
+				A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		A6BD85C9170D14B5DD851835 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD838C05C9C56987CA9F58 /* FWCell.m */,
+				A6BD8A2E44E2D89FFF694DD0 /* FWCell.h */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A6BD8E7878082940867AADB3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD802F9102D1375E558FB7 /* FWCellView.m */,
+				A6BD888D333C52769E424DBD /* FWCellView.h */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,7 +229,7 @@
 			attributes = {
 				CLASSPREFIX = FW;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "___FULLUSERNAME___";
+				ORGANIZATIONNAME = "Fabien Warniez";
 				TargetAttributes = {
 					46330F9518E2964100E5C7EC = {
 						DevelopmentTeam = HC9GUA88Q8;
@@ -245,6 +284,9 @@
 			files = (
 				46330FA618E2964100E5C7EC /* main.m in Sources */,
 				46330FAA18E2964100E5C7EC /* FWAppDelegate.m in Sources */,
+				A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */,
+				A6BD873E1C63CF1B1B718ECA /* FWCellView.m in Sources */,
+				A6BD857935F006E562D59215 /* FWCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +411,7 @@
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "DD280783-43EA-47A5-9019-04D841FF07AA";
+				PROVISIONING_PROFILE = "E037B7E3-1B92-4A0C-8FC8-0E31CC3F8040";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -385,7 +427,7 @@
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "DD280783-43EA-47A5-9019-04D841FF07AA";
+				PROVISIONING_PROFILE = "E037B7E3-1B92-4A0C-8FC8-0E31CC3F8040";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
