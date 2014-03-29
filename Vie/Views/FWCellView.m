@@ -4,7 +4,6 @@
 //
 
 #import "FWCellView.h"
-#import "FWCell.h"
 
 @implementation FWCellView
 

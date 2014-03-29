@@ -7,11 +7,11 @@
 //
 
 #import "FWAppDelegate.h"
-#import "FWGameViewController.h"
+#import "FWMainController.h"
 
 @interface FWAppDelegate ()
 
-@property (nonatomic, strong) FWGameViewController *gameViewController;
+@property (nonatomic, strong) FWMainController *mainViewController;
 
 @end
 
@@ -22,9 +22,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    self.gameViewController = [[FWGameViewController alloc] initWithSize:self.window.bounds.size];
+    self.mainViewController = [[FWMainController alloc] initWithFrame:self.window.bounds];
 
-    self.window.rootViewController = self.gameViewController;
+    self.window.rootViewController = self.mainViewController;
     
     [self.window makeKeyAndVisible];
     

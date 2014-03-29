@@ -22,7 +22,7 @@ NSUInteger const CELL_HEIGHT = 10;
 
 - (instancetype)initWithSize:(CGSize)size
 {
-    self = [super init];
+    self = [super initWithNibName:nil bundle:nil];
     if (self)
     {
         _numberOfColumns = (NSUInteger) (size.width / CELL_WIDTH);
@@ -49,9 +49,9 @@ NSUInteger const CELL_HEIGHT = 10;
     return self;
 }
 
-- (void)viewWillLayoutSubviews
+- (void)loadView
 {
-    [super viewWillLayoutSubviews];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
 
     for (NSUInteger i = 0; i < self.numberOfColumns; i++)
     {
@@ -62,10 +62,12 @@ NSUInteger const CELL_HEIGHT = 10;
             {
                 FWCellView *cellView = [[FWCellView alloc] initWithFrame:CGRectMake(i * CELL_WIDTH, j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)];
                 cellView.data = cellModel;
-                [self.view addSubview:cellView];
+                [view addSubview:cellView];
             }
         }
     }
+
+    self.view = view;
 }
 
 @end

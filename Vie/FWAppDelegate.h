@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @class FWGameViewController;
 
 @interface FWAppDelegate : UIResponder <UIApplicationDelegate>
