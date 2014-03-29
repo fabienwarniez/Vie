@@ -24,6 +24,7 @@
 		A6BD873E1C63CF1B1B718ECA /* FWCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD802F9102D1375E558FB7 /* FWCellView.m */; };
 		A6BD89D931978E625CC4AFD6 /* FWNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8944805D87E8867F1BB6 /* FWNavigationController.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainController.m */; };
+		A6BD8E8A0B77F033B2D2DEBE /* FWGameBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8B6BF68F5AB7427B5296 /* FWGameBoardView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,11 +57,13 @@
 		A6BD802F9102D1375E558FB7 /* FWCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellView.m; sourceTree = "<group>"; };
 		A6BD808AFF54817340C0A620 /* FWMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainController.h; sourceTree = "<group>"; };
 		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
+		A6BD836CE463AA1E6203A65D /* FWGameBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameBoardView.h; sourceTree = "<group>"; };
 		A6BD838C05C9C56987CA9F58 /* FWCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCell.m; sourceTree = "<group>"; };
 		A6BD888D333C52769E424DBD /* FWCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellView.h; sourceTree = "<group>"; };
 		A6BD8944805D87E8867F1BB6 /* FWNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWNavigationController.m; sourceTree = "<group>"; };
 		A6BD8A2E44E2D89FFF694DD0 /* FWCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCell.h; sourceTree = "<group>"; };
 		A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameViewController.h; sourceTree = "<group>"; };
+		A6BD8B6BF68F5AB7427B5296 /* FWGameBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameBoardView.m; sourceTree = "<group>"; };
 		A6BD8EC0C1B1F832B4277629 /* FWNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWNavigationController.h; sourceTree = "<group>"; };
 		A6BD8F008B945759E90FEF5C /* FWMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,6 +192,8 @@
 			children = (
 				A6BD802F9102D1375E558FB7 /* FWCellView.m */,
 				A6BD888D333C52769E424DBD /* FWCellView.h */,
+				A6BD8B6BF68F5AB7427B5296 /* FWGameBoardView.m */,
+				A6BD836CE463AA1E6203A65D /* FWGameBoardView.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -299,6 +304,7 @@
 				A6BD857935F006E562D59215 /* FWCell.m in Sources */,
 				A6BD8BB22C87B072BCAA3DE5 /* FWMainController.m in Sources */,
 				A6BD89D931978E625CC4AFD6 /* FWNavigationController.m in Sources */,
+				A6BD8E8A0B77F033B2D2DEBE /* FWGameBoardView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

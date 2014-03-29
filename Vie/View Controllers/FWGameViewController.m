@@ -5,7 +5,7 @@
 
 #import "FWGameViewController.h"
 #import "FWCell.h"
-#import "FWCellView.h"
+#import "FWGameBoardView.h"
 
 NSUInteger const CELL_WIDTH = 10;
 NSUInteger const CELL_HEIGHT = 10;
@@ -15,6 +15,7 @@ NSUInteger const CELL_HEIGHT = 10;
 @property (nonatomic, assign) NSUInteger numberOfColumns;
 @property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, strong) NSMutableArray *columns;
+@property (nonatomic, strong) FWGameBoardView *gameBoardView;
 
 @end
 
@@ -45,29 +46,17 @@ NSUInteger const CELL_HEIGHT = 10;
             }
             _columns[i] = columnOfCells;
         }
+
+        _gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
+        [_gameBoardView setCells:_columns];
     }
     return self;
 }
 
 - (void)loadView
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-
-    for (NSUInteger i = 0; i < self.numberOfColumns; i++)
-    {
-        for (NSUInteger j = 0; j < self.numberOfRows; j++)
-        {
-            FWCell *cellModel = self.columns[i][j];
-            if (cellModel.alive)
-            {
-                FWCellView *cellView = [[FWCellView alloc] initWithFrame:CGRectMake(i * CELL_WIDTH, j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)];
-                cellView.data = cellModel;
-                [view addSubview:cellView];
-            }
-        }
-    }
-
-    self.view = view;
+    self.gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view = self.gameBoardView;
 }
 
 @end

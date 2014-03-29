@@ -3,6 +3,8 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWGameBoardView;
+
 @interface FWGameViewController : UIViewController
 
 - (instancetype)initWithSize:(CGSize)size;
