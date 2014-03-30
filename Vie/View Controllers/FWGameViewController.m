@@ -150,7 +150,7 @@ NSUInteger const CELL_HEIGHT = 5;
                 if (numberOfNeighbours < 2 || numberOfNeighbours > 3)
                 {
                     nextCycleCell.alive = NO;
-                    [arrayOfChanges addObject:nextCycleCell];
+                    [arrayOfChanges insertObject:nextCycleCell atIndex:0];
                 }
                 else
                 {

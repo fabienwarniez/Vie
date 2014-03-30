@@ -13,10 +13,10 @@
 @property (nonatomic, assign) NSUInteger numberOfColumns;
 @property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, assign) CGSize cellSize;
-@property (nonatomic, strong) NSMutableArray *cellViewsPool;
+@property (nonatomic, strong) NSMutableArray *cellViewPool;
 @property (nonatomic, strong) NSArray *cells;
 @property (nonatomic, strong) NSMutableArray *cellsDiff;
-@property (nonatomic, strong) NSMutableDictionary *cellViews;
+@property (nonatomic, strong) NSMutableDictionary *cellViewsOnBoard;
 @property (nonatomic, assign) BOOL initialBoardDrawn;
 
 @end
@@ -31,8 +31,8 @@
         self.numberOfColumns = numberOfColumns;
         self.numberOfRows = numberOfRows;
         _cellSize = cellSize;
-        _cellViewsPool = [NSMutableArray array];
-        _cellViews = [NSMutableDictionary dictionary];
+        _cellViewPool = [NSMutableArray array];
+        _cellViewsOnBoard = [NSMutableDictionary dictionary];
         _initialBoardDrawn = NO;
     }
     return self;
@@ -52,6 +52,7 @@
     if (self.initialBoardDrawn)
     {
         NSUInteger cellChangeCount = [self.cellsDiff count];
+        NSMutableArray *cellViewsToBeRemovedFromView = [NSMutableArray array];
 
         for (NSUInteger cellIndex = 0; cellIndex < cellChangeCount; cellIndex++)
         {
@@ -59,17 +60,33 @@
             FWCellIndex *changedCellIndex = [[FWCellIndex alloc] initWithColumn:changedCell.column row:changedCell.row];
             if (changedCell.alive)
             {
-                FWCellView *cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:changedCell.column row:changedCell.row]];
-                [self.cellViews setObject:cellView forKey:changedCellIndex];
-                [self addSubview:cellView];
+                FWCellView *cellView = [cellViewsToBeRemovedFromView lastObject];
+                if (cellView != nil)
+                {
+                    [cellViewsToBeRemovedFromView removeLastObject];
+                    cellView.frame = [self frameForColumn:changedCell.column row:changedCell.row];
+                }
+                else
+                {
+                    cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:changedCell.column row:changedCell.row]];
+                    [self addSubview:cellView];
+                }
+                [self.cellViewsOnBoard setObject:cellView forKey:changedCellIndex];
             }
             else
             {
-                FWCellView *cellView = [self.cellViews objectForKey:changedCellIndex];
-                [self.cellViews removeObjectForKey:changedCellIndex];
-                [self.cellViewsPool addObject:cellView];
-                [cellView removeFromSuperview];
+                FWCellView *cellView = [self.cellViewsOnBoard objectForKey:changedCellIndex];
+                [self.cellViewsOnBoard removeObjectForKey:changedCellIndex];
+                [cellViewsToBeRemovedFromView addObject:cellView];
             }
+        }
+
+        NSUInteger numberOfCellsToBeRemovedFromView = [cellViewsToBeRemovedFromView count];
+        for (NSUInteger cellToBeRemovedFromViewIndex = 0; cellToBeRemovedFromViewIndex < numberOfCellsToBeRemovedFromView; cellToBeRemovedFromViewIndex++)
+        {
+            FWCellView *cellView = cellViewsToBeRemovedFromView[cellToBeRemovedFromViewIndex];
+            [self.cellViewPool addObject:cellView];
+            [cellView removeFromSuperview];
         }
     }
     else
@@ -83,7 +100,7 @@
                 {
                     FWCellView *cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:columnIndex row:rowIndex]];
                     FWCellIndex *changedCellIndex = [[FWCellIndex alloc] initWithColumn:columnIndex row:rowIndex];
-                    [self.cellViews setObject:cellView forKey:changedCellIndex];
+                    [self.cellViewsOnBoard setObject:cellView forKey:changedCellIndex];
                     [self addSubview:cellView];
                 }
             }
@@ -95,10 +112,10 @@
 
 - (FWCellView *)dequeueCellViewFromPoolWithFrame:(CGRect)frame
 {
-    if ([self.cellViewsPool count] > 0)
+    if ([self.cellViewPool count] > 0)
     {
-        FWCellView *dequeuedCell = [self.cellViewsPool lastObject];
-        [self.cellViewsPool removeLastObject];
+        FWCellView *dequeuedCell = [self.cellViewPool lastObject];
+        [self.cellViewPool removeLastObject];
         dequeuedCell.frame = frame;
         return dequeuedCell;
     }
