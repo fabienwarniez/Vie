@@ -5,8 +5,7 @@
 
 @interface FWGameBoardView : UIView
 
-@property (nonatomic, strong) NSArray *cells;
-
 - (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows cellSize:(CGSize)cellSize;
 
+- (void)updateCellsWithDiff:(NSMutableArray *)diffArray newCellArray:(NSArray *)wholeCellsArray;
 @end

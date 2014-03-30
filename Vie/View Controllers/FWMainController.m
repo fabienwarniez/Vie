@@ -21,12 +21,14 @@
     if (self)
     {
         FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithSize:frame.size];
-        self.gameViewController = gameViewController;
         [self addChildViewController:gameViewController];
+        [gameViewController didMoveToParentViewController:self];
+        _gameViewController = gameViewController;
 
         FWNavigationController *navigationViewController = [[FWNavigationController alloc] initWithNibName:nil bundle:nil];
-        self.navigationViewController = navigationViewController;
         [self addChildViewController:navigationViewController];
+        [navigationViewController didMoveToParentViewController:self];
+        _navigationViewController = navigationViewController;
     }
     return self;
 }

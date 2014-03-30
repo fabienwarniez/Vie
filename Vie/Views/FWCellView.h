@@ -7,6 +7,7 @@
 
 @interface FWCellView : UIView
 
-@property (nonatomic, strong) FWCell *data;
+@property (nonatomic, assign) NSUInteger column;
+@property (nonatomic, assign) NSUInteger row;
 
 @end
