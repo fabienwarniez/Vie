@@ -7,5 +7,5 @@
 
 - (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows cellSize:(CGSize)cellSize;
 
-- (void)updateCellsWithDiff:(NSMutableArray *)diffArray newCellArray:(NSArray *)wholeCellsArray;
+- (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray;
 @end

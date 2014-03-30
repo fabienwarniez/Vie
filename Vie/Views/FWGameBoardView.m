@@ -15,7 +15,7 @@
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, strong) NSMutableArray *cellViewPool;
 @property (nonatomic, strong) NSArray *cells;
-@property (nonatomic, strong) NSMutableArray *cellsDiff;
+@property (nonatomic, strong) NSArray *cellsDiff;
 @property (nonatomic, strong) NSMutableDictionary *cellViewsOnBoard;
 @property (nonatomic, assign) BOOL initialBoardDrawn;
 
@@ -38,7 +38,7 @@
     return self;
 }
 
-- (void)updateCellsWithDiff:(NSMutableArray *)diffArray newCellArray:(NSArray *)wholeCellsArray
+- (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray
 {
     self.cells = wholeCellsArray;
     self.cellsDiff = diffArray;
@@ -95,7 +95,7 @@
         {
             for (NSUInteger rowIndex = 0; rowIndex < self.numberOfRows; rowIndex++)
             {
-                FWCell *cellModel = self.cells[columnIndex][rowIndex];
+                FWCell *cellModel = self.cells[columnIndex * self.numberOfRows + rowIndex];
                 if (cellModel.alive)
                 {
                     FWCellView *cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:columnIndex row:rowIndex]];

@@ -7,8 +7,8 @@
 #import "FWCell.h"
 #import "FWGameBoardView.h"
 
-NSUInteger const CELL_WIDTH = 10;
-NSUInteger const CELL_HEIGHT = 10;
+NSUInteger const CELL_WIDTH = 5;
+NSUInteger const CELL_HEIGHT = 5;
 
 @interface FWGameViewController ()
 
@@ -67,33 +67,30 @@ NSUInteger const CELL_HEIGHT = 10;
 
 - (NSArray *)generateCellsFromArray:(NSArray *)simpleArray
 {
-    NSMutableArray *columns = [NSMutableArray array];
+    NSMutableArray *cells = [NSMutableArray array];
 
     for (NSUInteger columnIndex = 0; columnIndex < [simpleArray count]; columnIndex++)
     {
         NSArray *simpleRow = simpleArray[columnIndex];
-        NSMutableArray *columnOfCells = [NSMutableArray array];
         for (NSUInteger rowIndex = 0; rowIndex < [simpleRow count]; rowIndex++)
         {
             FWCell *newCell = [[FWCell alloc] init];
 
             newCell.alive = [simpleRow[rowIndex] unsignedIntegerValue] == 1;
 
-            columnOfCells[rowIndex] = newCell;
+            cells[columnIndex * self.numberOfRows + rowIndex] = newCell;
         }
-        columns[columnIndex] = columnOfCells;
     }
 
-    return columns;
+    return cells;
 }
 
 - (NSArray *)generateInitialCellsWithColumns:(NSUInteger)numberOfColumns rows:(NSUInteger)numberOfRows
 {
-    NSMutableArray *columns = [NSMutableArray array];
+    NSMutableArray *cells = [NSMutableArray array];
 
     for (NSUInteger columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
     {
-        NSMutableArray *columnOfCells = [NSMutableArray array];
         for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
         {
             FWCell *newCell = [[FWCell alloc] init];
@@ -106,12 +103,11 @@ NSUInteger const CELL_HEIGHT = 10;
             float rndValue = (((float)arc4random() / 0x100000000) * (high_bound - low_bound) + low_bound);
             newCell.alive = rndValue > 80;
 
-            columnOfCells[rowIndex] = newCell;
+            cells[columnIndex * numberOfRows + rowIndex] = newCell;
         }
-        columns[columnIndex] = columnOfCells;
     }
 
-    return columns;
+    return cells;
 }
 
 - (void)calculateNextCycle:(NSTimer *)senderTimer
@@ -126,8 +122,8 @@ NSUInteger const CELL_HEIGHT = 10;
     {
         for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
         {
-            FWCell *currentCell = currentCycleArray[columnIndex][rowIndex];
-            FWCell *nextCycleCell = nextCycleArray[columnIndex][rowIndex];
+            FWCell *currentCell = [self cellForColumn:columnIndex row:rowIndex inArray:currentCycleArray];
+            FWCell *nextCycleCell = [self cellForColumn:columnIndex row:rowIndex inArray:nextCycleArray];
             NSUInteger numberOfNeighbours = 0;
             for (NSInteger columnOffsetIndex = -1; columnOffsetIndex <= 1; columnOffsetIndex++)
             {
@@ -140,7 +136,7 @@ NSUInteger const CELL_HEIGHT = 10;
                         && neighbourColumnIndex >= 0 && neighbourRowIndex >= 0
                         && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
                     {
-                        FWCell *neighbourCell = currentCycleArray[(NSUInteger) neighbourColumnIndex][(NSUInteger) neighbourRowIndex];
+                        FWCell *neighbourCell = [self cellForColumn:(NSUInteger) neighbourColumnIndex row:(NSUInteger) neighbourRowIndex inArray:currentCycleArray];
                         if (neighbourCell != nil && neighbourCell.alive)
                         {
                             numberOfNeighbours++;
@@ -179,6 +175,11 @@ NSUInteger const CELL_HEIGHT = 10;
     self.cells = nextCycleArray;
     self.secondArrayOfCells = currentCycleArray;
     [self.gameBoardView updateCellsWithDiff:arrayOfChanges newCellArray:nextCycleArray];
+}
+
+- (FWCell *)cellForColumn:(NSUInteger)column row:(NSUInteger)row inArray:(NSArray *)array
+{
+    return array[column * _numberOfRows + row];
 }
 
 - (void)loadView
