@@ -15,6 +15,7 @@ NSUInteger const CELL_HEIGHT = 10;
 @property (nonatomic, assign) NSUInteger numberOfColumns;
 @property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, strong) NSArray *cells;
+@property (nonatomic, strong) NSArray *secondArrayOfCells;
 @property (nonatomic, strong) FWGameBoardView *gameBoardView;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 
@@ -29,19 +30,62 @@ NSUInteger const CELL_HEIGHT = 10;
     {
         _numberOfColumns = (NSUInteger) (size.width / CELL_WIDTH);
         _numberOfRows = (NSUInteger) (size.height / CELL_HEIGHT);
+//        _numberOfColumns = 5;
+//        _numberOfRows = 5;
 
         _cells = [self generateInitialCellsWithColumns:_numberOfColumns rows:_numberOfRows];
+        _secondArrayOfCells = [self generateInitialCellsWithColumns:_numberOfColumns rows:_numberOfRows];
+
+//        _cells = [self generateCellsFromArray:
+//                @[
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @1, @1, @1, @0],
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @0, @0, @0, @0]
+//                ]];
+//
+//        _secondArrayOfCells = [self generateCellsFromArray:
+//                @[
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @0, @0, @0, @0],
+//                        @[@0, @0, @0, @0, @0]
+//                ]];
 
         _gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
         [_gameBoardView setCells:_cells];
 
-        _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+        _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
                                                          target:self
                                                        selector:@selector(calculateNextCycle:)
                                                        userInfo:nil
-                                                        repeats:NO];
+                                                        repeats:YES];
     }
     return self;
+}
+
+- (NSArray *)generateCellsFromArray:(NSArray *)simpleArray
+{
+    NSMutableArray *columns = [NSMutableArray array];
+
+    for (NSUInteger columnIndex = 0; columnIndex < [simpleArray count]; columnIndex++)
+    {
+        NSArray *simpleRow = simpleArray[columnIndex];
+        NSMutableArray *columnOfCells = [NSMutableArray array];
+        for (NSUInteger rowIndex = 0; rowIndex < [simpleRow count]; rowIndex++)
+        {
+            FWCell *newCell = [[FWCell alloc] init];
+
+            newCell.alive = [simpleRow[rowIndex] unsignedIntegerValue] == 1;
+
+            columnOfCells[rowIndex] = newCell;
+        }
+        columns[columnIndex] = columnOfCells;
+    }
+
+    return columns;
 }
 
 - (NSArray *)generateInitialCellsWithColumns:(NSUInteger)numberOfColumns rows:(NSUInteger)numberOfRows
@@ -70,15 +114,16 @@ NSUInteger const CELL_HEIGHT = 10;
 
 - (void)calculateNextCycle:(NSTimer *)senderTimer
 {
-    NSMutableArray *newColumns = [NSMutableArray array];
+    NSArray *switchArray = self.secondArrayOfCells;
+    self.secondArrayOfCells = self.cells;
+    self.cells = switchArray;
 
     for (NSUInteger columnIndex = 0; columnIndex < _numberOfColumns; columnIndex++)
     {
-        NSMutableArray *columnOfCells = [NSMutableArray array];
-
         for (NSUInteger rowIndex = 0; rowIndex < _numberOfRows; rowIndex++)
         {
-            FWCell *currentCell = [self cellInColumn:columnIndex inRow:rowIndex];
+            FWCell *currentCell = [self cellFromSecondArrayInColumn:columnIndex inRow:rowIndex];
+            FWCell *nextCycleCell = [self cellInColumn:columnIndex inRow:rowIndex];
             NSUInteger numberOfNeighbours = 0;
             for (NSInteger columnOffsetIndex = -1; columnOffsetIndex <= 1; columnOffsetIndex++)
             {
@@ -87,9 +132,9 @@ NSUInteger const CELL_HEIGHT = 10;
                     NSInteger neighbourColumnIndex = columnOffsetIndex + columnIndex;
                     NSInteger neighbourRowIndex = rowOffsetIndex + rowIndex;
 
-                    if (columnOffsetIndex != 0 && rowOffsetIndex != 0 && neighbourColumnIndex >= 0 && neighbourRowIndex >= 0)
+                    if ((columnOffsetIndex != 0 || rowOffsetIndex != 0) && neighbourColumnIndex >= 0 && neighbourRowIndex >= 0)
                     {
-                        FWCell *neighbourCell = [self cellInColumn:(NSUInteger) neighbourColumnIndex inRow:(NSUInteger) neighbourRowIndex];
+                        FWCell *neighbourCell = [self cellFromSecondArrayInColumn:(NSUInteger) neighbourColumnIndex inRow:(NSUInteger) neighbourRowIndex];
                         if (neighbourCell != nil && neighbourCell.alive)
                         {
                             numberOfNeighbours++;
@@ -100,23 +145,13 @@ NSUInteger const CELL_HEIGHT = 10;
 
             if (currentCell.alive)
             {
-                if (numberOfNeighbours < 2 || numberOfNeighbours > 3)
-                {
-                    currentCell.alive = NO;
-                }
+                nextCycleCell.alive = numberOfNeighbours >= 2 && numberOfNeighbours <= 3;
             }
             else
             {
-                if (numberOfNeighbours >= 3)
-                {
-                    currentCell.alive = YES;
-                }
+                nextCycleCell.alive = numberOfNeighbours == 3;
             }
-
-            columnOfCells[rowIndex] = newCell;
         }
-
-        newColumns[columnIndex] = columnOfCells;
     }
 
     [self.gameBoardView setCells:self.cells];
@@ -124,13 +159,27 @@ NSUInteger const CELL_HEIGHT = 10;
 
 - (FWCell *)cellInColumn:(NSUInteger)column inRow:(NSUInteger)row
 {
-    if (column < 0 || column >= self.numberOfColumns || row < 0 || row >= self.numberOfRows)
+    if (column >= self.numberOfColumns || row >= self.numberOfRows)
     {
         return nil;
     }
     else
     {
         NSArray *rowOfCells = _cells[column];
+        assert([rowOfCells count] > row);
+        return rowOfCells[row];
+    }
+}
+
+- (FWCell *)cellFromSecondArrayInColumn:(NSUInteger)column inRow:(NSUInteger)row
+{
+    if (column >= self.numberOfColumns || row >= self.numberOfRows)
+    {
+        return nil;
+    }
+    else
+    {
+        NSArray *rowOfCells = _secondArrayOfCells[column];
         assert([rowOfCells count] > row);
         return rowOfCells[row];
     }

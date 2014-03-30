@@ -41,6 +41,8 @@
 {
     [super layoutSubviews];
 
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
     for (NSUInteger i = 0; i < self.numberOfColumns; i++)
     {
         for (NSUInteger j = 0; j < self.numberOfRows; j++)
