@@ -7,8 +7,8 @@
 #import "FWCell.h"
 #import "FWGameBoardView.h"
 
-NSUInteger const CELL_WIDTH = 5;
-NSUInteger const CELL_HEIGHT = 5;
+NSUInteger const CELL_WIDTH = 10;
+NSUInteger const CELL_HEIGHT = 10;
 
 @interface FWGameViewController ()
 
@@ -117,15 +117,17 @@ NSUInteger const CELL_HEIGHT = 5;
 - (void)calculateNextCycle:(NSTimer *)senderTimer
 {
     NSArray *nextCycleArray = self.secondArrayOfCells;
-    self.secondArrayOfCells = self.cells;
+    NSArray *currentCycleArray = self.cells;
     NSMutableArray *arrayOfChanges = [NSMutableArray array];
+    NSUInteger numberOfColumns = self.numberOfColumns; // performance optimization
+    NSUInteger numberOfRows = self.numberOfRows;
 
-    for (NSUInteger columnIndex = 0; columnIndex < _numberOfColumns; columnIndex++)
+    for (NSUInteger columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
     {
-        for (NSUInteger rowIndex = 0; rowIndex < _numberOfRows; rowIndex++)
+        for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
         {
-            FWCell *currentCell = [self cellInColumn:columnIndex inRow:rowIndex inArray:self.cells];
-            FWCell *nextCycleCell = [self cellInColumn:columnIndex inRow:rowIndex inArray:nextCycleArray];
+            FWCell *currentCell = currentCycleArray[columnIndex][rowIndex];
+            FWCell *nextCycleCell = nextCycleArray[columnIndex][rowIndex];
             NSUInteger numberOfNeighbours = 0;
             for (NSInteger columnOffsetIndex = -1; columnOffsetIndex <= 1; columnOffsetIndex++)
             {
@@ -134,9 +136,11 @@ NSUInteger const CELL_HEIGHT = 5;
                     NSInteger neighbourColumnIndex = columnOffsetIndex + columnIndex;
                     NSInteger neighbourRowIndex = rowOffsetIndex + rowIndex;
 
-                    if ((columnOffsetIndex != 0 || rowOffsetIndex != 0) && neighbourColumnIndex >= 0 && neighbourRowIndex >= 0)
+                    if ((columnOffsetIndex != 0 || rowOffsetIndex != 0)
+                        && neighbourColumnIndex >= 0 && neighbourRowIndex >= 0
+                        && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
                     {
-                        FWCell *neighbourCell = [self cellInColumn:(NSUInteger) neighbourColumnIndex inRow:(NSUInteger) neighbourRowIndex inArray:self.cells];
+                        FWCell *neighbourCell = currentCycleArray[(NSUInteger) neighbourColumnIndex][(NSUInteger) neighbourRowIndex];
                         if (neighbourCell != nil && neighbourCell.alive)
                         {
                             numberOfNeighbours++;
@@ -173,21 +177,8 @@ NSUInteger const CELL_HEIGHT = 5;
     }
 
     self.cells = nextCycleArray;
-    [self.gameBoardView updateCellsWithDiff:arrayOfChanges newCellArray:self.cells];
-}
-
-- (FWCell *)cellInColumn:(NSUInteger)column inRow:(NSUInteger)row inArray:(NSArray *)columns
-{
-    if (column >= self.numberOfColumns || row >= self.numberOfRows)
-    {
-        return nil;
-    }
-    else
-    {
-        NSArray *rowOfCells = columns[column];
-        assert([rowOfCells count] > row);
-        return rowOfCells[row];
-    }
+    self.secondArrayOfCells = currentCycleArray;
+    [self.gameBoardView updateCellsWithDiff:arrayOfChanges newCellArray:nextCycleArray];
 }
 
 - (void)loadView
