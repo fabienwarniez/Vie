@@ -3,6 +3,8 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@interface FWNavigationController : UIViewController
+@interface FWNavigationController : UITableViewController
+
+
 
 @end

@@ -6,6 +6,12 @@
 #import "FWNavigationController.h"
 
 @implementation FWNavigationController
+
+- (void)loadView
 {
+    [super loadView];
+    self.view.layer.borderWidth = 1;
+    self.view.layer.borderColor = [UIColor blueColor].CGColor;
 }
+
 @end

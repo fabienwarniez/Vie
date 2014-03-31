@@ -7,8 +7,8 @@
 #import "FWCell.h"
 #import "FWGameBoardView.h"
 
-NSUInteger const CELL_WIDTH = 5;
-NSUInteger const CELL_HEIGHT = 5;
+NSUInteger const CELL_WIDTH = 10;
+NSUInteger const CELL_HEIGHT = 10;
 
 @interface FWGameViewController ()
 
@@ -56,13 +56,34 @@ NSUInteger const CELL_HEIGHT = 5;
         _gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
         [_gameBoardView updateCellsWithDiff:nil newCellArray:_cells];
 
-        _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+        [self play];
+    }
+    return self;
+}
+
+- (BOOL)isRunning
+{
+    return self.refreshTimer != nil && [self.refreshTimer isValid];
+}
+
+- (void)play
+{
+    if (self.refreshTimer == nil || ![self.refreshTimer isValid])
+    {
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
                                                          target:self
                                                        selector:@selector(calculateNextCycle:)
                                                        userInfo:nil
                                                         repeats:YES];
     }
-    return self;
+}
+
+- (void)pause
+{
+    if ([self.refreshTimer isValid])
+    {
+        [self.refreshTimer invalidate];
+    }
 }
 
 - (NSArray *)generateCellsFromArray:(NSArray *)simpleArray

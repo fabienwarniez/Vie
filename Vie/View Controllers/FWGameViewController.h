@@ -7,6 +7,10 @@
 
 @interface FWGameViewController : UIViewController
 
+@property (nonatomic, assign, readonly) BOOL isRunning;
+
 - (instancetype)initWithSize:(CGSize)size;
+- (void)play;
+- (void)pause;
 
 @end
