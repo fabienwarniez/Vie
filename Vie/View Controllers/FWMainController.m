@@ -32,7 +32,7 @@
         [gameViewController didMoveToParentViewController:self];
         _gameViewController = gameViewController;
 
-        FWNavigationController *navigationViewController = [[FWNavigationController alloc] initWithNibName:nil bundle:nil];
+        FWNavigationController *navigationViewController = [[FWNavigationController alloc] initWithNibName:@"FWNavigationController" bundle:nil];
         [self addChildViewController:navigationViewController];
         [navigationViewController didMoveToParentViewController:self];
         _navigationViewController = navigationViewController;

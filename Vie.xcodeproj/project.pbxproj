@@ -19,6 +19,7 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
+		46B06D4718E9C45D00543A5C /* FWNavigationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46B06D4618E9C45D00543A5C /* FWNavigationController.xib */; };
 		A6BD81FED543B7553AC45758 /* FWCellIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F0A4382111ACE824BA9 /* FWCellIndex.m */; };
 		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
 		A6BD857935F006E562D59215 /* FWCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD838C05C9C56987CA9F58 /* FWCell.m */; };
@@ -55,6 +56,7 @@
 		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
+		46B06D4618E9C45D00543A5C /* FWNavigationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWNavigationController.xib; sourceTree = "<group>"; };
 		A6BD802F9102D1375E558FB7 /* FWCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellView.m; sourceTree = "<group>"; };
 		A6BD808AFF54817340C0A620 /* FWMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainController.h; sourceTree = "<group>"; };
 		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		46330F8D18E2964100E5C7EC = {
 			isa = PBXGroup;
 			children = (
+				46B06D4518E9C3CA00543A5C /* NIBs */,
 				46330F9F18E2964100E5C7EC /* Vie */,
 				46330FB818E2964100E5C7EC /* VieTests */,
 				46330F9818E2964100E5C7EC /* Frameworks */,
@@ -166,6 +169,14 @@
 				46330FBB18E2964100E5C7EC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		46B06D4518E9C3CA00543A5C /* NIBs */ = {
+			isa = PBXGroup;
+			children = (
+				46B06D4618E9C45D00543A5C /* FWNavigationController.xib */,
+			);
+			name = NIBs;
 			sourceTree = "<group>";
 		};
 		A6BD8013992770013A7E2DCC /* View Controllers */ = {
@@ -282,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46B06D4718E9C45D00543A5C /* FWNavigationController.xib in Resources */,
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
 			);

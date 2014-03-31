@@ -3,8 +3,9 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@interface FWNavigationController : UITableViewController
+@interface FWNavigationController : UIViewController
 
-
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
 
 @end
