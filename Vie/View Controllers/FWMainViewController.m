@@ -3,14 +3,15 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWMainController.h"
+#import "FWMainViewController.h"
 #import "FWGameViewController.h"
-#import "FWNavigationController.h"
+#import "FWMainMenuViewController.h"
 
-@interface FWMainController ()
+@interface FWMainViewController ()
 
 @property (nonatomic, strong) FWGameViewController *gameViewController;
-@property (nonatomic, strong) FWNavigationController *navigationViewController;
+@property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
+@property (nonatomic, strong) UINavigationController *swipeOutNavigationController;
 @property (nonatomic, strong) UIView *navigationContainerView;
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGRect navigationClosedFrame;
@@ -18,7 +19,7 @@
 
 @end
 
-@implementation FWMainController
+@implementation FWMainViewController
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -32,10 +33,13 @@
         [gameViewController didMoveToParentViewController:self];
         _gameViewController = gameViewController;
 
-        FWNavigationController *navigationViewController = [[FWNavigationController alloc] initWithNibName:@"FWNavigationController" bundle:nil];
-        [self addChildViewController:navigationViewController];
-        [navigationViewController didMoveToParentViewController:self];
-        _navigationViewController = navigationViewController;
+        FWMainMenuViewController *mainMenuViewController = [[FWMainMenuViewController alloc] initWithNibName:nil bundle:nil];
+        _mainMenuViewController = mainMenuViewController;
+
+        UINavigationController *swipeOutNavigationController = [[UINavigationController alloc] initWithRootViewController:_mainMenuViewController];
+        [self addChildViewController:swipeOutNavigationController];
+        [swipeOutNavigationController didMoveToParentViewController:self];
+        _swipeOutNavigationController = swipeOutNavigationController;
     }
     return self;
 }
@@ -49,11 +53,13 @@
     [view addSubview:self.gameViewController.view];
 
     self.navigationClosedFrame = CGRectMake(- view.bounds.size.width + 40, view.bounds.origin.y, view.bounds.size.width, view.bounds.size.height);
+
     self.navigationContainerView = [[UIView alloc] initWithFrame:self.navigationClosedFrame];
     [view addSubview:self.navigationContainerView];
-    self.navigationViewController.view.frame = CGRectMake(0, 0, self.navigationContainerView.frame.size.width - 40, self.navigationContainerView.frame.size.height);
-    self.navigationViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    [self.navigationContainerView addSubview:self.navigationViewController.view];
+
+    self.swipeOutNavigationController.view.frame = CGRectMake(0, 0, self.navigationContainerView.frame.size.width - 40, self.navigationContainerView.frame.size.height);
+    self.swipeOutNavigationController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    [self.navigationContainerView addSubview:self.swipeOutNavigationController.view];
 
     UISwipeGestureRecognizer *rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleNavigationSwipe:)];
     rightSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
@@ -90,18 +96,5 @@
         self.isMenuExpanded = NO;
     }
 }
-
-//- (void)handlePan:(UIPanGestureRecognizer *)panGestureRecognizer
-//{
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-//    if (self.gameViewController.isRunning)
-//    {
-//        [self.gameViewController pause];
-//    }
-//    UIView *view = panGestureRecognizer.view;
-//    CGPoint translation = [panGestureRecognizer translationInView:view];
-//    panGestureRecognizer.view.center = CGPointMake(view.center.x + translation.x, view.center.y);
-//    [panGestureRecognizer setTranslation:CGPointZero inView:view];
-//}
 
 @end

@@ -4,9 +4,9 @@
 //
 
 @class FWGameViewController;
-@class FWNavigationController;
+@class FWMainMenuViewController;
 
-@interface FWMainController : UIViewController
+@interface FWMainViewController : UIViewController
 
 - (id)initWithFrame:(CGRect)frame;
 @end
