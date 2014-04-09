@@ -3,10 +3,8 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWGameViewController;
-@class FWMainMenuViewController;
-
 @interface FWMainViewController : UIViewController
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithSize:(CGSize)size;
+
 @end

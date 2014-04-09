@@ -15,13 +15,12 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 
 @implementation FWMainMenuViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self)
     {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:MENU_CELL_IDENTIFIER];
@@ -29,9 +28,9 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
     return self;
 }
 
-- (void)loadView
+- (void)viewDidLoad
 {
-    self.view = _tableView;
+    self.tableView.frame = self.view.bounds;
     self.title = @"Menu";
 }
 

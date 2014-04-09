@@ -135,7 +135,6 @@
 				A6BD8013992770013A7E2DCC /* View Controllers */,
 				A6BD8E7878082940867AADB3 /* Views */,
 				A6BD85C9170D14B5DD851835 /* Models */,
-				A6BD846AC320F233114394F0 /* NIBs */,
 			);
 			path = Vie;
 			sourceTree = "<group>";
@@ -180,13 +179,6 @@
 				A6BD86BCF885F8D58881822E /* FWMainMenuViewController.h */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		A6BD846AC320F233114394F0 /* NIBs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = NIBs;
 			sourceTree = "<group>";
 		};
 		A6BD85C9170D14B5DD851835 /* Models */ = {

@@ -22,7 +22,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    self.mainViewController = [[FWMainViewController alloc] initWithFrame:self.window.bounds];
+    self.mainViewController = [[FWMainViewController alloc] initWithSize:self.window.bounds.size];
 
     self.window.rootViewController = self.mainViewController;
     

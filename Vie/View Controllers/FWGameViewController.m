@@ -24,41 +24,20 @@ NSUInteger const CELL_HEIGHT = 10;
 
 @implementation FWGameViewController
 
-- (instancetype)initWithSize:(CGSize)size
+- (void)viewDidLoad
 {
-    self = [super initWithNibName:nil bundle:nil];
-    if (self)
-    {
-        _numberOfColumns = (NSUInteger) (size.width / CELL_WIDTH);
-        _numberOfRows = (NSUInteger) (size.height / CELL_HEIGHT);
+    self.numberOfColumns = (NSUInteger) (self.view.bounds.size.width / CELL_WIDTH);
+    self.numberOfRows = (NSUInteger) (self.view.bounds.size.height / CELL_HEIGHT);
 
-        _cells = [self generateInitialCellsWithColumns:_numberOfColumns rows:_numberOfRows];
-        _secondArrayOfCells = [self generateInitialCellsWithColumns:_numberOfColumns rows:_numberOfRows];
+    self.gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:self.numberOfColumns numberOfRows:self.numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
+    self.view = self.gameBoardView;
 
-//        _cells = [self generateCellsFromArray:
-//                @[
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @1, @1, @1, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0]
-//                ]];
-//
-//        _secondArrayOfCells = [self generateCellsFromArray:
-//                @[
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0]
-//                ]];
+    self.cells = [self generateInitialCellsWithColumns:self.numberOfColumns rows:self.numberOfRows];
+    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.numberOfColumns rows:self.numberOfRows];
 
-        _gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
-        [_gameBoardView updateCellsWithDiff:nil newCellArray:_cells];
+    [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
 
-        [self play];
-    }
-    return self;
+    [self play];
 }
 
 - (BOOL)isRunning
@@ -86,6 +65,9 @@ NSUInteger const CELL_HEIGHT = 10;
     }
 }
 
+/*
+  Debugging purposes
+ */
 - (NSArray *)generateCellsFromArray:(NSArray *)simpleArray
 {
     NSMutableArray *cells = [NSMutableArray array];
@@ -201,12 +183,6 @@ NSUInteger const CELL_HEIGHT = 10;
 - (FWCell *)cellForColumn:(NSUInteger)column row:(NSUInteger)row inArray:(NSArray *)array
 {
     return array[column * _numberOfRows + row];
-}
-
-- (void)loadView
-{
-    self.gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.view = self.gameBoardView;
 }
 
 @end
