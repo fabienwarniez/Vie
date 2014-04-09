@@ -36,7 +36,7 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
         [gameViewController didMoveToParentViewController:self];
         _gameViewController = gameViewController;
 
-        FWMainMenuViewController *mainMenuViewController = [[FWMainMenuViewController alloc] initWithNibName:nil bundle:nil];
+        FWMainMenuViewController *mainMenuViewController = [[FWMainMenuViewController alloc] init];
         _mainMenuViewController = mainMenuViewController;
 
         UINavigationController *swipeOutNavigationController = [[UINavigationController alloc] initWithRootViewController:_mainMenuViewController];

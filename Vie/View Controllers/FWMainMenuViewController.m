@@ -21,11 +21,17 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
     if (self)
     {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:MENU_CELL_IDENTIFIER];
     }
     return self;
+}
+
+- (void)loadView
+{
+    self.view = self.tableView;
 }
 
 - (void)viewDidLoad
