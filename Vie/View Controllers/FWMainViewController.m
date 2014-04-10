@@ -6,6 +6,8 @@
 #import "FWMainViewController.h"
 #import "FWGameViewController.h"
 #import "FWMainMenuViewController.h"
+#import "FWBoardSize.h"
+#import "FWBoardSize.h"
 
 static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 
@@ -14,7 +16,6 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 @property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
 @property (nonatomic, strong) UINavigationController *swipeOutNavigationController;
-@property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) UIView *navigationContainerView;
 @property (nonatomic, assign) CGRect navigationClosedFrame;
 @property (nonatomic, assign) CGRect navigationOpenFrame;
@@ -24,14 +25,14 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 
 @implementation FWMainViewController
 
-- (id)initWithSize:(CGSize)size
+- (id)initWithBoardSize:(FWBoardSize *)boardSize
 {
     self = [super init];
     if (self)
     {
-        _size = size;
         _isMenuExpanded = NO;
-        FWGameViewController *gameViewController = [[FWGameViewController alloc] init];
+        FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
+        [gameViewController setBoardSize:boardSize];
         [self addChildViewController:gameViewController];
         [gameViewController didMoveToParentViewController:self];
         _gameViewController = gameViewController;
@@ -50,7 +51,7 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 - (void)loadView
 {
     // set arbitrary frame
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.size.width, self.size.height)];
+    UIView *view = [[UIView alloc] init];
 
     self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [view addSubview:self.gameViewController.view];

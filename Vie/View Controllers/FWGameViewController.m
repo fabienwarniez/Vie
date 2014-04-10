@@ -6,35 +6,31 @@
 #import "FWGameViewController.h"
 #import "FWCell.h"
 #import "FWGameBoardView.h"
-
-NSUInteger const CELL_WIDTH = 10;
-NSUInteger const CELL_HEIGHT = 10;
+#import "FWBoardSize.h"
 
 @interface FWGameViewController ()
 
-@property (nonatomic, assign) NSUInteger numberOfColumns;
-@property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, strong) NSArray *cells;
 @property (nonatomic, strong) NSArray *secondArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
-@property (nonatomic, strong) FWGameBoardView *gameBoardView;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 
 @end
 
 @implementation FWGameViewController
 
+- (void)setBoardSize:(FWBoardSize *)boardSize
+{
+    _boardSize = boardSize;
+    self.gameBoardView.boardSize = boardSize;
+}
+
 - (void)viewDidLoad
 {
-    self.numberOfColumns = (NSUInteger) (self.view.bounds.size.width / CELL_WIDTH);
-    self.numberOfRows = (NSUInteger) (self.view.bounds.size.height / CELL_HEIGHT);
+    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
-    self.gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:self.numberOfColumns numberOfRows:self.numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
-    self.view = self.gameBoardView;
-
-    self.cells = [self generateInitialCellsWithColumns:self.numberOfColumns rows:self.numberOfRows];
-    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.numberOfColumns rows:self.numberOfRows];
-
+    self.gameBoardView.boardSize = self.boardSize;
     [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
 
     [self play];
@@ -81,7 +77,7 @@ NSUInteger const CELL_HEIGHT = 10;
 
             newCell.alive = [simpleRow[rowIndex] unsignedIntegerValue] == 1;
 
-            cells[columnIndex * self.numberOfRows + rowIndex] = newCell;
+            cells[columnIndex * self.boardSize.numberOfRows + rowIndex] = newCell;
         }
     }
 
@@ -118,8 +114,8 @@ NSUInteger const CELL_HEIGHT = 10;
     NSArray *nextCycleArray = self.secondArrayOfCells;
     NSArray *currentCycleArray = self.cells;
     NSMutableArray *arrayOfChanges = [NSMutableArray array];
-    NSUInteger numberOfColumns = self.numberOfColumns; // performance optimization
-    NSUInteger numberOfRows = self.numberOfRows;
+    NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
+    NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
     for (NSUInteger columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
     {
@@ -182,7 +178,7 @@ NSUInteger const CELL_HEIGHT = 10;
 
 - (FWCell *)cellForColumn:(NSUInteger)column row:(NSUInteger)row inArray:(NSArray *)array
 {
-    return array[column * _numberOfRows + row];
+    return array[column * _boardSize.numberOfRows + row];
 }
 
 @end

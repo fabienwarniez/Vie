@@ -7,11 +7,10 @@
 #import "FWCell.h"
 #import "FWCellView.h"
 #import "FWCellIndex.h"
+#import "FWBoardSize.h"
 
 @interface FWGameBoardView ()
 
-@property (nonatomic, assign) NSUInteger numberOfColumns;
-@property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, strong) NSMutableArray *cellViewPool;
 @property (nonatomic, strong) NSArray *cells;
@@ -23,14 +22,11 @@
 
 @implementation FWGameBoardView
 
-- (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows cellSize:(CGSize)cellSize
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:CGRectZero];
+    self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.numberOfColumns = numberOfColumns;
-        self.numberOfRows = numberOfRows;
-        _cellSize = cellSize;
         _cellViewPool = [NSMutableArray array];
         _cellViewsOnBoard = [NSMutableDictionary dictionary];
         _initialBoardDrawn = NO;
@@ -40,9 +36,23 @@
 
 - (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray
 {
+    if (self.boardSize == nil)
+    {
+        assert(false); // ensure the game board is always properly initialized
+    }
     self.cells = wholeCellsArray;
     self.cellsDiff = diffArray;
     [self setNeedsLayout];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+
+    CGFloat cellWidth = self.bounds.size.width / self.boardSize.numberOfColumns;
+    CGFloat cellHeight = self.bounds.size.height / self.boardSize.numberOfRows;
+    CGFloat cellSideLength = roundf(MIN(cellWidth, cellHeight));
+    self.cellSize = CGSizeMake(cellSideLength, cellSideLength);
 }
 
 - (void)layoutSubviews
@@ -91,11 +101,11 @@
     }
     else
     {
-        for (NSUInteger columnIndex = 0; columnIndex < self.numberOfColumns; columnIndex++)
+        for (NSUInteger columnIndex = 0; columnIndex < self.boardSize.numberOfColumns; columnIndex++)
         {
-            for (NSUInteger rowIndex = 0; rowIndex < self.numberOfRows; rowIndex++)
+            for (NSUInteger rowIndex = 0; rowIndex < self.boardSize.numberOfRows; rowIndex++)
             {
-                FWCell *cellModel = self.cells[columnIndex * self.numberOfRows + rowIndex];
+                FWCell *cellModel = self.cells[columnIndex * self.boardSize.numberOfRows + rowIndex];
                 if (cellModel.alive)
                 {
                     FWCellView *cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:columnIndex row:rowIndex]];
