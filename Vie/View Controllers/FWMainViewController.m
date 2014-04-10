@@ -51,9 +51,8 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 - (void)loadView
 {
     // set arbitrary frame
-    UIView *view = [[UIView alloc] init];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
 
-    self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [view addSubview:self.gameViewController.view];
 
     self.navigationContainerView = [[UIView alloc] init];
@@ -73,17 +72,47 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 
 - (void)viewDidLoad
 {
+    [self addObserver:self forKeyPath:@"self.view.bounds" options:nil context:nil];
+
     self.navigationOpenFrame = self.view.bounds;
     CGRect navigationClosedFrame = self.navigationOpenFrame;
     navigationClosedFrame.origin.x -= navigationClosedFrame.size.width - SWIPEABLE_AREA_WIDTH;
     self.navigationClosedFrame = navigationClosedFrame;
     self.navigationContainerView.frame = self.navigationClosedFrame;
+    self.navigationContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     CGRect swipeOutNavigationFrame = self.navigationContainerView.bounds;
     swipeOutNavigationFrame.size.width -= SWIPEABLE_AREA_WIDTH;
     self.swipeOutNavigationController.view.frame = swipeOutNavigationFrame;
+    self.swipeOutNavigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     self.gameViewController.view.frame = self.view.bounds;
+    self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"self.view.bounds"])
+    {
+        [self updateNavigationFrames];
+    }
+}
+
+- (void)updateNavigationFrames
+{
+    self.navigationOpenFrame = self.view.bounds;
+    CGRect navigationClosedFrame = self.navigationOpenFrame;
+    navigationClosedFrame.origin.x -= navigationClosedFrame.size.width - SWIPEABLE_AREA_WIDTH;
+    self.navigationClosedFrame = navigationClosedFrame;
+
+    if (!self.isMenuExpanded)
+    {
+        self.navigationContainerView.frame = self.navigationClosedFrame;
+    }
+
+    CGRect swipeOutNavigationFrame = self.navigationContainerView.bounds;
+    swipeOutNavigationFrame.size.width -= SWIPEABLE_AREA_WIDTH;
+    self.swipeOutNavigationController.view.frame = swipeOutNavigationFrame;
 }
 
 - (void)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer
@@ -110,6 +139,11 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
                          completion:nil];
         self.isMenuExpanded = NO;
     }
+}
+
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"self.view.bounds"];
 }
 
 @end
