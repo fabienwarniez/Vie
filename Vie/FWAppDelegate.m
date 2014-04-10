@@ -24,7 +24,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
 
     // TODO: Figure out initial board size based on device size
-    FWBoardSize *initialBoardSize = [FWBoardSize boardSizeWithNumberOfColumns:32 numberOfRows:32];
+    FWBoardSize *initialBoardSize = [FWBoardSize boardSizeWithNumberOfColumns:64 numberOfRows:64];
     self.mainViewController = [[FWMainViewController alloc] initWithBoardSize:initialBoardSize];
 
     self.window.rootViewController = self.mainViewController;
