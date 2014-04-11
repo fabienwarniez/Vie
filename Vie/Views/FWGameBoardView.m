@@ -12,6 +12,7 @@
 @interface FWGameBoardView ()
 
 @property (nonatomic, assign) CGSize cellSize;
+@property (nonatomic, assign) CGRect frameUsedToCalculateCellSize;
 @property (nonatomic, strong) NSMutableArray *cellViewPool;
 @property (nonatomic, strong) NSArray *cells;
 @property (nonatomic, strong) NSArray *cellsDiff;
@@ -31,17 +32,13 @@
         _cellContainerView = [[UIView alloc] init];
         _cellContainerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         _cellContainerView.layer.borderWidth = 1.0f;
+        _cellContainerView.autoresizingMask = UIViewAutoresizingNone;
         [self addSubview:_cellContainerView];
         _cellViewPool = [NSMutableArray array];
         _cellViewsOnBoard = [NSMutableDictionary dictionary];
         _initialBoardDrawn = NO;
     }
     return self;
-}
-
-- (void)setBoardSize:(FWBoardSize *)boardSize
-{
-    _boardSize = boardSize;
 }
 
 - (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray
@@ -52,25 +49,23 @@
     }
     self.cells = wholeCellsArray;
     self.cellsDiff = diffArray;
+
     [self setNeedsLayout];
-}
-
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-
-    CGFloat cellWidth = self.bounds.size.width / self.boardSize.numberOfColumns;
-    CGFloat cellHeight = self.bounds.size.height / self.boardSize.numberOfRows;
-    CGFloat cellSideLength = roundf(MIN(cellWidth, cellHeight));
-    self.cellSize = CGSizeMake(cellSideLength, cellSideLength);
-    self.cellContainerView.frame = CGRectMake(0, 0, cellSideLength * self.boardSize.numberOfColumns, cellSideLength * self.boardSize.numberOfRows);
-    self.cellContainerView.center = self.center; // fine on non-retina because both parent and container are odd number of pixels
 }
 
 // TODO: make sure that calling this method twice in a row does not make it crash
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+
+    if (![self rect:self.bounds equalsRect:self.frameUsedToCalculateCellSize])
+    {
+        self.cellSize = [self calculateCellSize];
+        self.cellContainerView.frame = CGRectMake(0, 0, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
+        self.cellContainerView.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0); // fine on non-retina because both parent and container are odd number of pixels
+        self.frameUsedToCalculateCellSize = self.bounds;
+        [self updateVisibleCellsForBoundsChange];
+    }
 
     if (self.initialBoardDrawn && self.cellsDiff != nil)
     {
@@ -147,6 +142,22 @@
     }
 }
 
+- (void)updateVisibleCellsForBoundsChange
+{
+    for (FWCellView *cell in self.cellContainerView.subviews)
+    {
+        cell.frame = [self frameForColumn:cell.column row:cell.row];
+    }
+}
+
+- (CGSize)calculateCellSize
+{
+    CGFloat cellWidth = self.bounds.size.width / self.boardSize.numberOfColumns;
+    CGFloat cellHeight = self.bounds.size.height / self.boardSize.numberOfRows;
+    CGFloat cellSideLength = floorf(MIN(cellWidth, cellHeight));
+    return CGSizeMake(cellSideLength, cellSideLength);
+}
+
 - (FWCellView *)dequeueCellViewFromPoolWithFrame:(CGRect)frame
 {
     if ([self.cellViewPool count] > 0)
@@ -159,6 +170,7 @@
     else
     {
         FWCellView *newCell = [[FWCellView alloc] initWithFrame:frame];
+        newCell.autoresizingMask = UIViewAutoresizingNone;
         return newCell;
     }
 }
@@ -166,6 +178,14 @@
 - (CGRect)frameForColumn:(NSUInteger)column row:(NSUInteger)row
 {
     return CGRectMake(column * self.cellSize.width, row * self.cellSize.height, self.cellSize.width, self.cellSize.height);
+}
+
+- (BOOL)rect:(CGRect)rect1 equalsRect:(CGRect)rect2
+{
+    return rect1.size.width == rect2.size.width
+        && rect1.size.height == rect2.size.height
+        && rect1.origin.x == rect2.origin.x
+        && rect1.origin.y == rect2.origin.y;
 }
 
 @end

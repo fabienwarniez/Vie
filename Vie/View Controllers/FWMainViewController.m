@@ -72,7 +72,7 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 
 - (void)viewDidLoad
 {
-    [self addObserver:self forKeyPath:@"self.view.bounds" options:nil context:nil];
+    [self addObserver:self forKeyPath:@"self.view.bounds" options:NSKeyValueObservingOptionNew context:nil];
 
     self.navigationOpenFrame = self.view.bounds;
     CGRect navigationClosedFrame = self.navigationOpenFrame;
