@@ -61,6 +61,28 @@
     }
 }
 
+- (IBAction)playPauseButtonTapped:(id)sender
+{
+    if ([self isRunning])
+    {
+        [self pause];
+        self.playPauseButtonItem.title = @"Play";
+    }
+    else
+    {
+        [self play];
+        self.playPauseButtonItem.title = @"Pause";
+    }
+}
+
+- (IBAction)nextButtonTapped:(id)sender
+{
+    if (![self isRunning])
+    {
+        [self calculateNextCycle:nil];
+    }
+}
+
 /*
   Debugging purposes
  */

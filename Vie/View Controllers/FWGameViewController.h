@@ -10,6 +10,9 @@
 
 @property (nonatomic, strong) IBOutlet FWGameBoardView *gameBoardView;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *playPauseButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *nextButtonItem;
 @property (nonatomic, strong) FWBoardSize *boardSize;
 @property (nonatomic, assign, readonly) BOOL isRunning;
 

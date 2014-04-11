@@ -7,7 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWGameViewController">
             <connections>
+                <outlet property="backButtonItem" destination="EQn-Xs-DPW" id="gFa-tH-S6t"/>
                 <outlet property="gameBoardView" destination="s64-Ux-IZu" id="Njk-7z-XhD"/>
+                <outlet property="nextButtonItem" destination="ggn-5M-jae" id="1hC-kS-vO8"/>
+                <outlet property="playPauseButtonItem" destination="4cG-Rg-Dn7" id="bZI-Ce-Ttb"/>
                 <outlet property="toolbar" destination="auv-ld-PEy" id="i1T-o6-kP0"/>
                 <outlet property="view" destination="hv1-FZ-NOM" id="zzr-T4-wh4"/>
             </connections>
@@ -25,7 +28,20 @@
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="auv-ld-PEy">
                     <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <items/>
+                    <items>
+                        <barButtonItem title="Pause" id="4cG-Rg-Dn7">
+                            <connections>
+                                <action selector="playPauseButtonTapped:" destination="-1" id="a01-y6-eP0"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Tlc-K4-f1K"/>
+                        <barButtonItem title="Back" id="EQn-Xs-DPW"/>
+                        <barButtonItem title="Next" id="ggn-5M-jae">
+                            <connections>
+                                <action selector="nextButtonTapped:" destination="-1" id="DQv-oM-nGc"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
                 </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

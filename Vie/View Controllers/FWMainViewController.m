@@ -7,7 +7,6 @@
 #import "FWGameViewController.h"
 #import "FWMainMenuViewController.h"
 #import "FWBoardSize.h"
-#import "FWBoardSize.h"
 
 static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 
@@ -119,6 +118,8 @@ static const CGFloat SWIPEABLE_AREA_WIDTH = 40.0;
 {
     if (!self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight)
     {
+        [self.gameViewController pause];
+
         [UIView animateWithDuration:0.3
                               delay:0.0
                             options: UIViewAnimationOptionCurveEaseOut
