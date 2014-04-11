@@ -3,10 +3,10 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWGameViewController;
-@class FWMainMenuViewController;
+@class FWBoardSize;
 
 @interface FWMainViewController : UIViewController
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithBoardSize:(FWBoardSize *)boardSize;
+
 @end

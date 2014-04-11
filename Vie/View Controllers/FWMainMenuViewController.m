@@ -15,9 +15,9 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 
 @implementation FWMainMenuViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self)
     {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -31,7 +31,12 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 
 - (void)loadView
 {
-    self.view = _tableView;
+    self.view = self.tableView;
+}
+
+- (void)viewDidLoad
+{
+    self.tableView.frame = self.view.bounds;
     self.title = @"Menu";
 }
 

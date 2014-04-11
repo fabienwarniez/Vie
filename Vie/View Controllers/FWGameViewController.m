@@ -6,59 +6,34 @@
 #import "FWGameViewController.h"
 #import "FWCell.h"
 #import "FWGameBoardView.h"
-
-NSUInteger const CELL_WIDTH = 10;
-NSUInteger const CELL_HEIGHT = 10;
+#import "FWBoardSize.h"
 
 @interface FWGameViewController ()
 
-@property (nonatomic, assign) NSUInteger numberOfColumns;
-@property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, strong) NSArray *cells;
 @property (nonatomic, strong) NSArray *secondArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
-@property (nonatomic, strong) FWGameBoardView *gameBoardView;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 
 @end
 
 @implementation FWGameViewController
 
-- (instancetype)initWithSize:(CGSize)size
+- (void)setBoardSize:(FWBoardSize *)boardSize
 {
-    self = [super initWithNibName:nil bundle:nil];
-    if (self)
-    {
-        _numberOfColumns = (NSUInteger) (size.width / CELL_WIDTH);
-        _numberOfRows = (NSUInteger) (size.height / CELL_HEIGHT);
+    _boardSize = boardSize;
+    self.gameBoardView.boardSize = boardSize;
+}
 
-        _cells = [self generateInitialCellsWithColumns:_numberOfColumns rows:_numberOfRows];
-        _secondArrayOfCells = [self generateInitialCellsWithColumns:_numberOfColumns rows:_numberOfRows];
+- (void)viewDidLoad
+{
+    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
-//        _cells = [self generateCellsFromArray:
-//                @[
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @1, @1, @1, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0]
-//                ]];
-//
-//        _secondArrayOfCells = [self generateCellsFromArray:
-//                @[
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0],
-//                        @[@0, @0, @0, @0, @0]
-//                ]];
+    self.gameBoardView.boardSize = self.boardSize;
+    [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
 
-        _gameBoardView = [[FWGameBoardView alloc] initWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows cellSize:CGSizeMake(CELL_WIDTH, CELL_HEIGHT)];
-        [_gameBoardView updateCellsWithDiff:nil newCellArray:_cells];
-
-        [self play];
-    }
-    return self;
+    [self play];
 }
 
 - (BOOL)isRunning
@@ -86,6 +61,31 @@ NSUInteger const CELL_HEIGHT = 10;
     }
 }
 
+- (IBAction)playPauseButtonTapped:(id)sender
+{
+    if ([self isRunning])
+    {
+        [self pause];
+        self.playPauseButtonItem.title = @"Play";
+    }
+    else
+    {
+        [self play];
+        self.playPauseButtonItem.title = @"Pause";
+    }
+}
+
+- (IBAction)nextButtonTapped:(id)sender
+{
+    if (![self isRunning])
+    {
+        [self calculateNextCycle:nil];
+    }
+}
+
+/*
+  Debugging purposes
+ */
 - (NSArray *)generateCellsFromArray:(NSArray *)simpleArray
 {
     NSMutableArray *cells = [NSMutableArray array];
@@ -99,7 +99,7 @@ NSUInteger const CELL_HEIGHT = 10;
 
             newCell.alive = [simpleRow[rowIndex] unsignedIntegerValue] == 1;
 
-            cells[columnIndex * self.numberOfRows + rowIndex] = newCell;
+            cells[columnIndex * self.boardSize.numberOfRows + rowIndex] = newCell;
         }
     }
 
@@ -136,8 +136,8 @@ NSUInteger const CELL_HEIGHT = 10;
     NSArray *nextCycleArray = self.secondArrayOfCells;
     NSArray *currentCycleArray = self.cells;
     NSMutableArray *arrayOfChanges = [NSMutableArray array];
-    NSUInteger numberOfColumns = self.numberOfColumns; // performance optimization
-    NSUInteger numberOfRows = self.numberOfRows;
+    NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
+    NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
     for (NSUInteger columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
     {
@@ -200,13 +200,17 @@ NSUInteger const CELL_HEIGHT = 10;
 
 - (FWCell *)cellForColumn:(NSUInteger)column row:(NSUInteger)row inArray:(NSArray *)array
 {
-    return array[column * _numberOfRows + row];
+    return array[column * _boardSize.numberOfRows + row];
 }
 
-- (void)loadView
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    self.gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.view = self.gameBoardView;
+    [self pause];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self play];
 }
 
 @end

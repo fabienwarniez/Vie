@@ -3,9 +3,12 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWBoardSize;
+
 @interface FWGameBoardView : UIView
 
-- (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows cellSize:(CGSize)cellSize;
+@property (nonatomic, strong) FWBoardSize *boardSize;
 
 - (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray;
+
 @end
