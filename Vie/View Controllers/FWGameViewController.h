@@ -19,4 +19,8 @@
 - (void)play;
 - (void)pause;
 
+- (IBAction)playPauseButtonTapped:(id)sender;
+- (IBAction)backButtonTapped:(id)sender;
+- (IBAction)nextButtonTapped:(id)sender;
+
 @end

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSArray *secondArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
 @property (nonatomic, strong) NSTimer *refreshTimer;
+@property (nonatomic, assign) BOOL shouldResumeAfterRotationEnd;
 
 @end
 
@@ -51,6 +52,7 @@
                                                        userInfo:nil
                                                         repeats:YES];
     }
+    self.playPauseButtonItem.title = NSLocalizedString(@"pause_button", nil);
 }
 
 - (void)pause
@@ -59,6 +61,7 @@
     {
         [self.refreshTimer invalidate];
     }
+    self.playPauseButtonItem.title = NSLocalizedString(@"play_button", nil);;
 }
 
 - (IBAction)playPauseButtonTapped:(id)sender
@@ -66,20 +69,27 @@
     if ([self isRunning])
     {
         [self pause];
-        self.playPauseButtonItem.title = @"Play";
     }
     else
     {
         [self play];
-        self.playPauseButtonItem.title = @"Pause";
     }
+}
+
+- (IBAction)backButtonTapped:(id)sender
+{
+    // later
 }
 
 - (IBAction)nextButtonTapped:(id)sender
 {
-    if (![self isRunning])
+    if ([self isRunning])
     {
-        [self calculateNextCycle:nil];
+        [self pause];
+    }
+    else
+    {
+        [self calculateNextCycle];
     }
 }
 
@@ -132,6 +142,11 @@
 }
 
 - (void)calculateNextCycle:(NSTimer *)senderTimer
+{
+    [self calculateNextCycle];
+}
+
+- (void)calculateNextCycle
 {
     NSArray *nextCycleArray = self.secondArrayOfCells;
     NSArray *currentCycleArray = self.cells;
@@ -205,12 +220,16 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    self.shouldResumeAfterRotationEnd = [self isRunning];
     [self pause];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self play];
+    if (self.shouldResumeAfterRotationEnd)
+    {
+        [self play];
+    }
 }
 
 @end
