@@ -28,6 +28,9 @@
 
 - (void)viewDidLoad
 {
+    self.backButtonItem.title = NSLocalizedString(@"back_button", nil);
+    self.nextButtonItem.title = NSLocalizedString(@"next_button", nil);
+
     self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
     self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 

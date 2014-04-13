@@ -6,5 +6,9 @@
   Copyright (c) 2014 Fabien Warniez. All rights reserved.
 */
 
+"CFBundleDisplayName" = "Vie";
+
 "pause_button" = "Pause";
 "play_button" = "Jouer";
+"back_button" = "Précédent";
+"next_button" = "Suivant";
