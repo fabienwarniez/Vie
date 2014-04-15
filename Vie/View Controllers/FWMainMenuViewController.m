@@ -4,6 +4,7 @@
 //
 
 #import "FWMainMenuViewController.h"
+#import "FWColorSchemePickerTableViewController.h"
 
 static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 
@@ -37,20 +38,20 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 - (void)viewDidLoad
 {
     self.tableView.frame = self.view.bounds;
-    self.title = @"Menu";
+    self.title = NSLocalizedString(@"main_menu_title", nil);
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:MENU_CELL_IDENTIFIER forIndexPath:indexPath];
-    dequeuedCell.textLabel.text = [NSString stringWithFormat:@"Menu item %u", indexPath.row];
+    dequeuedCell.textLabel.text = @"Cell Colors";
     dequeuedCell.textLabel.textColor = [UIColor blackColor];
     return dequeuedCell;
 }
@@ -69,7 +70,8 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];
+    [self.navigationController pushViewController:colorSchemePickerTableViewController animated:YES];
 }
 
 @end

@@ -19,14 +19,21 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
-		4687296A18F65A2F00637CA2 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4687296918F65A2F00637CA2 /* FWGameViewController.xib */; };
+		4647350818FA03C0003C2D15 /* FWColorSchemeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4647350718FA03C0003C2D15 /* FWColorSchemeTableViewCell.xib */; };
+		4647350F18FA1750003C2D15 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4647351118FA1750003C2D15 /* FWGameViewController.xib */; };
+		A6BD8018D114C5E7674F3EB2 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6BD8C0E6D6B384D0122E516 /* Colors.plist */; };
+		A6BD80297226552BB8AADC90 /* UIColor+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8D536C6FE056313634DE /* UIColor+FWConvenience.m */; };
 		A6BD81FED543B7553AC45758 /* FWCellIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F0A4382111ACE824BA9 /* FWCellIndex.m */; };
 		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
+		A6BD831D292B52B6C183C24C /* FWColorSchemePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8EFE3203A78EA52393E6 /* FWColorSchemePickerTableViewController.m */; };
 		A6BD83CCA3F3D88E36020196 /* FWBoardSize.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSize.m */; };
 		A6BD857935F006E562D59215 /* FWCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD838C05C9C56987CA9F58 /* FWCell.m */; };
+		A6BD8649F73DC07B12F3613E /* FWColorSchemeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8830A217EEAF9B7E1DD3 /* FWColorSchemeTableViewCell.m */; };
 		A6BD873E1C63CF1B1B718ECA /* FWCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD802F9102D1375E558FB7 /* FWCellView.m */; };
+		A6BD88AB0269B101CA8B092A /* FWColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8A8C8A24BC057374AE68 /* FWColorScheme.m */; };
 		A6BD88C08766E21D77B79760 /* FWMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD80FCE400FDAB18145184 /* FWMainMenuViewController.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainViewController.m */; };
+		A6BD8D1EAB617431B8D658BF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6BD85A95F13A91085192362 /* Localizable.strings */; };
 		A6BD8E8A0B77F033B2D2DEBE /* FWGameBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8B6BF68F5AB7427B5296 /* FWGameBoardView.m */; };
 /* End PBXBuildFile section */
 
@@ -57,21 +64,35 @@
 		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
-		4687296918F65A2F00637CA2 /* FWGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWGameViewController.xib; sourceTree = "<group>"; };
+		4647350718FA03C0003C2D15 /* FWColorSchemeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWColorSchemeTableViewCell.xib; sourceTree = "<group>"; };
+		4647351018FA1750003C2D15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FWGameViewController.xib; sourceTree = "<group>"; };
+		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A6BD802F9102D1375E558FB7 /* FWCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellView.m; sourceTree = "<group>"; };
+		A6BD8079034775ACBDEAA9A3 /* FWColorSchemeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemeTableViewCell.h; sourceTree = "<group>"; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
+		A6BD809D970021CD00AA3AF1 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = fr; path = Vie/fr.lproj/Colors.plist; sourceTree = SOURCE_ROOT; };
 		A6BD80FCE400FDAB18145184 /* FWMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuViewController.m; sourceTree = "<group>"; };
 		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
+		A6BD815FCE73D1EA77EF34BD /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		A6BD8320CBAFA5E3A03C92EF /* FWColorSchemePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemePickerTableViewController.h; sourceTree = "<group>"; };
 		A6BD836CE463AA1E6203A65D /* FWGameBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameBoardView.h; sourceTree = "<group>"; };
 		A6BD838C05C9C56987CA9F58 /* FWCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCell.m; sourceTree = "<group>"; };
 		A6BD867AE598EB5C7CDC3FCA /* FWCellIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellIndex.h; sourceTree = "<group>"; };
 		A6BD86BCF885F8D58881822E /* FWMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainMenuViewController.h; sourceTree = "<group>"; };
 		A6BD87CC274937BC97274E74 /* FWBoardSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardSize.h; sourceTree = "<group>"; };
+		A6BD8830A217EEAF9B7E1DD3 /* FWColorSchemeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorSchemeTableViewCell.m; sourceTree = "<group>"; };
 		A6BD888D333C52769E424DBD /* FWCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellView.h; sourceTree = "<group>"; };
+		A6BD88923F439D857C35A867 /* FWColorScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorScheme.h; sourceTree = "<group>"; };
 		A6BD8A2E44E2D89FFF694DD0 /* FWCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCell.h; sourceTree = "<group>"; };
+		A6BD8A7310B4D1BC803C24C1 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = en; path = Vie/en.lproj/Colors.plist; sourceTree = SOURCE_ROOT; };
+		A6BD8A8C8A24BC057374AE68 /* FWColorScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorScheme.m; sourceTree = "<group>"; };
 		A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B6BF68F5AB7427B5296 /* FWGameBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameBoardView.m; sourceTree = "<group>"; };
+		A6BD8D536C6FE056313634DE /* UIColor+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FWConvenience.m"; sourceTree = "<group>"; };
+		A6BD8E875DF22FFD2EB1E643 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		A6BD8E8A233B5C0375F77041 /* UIColor+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FWConvenience.h"; sourceTree = "<group>"; };
 		A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSize.m; sourceTree = "<group>"; };
+		A6BD8EFE3203A78EA52393E6 /* FWColorSchemePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorSchemePickerTableViewController.m; sourceTree = "<group>"; };
 		A6BD8F008B945759E90FEF5C /* FWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainViewController.m; sourceTree = "<group>"; };
 		A6BD8F0A4382111ACE824BA9 /* FWCellIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellIndex.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +162,8 @@
 				A6BD8E7878082940867AADB3 /* Views */,
 				A6BD85C9170D14B5DD851835 /* Models */,
 				A6BD898391C8B56FB5E18CDC /* NIBs */,
+				A6BD8D1888D13A8C9EBACC82 /* Categories */,
+				A6BD8EF0FE586169CB31E227 /* Resources */,
 			);
 			path = Vie;
 			sourceTree = "<group>";
@@ -183,6 +206,8 @@
 				A6BD808AFF54817340C0A620 /* FWMainViewController.h */,
 				A6BD80FCE400FDAB18145184 /* FWMainMenuViewController.m */,
 				A6BD86BCF885F8D58881822E /* FWMainMenuViewController.h */,
+				A6BD8EFE3203A78EA52393E6 /* FWColorSchemePickerTableViewController.m */,
+				A6BD8320CBAFA5E3A03C92EF /* FWColorSchemePickerTableViewController.h */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -196,6 +221,8 @@
 				A6BD867AE598EB5C7CDC3FCA /* FWCellIndex.h */,
 				A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSize.m */,
 				A6BD87CC274937BC97274E74 /* FWBoardSize.h */,
+				A6BD8A8C8A24BC057374AE68 /* FWColorScheme.m */,
+				A6BD88923F439D857C35A867 /* FWColorScheme.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -203,9 +230,19 @@
 		A6BD898391C8B56FB5E18CDC /* NIBs */ = {
 			isa = PBXGroup;
 			children = (
-				4687296918F65A2F00637CA2 /* FWGameViewController.xib */,
+				4647351118FA1750003C2D15 /* FWGameViewController.xib */,
+				4647350718FA03C0003C2D15 /* FWColorSchemeTableViewCell.xib */,
 			);
 			path = NIBs;
+			sourceTree = "<group>";
+		};
+		A6BD8D1888D13A8C9EBACC82 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD8D536C6FE056313634DE /* UIColor+FWConvenience.m */,
+				A6BD8E8A233B5C0375F77041 /* UIColor+FWConvenience.h */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		A6BD8E7878082940867AADB3 /* Views */ = {
@@ -215,8 +252,19 @@
 				A6BD888D333C52769E424DBD /* FWCellView.h */,
 				A6BD8B6BF68F5AB7427B5296 /* FWGameBoardView.m */,
 				A6BD836CE463AA1E6203A65D /* FWGameBoardView.h */,
+				A6BD8830A217EEAF9B7E1DD3 /* FWColorSchemeTableViewCell.m */,
+				A6BD8079034775ACBDEAA9A3 /* FWColorSchemeTableViewCell.h */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A6BD8EF0FE586169CB31E227 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD85A95F13A91085192362 /* Localizable.strings */,
+				A6BD8C0E6D6B384D0122E516 /* Colors.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +329,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				fr,
 			);
 			mainGroup = 46330F8D18E2964100E5C7EC;
 			productRefGroup = 46330F9718E2964100E5C7EC /* Products */;
@@ -298,9 +347,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4687296A18F65A2F00637CA2 /* FWGameViewController.xib in Resources */,
+				4647350F18FA1750003C2D15 /* FWGameViewController.xib in Resources */,
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
+				4647350818FA03C0003C2D15 /* FWColorSchemeTableViewCell.xib in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
+				A6BD8D1EAB617431B8D658BF /* Localizable.strings in Resources */,
+				A6BD8018D114C5E7674F3EB2 /* Colors.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +381,10 @@
 				A6BD81FED543B7553AC45758 /* FWCellIndex.m in Sources */,
 				A6BD88C08766E21D77B79760 /* FWMainMenuViewController.m in Sources */,
 				A6BD83CCA3F3D88E36020196 /* FWBoardSize.m in Sources */,
+				A6BD831D292B52B6C183C24C /* FWColorSchemePickerTableViewController.m in Sources */,
+				A6BD88AB0269B101CA8B092A /* FWColorScheme.m in Sources */,
+				A6BD80297226552BB8AADC90 /* UIColor+FWConvenience.m in Sources */,
+				A6BD8649F73DC07B12F3613E /* FWColorSchemeTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +411,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				46330FA318E2964100E5C7EC /* en */,
+				4647352118FA1C1B003C2D15 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -365,6 +422,32 @@
 				46330FBC18E2964100E5C7EC /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4647351118FA1750003C2D15 /* FWGameViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4647351018FA1750003C2D15 /* en */,
+			);
+			name = FWGameViewController.xib;
+			sourceTree = "<group>";
+		};
+		A6BD85A95F13A91085192362 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A6BD815FCE73D1EA77EF34BD /* en */,
+				A6BD8E875DF22FFD2EB1E643 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A6BD8C0E6D6B384D0122E516 /* Colors.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A6BD8A7310B4D1BC803C24C1 /* en */,
+				A6BD809D970021CD00AA3AF1 /* fr */,
+			);
+			name = Colors.plist;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

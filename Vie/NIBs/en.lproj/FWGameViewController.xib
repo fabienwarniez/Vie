@@ -10,7 +10,9 @@
                 <outlet property="backButtonItem" destination="EQn-Xs-DPW" id="gFa-tH-S6t"/>
                 <outlet property="gameBoardView" destination="s64-Ux-IZu" id="Njk-7z-XhD"/>
                 <outlet property="nextButtonItem" destination="ggn-5M-jae" id="1hC-kS-vO8"/>
-                <outlet property="playPauseButtonItem" destination="4cG-Rg-Dn7" id="bZI-Ce-Ttb"/>
+                <outlet property="pauseButtonItem" destination="4cG-Rg-Dn7" id="6Nz-Og-3Ra"/>
+                <outlet property="playButtonItem" destination="dOX-pU-ltu" id="E4j-hR-ULu"/>
+                <outlet property="reloadButtonItem" destination="wEd-Ll-blh" id="CMe-Wg-qEK"/>
                 <outlet property="toolbar" destination="auv-ld-PEy" id="i1T-o6-kP0"/>
                 <outlet property="view" destination="hv1-FZ-NOM" id="zzr-T4-wh4"/>
             </connections>
@@ -29,14 +31,29 @@
                     <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem title="Pause" id="4cG-Rg-Dn7">
+                        <barButtonItem systemItem="refresh" id="wEd-Ll-blh">
                             <connections>
-                                <action selector="playPauseButtonTapped:" destination="-1" id="a01-y6-eP0"/>
+                                <action selector="reloadButtonTapped:" destination="-1" id="JAe-xp-0N9"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="sMv-vv-4Mw"/>
+                        <barButtonItem systemItem="pause" id="4cG-Rg-Dn7">
+                            <connections>
+                                <action selector="pauseButtonTapped:" destination="-1" id="YYm-uB-7aV"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem systemItem="play" id="dOX-pU-ltu">
+                            <connections>
+                                <action selector="playButtonTapped:" destination="-1" id="T8v-cB-qH4"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Tlc-K4-f1K"/>
-                        <barButtonItem title="Back" id="EQn-Xs-DPW"/>
-                        <barButtonItem title="Next" id="ggn-5M-jae">
+                        <barButtonItem systemItem="rewind" id="EQn-Xs-DPW">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="-1" id="atX-kL-Mde"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem systemItem="fastForward" id="ggn-5M-jae">
                             <connections>
                                 <action selector="nextButtonTapped:" destination="-1" id="DQv-oM-nGc"/>
                             </connections>
