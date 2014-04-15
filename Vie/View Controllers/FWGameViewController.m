@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSArray *secondArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
 @property (nonatomic, strong) NSTimer *refreshTimer;
-@property (nonatomic, assign) BOOL shouldResumeAfterRotationEnd;
+@property (nonatomic, assign) BOOL wasPlayingBeforeInterruption;
 
 @end
 
@@ -28,16 +28,13 @@
 
 - (void)viewDidLoad
 {
-    self.backButtonItem.title = NSLocalizedString(@"back_button", nil);
-    self.nextButtonItem.title = NSLocalizedString(@"next_button", nil);
-
     self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
     self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
     self.gameBoardView.boardSize = self.boardSize;
     [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
 
-    [self play];
+    [self pause];
 }
 
 - (BOOL)isRunning
@@ -55,7 +52,8 @@
                                                        userInfo:nil
                                                         repeats:YES];
     }
-    self.playPauseButtonItem.title = NSLocalizedString(@"pause_button", nil);
+    self.pauseButtonItem.enabled = YES;
+    self.playButtonItem.enabled = NO;
 }
 
 - (void)pause
@@ -64,16 +62,34 @@
     {
         [self.refreshTimer invalidate];
     }
-    self.playPauseButtonItem.title = NSLocalizedString(@"play_button", nil);;
+    self.pauseButtonItem.enabled = NO;
+    self.playButtonItem.enabled = YES;
 }
 
-- (IBAction)playPauseButtonTapped:(id)sender
+- (IBAction)reloadButtonTapped:(id)sender
 {
     if ([self isRunning])
     {
         [self pause];
     }
-    else
+
+    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+
+    [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
+}
+
+- (IBAction)pauseButtonTapped:(id)sender
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+}
+
+- (IBAction)playButtonTapped:(id)sender
+{
+    if (![self isRunning])
     {
         [self play];
     }
@@ -223,13 +239,13 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    self.shouldResumeAfterRotationEnd = [self isRunning];
+    self.wasPlayingBeforeInterruption = [self isRunning];
     [self pause];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    if (self.shouldResumeAfterRotationEnd)
+    if (self.wasPlayingBeforeInterruption)
     {
         [self play];
     }

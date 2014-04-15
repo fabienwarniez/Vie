@@ -38,7 +38,7 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 - (void)viewDidLoad
 {
     self.tableView.frame = self.view.bounds;
-    self.title = @"Menu";
+    self.title = NSLocalizedString(@"main_menu_title", nil);
 }
 
 #pragma mark - UITableViewDataSource

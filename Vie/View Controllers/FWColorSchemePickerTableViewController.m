@@ -52,7 +52,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 - (void)viewDidLoad
 {
-    self.title = @"Cell Color";
+    self.title = NSLocalizedString(@"cell_color_title", nil);
 }
 
 #pragma mark - UITableViewDataSource

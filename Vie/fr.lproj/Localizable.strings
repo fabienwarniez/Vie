@@ -8,7 +8,5 @@
 
 "CFBundleDisplayName" = "Vie";
 
-"pause_button" = "Pause";
-"play_button" = "Jouer";
-"back_button" = "Précédent";
-"next_button" = "Suivant";
+"main_menu_title" = "Menu";
+"cell_color_title" = "Couleurs";

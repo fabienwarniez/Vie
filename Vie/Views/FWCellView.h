@@ -10,4 +10,7 @@
 @property (nonatomic, assign) NSUInteger column;
 @property (nonatomic, assign) NSUInteger row;
 
+@property (nonatomic, strong) UIColor *borderColor;
+@property (nonatomic, strong) UIColor *fillColor;
+
 @end

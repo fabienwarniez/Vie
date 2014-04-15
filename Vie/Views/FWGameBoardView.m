@@ -8,6 +8,9 @@
 #import "FWCellView.h"
 #import "FWCellIndex.h"
 #import "FWBoardSize.h"
+#import "UIColor+FWConvenience.h"
+
+static CGFloat kFWBoardPadding = 5.0f;
 
 @interface FWGameBoardView ()
 
@@ -18,6 +21,7 @@
 @property (nonatomic, strong) NSArray *cellsDiff;
 @property (nonatomic, strong) NSMutableDictionary *cellViewsOnBoard;
 @property (nonatomic, assign) BOOL initialBoardDrawn;
+@property (nonatomic, assign) BOOL needsWipeout;
 @property (nonatomic, strong) UIView *cellContainerView;
 
 @end
@@ -29,6 +33,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
+//        self.backgroundColor = [UIColor colorWithHexString:@"4188D2"];
         _cellContainerView = [[UIView alloc] init];
         _cellContainerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         _cellContainerView.layer.borderWidth = 1.0f;
@@ -37,6 +42,7 @@
         _cellViewPool = [NSMutableArray array];
         _cellViewsOnBoard = [NSMutableDictionary dictionary];
         _initialBoardDrawn = NO;
+        _needsWipeout = NO;
     }
     return self;
 }
@@ -49,6 +55,11 @@
     }
     self.cells = wholeCellsArray;
     self.cellsDiff = diffArray;
+    
+    if (self.cellsDiff == nil)
+    {
+        self.needsWipeout = YES;
+    }
 
     [self setNeedsLayout];
 }
@@ -61,17 +72,31 @@
     if (![self rect:self.bounds equalsRect:self.frameUsedToCalculateCellSize])
     {
         self.cellSize = [self calculateCellSize];
-        self.cellContainerView.frame = CGRectMake(0, 0, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
-        self.cellContainerView.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0); // fine on non-retina because both parent and container are odd number of pixels
+        CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * self.boardSize.numberOfColumns) / 2.0f;
+        self.cellContainerView.frame =
+            CGRectMake(finalPadding, finalPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
         self.frameUsedToCalculateCellSize = self.bounds;
         [self updateVisibleCellsForBoundsChange];
     }
 
-    if (self.initialBoardDrawn && self.cellsDiff != nil)
+    if (self.needsWipeout)
+    {
+        NSArray *cellsToBeRemoved = [self.cellContainerView.subviews copy];
+        for (FWCellView *cellView in cellsToBeRemoved)
+        {
+            [self.cellViewPool addObject:cellView];
+            [cellView removeFromSuperview];
+        }
+
+        [self.cellViewsOnBoard removeAllObjects];
+
+        self.needsWipeout = NO;
+        self.initialBoardDrawn = NO;
+    }
+
+    if (self.initialBoardDrawn)
     {
         [self updateGameBoard];
-
-        self.cellsDiff = nil;
     }
     else
     {
@@ -133,10 +158,8 @@
         }
     }
 
-    NSUInteger numberOfCellsToBeRemovedFromView = [cellViewsToBeRemovedFromView count];
-    for (NSUInteger cellToBeRemovedFromViewIndex = 0; cellToBeRemovedFromViewIndex < numberOfCellsToBeRemovedFromView; cellToBeRemovedFromViewIndex++)
+    for (FWCellView *cellView in cellViewsToBeRemovedFromView)
     {
-        FWCellView *cellView = cellViewsToBeRemovedFromView[cellToBeRemovedFromViewIndex];
         [self.cellViewPool addObject:cellView];
         [cellView removeFromSuperview];
     }
@@ -152,7 +175,7 @@
 
 - (CGSize)calculateCellSize
 {
-    CGFloat cellWidth = self.bounds.size.width / self.boardSize.numberOfColumns;
+    CGFloat cellWidth = (self.bounds.size.width - 2 * kFWBoardPadding) / self.boardSize.numberOfColumns;
     CGFloat cellHeight = self.bounds.size.height / self.boardSize.numberOfRows;
     CGFloat cellSideLength = floorf(MIN(cellWidth, cellHeight));
     return CGSizeMake(cellSideLength, cellSideLength);

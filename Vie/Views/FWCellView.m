@@ -20,4 +20,16 @@
     return self;
 }
 
+- (void)setBorderColor:(UIColor *)borderColor
+{
+    _borderColor = borderColor;
+    self.layer.borderColor = borderColor.CGColor;
+}
+
+- (void)setFillColor:(UIColor *)fillColor
+{
+    _fillColor = fillColor;
+    self.backgroundColor = fillColor;
+}
+
 @end

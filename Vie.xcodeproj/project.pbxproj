@@ -66,7 +66,6 @@
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
 		4647350718FA03C0003C2D15 /* FWColorSchemeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWColorSchemeTableViewCell.xib; sourceTree = "<group>"; };
 		4647351018FA1750003C2D15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FWGameViewController.xib; sourceTree = "<group>"; };
-		4647351218FA175B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/FWGameViewController.xib; sourceTree = "<group>"; };
 		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A6BD802F9102D1375E558FB7 /* FWCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellView.m; sourceTree = "<group>"; };
 		A6BD8079034775ACBDEAA9A3 /* FWColorSchemeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemeTableViewCell.h; sourceTree = "<group>"; };
@@ -429,7 +428,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4647351018FA1750003C2D15 /* en */,
-				4647351218FA175B003C2D15 /* fr */,
 			);
 			name = FWGameViewController.xib;
 			sourceTree = "<group>";

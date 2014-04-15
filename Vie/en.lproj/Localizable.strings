@@ -8,7 +8,5 @@
 
 "CFBundleDisplayName" = "Life";
 
-"pause_button" = "Pause";
-"play_button" = "Play";
-"back_button" = "Back";
-"next_button" = "Next";
+"main_menu_title" = "Menu";
+"cell_color_title" = "Colors";
