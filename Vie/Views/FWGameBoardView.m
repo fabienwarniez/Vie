@@ -5,10 +5,7 @@
 
 #import "FWGameBoardView.h"
 #import "FWCell.h"
-#import "FWCellView.h"
-#import "FWCellIndex.h"
 #import "FWBoardSize.h"
-#import "UIColor+FWConvenience.h"
 
 static CGFloat kFWBoardPadding = 5.0f;
 
@@ -16,52 +13,28 @@ static CGFloat kFWBoardPadding = 5.0f;
 
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, assign) CGRect frameUsedToCalculateCellSize;
-@property (nonatomic, strong) NSMutableArray *cellViewPool;
-@property (nonatomic, strong) NSArray *cells;
-@property (nonatomic, strong) NSArray *cellsDiff;
-@property (nonatomic, strong) NSMutableDictionary *cellViewsOnBoard;
-@property (nonatomic, assign) BOOL initialBoardDrawn;
-@property (nonatomic, assign) BOOL needsWipeout;
-@property (nonatomic, strong) UIView *cellContainerView;
+@property (nonatomic, strong) NSArray *liveCells;
+@property (nonatomic, assign) CGRect cellContainerFrame;
 
 @end
 
 @implementation FWGameBoardView
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-//        self.backgroundColor = [UIColor colorWithHexString:@"4188D2"];
-        _cellContainerView = [[UIView alloc] init];
-        _cellContainerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        _cellContainerView.layer.borderWidth = 1.0f;
-        _cellContainerView.autoresizingMask = UIViewAutoresizingNone;
-        [self addSubview:_cellContainerView];
-        _cellViewPool = [NSMutableArray array];
-        _cellViewsOnBoard = [NSMutableDictionary dictionary];
-        _initialBoardDrawn = NO;
-        _needsWipeout = NO;
-    }
-    return self;
-}
-
-- (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray
+- (void)updateLiveCellList:(NSArray *)liveCells
 {
     if (self.boardSize == nil)
     {
         assert(false); // ensure the game board is always properly initialized
     }
-    self.cells = wholeCellsArray;
-    self.cellsDiff = diffArray;
+    self.liveCells = liveCells;
+//    self.cellsDiff = diffArray;
     
-    if (self.cellsDiff == nil)
-    {
-        self.needsWipeout = YES;
-    }
+//    if (self.cellsDiff == nil)
+//    {
+//        self.needsWipeout = YES;
+//    }
 
-    [self setNeedsLayout];
+    [self setNeedsDisplay];
 }
 
 // TODO: make sure that calling this method twice in a row does not make it crash
@@ -73,105 +46,34 @@ static CGFloat kFWBoardPadding = 5.0f;
     {
         self.cellSize = [self calculateCellSize];
         CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * self.boardSize.numberOfColumns) / 2.0f;
-        self.cellContainerView.frame =
+        self.cellContainerFrame =
             CGRectMake(finalPadding, finalPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
         self.frameUsedToCalculateCellSize = self.bounds;
-        [self updateVisibleCellsForBoundsChange];
     }
 
-    if (self.needsWipeout)
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 1.0f);
+    CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+
+    CGSize cellSize = self.cellSize;
+    CGPoint origin = self.cellContainerFrame.origin;
+
+    for (FWCell *cell in self.liveCells)
     {
-        NSArray *cellsToBeRemoved = [self.cellContainerView.subviews copy];
-        for (FWCellView *cellView in cellsToBeRemoved)
+        if (cell.alive)
         {
-            [self.cellViewPool addObject:cellView];
-            [cellView removeFromSuperview];
+            CGContextAddRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
         }
-
-        [self.cellViewsOnBoard removeAllObjects];
-
-        self.needsWipeout = NO;
-        self.initialBoardDrawn = NO;
     }
 
-    if (self.initialBoardDrawn)
-    {
-        [self updateGameBoard];
-    }
-    else
-    {
-        [self drawInitialBoard];
-
-        self.initialBoardDrawn = YES;
-    }
+    CGContextStrokePath(context);
 }
 
 #pragma mark - Private Methods
-
-- (void)drawInitialBoard
-{
-    for (NSUInteger columnIndex = 0; columnIndex < self.boardSize.numberOfColumns; columnIndex++)
-    {
-        for (NSUInteger rowIndex = 0; rowIndex < self.boardSize.numberOfRows; rowIndex++)
-        {
-            FWCell *cellModel = self.cells[columnIndex * self.boardSize.numberOfRows + rowIndex];
-            if (cellModel.alive)
-            {
-                FWCellView *cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:columnIndex row:rowIndex]];
-                FWCellIndex *changedCellIndex = [[FWCellIndex alloc] initWithColumn:columnIndex row:rowIndex];
-                [self.cellViewsOnBoard setObject:cellView forKey:changedCellIndex];
-                [self.cellContainerView addSubview:cellView];
-            }
-        }
-    }
-}
-
-- (void)updateGameBoard
-{
-    NSUInteger cellChangeCount = [self.cellsDiff count];
-    NSMutableArray *cellViewsToBeRemovedFromView = [NSMutableArray array];
-
-    for (NSUInteger cellIndex = 0; cellIndex < cellChangeCount; cellIndex++)
-    {
-        FWCell *changedCell = self.cellsDiff[cellIndex];
-        FWCellIndex *changedCellIndex = [[FWCellIndex alloc] initWithColumn:changedCell.column row:changedCell.row];
-        if (changedCell.alive)
-        {
-            FWCellView *cellView = [cellViewsToBeRemovedFromView lastObject];
-            if (cellView != nil)
-            {
-                [cellViewsToBeRemovedFromView removeLastObject];
-                cellView.frame = [self frameForColumn:changedCell.column row:changedCell.row];
-            }
-            else
-            {
-                cellView = [self dequeueCellViewFromPoolWithFrame:[self frameForColumn:changedCell.column row:changedCell.row]];
-                [self.cellContainerView addSubview:cellView];
-            }
-            [self.cellViewsOnBoard setObject:cellView forKey:changedCellIndex];
-        }
-        else
-        {
-            FWCellView *cellView = [self.cellViewsOnBoard objectForKey:changedCellIndex];
-            [self.cellViewsOnBoard removeObjectForKey:changedCellIndex];
-            [cellViewsToBeRemovedFromView addObject:cellView];
-        }
-    }
-
-    for (FWCellView *cellView in cellViewsToBeRemovedFromView)
-    {
-        [self.cellViewPool addObject:cellView];
-        [cellView removeFromSuperview];
-    }
-}
-
-- (void)updateVisibleCellsForBoundsChange
-{
-    for (FWCellView *cell in self.cellContainerView.subviews)
-    {
-        cell.frame = [self frameForColumn:cell.column row:cell.row];
-    }
-}
 
 - (CGSize)calculateCellSize
 {
@@ -179,28 +81,6 @@ static CGFloat kFWBoardPadding = 5.0f;
     CGFloat cellHeight = self.bounds.size.height / self.boardSize.numberOfRows;
     CGFloat cellSideLength = floorf(MIN(cellWidth, cellHeight));
     return CGSizeMake(cellSideLength, cellSideLength);
-}
-
-- (FWCellView *)dequeueCellViewFromPoolWithFrame:(CGRect)frame
-{
-    if ([self.cellViewPool count] > 0)
-    {
-        FWCellView *dequeuedCell = [self.cellViewPool lastObject];
-        [self.cellViewPool removeLastObject];
-        dequeuedCell.frame = frame;
-        return dequeuedCell;
-    }
-    else
-    {
-        FWCellView *newCell = [[FWCellView alloc] initWithFrame:frame];
-        newCell.autoresizingMask = UIViewAutoresizingNone;
-        return newCell;
-    }
-}
-
-- (CGRect)frameForColumn:(NSUInteger)column row:(NSUInteger)row
-{
-    return CGRectMake(column * self.cellSize.width, row * self.cellSize.height, self.cellSize.width, self.cellSize.height);
 }
 
 - (BOOL)rect:(CGRect)rect1 equalsRect:(CGRect)rect2

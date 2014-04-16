@@ -18,6 +18,9 @@
 @property (nonatomic, strong) FWBoardSize *boardSize;
 @property (nonatomic, assign, readonly) BOOL isRunning;
 
+- (void)interruptGame;
+- (void)resumeAfterInterruption;
+
 - (void)play;
 - (void)pause;
 

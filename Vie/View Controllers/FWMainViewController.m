@@ -114,7 +114,7 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 {
     if (!self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight)
     {
-        [self.gameViewController pause];
+        [self.gameViewController interruptGame];
 
         [UIView animateWithDuration:0.3
                               delay:0.0
@@ -123,6 +123,7 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
                              self.navigationContainerView.frame = self.navigationContainerOpenFrame;
                          }
                          completion:nil];
+
         self.isMenuExpanded = YES;
     }
     else if (self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
@@ -134,7 +135,9 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
                              self.navigationContainerView.frame = self.navigationContainerClosedFrame;
                          }
                          completion:nil];
+
         self.isMenuExpanded = NO;
+        [self.gameViewController resumeAfterInterruption];
     }
 }
 

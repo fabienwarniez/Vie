@@ -9,6 +9,6 @@
 
 @property (nonatomic, strong) FWBoardSize *boardSize;
 
-- (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray;
+- (void)updateLiveCellList:(NSArray *)liveCells;
 
 @end
