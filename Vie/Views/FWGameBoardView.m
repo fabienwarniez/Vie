@@ -22,22 +22,13 @@ static CGFloat kFWBoardPadding = 5.0f;
 
 - (void)updateLiveCellList:(NSArray *)liveCells
 {
-    if (self.boardSize == nil)
-    {
-        assert(false); // ensure the game board is always properly initialized
-    }
+    NSAssert(self.boardSize != nil, @"The game board size must be set before setting cells.");
+
     self.liveCells = liveCells;
-//    self.cellsDiff = diffArray;
-    
-//    if (self.cellsDiff == nil)
-//    {
-//        self.needsWipeout = YES;
-//    }
 
     [self setNeedsDisplay];
 }
 
-// TODO: make sure that calling this method twice in a row does not make it crash
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -45,12 +36,14 @@ static CGFloat kFWBoardPadding = 5.0f;
     if (![self rect:self.bounds equalsRect:self.frameUsedToCalculateCellSize])
     {
         self.cellSize = [self calculateCellSize];
-        CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * self.boardSize.numberOfColumns) / 2.0f;
+
+        CGFloat numberOfColumns = self.boardSize.numberOfColumns;
+        CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * numberOfColumns) / 2.0f;
+
         self.cellContainerFrame =
-            CGRectMake(finalPadding, finalPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
+            CGRectMake(finalPadding, kFWBoardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
         self.frameUsedToCalculateCellSize = self.bounds;
     }
-
 }
 
 - (void)drawRect:(CGRect)rect
@@ -58,6 +51,7 @@ static CGFloat kFWBoardPadding = 5.0f;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 1.0f);
     CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+    CGContextSetFillColorWithColor(context, [UIColor lightGrayColor].CGColor);
 
     CGSize cellSize = self.cellSize;
     CGPoint origin = self.cellContainerFrame.origin;
@@ -66,11 +60,10 @@ static CGFloat kFWBoardPadding = 5.0f;
     {
         if (cell.alive)
         {
-            CGContextAddRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
+            CGContextFillRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
+            CGContextStrokeRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
         }
     }
-
-    CGContextStrokePath(context);
 }
 
 #pragma mark - Private Methods
@@ -78,7 +71,7 @@ static CGFloat kFWBoardPadding = 5.0f;
 - (CGSize)calculateCellSize
 {
     CGFloat cellWidth = (self.bounds.size.width - 2 * kFWBoardPadding) / self.boardSize.numberOfColumns;
-    CGFloat cellHeight = self.bounds.size.height / self.boardSize.numberOfRows;
+    CGFloat cellHeight = (self.bounds.size.height - 2 * kFWBoardPadding) / self.boardSize.numberOfRows;
     CGFloat cellSideLength = floorf(MIN(cellWidth, cellHeight));
     return CGSizeMake(cellSideLength, cellSideLength);
 }

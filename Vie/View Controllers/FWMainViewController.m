@@ -47,6 +47,8 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
     return self;
 }
 
+#pragma mark - UIViewController
+
 - (void)loadView
 {
     // set arbitrary frame
@@ -72,17 +74,20 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 - (void)viewDidLoad
 {
-    [self addObserver:self forKeyPath:@"self.view.bounds" options:NSKeyValueObservingOptionNew context:nil];
+    [super viewDidLoad];
+
     [self updateNavigationFrames];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)viewWillLayoutSubviews
 {
-    if ([keyPath isEqualToString:@"self.view.bounds"])
-    {
-        [self updateNavigationFrames];
-    }
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [super viewWillLayoutSubviews];
+
+    [self updateNavigationFrames];
 }
+
+#pragma mark - Private Methods
 
 - (void)updateNavigationFrames
 {
@@ -139,11 +144,6 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
         self.isMenuExpanded = NO;
         [self.gameViewController resumeAfterInterruption];
     }
-}
-
-- (void)dealloc
-{
-    [self removeObserver:self forKeyPath:@"self.view.bounds"];
 }
 
 @end
