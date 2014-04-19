@@ -160,11 +160,7 @@
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
-    NSMutableArray *neighbourCells = [NSMutableArray arrayWithArray:@[
-            [NSNull null], [NSNull null], [NSNull null],
-            [NSNull null], [NSNull null], [NSNull null],
-            [NSNull null], [NSNull null], [NSNull null],
-    ]];
+    FWCell *neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
 
     for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
     {
@@ -174,7 +170,7 @@
             {
                 for (NSUInteger i = 0; i < 3; i++)
                 {
-                    [neighbourCells replaceObjectAtIndex:i withObject:[NSNull null]];
+                    neighbourCells[i] = nil;
                 }
 
                 for (NSInteger rowOffsetIndex = -1; rowOffsetIndex <= 1; rowOffsetIndex++)
@@ -189,11 +185,11 @@
                         if (neighbourRowIndex >= 0 && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
                         {
                             FWCell *neighbourCell = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
-                            [neighbourCells replaceObjectAtIndex:neighbourArrayIndex withObject:neighbourCell];
+                            neighbourCells[neighbourArrayIndex] = neighbourCell;
                         }
                         else
                         {
-                            [neighbourCells replaceObjectAtIndex:neighbourArrayIndex withObject:[NSNull null]];
+                            neighbourCells[neighbourArrayIndex] = nil;
                         }
                     }
                 }
@@ -202,8 +198,8 @@
             {
                 for (NSUInteger i = 0; i < 6; i++)
                 {
-                    FWCell *cellToShift = [neighbourCells objectAtIndex:i + 3];
-                    [neighbourCells replaceObjectAtIndex:i withObject:cellToShift];
+                    FWCell *cellToShift = neighbourCells[i + 3];
+                    neighbourCells[i] = cellToShift;
                 }
                 for (NSInteger i = -1; i <= 1; i++)
                 {
@@ -218,7 +214,7 @@
                     {
                         cellToAdd = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
                     }
-                    [neighbourCells replaceObjectAtIndex:(NSUInteger) (i + 7) withObject:cellToAdd != nil ? cellToAdd : [NSNull null]];
+                    neighbourCells[i + 7] = cellToAdd;
                 }
             }
 
@@ -230,8 +226,8 @@
             {
                 if (neighbourIndex != 4)
                 {
-                    FWCell *neighbourCell = [neighbourCells objectAtIndex:neighbourIndex];
-                    if (neighbourCell != (id)[NSNull null] && neighbourCell.alive)
+                    FWCell *neighbourCell = neighbourCells[neighbourIndex];
+                    if (neighbourCell != nil && neighbourCell.alive)
                     {
                         numberOfNeighbours++;
                     }
