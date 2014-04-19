@@ -60,10 +60,11 @@ static CGFloat kFWBoardPadding = 5.0f;
     {
         if (cell.alive)
         {
-            CGContextFillRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
-            CGContextStrokeRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
+            CGContextAddRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
         }
     }
+
+    CGContextDrawPath(context, kCGPathFillStroke);
 }
 
 #pragma mark - Private Methods
