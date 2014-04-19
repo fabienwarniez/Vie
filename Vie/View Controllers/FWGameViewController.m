@@ -9,9 +9,13 @@
 #import "FWBoardSize.h"
 
 @interface FWGameViewController ()
+{
+    FWCell *__unsafe_unretained *_cellsArray;
+    FWCell *__unsafe_unretained *_secondArrayOfCells;
+}
 
-@property (nonatomic, strong) NSArray *cells;
-@property (nonatomic, strong) NSArray *secondArrayOfCells;
+@property (nonatomic, strong) NSArray *cellsNSArray;
+@property (nonatomic, strong) NSArray *secondNSArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, assign) BOOL wasPlayingBeforeInterruption;
@@ -48,15 +52,36 @@
 
 - (void)viewDidLoad
 {
-    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
-    NSArray *liveCells = [self liveCellsFromGameMatrix:self.cells];
+    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
+
+    _cellsArray = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+    _secondArrayOfCells = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+    for (NSUInteger i = 0; i < numberOfCells; i++)
+    {
+        FWCell *cell = cellsArray[i];
+        _cellsArray[i] = cell;
+        FWCell *secondCell = secondArrayOfCells[i];
+        _secondArrayOfCells[i] = secondCell;
+    }
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
+
+    self.cellsNSArray = cellsArray;
+    self.secondNSArrayOfCells = secondArrayOfCells;
 
     self.gameBoardView.boardSize = self.boardSize;
     [self.gameBoardView updateLiveCellList:liveCells];
 
     [self pause];
+}
+
+- (void)dealloc
+{
+    free(_cellsArray);
+    free(_secondArrayOfCells);
 }
 
 #pragma mark - Game Lifecycle Management
@@ -154,13 +179,13 @@
 
 - (void)calculateNextCycle
 {
-    NSArray *nextCycleArray = self.secondArrayOfCells;
-    NSArray *currentCycleArray = self.cells;
+    NSArray *nextCycleArray = self.secondNSArrayOfCells;
+    FWCell * __unsafe_unretained *currentCycleArray = _cellsArray;
     NSMutableArray *liveCellsArray = [NSMutableArray array];
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
-    FWCell *neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
+    FWCell * __unsafe_unretained neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
 
     for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
     {
@@ -184,7 +209,7 @@
 
                         if (neighbourRowIndex >= 0 && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
                         {
-                            FWCell *neighbourCell = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
+                            FWCell * __unsafe_unretained neighbourCell = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
                             neighbourCells[neighbourArrayIndex] = neighbourCell;
                         }
                         else
@@ -198,7 +223,7 @@
             {
                 for (NSUInteger i = 0; i < 6; i++)
                 {
-                    FWCell *cellToShift = neighbourCells[i + 3];
+                    FWCell * __unsafe_unretained cellToShift = neighbourCells[i + 3];
                     neighbourCells[i] = cellToShift;
                 }
                 for (NSInteger i = -1; i <= 1; i++)
@@ -209,7 +234,7 @@
                         continue;
                     }
                     NSInteger neighbourRowIndex = i + rowIndex;
-                    FWCell *cellToAdd = nil;
+                    FWCell * __unsafe_unretained cellToAdd = nil;
                     if (neighbourRowIndex >= 0 && neighbourRowIndex < numberOfRows)
                     {
                         cellToAdd = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
@@ -218,15 +243,15 @@
                 }
             }
 
-            FWCell *currentCell = neighbourCells[4];
-            FWCell *nextCycleCell = nextCycleArray[columnIndex * numberOfRows + rowIndex];
+            FWCell * __unsafe_unretained currentCell = neighbourCells[4];
+            FWCell * __unsafe_unretained nextCycleCell = nextCycleArray[columnIndex * numberOfRows + rowIndex];
 
             NSUInteger numberOfNeighbours = 0;
             for (NSUInteger neighbourIndex = 0; neighbourIndex < 9; neighbourIndex++)
             {
                 if (neighbourIndex != 4)
                 {
-                    FWCell *neighbourCell = neighbourCells[neighbourIndex];
+                    FWCell * __unsafe_unretained neighbourCell = neighbourCells[neighbourIndex];
                     if (neighbourCell != nil && neighbourCell.alive)
                     {
                         numberOfNeighbours++;
@@ -264,8 +289,10 @@
         }
     }
 
-    self.cells = nextCycleArray;
-    self.secondArrayOfCells = currentCycleArray;
+    _cellsArray = _secondArrayOfCells;
+    _secondArrayOfCells = currentCycleArray;
+    self.secondNSArrayOfCells = self.cellsNSArray;
+    self.cellsNSArray = nextCycleArray;
     [self.gameBoardView updateLiveCellList:liveCellsArray];
 }
 
@@ -278,10 +305,10 @@
         [self pause];
     }
 
-    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    self.cellsNSArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    self.secondNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
-    NSArray *liveCells = [self liveCellsFromGameMatrix:self.cells];
+    NSArray *liveCells = [self liveCellsFromGameMatrix:self.cellsNSArray];
 
     [self.gameBoardView updateLiveCellList:liveCells];
 }

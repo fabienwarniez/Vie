@@ -22,7 +22,7 @@ static CGFloat kFWBoardPadding = 5.0f;
 
 - (void)updateLiveCellList:(NSArray *)liveCells
 {
-    NSAssert(self.boardSize != nil, @"The game board size must be set before setting cells.");
+    NSAssert(self.boardSize != nil, @"The game board size must be set before setting cellsNSArray.");
 
     self.liveCells = liveCells;
 
