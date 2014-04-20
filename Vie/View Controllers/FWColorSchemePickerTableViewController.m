@@ -89,7 +89,8 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    FWColorScheme *colorScheme = self.colors[(NSUInteger) indexPath.row];
+    [self.delegate colorSchemeDidChange:colorScheme];
 }
 
 @end

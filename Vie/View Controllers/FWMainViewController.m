@@ -7,6 +7,7 @@
 #import "FWGameViewController.h"
 #import "FWMainMenuViewController.h"
 #import "FWBoardSize.h"
+#import "FWColorScheme.h"
 
 static const CGFloat kSwipeableAreaWidth = 40.0;
 
@@ -30,13 +31,19 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
     if (self)
     {
         _isMenuExpanded = NO;
+
         FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
-        [gameViewController setBoardSize:boardSize];
+        gameViewController.boardSize = boardSize;
+        gameViewController.cellBorderWidth = 1.0f;
+        gameViewController.cellBorderColor = [UIColor blueColor];
+        gameViewController.cellFillColor = [UIColor yellowColor];
+
         [self addChildViewController:gameViewController];
         [gameViewController didMoveToParentViewController:self];
         _gameViewController = gameViewController;
 
         FWMainMenuViewController *mainMenuViewController = [[FWMainMenuViewController alloc] init];
+        mainMenuViewController.mainViewController = self;
         _mainMenuViewController = mainMenuViewController;
 
         UINavigationController *swipeOutNavigationController = [[UINavigationController alloc] initWithRootViewController:_mainMenuViewController];
@@ -46,6 +53,8 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
     }
     return self;
 }
+
+#pragma mark - UIViewController
 
 - (void)loadView
 {
@@ -72,17 +81,20 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 - (void)viewDidLoad
 {
-    [self addObserver:self forKeyPath:@"self.view.bounds" options:NSKeyValueObservingOptionNew context:nil];
+    [super viewDidLoad];
+
     [self updateNavigationFrames];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)viewWillLayoutSubviews
 {
-    if ([keyPath isEqualToString:@"self.view.bounds"])
-    {
-        [self updateNavigationFrames];
-    }
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [super viewWillLayoutSubviews];
+
+    [self updateNavigationFrames];
 }
+
+#pragma mark - Private Methods
 
 - (void)updateNavigationFrames
 {
@@ -114,7 +126,7 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 {
     if (!self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight)
     {
-        [self.gameViewController pause];
+        [self.gameViewController interruptGame];
 
         [UIView animateWithDuration:0.3
                               delay:0.0
@@ -123,6 +135,7 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
                              self.navigationContainerView.frame = self.navigationContainerOpenFrame;
                          }
                          completion:nil];
+
         self.isMenuExpanded = YES;
     }
     else if (self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
@@ -134,13 +147,18 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
                              self.navigationContainerView.frame = self.navigationContainerClosedFrame;
                          }
                          completion:nil];
+
         self.isMenuExpanded = NO;
+        [self.gameViewController resumeAfterInterruption];
     }
 }
 
-- (void)dealloc
+#pragma mark - FWColorSchemePickerTableViewControllerDelegate
+
+- (void)colorSchemeDidChange:(FWColorScheme *)newColorScheme
 {
-    [self removeObserver:self forKeyPath:@"self.view.bounds"];
+    self.gameViewController.cellBorderColor = newColorScheme.borderColor;
+    self.gameViewController.cellFillColor = newColorScheme.fillColor;
 }
 
 @end

@@ -8,7 +8,10 @@
 @interface FWGameBoardView : UIView
 
 @property (nonatomic, strong) FWBoardSize *boardSize;
-
-- (void)updateCellsWithDiff:(NSArray *)diffArray newCellArray:(NSArray *)wholeCellsArray;
+@property (nonatomic, assign) CGFloat boardPadding;
+@property (nonatomic, strong) NSArray *liveCells;
+@property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, strong) UIColor *borderColor;
+@property (nonatomic, strong) UIColor *fillColor;
 
 @end
