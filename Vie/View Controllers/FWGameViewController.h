@@ -15,8 +15,14 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *nextButtonItem;
+
 @property (nonatomic, strong) FWBoardSize *boardSize;
 @property (nonatomic, assign, readonly) BOOL isRunning;
+
+// Cell Style
+@property (nonatomic, assign) CGFloat cellBorderWidth;
+@property (nonatomic, strong) UIColor *cellBorderColor;
+@property (nonatomic, strong) UIColor *cellFillColor;
 
 - (void)interruptGame;
 - (void)resumeAfterInterruption;

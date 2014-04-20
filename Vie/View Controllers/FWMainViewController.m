@@ -30,8 +30,13 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
     if (self)
     {
         _isMenuExpanded = NO;
+
         FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
-        [gameViewController setBoardSize:boardSize];
+        gameViewController.boardSize = boardSize;
+        gameViewController.cellBorderWidth = 1.0f;
+        gameViewController.cellBorderColor = [UIColor blueColor];
+        gameViewController.cellFillColor = [UIColor yellowColor];
+
         [self addChildViewController:gameViewController];
         [gameViewController didMoveToParentViewController:self];
         _gameViewController = gameViewController;

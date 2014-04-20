@@ -10,10 +10,11 @@
 
 @interface FWGameViewController ()
 {
-    FWCell *__unsafe_unretained *_cellsArray;
-    FWCell *__unsafe_unretained *_secondArrayOfCells;
+    FWCell * __unsafe_unretained *_cellsArray;
+    FWCell * __unsafe_unretained *_secondArrayOfCells;
 }
 
+@property (nonatomic, assign) BOOL cArraysAllocated;
 @property (nonatomic, strong) NSArray *cellsNSArray;
 @property (nonatomic, strong) NSArray *secondNSArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
@@ -24,17 +25,48 @@
 
 @implementation FWGameViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        _cArraysAllocated = NO;
+    }
+
+    return self;
+}
+
 #pragma mark - Accessors
 
 - (void)setBoardSize:(FWBoardSize *)boardSize
 {
     _boardSize = boardSize;
     self.gameBoardView.boardSize = boardSize;
+
+    [self reallocCArrays];
 }
 
 - (BOOL)isRunning
 {
     return self.refreshTimer != nil && [self.refreshTimer isValid];
+}
+
+- (void)setCellBorderWidth:(CGFloat)cellBorderWidth
+{
+    _cellBorderWidth = cellBorderWidth;
+    self.gameBoardView.borderWidth = cellBorderWidth;
+}
+
+- (void)setCellBorderColor:(UIColor *)cellBorderColor
+{
+    _cellBorderColor = cellBorderColor;
+    self.gameBoardView.borderColor = cellBorderColor;
+}
+
+- (void)setCellFillColor:(UIColor *)cellFillColor
+{
+    _cellFillColor = cellFillColor;
+    self.gameBoardView.fillColor = cellFillColor;
 }
 
 #pragma mark - UIViewController
@@ -55,25 +87,18 @@
     NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
     NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
-    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
-
-    _cellsArray = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
-    _secondArrayOfCells = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
-    for (NSUInteger i = 0; i < numberOfCells; i++)
-    {
-        FWCell *cell = cellsArray[i];
-        _cellsArray[i] = cell;
-        FWCell *secondCell = secondArrayOfCells[i];
-        _secondArrayOfCells[i] = secondCell;
-    }
-
-    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
-
     self.cellsNSArray = cellsArray;
     self.secondNSArrayOfCells = secondArrayOfCells;
 
+    [self updateCArraysOfCells];
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
+
     self.gameBoardView.boardSize = self.boardSize;
-    [self.gameBoardView updateLiveCellList:liveCells];
+    self.gameBoardView.liveCells = liveCells;
+    self.gameBoardView.borderWidth = self.cellBorderWidth;
+    self.gameBoardView.borderColor = self.cellBorderColor;
+    self.gameBoardView.fillColor = self.cellFillColor;
 
     [self pause];
 }
@@ -104,7 +129,7 @@
 {
     if (self.refreshTimer == nil || ![self.refreshTimer isValid])
     {
-        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.01
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
                                                          target:self
                                                        selector:@selector(calculateNextCycle:)
                                                        userInfo:nil
@@ -185,7 +210,7 @@
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
-    FWCell * __unsafe_unretained neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
+    FWCell *neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
 
     for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
     {
@@ -293,7 +318,7 @@
     _secondArrayOfCells = currentCycleArray;
     self.secondNSArrayOfCells = self.cellsNSArray;
     self.cellsNSArray = nextCycleArray;
-    [self.gameBoardView updateLiveCellList:liveCellsArray];
+    self.gameBoardView.liveCells = liveCellsArray;
 }
 
 #pragma mark - IBActions
@@ -308,9 +333,11 @@
     self.cellsNSArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
     self.secondNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
+    [self updateCArraysOfCells];
+
     NSArray *liveCells = [self liveCellsFromGameMatrix:self.cellsNSArray];
 
-    [self.gameBoardView updateLiveCellList:liveCells];
+    self.gameBoardView.liveCells = liveCells;
 }
 
 - (IBAction)pauseButtonTapped:(id)sender
@@ -347,6 +374,39 @@
 }
 
 #pragma mark - Private Methods
+
+- (void)reallocCArrays
+{
+    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
+
+    if (_cArraysAllocated)
+    {
+        free(_cellsArray);
+        free(_secondArrayOfCells);
+    }
+    else
+    {
+        _cArraysAllocated = YES;
+    }
+
+    _cellsArray = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+    _secondArrayOfCells = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+}
+
+- (void)updateCArraysOfCells
+{
+    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
+
+    NSArray *cellsArray = self.cellsNSArray;
+    NSArray *secondArrayOfCells = self.secondNSArrayOfCells;
+
+    // Copy all cells from managed arrays into non-managed C arrays
+    for (NSUInteger i = 0; i < numberOfCells; i++)
+    {
+        _cellsArray[i] = cellsArray[i];
+        _secondArrayOfCells[i] = secondArrayOfCells[i];
+    }
+}
 
 - (NSArray *)liveCellsFromGameMatrix:(NSArray *)cells
 {

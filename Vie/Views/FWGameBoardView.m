@@ -13,21 +13,14 @@ static CGFloat kFWBoardPadding = 5.0f;
 
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, assign) CGRect frameUsedToCalculateCellSize;
-@property (nonatomic, strong) NSArray *liveCells;
 @property (nonatomic, assign) CGRect cellContainerFrame;
 
 @end
 
 @implementation FWGameBoardView
 
-- (void)updateLiveCellList:(NSArray *)liveCells
-{
-    NSAssert(self.boardSize != nil, @"The game board size must be set before setting cellsNSArray.");
+#pragma mark - UIView
 
-    self.liveCells = liveCells;
-
-    [self setNeedsDisplay];
-}
 
 - (void)layoutSubviews
 {
@@ -41,7 +34,7 @@ static CGFloat kFWBoardPadding = 5.0f;
         CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * numberOfColumns) / 2.0f;
 
         self.cellContainerFrame =
-            CGRectMake(finalPadding, kFWBoardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
+                CGRectMake(finalPadding, kFWBoardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
         self.frameUsedToCalculateCellSize = self.bounds;
     }
 }
@@ -49,9 +42,11 @@ static CGFloat kFWBoardPadding = 5.0f;
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(context, 1.0f);
-    CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
-    CGContextSetFillColorWithColor(context, [UIColor lightGrayColor].CGColor);
+    CGFloat borderWidth = self.borderWidth;
+    CGFloat borderInset = borderWidth / 2.0f;
+    CGContextSetLineWidth(context, borderWidth);
+    CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
+    CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 
     CGSize cellSize = self.cellSize;
     CGPoint origin = self.cellContainerFrame.origin;
@@ -60,11 +55,44 @@ static CGFloat kFWBoardPadding = 5.0f;
     {
         if (cell.alive)
         {
-            CGContextAddRect(context, CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height));
+            CGRect cellRect = CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height);
+            CGContextAddRect(context, CGRectInset(cellRect, borderInset, borderInset));
         }
     }
 
     CGContextDrawPath(context, kCGPathFillStroke);
+}
+
+#pragma mark - Accessors
+
+- (void)setLiveCells:(NSArray *)liveCells
+{
+    NSAssert(self.boardSize != nil, @"The game board size must be set before setting cellsNSArray.");
+
+    _liveCells = liveCells;
+
+    [self setNeedsDisplay];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth
+{
+    _borderWidth = borderWidth;
+
+    [self setNeedsDisplay];
+}
+
+- (void)setBorderColor:(UIColor *)borderColor
+{
+    _borderColor = borderColor;
+
+    [self setNeedsDisplay];
+}
+
+- (void)setFillColor:(UIColor *)fillColor
+{
+    _fillColor = fillColor;
+
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Private Methods

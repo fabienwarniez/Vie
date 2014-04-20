@@ -8,7 +8,9 @@
 @interface FWGameBoardView : UIView
 
 @property (nonatomic, strong) FWBoardSize *boardSize;
-
-- (void)updateLiveCellList:(NSArray *)liveCells;
+@property (nonatomic, strong) NSArray *liveCells;
+@property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, strong) UIColor *borderColor;
+@property (nonatomic, strong) UIColor *fillColor;
 
 @end
