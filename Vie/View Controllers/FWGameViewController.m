@@ -7,6 +7,7 @@
 #import "FWCell.h"
 #import "FWGameBoardView.h"
 #import "FWBoardSize.h"
+#import "FWRandomNumberGenerator.h"
 
 @interface FWGameViewController ()
 {
@@ -185,10 +186,7 @@
             newCell.column = columnIndex;
             newCell.row = rowIndex;
 
-            float low_bound = 0;
-            float high_bound = 100;
-            float rndValue = (((float)arc4random() / 0x100000000) * (high_bound - low_bound) + low_bound);
-            newCell.alive = rndValue > 80;
+            newCell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:15];
 
             cells[columnIndex * numberOfRows + rowIndex] = newCell;
         }

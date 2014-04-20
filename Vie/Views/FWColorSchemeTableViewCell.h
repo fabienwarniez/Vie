@@ -3,10 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWGameBoardView;
+
 @interface FWColorSchemeTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *colorNameLabel;
-@property (nonatomic, strong) IBOutlet UIView *cellPreviewView;
 
 @property (nonatomic, strong) UIColor *cellPreviewFillColor;
 @property (nonatomic, strong) UIColor *cellPreviewBorderColor;

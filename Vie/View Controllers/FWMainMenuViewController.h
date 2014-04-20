@@ -3,6 +3,10 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWMainViewController;
+
 @interface FWMainMenuViewController : UIViewController
+
+@property (nonatomic, weak) FWMainViewController *mainViewController;
 
 @end

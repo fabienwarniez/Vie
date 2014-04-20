@@ -7,6 +7,7 @@
 #import "FWGameViewController.h"
 #import "FWMainMenuViewController.h"
 #import "FWBoardSize.h"
+#import "FWColorScheme.h"
 
 static const CGFloat kSwipeableAreaWidth = 40.0;
 
@@ -42,6 +43,7 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
         _gameViewController = gameViewController;
 
         FWMainMenuViewController *mainMenuViewController = [[FWMainMenuViewController alloc] init];
+        mainMenuViewController.mainViewController = self;
         _mainMenuViewController = mainMenuViewController;
 
         UINavigationController *swipeOutNavigationController = [[UINavigationController alloc] initWithRootViewController:_mainMenuViewController];
@@ -149,6 +151,14 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
         self.isMenuExpanded = NO;
         [self.gameViewController resumeAfterInterruption];
     }
+}
+
+#pragma mark - FWColorSchemePickerTableViewControllerDelegate
+
+- (void)colorSchemeDidChange:(FWColorScheme *)newColorScheme
+{
+    self.gameViewController.cellBorderColor = newColorScheme.borderColor;
+    self.gameViewController.cellFillColor = newColorScheme.fillColor;
 }
 
 @end

@@ -6,7 +6,7 @@
 #import "FWMainMenuViewController.h"
 #import "FWColorSchemePickerTableViewController.h"
 
-static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
+static NSString *kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 
 @interface FWMainMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -25,7 +25,7 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:MENU_CELL_IDENTIFIER];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kFWMainMenuViewControllerCellIdentifier];
     }
     return self;
 }
@@ -50,7 +50,7 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:MENU_CELL_IDENTIFIER forIndexPath:indexPath];
+    UITableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:kFWMainMenuViewControllerCellIdentifier forIndexPath:indexPath];
     dequeuedCell.textLabel.text = @"Cell Colors";
     dequeuedCell.textLabel.textColor = [UIColor blackColor];
     return dequeuedCell;
@@ -71,6 +71,7 @@ static NSString *MENU_CELL_IDENTIFIER = @"MenuCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];
+    colorSchemePickerTableViewController.delegate = self.mainViewController;
     [self.navigationController pushViewController:colorSchemePickerTableViewController animated:YES];
 }
 

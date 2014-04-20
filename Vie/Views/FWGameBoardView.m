@@ -7,8 +7,6 @@
 #import "FWCell.h"
 #import "FWBoardSize.h"
 
-static CGFloat kFWBoardPadding = 5.0f;
-
 @interface FWGameBoardView ()
 
 @property (nonatomic, assign) CGSize cellSize;
@@ -21,6 +19,25 @@ static CGFloat kFWBoardPadding = 5.0f;
 
 #pragma mark - UIView
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        _boardPadding = 0.0f;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        _boardPadding = 0.0f;
+    }
+    return self;
+}
 
 - (void)layoutSubviews
 {
@@ -34,7 +51,7 @@ static CGFloat kFWBoardPadding = 5.0f;
         CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * numberOfColumns) / 2.0f;
 
         self.cellContainerFrame =
-                CGRectMake(finalPadding, kFWBoardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
+                CGRectMake(finalPadding, self.boardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
         self.frameUsedToCalculateCellSize = self.bounds;
     }
 }
@@ -99,8 +116,8 @@ static CGFloat kFWBoardPadding = 5.0f;
 
 - (CGSize)calculateCellSize
 {
-    CGFloat cellWidth = (self.bounds.size.width - 2 * kFWBoardPadding) / self.boardSize.numberOfColumns;
-    CGFloat cellHeight = (self.bounds.size.height - 2 * kFWBoardPadding) / self.boardSize.numberOfRows;
+    CGFloat cellWidth = (self.bounds.size.width - 2 * self.boardPadding) / self.boardSize.numberOfColumns;
+    CGFloat cellHeight = (self.bounds.size.height - 2 * self.boardPadding) / self.boardSize.numberOfRows;
     CGFloat cellSideLength = floorf(MIN(cellWidth, cellHeight));
     return CGSizeMake(cellSideLength, cellSideLength);
 }
