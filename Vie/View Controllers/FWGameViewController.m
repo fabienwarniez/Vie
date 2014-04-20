@@ -9,9 +9,13 @@
 #import "FWBoardSize.h"
 
 @interface FWGameViewController ()
+{
+    FWCell *__unsafe_unretained *_cellsArray;
+    FWCell *__unsafe_unretained *_secondArrayOfCells;
+}
 
-@property (nonatomic, strong) NSArray *cells;
-@property (nonatomic, strong) NSArray *secondArrayOfCells;
+@property (nonatomic, strong) NSArray *cellsNSArray;
+@property (nonatomic, strong) NSArray *secondNSArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, assign) BOOL wasPlayingBeforeInterruption;
@@ -20,21 +24,12 @@
 
 @implementation FWGameViewController
 
+#pragma mark - Accessors
+
 - (void)setBoardSize:(FWBoardSize *)boardSize
 {
     _boardSize = boardSize;
     self.gameBoardView.boardSize = boardSize;
-}
-
-- (void)viewDidLoad
-{
-    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-
-    self.gameBoardView.boardSize = self.boardSize;
-    [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
-
-    [self pause];
 }
 
 - (BOOL)isRunning
@@ -42,11 +37,74 @@
     return self.refreshTimer != nil && [self.refreshTimer isValid];
 }
 
+#pragma mark - UIViewController
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self interruptGame];
+    [self.gameBoardView setNeedsDisplay];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self resumeAfterInterruption];
+}
+
+- (void)viewDidLoad
+{
+    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+
+    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
+
+    _cellsArray = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+    _secondArrayOfCells = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+    for (NSUInteger i = 0; i < numberOfCells; i++)
+    {
+        FWCell *cell = cellsArray[i];
+        _cellsArray[i] = cell;
+        FWCell *secondCell = secondArrayOfCells[i];
+        _secondArrayOfCells[i] = secondCell;
+    }
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
+
+    self.cellsNSArray = cellsArray;
+    self.secondNSArrayOfCells = secondArrayOfCells;
+
+    self.gameBoardView.boardSize = self.boardSize;
+    [self.gameBoardView updateLiveCellList:liveCells];
+
+    [self pause];
+}
+
+- (void)dealloc
+{
+    free(_cellsArray);
+    free(_secondArrayOfCells);
+}
+
+#pragma mark - Game Lifecycle Management
+
+- (void)interruptGame
+{
+    self.wasPlayingBeforeInterruption = [self isRunning];
+    [self pause];
+}
+
+- (void)resumeAfterInterruption
+{
+    if (self.wasPlayingBeforeInterruption)
+    {
+        [self play];
+    }
+}
+
 - (void)play
 {
     if (self.refreshTimer == nil || ![self.refreshTimer isValid])
     {
-        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.01
                                                          target:self
                                                        selector:@selector(calculateNextCycle:)
                                                        userInfo:nil
@@ -64,52 +122,6 @@
     }
     self.pauseButtonItem.enabled = NO;
     self.playButtonItem.enabled = YES;
-}
-
-- (IBAction)reloadButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-
-    self.cells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    self.secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-
-    [self.gameBoardView updateCellsWithDiff:nil newCellArray:self.cells];
-}
-
-- (IBAction)pauseButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-}
-
-- (IBAction)playButtonTapped:(id)sender
-{
-    if (![self isRunning])
-    {
-        [self play];
-    }
-}
-
-- (IBAction)backButtonTapped:(id)sender
-{
-    // later
-}
-
-- (IBAction)nextButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-    else
-    {
-        [self calculateNextCycle];
-    }
 }
 
 /*
@@ -167,35 +179,82 @@
 
 - (void)calculateNextCycle
 {
-    NSArray *nextCycleArray = self.secondArrayOfCells;
-    NSArray *currentCycleArray = self.cells;
-    NSMutableArray *arrayOfChanges = [NSMutableArray array];
+    NSArray *nextCycleArray = self.secondNSArrayOfCells;
+    FWCell * __unsafe_unretained *currentCycleArray = _cellsArray;
+    NSMutableArray *liveCellsArray = [NSMutableArray array];
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
-    for (NSUInteger columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
+    FWCell * __unsafe_unretained neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
+
+    for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
     {
-        for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
+        for (NSUInteger columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
         {
-            FWCell *currentCell = [self cellForColumn:columnIndex row:rowIndex inArray:currentCycleArray];
-            FWCell *nextCycleCell = [self cellForColumn:columnIndex row:rowIndex inArray:nextCycleArray];
-            NSUInteger numberOfNeighbours = 0;
-            for (NSInteger columnOffsetIndex = -1; columnOffsetIndex <= 1; columnOffsetIndex++)
+            if (columnIndex == 0)
             {
+                for (NSUInteger i = 0; i < 3; i++)
+                {
+                    neighbourCells[i] = nil;
+                }
+
                 for (NSInteger rowOffsetIndex = -1; rowOffsetIndex <= 1; rowOffsetIndex++)
                 {
-                    NSInteger neighbourColumnIndex = columnOffsetIndex + columnIndex;
-                    NSInteger neighbourRowIndex = rowOffsetIndex + rowIndex;
-
-                    if ((columnOffsetIndex != 0 || rowOffsetIndex != 0)
-                        && neighbourColumnIndex >= 0 && neighbourRowIndex >= 0
-                        && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
+                    for (NSUInteger columnOffsetIndex = 0; columnOffsetIndex <= 1; columnOffsetIndex++)
                     {
-                        FWCell *neighbourCell = [self cellForColumn:(NSUInteger) neighbourColumnIndex row:(NSUInteger) neighbourRowIndex inArray:currentCycleArray];
-                        if (neighbourCell != nil && neighbourCell.alive)
+                        NSInteger neighbourColumnIndex = columnOffsetIndex + columnIndex;
+                        NSInteger neighbourRowIndex = rowOffsetIndex + rowIndex;
+
+                        NSUInteger neighbourArrayIndex = (columnOffsetIndex + 1) * 3 + (rowOffsetIndex + 1);
+
+                        if (neighbourRowIndex >= 0 && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
                         {
-                            numberOfNeighbours++;
+                            FWCell * __unsafe_unretained neighbourCell = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
+                            neighbourCells[neighbourArrayIndex] = neighbourCell;
                         }
+                        else
+                        {
+                            neighbourCells[neighbourArrayIndex] = nil;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (NSUInteger i = 0; i < 6; i++)
+                {
+                    FWCell * __unsafe_unretained cellToShift = neighbourCells[i + 3];
+                    neighbourCells[i] = cellToShift;
+                }
+                for (NSInteger i = -1; i <= 1; i++)
+                {
+                    NSInteger neighbourColumnIndex = 1 + columnIndex;
+                    if (neighbourColumnIndex >= numberOfColumns)
+                    {
+                        continue;
+                    }
+                    NSInteger neighbourRowIndex = i + rowIndex;
+                    FWCell * __unsafe_unretained cellToAdd = nil;
+                    if (neighbourRowIndex >= 0 && neighbourRowIndex < numberOfRows)
+                    {
+                        cellToAdd = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
+                    }
+                    neighbourCells[i + 7] = cellToAdd;
+                }
+            }
+
+            FWCell * __unsafe_unretained currentCell = neighbourCells[4];
+            FWCell * __unsafe_unretained nextCycleCell = nextCycleArray[columnIndex * numberOfRows + rowIndex];
+
+            NSUInteger numberOfNeighbours = 0;
+            for (NSUInteger neighbourIndex = 0; neighbourIndex < 9; neighbourIndex++)
+            {
+                if (neighbourIndex != 4)
+                {
+                    FWCell * __unsafe_unretained neighbourCell = neighbourCells[neighbourIndex];
+                    if (neighbourCell != nil && neighbourCell.alive)
+                    {
+                        numberOfNeighbours++;
                     }
                 }
             }
@@ -205,7 +264,6 @@
                 if (numberOfNeighbours < 2 || numberOfNeighbours > 3)
                 {
                     nextCycleCell.alive = NO;
-                    [arrayOfChanges insertObject:nextCycleCell atIndex:0];
                 }
                 else
                 {
@@ -217,38 +275,92 @@
                 if (numberOfNeighbours == 3)
                 {
                     nextCycleCell.alive = YES;
-                    [arrayOfChanges addObject:nextCycleCell];
                 }
                 else
                 {
                     nextCycleCell.alive = NO;
                 }
             }
+
+            if (nextCycleCell.alive)
+            {
+                [liveCellsArray addObject:nextCycleCell];
+            }
         }
     }
 
-    self.cells = nextCycleArray;
-    self.secondArrayOfCells = currentCycleArray;
-    [self.gameBoardView updateCellsWithDiff:arrayOfChanges newCellArray:nextCycleArray];
+    _cellsArray = _secondArrayOfCells;
+    _secondArrayOfCells = currentCycleArray;
+    self.secondNSArrayOfCells = self.cellsNSArray;
+    self.cellsNSArray = nextCycleArray;
+    [self.gameBoardView updateLiveCellList:liveCellsArray];
 }
 
-- (FWCell *)cellForColumn:(NSUInteger)column row:(NSUInteger)row inArray:(NSArray *)array
+#pragma mark - IBActions
+
+- (IBAction)reloadButtonTapped:(id)sender
 {
-    return array[column * _boardSize.numberOfRows + row];
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    self.cellsNSArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    self.secondNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:self.cellsNSArray];
+
+    [self.gameBoardView updateLiveCellList:liveCells];
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (IBAction)pauseButtonTapped:(id)sender
 {
-    self.wasPlayingBeforeInterruption = [self isRunning];
-    [self pause];
+    if ([self isRunning])
+    {
+        [self pause];
+    }
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (IBAction)playButtonTapped:(id)sender
 {
-    if (self.wasPlayingBeforeInterruption)
+    if (![self isRunning])
     {
         [self play];
     }
+}
+
+- (IBAction)backButtonTapped:(id)sender
+{
+    // later
+}
+
+- (IBAction)nextButtonTapped:(id)sender
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+    else
+    {
+        [self calculateNextCycle];
+    }
+}
+
+#pragma mark - Private Methods
+
+- (NSArray *)liveCellsFromGameMatrix:(NSArray *)cells
+{
+    NSMutableArray *liveCellsArray = [NSMutableArray array];
+
+    for (FWCell *cell in cells)
+    {
+        if (cell.alive)
+        {
+            [liveCellsArray addObject:cell];
+        }
+    }
+
+    return [liveCellsArray copy];
 }
 
 @end
