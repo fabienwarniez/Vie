@@ -5,8 +5,8 @@
 
 #import "FWColorSchemeTableViewCell.h"
 #import "FWGameBoardView.h"
-#import "FWBoardSize.h"
-#import "FWCell.h"
+#import "FWGameBoardSizeModel.h"
+#import "FWCellModel.h"
 #import "FWRandomNumberGenerator.h"
 
 static NSUInteger kFWColorSchemeTableViewCellNumberOfColumns = 15;
@@ -30,7 +30,7 @@ static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
     {
         _gameBoardView = [[FWGameBoardView alloc] init];
         _gameBoardView.backgroundColor = [UIColor clearColor];
-        _gameBoardView.boardSize = [[FWBoardSize alloc] initWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
+        _gameBoardView.boardSize = [[FWGameBoardSizeModel alloc] initWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
         _gameBoardView.borderWidth = kFWColorSchemeTableViewCellBorderWidth;
         _gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
 
@@ -80,7 +80,7 @@ static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
     {
         for (NSUInteger rowIterator = 0; rowIterator < numberOfRows; rowIterator++)
         {
-            FWCell *cell = [[FWCell alloc] init];
+            FWCellModel *cell = [[FWCellModel alloc] init];
             cell.column = columnIterator;
             cell.row = rowIterator;
             cell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:30];

@@ -3,10 +3,10 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWColorScheme.h"
+#import "FWColorSchemeModel.h"
 #import "UIColor+FWConvenience.h"
 
-@implementation FWColorScheme
+@implementation FWColorSchemeModel
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
@@ -62,7 +62,7 @@
     NSAssert(colorList != nil, @"Colors.plist is corrupted. Root object is not an array.");
     for (NSDictionary *colorDictionary in colorList)
     {
-        FWColorScheme *colorObject = [FWColorScheme colorSchemeWithDictionary:colorDictionary];
+        FWColorSchemeModel *colorObject = [FWColorSchemeModel colorSchemeWithDictionary:colorDictionary];
         NSAssert(colorObject != nil, @"Colors.plist is corrupted. At least one entry did not contain valid values.");
         [colorSchemes addObject:colorObject];
     }
@@ -70,10 +70,10 @@
     return [colorSchemes copy];
 }
 
-+ (FWColorScheme *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array
++ (FWColorSchemeModel *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array
 {
-    FWColorScheme *userColorScheme = nil;
-    for (FWColorScheme *colorSchemeIterator in array)
+    FWColorSchemeModel *userColorScheme = nil;
+    for (FWColorSchemeModel *colorSchemeIterator in array)
     {
         if ([colorSchemeIterator.guid isEqualToString:guid])
         {

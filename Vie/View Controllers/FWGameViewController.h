@@ -4,7 +4,7 @@
 //
 
 @class FWGameBoardView;
-@class FWBoardSize;
+@class FWGameBoardSizeModel;
 
 @interface FWGameViewController : UIViewController
 
@@ -16,7 +16,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *nextButtonItem;
 
-@property (nonatomic, strong) FWBoardSize *boardSize;
+@property (nonatomic, strong) FWGameBoardSizeModel *boardSize;
 @property (nonatomic, assign, readonly) BOOL isRunning;
 
 // Cell Style

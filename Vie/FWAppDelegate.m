@@ -8,9 +8,10 @@
 
 #import "FWAppDelegate.h"
 #import "FWMainViewController.h"
-#import "FWBoardSize.h"
+#import "FWGameBoardSizeModel.h"
 #import "FWSettingsManager.h"
-#import "FWColorScheme.h"
+#import "FWColorSchemeModel.h"
+#import "FWUserModel.h"
 
 @interface FWAppDelegate ()
 
@@ -25,15 +26,24 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    FWBoardSize *initialBoardSize = [FWSettingsManager getUserBoardSize];
-    FWColorScheme *initialColorScheme = [FWSettingsManager getUserColorScheme];
-    self.mainViewController = [[FWMainViewController alloc] initWithBoardSize:initialBoardSize];
+    self.userModel = [self loadUserModel];
+    self.mainViewController = [[FWMainViewController alloc] initWithBoardSize:self.userModel.gameBoardSize];
 
     self.window.rootViewController = self.mainViewController;
     
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (FWUserModel *)loadUserModel
+{
+    FWUserModel *newUserModel = [[FWUserModel alloc] init];
+
+    newUserModel.colorScheme = [FWSettingsManager getUserColorScheme];
+    newUserModel.gameBoardSize = [FWSettingsManager getUserBoardSize];
+
+    return newUserModel;
 }
 
 @end

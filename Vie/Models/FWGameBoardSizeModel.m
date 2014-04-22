@@ -3,9 +3,9 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWBoardSize.h"
+#import "FWGameBoardSizeModel.h"
 
-@implementation FWBoardSize
+@implementation FWGameBoardSizeModel
 
 - (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
 {

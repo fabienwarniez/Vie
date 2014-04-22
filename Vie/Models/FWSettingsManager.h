@@ -3,15 +3,15 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWColorScheme;
-@class FWBoardSize;
+@class FWColorSchemeModel;
+@class FWGameBoardSizeModel;
 
 @interface FWSettingsManager : NSObject
 
-+ (FWColorScheme *)getUserColorScheme;
-+ (void)saveUserColorScheme:(FWColorScheme *)colorScheme;
++ (FWColorSchemeModel *)getUserColorScheme;
++ (void)saveUserColorScheme:(FWColorSchemeModel *)colorScheme;
 
-+ (FWBoardSize *)getUserBoardSize;
-+ (void)saveUserBoardSize:(FWBoardSize *)boardSize;
++ (FWGameBoardSizeModel *)getUserBoardSize;
++ (void)saveUserBoardSize:(FWGameBoardSizeModel *)boardSize;
 
 @end

@@ -4,8 +4,8 @@
 //
 
 #import "FWGameBoardView.h"
-#import "FWCell.h"
-#import "FWBoardSize.h"
+#import "FWCellModel.h"
+#import "FWGameBoardSizeModel.h"
 
 @interface FWGameBoardView ()
 
@@ -68,7 +68,7 @@
     CGSize cellSize = self.cellSize;
     CGPoint origin = self.cellContainerFrame.origin;
 
-    for (FWCell *cell in self.liveCells)
+    for (FWCellModel *cell in self.liveCells)
     {
         if (cell.alive)
         {

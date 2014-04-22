@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@interface FWColorScheme : NSObject
+@interface FWColorSchemeModel : NSObject
 
 @property (nonatomic, strong) NSString *guid;
 @property (nonatomic, strong) UIColor *fillColor;
@@ -17,6 +17,6 @@
 + (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName;
 
 + (NSArray *)colorSchemesFromFile;
-+ (FWColorScheme *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array;
++ (FWColorSchemeModel *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array;
 
 @end

@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@interface FWBoardSize : NSObject
+@interface FWGameBoardSizeModel : NSObject
 
 @property (nonatomic, assign) NSUInteger numberOfColumns;
 @property (nonatomic, assign) NSUInteger numberOfRows;

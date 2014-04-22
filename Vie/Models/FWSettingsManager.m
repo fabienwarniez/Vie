@@ -4,8 +4,8 @@
 //
 
 #import "FWSettingsManager.h"
-#import "FWColorScheme.h"
-#import "FWBoardSize.h"
+#import "FWColorSchemeModel.h"
+#import "FWGameBoardSizeModel.h"
 
 static NSString *kUserColorSchemeKey = @"color_scheme";
 static NSString *kDefaultColorSchemeGuid = @"default";
@@ -14,36 +14,36 @@ static NSString *kUserBoardSizeKey = @"board_size";
 
 @implementation FWSettingsManager
 
-+ (FWColorScheme *)getUserColorScheme
++ (FWColorSchemeModel *)getUserColorScheme
 {
-    NSArray *colorSchemes = [FWColorScheme colorSchemesFromFile];
+    NSArray *colorSchemes = [FWColorSchemeModel colorSchemesFromFile];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *colorSchemeGuid = [userDefaults stringForKey:kUserColorSchemeKey];
 
-    FWColorScheme *userColorScheme = [FWColorScheme colorSchemeFromGuid:colorSchemeGuid inArray:colorSchemes];
+    FWColorSchemeModel *userColorScheme = [FWColorSchemeModel colorSchemeFromGuid:colorSchemeGuid inArray:colorSchemes];
 
     if (userColorScheme == nil)
     {
         colorSchemeGuid = kDefaultColorSchemeGuid;
         [userDefaults setObject:colorSchemeGuid forKey:kUserColorSchemeKey];
-        userColorScheme = [FWColorScheme colorSchemeFromGuid:kDefaultColorSchemeGuid inArray:colorSchemes];
+        userColorScheme = [FWColorSchemeModel colorSchemeFromGuid:kDefaultColorSchemeGuid inArray:colorSchemes];
     }
 
     return userColorScheme;
 }
 
-+ (void)saveUserColorScheme:(FWColorScheme *)colorScheme
++ (void)saveUserColorScheme:(FWColorSchemeModel *)colorScheme
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:colorScheme.guid forKey:kUserColorSchemeKey];
 }
 
-+ (FWBoardSize *)getUserBoardSize
++ (FWGameBoardSizeModel *)getUserBoardSize
 {
-    return [FWBoardSize boardSizeWithNumberOfColumns:64 numberOfRows:96];
+    return [FWGameBoardSizeModel boardSizeWithNumberOfColumns:64 numberOfRows:96];
 }
 
-+ (void)saveUserBoardSize:(FWBoardSize *)boardSize
++ (void)saveUserBoardSize:(FWGameBoardSizeModel *)boardSize
 {
 }
 

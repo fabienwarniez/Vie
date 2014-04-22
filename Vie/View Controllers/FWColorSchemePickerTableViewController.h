@@ -3,11 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWColorScheme;
+@class FWColorSchemeModel;
 
 @protocol FWColorSchemePickerTableViewControllerDelegate <NSObject>
 
-- (void)colorSchemeDidChange:(FWColorScheme *)newColorScheme;
+- (void)colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme;
 
 @end
 
