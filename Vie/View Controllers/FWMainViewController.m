@@ -13,7 +13,6 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 @interface FWMainViewController ()
 
-@property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
 @property (nonatomic, strong) UINavigationController *swipeOutNavigationController;
 @property (nonatomic, strong) UIView *navigationContainerView;

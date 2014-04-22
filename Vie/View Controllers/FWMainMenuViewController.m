@@ -4,7 +4,7 @@
 //
 
 #import "FWMainMenuViewController.h"
-#import "FWColorSchemePickerTableViewController.h"
+#import "FWMainViewController.h"
 
 static NSString *kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 

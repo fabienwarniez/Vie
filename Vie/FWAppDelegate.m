@@ -9,6 +9,8 @@
 #import "FWAppDelegate.h"
 #import "FWMainViewController.h"
 #import "FWBoardSize.h"
+#import "FWSettingsManager.h"
+#import "FWColorScheme.h"
 
 @interface FWAppDelegate ()
 
@@ -23,8 +25,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    // TODO: Figure out initial board size based on device size
-    FWBoardSize *initialBoardSize = [FWBoardSize boardSizeWithNumberOfColumns:64 numberOfRows:96];
+    FWBoardSize *initialBoardSize = [FWSettingsManager getUserBoardSize];
+    FWColorScheme *initialColorScheme = [FWSettingsManager getUserColorScheme];
     self.mainViewController = [[FWMainViewController alloc] initWithBoardSize:initialBoardSize];
 
     self.window.rootViewController = self.mainViewController;

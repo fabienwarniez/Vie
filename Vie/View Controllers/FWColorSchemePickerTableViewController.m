@@ -29,18 +29,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
         _tableView.delegate = self;
         [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil] forCellReuseIdentifier:kColorSchemeCellIdentifier];
 
-        NSMutableArray *colors = [NSMutableArray array];
-
-        NSArray *colorList = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Colors" ofType:@"plist"]];
-        NSAssert(colorList != nil, @"Colors.plist is corrupted.");
-        for (NSDictionary *colorDictionary in colorList)
-        {
-            FWColorScheme *colorObject = [FWColorScheme colorSchemeWithDictionary:colorDictionary];
-            NSAssert(colorObject != nil, @"Colors.plist is corrupted.");
-            [colors addObject:colorObject];
-        }
-
-        _colors = [colors copy];
+        _colors = [FWColorScheme colorSchemesFromFile];
     }
     return self;
 }
@@ -59,13 +48,11 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     return [self.colors count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     FWColorScheme *model = self.colors[(NSUInteger) indexPath.row];
     FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kColorSchemeCellIdentifier forIndexPath:indexPath];
     cell.colorNameLabel.text = model.colorSchemeName;

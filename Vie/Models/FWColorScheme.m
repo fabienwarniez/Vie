@@ -13,6 +13,8 @@
     self = [super init];
     if (self)
     {
+        _guid = [dictionary valueForKey:@"guid"];
+
         NSString *fillColorHexString = [dictionary valueForKey:@"fill_color"];
         _fillColor = [UIColor colorWithHexString:fillColorHexString];
 
@@ -20,6 +22,11 @@
         _borderColor = [UIColor colorWithHexString:borderColorHexString];
 
         _colorSchemeName = [dictionary valueForKey:@"color_name"];
+
+        if (_guid == nil || _fillColor == nil || _borderColor == nil || _colorSchemeName == nil)
+        {
+            self = nil;
+        }
     }
     return self;
 }
@@ -29,11 +36,12 @@
     return [[self alloc] initWithDictionary:dictionary];
 }
 
-- (instancetype)initWithFillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName
+- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName
 {
     self = [super init];
     if (self)
     {
+        _guid = guid;
         _fillColor = fillColor;
         _borderColor = borderColor;
         _colorSchemeName = colorSchemeName;
@@ -41,9 +49,38 @@
     return self;
 }
 
-+ (instancetype)colorSchemeWithFillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName
++ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName
 {
-    return [[self alloc] initWithFillColor:fillColor borderColor:borderColor colorSchemeName:colorSchemeName];
+    return [[self alloc] initWithGuid:nil fillColor:fillColor borderColor:borderColor colorSchemeName:colorSchemeName];
+}
+
++ (NSArray *)colorSchemesFromFile
+{
+    NSMutableArray *colorSchemes = [NSMutableArray array];
+
+    NSArray *colorList = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Colors" ofType:@"plist"]];
+    NSAssert(colorList != nil, @"Colors.plist is corrupted. Root object is not an array.");
+    for (NSDictionary *colorDictionary in colorList)
+    {
+        FWColorScheme *colorObject = [FWColorScheme colorSchemeWithDictionary:colorDictionary];
+        NSAssert(colorObject != nil, @"Colors.plist is corrupted. At least one entry did not contain valid values.");
+        [colorSchemes addObject:colorObject];
+    }
+
+    return [colorSchemes copy];
+}
+
++ (FWColorScheme *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array
+{
+    FWColorScheme *userColorScheme = nil;
+    for (FWColorScheme *colorSchemeIterator in array)
+    {
+        if ([colorSchemeIterator.guid isEqualToString:guid])
+        {
+            userColorScheme = colorSchemeIterator;
+        }
+    }
+    return userColorScheme;
 }
 
 @end
