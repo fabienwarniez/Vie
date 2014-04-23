@@ -45,13 +45,26 @@ static NSString *kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:kFWMainMenuViewControllerCellIdentifier forIndexPath:indexPath];
-    dequeuedCell.textLabel.text = @"Cell Colors";
+
+    if (indexPath.row == 0)
+    {
+        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_cell_color", nil);;
+    }
+    else if (indexPath.row == 1)
+    {
+        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_board_size", nil);
+    }
+    else
+    {
+        NSAssert(false, @"There are only 2 items in the menu");
+    }
+
     dequeuedCell.textLabel.textColor = [UIColor blackColor];
     return dequeuedCell;
 }
@@ -70,9 +83,18 @@ static NSString *kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];
-    colorSchemePickerTableViewController.delegate = self.mainViewController;
-    [self.navigationController pushViewController:colorSchemePickerTableViewController animated:YES];
+    if (indexPath.row == 0)
+    {
+        FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];
+        colorSchemePickerTableViewController.delegate = self.mainViewController;
+        [self.navigationController pushViewController:colorSchemePickerTableViewController animated:YES];
+    }
+    else if (indexPath.row == 1)
+    {
+        FWBoardSizePickerTableViewController *boardSizePickerTableViewController = [[FWBoardSizePickerTableViewController alloc] init];
+        boardSizePickerTableViewController.delegate = self.mainViewController;
+        [self.navigationController pushViewController:boardSizePickerTableViewController animated:YES];
+    }
 }
 
 @end

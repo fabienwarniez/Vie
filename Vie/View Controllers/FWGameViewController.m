@@ -5,8 +5,8 @@
 
 #import "FWGameViewController.h"
 #import "FWCellModel.h"
-#import "FWGameBoardView.h"
-#import "FWGameBoardSizeModel.h"
+#import "FWBoardView.h"
+#import "FWBoardSizeModel.h"
 #import "FWRandomNumberGenerator.h"
 
 @interface FWGameViewController ()
@@ -39,12 +39,18 @@
 
 #pragma mark - Accessors
 
-- (void)setBoardSize:(FWGameBoardSizeModel *)boardSize
+- (void)setBoardSize:(FWBoardSizeModel *)boardSize
 {
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
     _boardSize = boardSize;
     self.gameBoardView.boardSize = boardSize;
 
     [self reallocCArrays];
+    [self resetGame];
 }
 
 - (BOOL)isRunning
@@ -85,23 +91,7 @@
 
 - (void)viewDidLoad
 {
-    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    NSArray *initialBoard = [[NSArray alloc] initWithArray:cellsArray copyItems:YES];
-    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-
-    self.cellsNSArray = cellsArray;
-    self.initialBoard = initialBoard;
-    self.secondNSArrayOfCells = secondArrayOfCells;
-
-    [self updateCArraysOfCells];
-
-    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
-
-    self.gameBoardView.boardSize = self.boardSize;
-    self.gameBoardView.liveCells = liveCells;
-    self.gameBoardView.borderWidth = self.cellBorderWidth;
-    self.gameBoardView.borderColor = self.cellBorderColor;
-    self.gameBoardView.fillColor = self.cellFillColor;
+    [self resetGame];
 
     [self pause];
 }
@@ -126,6 +116,11 @@
     {
         [self play];
     }
+}
+
+- (void)setForceResumeAfterInterruption:(BOOL)force
+{
+    self.wasPlayingBeforeInterruption = force;
 }
 
 - (void)play
@@ -330,15 +325,7 @@
         [self pause];
     }
 
-    self.cellsNSArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    self.initialBoard = [[NSArray alloc] initWithArray:self.cellsNSArray copyItems:YES];
-    self.secondNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-
-    [self updateCArraysOfCells];
-
-    NSArray *liveCells = [self liveCellsFromGameMatrix:self.cellsNSArray];
-
-    self.gameBoardView.liveCells = liveCells;
+    [self resetGame];
 }
 
 - (IBAction)pauseButtonTapped:(id)sender
@@ -375,6 +362,27 @@
 }
 
 #pragma mark - Private Methods
+
+- (void)resetGame
+{
+    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *initialBoard = [[NSArray alloc] initWithArray:cellsArray copyItems:YES];
+    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+
+    self.cellsNSArray = cellsArray;
+    self.initialBoard = initialBoard;
+    self.secondNSArrayOfCells = secondArrayOfCells;
+
+    [self updateCArraysOfCells];
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
+
+    self.gameBoardView.boardSize = self.boardSize;
+    self.gameBoardView.borderWidth = self.cellBorderWidth;
+    self.gameBoardView.borderColor = self.cellBorderColor;
+    self.gameBoardView.fillColor = self.cellFillColor;
+    self.gameBoardView.liveCells = liveCells;
+}
 
 - (void)reallocCArrays
 {

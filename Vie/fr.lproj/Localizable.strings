@@ -10,3 +10,6 @@
 
 "main_menu_title" = "Menu";
 "cell_color_title" = "Couleurs";
+"board_size_title" = "Taille de la Grille";
+"menu_item_cell_color" = "Couleur de Cellules";
+"menu_item_board_size" = "Taille de la Grille";

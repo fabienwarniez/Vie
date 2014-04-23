@@ -12,6 +12,5 @@
 @interface FWAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
-@property (nonatomic, strong) FWUserModel *userModel;
 
 @end

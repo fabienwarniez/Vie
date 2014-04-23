@@ -3,11 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWGameBoardView.h"
+#import "FWBoardView.h"
 #import "FWCellModel.h"
-#import "FWGameBoardSizeModel.h"
+#import "FWBoardSizeModel.h"
 
-@interface FWGameBoardView ()
+@interface FWBoardView ()
 
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, assign) CGRect frameUsedToCalculateCellSize;
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation FWGameBoardView
+@implementation FWBoardView
 
 #pragma mark - UIView
 

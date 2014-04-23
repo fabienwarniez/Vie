@@ -4,14 +4,14 @@
 //
 
 @class FWColorSchemeModel;
-@class FWGameBoardSizeModel;
+@class FWBoardSizeModel;
 
 @interface FWSettingsManager : NSObject
 
-+ (FWColorSchemeModel *)getUserColorScheme;
-+ (void)saveUserColorScheme:(FWColorSchemeModel *)colorScheme;
++ (NSString *)getUserColorSchemeGuid;
++ (void)saveUserColorSchemeGuid:(NSString *)colorSchemeGuid;
 
-+ (FWGameBoardSizeModel *)getUserBoardSize;
-+ (void)saveUserBoardSize:(FWGameBoardSizeModel *)boardSize;
++ (FWBoardSizeModel *)getUserBoardSize;
++ (void)saveUserBoardSize:(FWBoardSizeModel *)boardSize;
 
 @end

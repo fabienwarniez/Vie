@@ -4,11 +4,13 @@
 //
 
 @class FWColorSchemeModel;
-@class FWGameBoardSizeModel;
+@class FWBoardSizeModel;
 
 @interface FWUserModel : NSObject
 
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
-@property (nonatomic, strong) FWGameBoardSizeModel *gameBoardSize;
+@property (nonatomic, strong) FWBoardSizeModel *gameBoardSize;
+
++ (instancetype)sharedUserModel;
 
 @end

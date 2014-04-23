@@ -4,8 +4,8 @@
 //
 
 #import "FWColorSchemeTableViewCell.h"
-#import "FWGameBoardView.h"
-#import "FWGameBoardSizeModel.h"
+#import "FWBoardView.h"
+#import "FWBoardSizeModel.h"
 #import "FWCellModel.h"
 #import "FWRandomNumberGenerator.h"
 
@@ -15,7 +15,7 @@ static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
 
 @interface FWColorSchemeTableViewCell ()
 
-@property (nonatomic, strong) FWGameBoardView *gameBoardView;
+@property (nonatomic, strong) FWBoardView *gameBoardView;
 
 @end
 
@@ -28,9 +28,9 @@ static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
     self = [super initWithCoder:coder];
     if (self)
     {
-        _gameBoardView = [[FWGameBoardView alloc] init];
+        _gameBoardView = [[FWBoardView alloc] init];
         _gameBoardView.backgroundColor = [UIColor clearColor];
-        _gameBoardView.boardSize = [[FWGameBoardSizeModel alloc] initWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
+        _gameBoardView.boardSize = [[FWBoardSizeModel alloc] initWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
         _gameBoardView.borderWidth = kFWColorSchemeTableViewCellBorderWidth;
         _gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
 
