@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@interface FWCell : NSObject
+@interface FWCellModel : NSObject <NSCopying>
 
 @property (nonatomic, assign) BOOL alive;
 @property (nonatomic, assign) NSUInteger column;

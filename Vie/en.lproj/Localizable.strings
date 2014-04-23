@@ -9,4 +9,7 @@
 "CFBundleDisplayName" = "Life";
 
 "main_menu_title" = "Menu";
-"cell_color_title" = "Colors";
+"cell_color_title" = "Colours";
+"board_size_title" = "Sizes";
+"menu_item_cell_color" = "Cell Colours";
+"menu_item_board_size" = "Board Sizes";

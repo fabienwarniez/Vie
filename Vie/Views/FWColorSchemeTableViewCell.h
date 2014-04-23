@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWGameBoardView;
+@class FWBoardView;
 
 @interface FWColorSchemeTableViewCell : UITableViewCell
 

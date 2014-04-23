@@ -4,15 +4,15 @@
 //
 
 #import "FWGameViewController.h"
-#import "FWCell.h"
-#import "FWGameBoardView.h"
-#import "FWBoardSize.h"
+#import "FWCellModel.h"
+#import "FWBoardView.h"
+#import "FWBoardSizeModel.h"
 #import "FWRandomNumberGenerator.h"
 
 @interface FWGameViewController ()
 {
-    FWCell * __unsafe_unretained *_cellsArray;
-    FWCell * __unsafe_unretained *_secondArrayOfCells;
+    FWCellModel * __unsafe_unretained *_cellsArray;
+    FWCellModel * __unsafe_unretained *_secondArrayOfCells;
 }
 
 @property (nonatomic, assign) BOOL cArraysAllocated;
@@ -39,12 +39,18 @@
 
 #pragma mark - Accessors
 
-- (void)setBoardSize:(FWBoardSize *)boardSize
+- (void)setBoardSize:(FWBoardSizeModel *)boardSize
 {
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
     _boardSize = boardSize;
     self.gameBoardView.boardSize = boardSize;
 
     [self reallocCArrays];
+    [self resetGame];
 }
 
 - (BOOL)isRunning
@@ -85,21 +91,7 @@
 
 - (void)viewDidLoad
 {
-    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-
-    self.cellsNSArray = cellsArray;
-    self.secondNSArrayOfCells = secondArrayOfCells;
-
-    [self updateCArraysOfCells];
-
-    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
-
-    self.gameBoardView.boardSize = self.boardSize;
-    self.gameBoardView.liveCells = liveCells;
-    self.gameBoardView.borderWidth = self.cellBorderWidth;
-    self.gameBoardView.borderColor = self.cellBorderColor;
-    self.gameBoardView.fillColor = self.cellFillColor;
+    [self resetGame];
 
     [self pause];
 }
@@ -124,6 +116,11 @@
     {
         [self play];
     }
+}
+
+- (void)setForceResumeAfterInterruption:(BOOL)force
+{
+    self.wasPlayingBeforeInterruption = force;
 }
 
 - (void)play
@@ -162,7 +159,7 @@
         NSArray *simpleRow = simpleArray[columnIndex];
         for (NSUInteger rowIndex = 0; rowIndex < [simpleRow count]; rowIndex++)
         {
-            FWCell *newCell = [[FWCell alloc] init];
+            FWCellModel *newCell = [[FWCellModel alloc] init];
 
             newCell.alive = [simpleRow[rowIndex] unsignedIntegerValue] == 1;
 
@@ -181,7 +178,7 @@
     {
         for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
         {
-            FWCell *newCell = [[FWCell alloc] init];
+            FWCellModel *newCell = [[FWCellModel alloc] init];
 
             newCell.column = columnIndex;
             newCell.row = rowIndex;
@@ -203,12 +200,12 @@
 - (void)calculateNextCycle
 {
     NSArray *nextCycleArray = self.secondNSArrayOfCells;
-    FWCell * __unsafe_unretained *currentCycleArray = _cellsArray;
+    FWCellModel * __unsafe_unretained *currentCycleArray = _cellsArray;
     NSMutableArray *liveCellsArray = [NSMutableArray array];
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
-    FWCell *neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
+    FWCellModel *neighbourCells[] = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil};
 
     for (NSUInteger rowIndex = 0; rowIndex < numberOfRows; rowIndex++)
     {
@@ -232,7 +229,7 @@
 
                         if (neighbourRowIndex >= 0 && neighbourColumnIndex < numberOfColumns && neighbourRowIndex < numberOfRows)
                         {
-                            FWCell * __unsafe_unretained neighbourCell = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
+                            FWCellModel * __unsafe_unretained neighbourCell = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
                             neighbourCells[neighbourArrayIndex] = neighbourCell;
                         }
                         else
@@ -246,7 +243,7 @@
             {
                 for (NSUInteger i = 0; i < 6; i++)
                 {
-                    FWCell * __unsafe_unretained cellToShift = neighbourCells[i + 3];
+                    FWCellModel * __unsafe_unretained cellToShift = neighbourCells[i + 3];
                     neighbourCells[i] = cellToShift;
                 }
                 for (NSInteger i = -1; i <= 1; i++)
@@ -257,7 +254,7 @@
                         continue;
                     }
                     NSInteger neighbourRowIndex = i + rowIndex;
-                    FWCell * __unsafe_unretained cellToAdd = nil;
+                    FWCellModel * __unsafe_unretained cellToAdd = nil;
                     if (neighbourRowIndex >= 0 && neighbourRowIndex < numberOfRows)
                     {
                         cellToAdd = currentCycleArray[(NSUInteger) (neighbourColumnIndex * numberOfRows + neighbourRowIndex)];
@@ -266,15 +263,15 @@
                 }
             }
 
-            FWCell * __unsafe_unretained currentCell = neighbourCells[4];
-            FWCell * __unsafe_unretained nextCycleCell = nextCycleArray[columnIndex * numberOfRows + rowIndex];
+            FWCellModel * __unsafe_unretained currentCell = neighbourCells[4];
+            FWCellModel * __unsafe_unretained nextCycleCell = nextCycleArray[columnIndex * numberOfRows + rowIndex];
 
             NSUInteger numberOfNeighbours = 0;
             for (NSUInteger neighbourIndex = 0; neighbourIndex < 9; neighbourIndex++)
             {
                 if (neighbourIndex != 4)
                 {
-                    FWCell * __unsafe_unretained neighbourCell = neighbourCells[neighbourIndex];
+                    FWCellModel * __unsafe_unretained neighbourCell = neighbourCells[neighbourIndex];
                     if (neighbourCell != nil && neighbourCell.alive)
                     {
                         numberOfNeighbours++;
@@ -328,14 +325,7 @@
         [self pause];
     }
 
-    self.cellsNSArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-    self.secondNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
-
-    [self updateCArraysOfCells];
-
-    NSArray *liveCells = [self liveCellsFromGameMatrix:self.cellsNSArray];
-
-    self.gameBoardView.liveCells = liveCells;
+    [self resetGame];
 }
 
 - (IBAction)pauseButtonTapped:(id)sender
@@ -373,6 +363,27 @@
 
 #pragma mark - Private Methods
 
+- (void)resetGame
+{
+    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *initialBoard = [[NSArray alloc] initWithArray:cellsArray copyItems:YES];
+    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+
+    self.cellsNSArray = cellsArray;
+    self.initialBoard = initialBoard;
+    self.secondNSArrayOfCells = secondArrayOfCells;
+
+    [self updateCArraysOfCells];
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
+
+    self.gameBoardView.boardSize = self.boardSize;
+    self.gameBoardView.borderWidth = self.cellBorderWidth;
+    self.gameBoardView.borderColor = self.cellBorderColor;
+    self.gameBoardView.fillColor = self.cellFillColor;
+    self.gameBoardView.liveCells = liveCells;
+}
+
 - (void)reallocCArrays
 {
     NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
@@ -387,8 +398,8 @@
         _cArraysAllocated = YES;
     }
 
-    _cellsArray = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
-    _secondArrayOfCells = (FWCell * __unsafe_unretained *) malloc(sizeof(FWCell *) * numberOfCells);
+    _cellsArray = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
+    _secondArrayOfCells = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
 }
 
 - (void)updateCArraysOfCells
@@ -410,7 +421,7 @@
 {
     NSMutableArray *liveCellsArray = [NSMutableArray array];
 
-    for (FWCell *cell in cells)
+    for (FWCellModel *cell in cells)
     {
         if (cell.alive)
         {

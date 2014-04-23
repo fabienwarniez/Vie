@@ -3,12 +3,12 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWGameBoardView;
-@class FWBoardSize;
+@class FWBoardView;
+@class FWBoardSizeModel;
 
 @interface FWGameViewController : UIViewController
 
-@property (nonatomic, strong) IBOutlet FWGameBoardView *gameBoardView;
+@property (nonatomic, strong) IBOutlet FWBoardView *gameBoardView;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *reloadButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *pauseButtonItem;
@@ -16,7 +16,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *nextButtonItem;
 
-@property (nonatomic, strong) FWBoardSize *boardSize;
+@property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, assign, readonly) BOOL isRunning;
 
 // Cell Style
@@ -26,6 +26,7 @@
 
 - (void)interruptGame;
 - (void)resumeAfterInterruption;
+- (void)setForceResumeAfterInterruption:(BOOL)force;
 
 - (void)play;
 - (void)pause;

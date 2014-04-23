@@ -2,7 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
+    <dict>
+        <key>guid</key>
+        <string>default</string>
+        <key>color_name</key>
+        <string>Basique</string>
+        <key>fill_color</key>
+        <string>CCCCCC</string>
+        <key>border_color</key>
+        <string>666666</string>
+    </dict>
 	<dict>
+        <key>guid</key>
+        <string>red</string>
 		<key>color_name</key>
 		<string>Rouge</string>
 		<key>fill_color</key>
@@ -11,6 +23,8 @@
 		<string>CC0000</string>
 	</dict>
 	<dict>
+        <key>guid</key>
+        <string>green</string>
 		<key>color_name</key>
 		<string>Vert</string>
 		<key>fill_color</key>
@@ -19,6 +33,8 @@
 		<string>00CC00</string>
 	</dict>
 	<dict>
+        <key>guid</key>
+        <string>blue</string>
 		<key>color_name</key>
 		<string>Bleu</string>
 		<key>fill_color</key>

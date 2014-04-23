@@ -3,20 +3,19 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWColorSchemePickerTableViewController.h"
-#import "FWColorSchemeModel.h"
-#import "FWColorSchemeTableViewCell.h"
+#import "FWBoardSizePickerTableViewController.h"
+#import "FWBoardSizeModel.h"
 
-static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
+static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
 
-@interface FWColorSchemePickerTableViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface FWBoardSizePickerTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *colors;
+@property (nonatomic, strong) NSArray *boardSizes;
 
 @end
 
-@implementation FWColorSchemePickerTableViewController
+@implementation FWBoardSizePickerTableViewController
 
 - (id)init
 {
@@ -27,9 +26,9 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil] forCellReuseIdentifier:kColorSchemeCellIdentifier];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kBoardSizeCellIdentifier];
 
-        _colors = [FWColorSchemeModel colorSchemesFromFile];
+        _boardSizes = [FWBoardSizeModel boardSizes];
     }
     return self;
 }
@@ -41,23 +40,21 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 - (void)viewDidLoad
 {
-    self.title = NSLocalizedString(@"cell_color_title", nil);
+    self.title = NSLocalizedString(@"board_size_title", nil);
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.colors count];
+    return [self.boardSizes count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWColorSchemeModel *model = self.colors[(NSUInteger) indexPath.row];
-    FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kColorSchemeCellIdentifier forIndexPath:indexPath];
-    cell.colorNameLabel.text = model.colorSchemeName;
-    cell.cellPreviewFillColor = model.fillColor;
-    cell.cellPreviewBorderColor = model.borderColor;
+    FWBoardSizeModel *model = self.boardSizes[(NSUInteger) indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBoardSizeCellIdentifier forIndexPath:indexPath];
+    cell.textLabel.text = [NSString stringWithFormat:@"%u x %u", model.numberOfColumns, model.numberOfRows];
 
     return cell;
 }
@@ -76,8 +73,8 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWColorSchemeModel *colorScheme = self.colors[(NSUInteger) indexPath.row];
-    [self.delegate colorSchemeDidChange:colorScheme];
+    FWBoardSizeModel *boardSizeModel = self.boardSizes[(NSUInteger) indexPath.row];
+    [self.delegate boardSizeDidChange:boardSizeModel];
 }
 
 @end

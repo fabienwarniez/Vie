@@ -6,14 +6,16 @@
 #import "FWMainViewController.h"
 #import "FWGameViewController.h"
 #import "FWMainMenuViewController.h"
-#import "FWBoardSize.h"
-#import "FWColorScheme.h"
+#import "FWBoardSizeModel.h"
+#import "FWColorSchemeModel.h"
+#import "FWAppDelegate.h"
+#import "FWUserModel.h"
+#import "FWSettingsManager.h"
 
 static const CGFloat kSwipeableAreaWidth = 40.0;
 
 @interface FWMainViewController ()
 
-@property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
 @property (nonatomic, strong) UINavigationController *swipeOutNavigationController;
 @property (nonatomic, strong) UIView *navigationContainerView;
@@ -25,18 +27,20 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 @implementation FWMainViewController
 
-- (id)initWithBoardSize:(FWBoardSize *)boardSize
+- (instancetype)init
 {
     self = [super init];
     if (self)
     {
         _isMenuExpanded = NO;
 
+        FWUserModel *userModel = [FWUserModel sharedUserModel];
+
         FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
-        gameViewController.boardSize = boardSize;
+        gameViewController.boardSize = userModel.gameBoardSize;
         gameViewController.cellBorderWidth = 1.0f;
-        gameViewController.cellBorderColor = [UIColor blueColor];
-        gameViewController.cellFillColor = [UIColor yellowColor];
+        gameViewController.cellBorderColor = userModel.colorScheme.borderColor;
+        gameViewController.cellFillColor = userModel.colorScheme.fillColor;
 
         [self addChildViewController:gameViewController];
         [gameViewController didMoveToParentViewController:self];
@@ -88,7 +92,6 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 - (void)viewWillLayoutSubviews
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     [super viewWillLayoutSubviews];
 
     [self updateNavigationFrames];
@@ -155,10 +158,20 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 #pragma mark - FWColorSchemePickerTableViewControllerDelegate
 
-- (void)colorSchemeDidChange:(FWColorScheme *)newColorScheme
+- (void)colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
 {
     self.gameViewController.cellBorderColor = newColorScheme.borderColor;
     self.gameViewController.cellFillColor = newColorScheme.fillColor;
+    [FWSettingsManager saveUserColorSchemeGuid:newColorScheme.guid];
+}
+
+#pragma mark - FWBoardSizePickerTableViewControllerDelegate
+
+- (void)boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
+{
+    self.gameViewController.boardSize = newBoardSize;
+    [FWSettingsManager saveUserBoardSize:newBoardSize];
+    [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 
 @end

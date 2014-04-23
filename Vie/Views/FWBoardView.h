@@ -3,11 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWBoardSize;
+@class FWBoardSizeModel;
 
-@interface FWGameBoardView : UIView
+@interface FWBoardView : UIView
 
-@property (nonatomic, strong) FWBoardSize *boardSize;
+@property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, assign) CGFloat boardPadding;
 @property (nonatomic, strong) NSArray *liveCells;
 @property (nonatomic, assign) CGFloat borderWidth;

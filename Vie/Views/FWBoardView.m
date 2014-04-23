@@ -3,11 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWGameBoardView.h"
-#import "FWCell.h"
-#import "FWBoardSize.h"
+#import "FWBoardView.h"
+#import "FWCellModel.h"
+#import "FWBoardSizeModel.h"
 
-@interface FWGameBoardView ()
+@interface FWBoardView ()
 
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, assign) CGRect frameUsedToCalculateCellSize;
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation FWGameBoardView
+@implementation FWBoardView
 
 #pragma mark - UIView
 
@@ -68,7 +68,7 @@
     CGSize cellSize = self.cellSize;
     CGPoint origin = self.cellContainerFrame.origin;
 
-    for (FWCell *cell in self.liveCells)
+    for (FWCellModel *cell in self.liveCells)
     {
         if (cell.alive)
         {

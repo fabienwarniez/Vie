@@ -4,11 +4,13 @@
 //
 
 #import "FWColorSchemePickerTableViewController.h"
+#import "FWBoardSizePickerTableViewController.h"
 
-@class FWBoardSize;
+@class FWBoardSizeModel;
+@class FWGameViewController;
 
-@interface FWMainViewController : UIViewController <FWColorSchemePickerTableViewControllerDelegate>
+@interface FWMainViewController : UIViewController <FWColorSchemePickerTableViewControllerDelegate, FWBoardSizePickerTableViewControllerDelegate>
 
-- (id)initWithBoardSize:(FWBoardSize *)boardSize;
+@property (nonatomic, strong) FWGameViewController *gameViewController;
 
 @end
