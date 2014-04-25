@@ -5,6 +5,7 @@
 
 #import "FWBoardSizePickerTableViewController.h"
 #import "FWBoardSizeModel.h"
+#import "FWUserModel.h"
 
 static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
 
@@ -12,6 +13,7 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *boardSizes;
+@property (nonatomic, strong) FWBoardSizeModel *currentlyActiveBoardSize;
 
 @end
 
@@ -29,6 +31,7 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kBoardSizeCellIdentifier];
 
         _boardSizes = [FWBoardSizeModel boardSizes];
+        _currentlyActiveBoardSize = [[FWUserModel sharedUserModel] gameBoardSize];
     }
     return self;
 }
@@ -55,6 +58,7 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
     FWBoardSizeModel *model = self.boardSizes[(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBoardSizeCellIdentifier forIndexPath:indexPath];
     cell.textLabel.text = [NSString stringWithFormat:@"%u x %u", model.numberOfColumns, model.numberOfRows];
+    cell.selected = [self.currentlyActiveBoardSize isEqualToBoardSize:model];
 
     return cell;
 }
@@ -74,6 +78,7 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWBoardSizeModel *boardSizeModel = self.boardSizes[(NSUInteger) indexPath.row];
+    self.currentlyActiveBoardSize = boardSizeModel;
     [self.delegate boardSizeDidChange:boardSizeModel];
 }
 

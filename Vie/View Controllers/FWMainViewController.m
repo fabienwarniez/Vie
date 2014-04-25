@@ -160,17 +160,21 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 - (void)colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
 {
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setColorScheme:newColorScheme];
+
     self.gameViewController.cellBorderColor = newColorScheme.borderColor;
     self.gameViewController.cellFillColor = newColorScheme.fillColor;
-    [FWSettingsManager saveUserColorSchemeGuid:newColorScheme.guid];
 }
 
 #pragma mark - FWBoardSizePickerTableViewControllerDelegate
 
 - (void)boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
 {
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setGameBoardSize:newBoardSize];
+
     self.gameViewController.boardSize = newBoardSize;
-    [FWSettingsManager saveUserBoardSize:newBoardSize];
     [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 

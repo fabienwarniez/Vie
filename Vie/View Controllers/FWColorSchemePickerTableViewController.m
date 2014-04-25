@@ -6,6 +6,7 @@
 #import "FWColorSchemePickerTableViewController.h"
 #import "FWColorSchemeModel.h"
 #import "FWColorSchemeTableViewCell.h"
+#import "FWUserModel.h"
 
 static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
@@ -13,6 +14,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *colors;
+@property (nonatomic, strong) FWColorSchemeModel *currentlyActiveColorScheme;
 
 @end
 
@@ -30,6 +32,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
         [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil] forCellReuseIdentifier:kColorSchemeCellIdentifier];
 
         _colors = [FWColorSchemeModel colorSchemesFromFile];
+        _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
     }
     return self;
 }
@@ -58,6 +61,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
     cell.colorNameLabel.text = model.colorSchemeName;
     cell.cellPreviewFillColor = model.fillColor;
     cell.cellPreviewBorderColor = model.borderColor;
+    cell.selected = [self.currentlyActiveColorScheme isEqualToColorScheme:model];
 
     return cell;
 }
@@ -77,6 +81,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWColorSchemeModel *colorScheme = self.colors[(NSUInteger) indexPath.row];
+    self.currentlyActiveColorScheme = colorScheme;
     [self.delegate colorSchemeDidChange:colorScheme];
 }
 

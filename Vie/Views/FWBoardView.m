@@ -43,17 +43,15 @@
 {
     [super layoutSubviews];
 
-    if (![self rect:self.bounds equalsRect:self.frameUsedToCalculateCellSize])
-    {
-        self.cellSize = [self calculateCellSize];
+    self.cellSize = [self calculateCellSize];
 
-        CGFloat numberOfColumns = self.boardSize.numberOfColumns;
-        CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * numberOfColumns) / 2.0f;
+    // Apparently need to cast the NSUInteger into CGFloat to use in calculations
+    CGFloat numberOfColumns = self.boardSize.numberOfColumns;
+    CGFloat finalPadding = (self.bounds.size.width - self.cellSize.width * numberOfColumns) / 2.0f;
 
-        self.cellContainerFrame =
-                CGRectMake(finalPadding, self.boardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
-        self.frameUsedToCalculateCellSize = self.bounds;
-    }
+    self.cellContainerFrame =
+            CGRectMake(finalPadding, self.boardPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
+    self.frameUsedToCalculateCellSize = self.bounds;
 }
 
 - (void)drawRect:(CGRect)rect
@@ -81,6 +79,14 @@
 }
 
 #pragma mark - Accessors
+
+- (void)setBoardSize:(FWBoardSizeModel *)boardSize
+{
+    _boardSize = boardSize;
+
+    [self setNeedsLayout];
+//    [self setNeedsDisplay];
+}
 
 - (void)setLiveCells:(NSArray *)liveCells
 {
