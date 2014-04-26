@@ -11,6 +11,8 @@
 - (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
 + (instancetype)boardSizeWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
 
+- (BOOL)isEqualToBoardSize:(FWBoardSizeModel *)other;
+
 + (NSArray *)boardSizes;
 
 @end

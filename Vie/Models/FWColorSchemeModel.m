@@ -54,6 +54,27 @@
     return [[self alloc] initWithGuid:nil fillColor:fillColor borderColor:borderColor colorSchemeName:colorSchemeName];
 }
 
+- (BOOL)isEqual:(id)other
+{
+    if (other == self)
+    {
+        return YES;
+    }
+    else if (!other || ![[other class] isEqual:[self class]])
+    {
+        return NO;
+    }
+    else
+    {
+        return [self isEqualToColorScheme:other];
+    }
+}
+
+- (BOOL)isEqualToColorScheme:(FWColorSchemeModel *)otherColorScheme
+{
+    return self.guid == otherColorScheme.guid;
+}
+
 + (NSArray *)colorSchemesFromFile
 {
     NSMutableArray *colorSchemes = [NSMutableArray array];

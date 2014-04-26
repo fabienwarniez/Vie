@@ -12,7 +12,7 @@
 #import "FWUserModel.h"
 #import "FWSettingsManager.h"
 
-static const CGFloat kSwipeableAreaWidth = 40.0;
+static CGFloat const kFWMenuSwipeableAreaWidth = 40.0f;
 
 @interface FWMainViewController ()
 
@@ -104,12 +104,12 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
     self.navigationContainerOpenFrame = self.view.bounds;
 
     CGRect navigationContainerClosedFrame = self.view.bounds;
-    navigationContainerClosedFrame.origin.x -= navigationContainerClosedFrame.size.width - kSwipeableAreaWidth;
+    navigationContainerClosedFrame.origin.x -= navigationContainerClosedFrame.size.width - kFWMenuSwipeableAreaWidth;
     navigationContainerClosedFrame.size.height -= self.gameViewController.toolbar.frame.size.height;
     self.navigationContainerClosedFrame = navigationContainerClosedFrame;
 
     CGRect swipeOutNavigationFrame = self.navigationContainerView.bounds;
-    swipeOutNavigationFrame.size.width -= kSwipeableAreaWidth;
+    swipeOutNavigationFrame.size.width -= kFWMenuSwipeableAreaWidth;
     swipeOutNavigationFrame.size.height += self.gameViewController.toolbar.frame.size.height;
     self.swipeOutNavigationController.view.frame = swipeOutNavigationFrame;
 
@@ -160,17 +160,21 @@ static const CGFloat kSwipeableAreaWidth = 40.0;
 
 - (void)colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
 {
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setColorScheme:newColorScheme];
+
     self.gameViewController.cellBorderColor = newColorScheme.borderColor;
     self.gameViewController.cellFillColor = newColorScheme.fillColor;
-    [FWSettingsManager saveUserColorSchemeGuid:newColorScheme.guid];
 }
 
 #pragma mark - FWBoardSizePickerTableViewControllerDelegate
 
 - (void)boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
 {
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setGameBoardSize:newBoardSize];
+
     self.gameViewController.boardSize = newBoardSize;
-    [FWSettingsManager saveUserBoardSize:newBoardSize];
     [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 

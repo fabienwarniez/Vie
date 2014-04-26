@@ -16,6 +16,8 @@
 - (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName;
 + (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName;
 
+- (BOOL)isEqualToColorScheme:(FWColorSchemeModel *)other;
+
 + (NSArray *)colorSchemesFromFile;
 + (FWColorSchemeModel *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array;
 

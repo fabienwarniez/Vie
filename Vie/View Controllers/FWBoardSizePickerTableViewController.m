@@ -5,13 +5,16 @@
 
 #import "FWBoardSizePickerTableViewController.h"
 #import "FWBoardSizeModel.h"
+#import "FWUserModel.h"
 
-static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
+static NSString * const kFWBoardSizePickerCellIdentifier = @"BoardSizeCell";
+static CGFloat const kFWBoardSizePickerCellHeight = 50.0f;
 
 @interface FWBoardSizePickerTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *boardSizes;
+@property (nonatomic, strong) FWBoardSizeModel *currentlyActiveBoardSize;
 
 @end
 
@@ -26,9 +29,10 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kBoardSizeCellIdentifier];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kFWBoardSizePickerCellIdentifier];
 
         _boardSizes = [FWBoardSizeModel boardSizes];
+        _currentlyActiveBoardSize = [[FWUserModel sharedUserModel] gameBoardSize];
     }
     return self;
 }
@@ -53,15 +57,16 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWBoardSizeModel *model = self.boardSizes[(NSUInteger) indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBoardSizeCellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWBoardSizePickerCellIdentifier forIndexPath:indexPath];
     cell.textLabel.text = [NSString stringWithFormat:@"%u x %u", model.numberOfColumns, model.numberOfRows];
+    cell.selected = [self.currentlyActiveBoardSize isEqualToBoardSize:model];
 
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return kFWBoardSizePickerCellHeight;
 }
 
 #pragma mark - UITableViewDelegate
@@ -74,6 +79,7 @@ static NSString *kBoardSizeCellIdentifier = @"BoardSizeCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWBoardSizeModel *boardSizeModel = self.boardSizes[(NSUInteger) indexPath.row];
+    self.currentlyActiveBoardSize = boardSizeModel;
     [self.delegate boardSizeDidChange:boardSizeModel];
 }
 

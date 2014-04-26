@@ -6,7 +6,8 @@
 #import "FWMainMenuViewController.h"
 #import "FWMainViewController.h"
 
-static NSString *kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
+static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
+static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
 @interface FWMainMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
