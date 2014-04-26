@@ -8,7 +8,8 @@
 #import "FWColorSchemeTableViewCell.h"
 #import "FWUserModel.h"
 
-static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
+static NSString * const kFWColorSchemePickerCellIdentifier = @"ColorSchemeCell";
+static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
 
 @interface FWColorSchemePickerTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -29,7 +30,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil] forCellReuseIdentifier:kColorSchemeCellIdentifier];
+        [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil] forCellReuseIdentifier:kFWColorSchemePickerCellIdentifier];
 
         _colors = [FWColorSchemeModel colorSchemesFromFile];
         _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
@@ -57,7 +58,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWColorSchemeModel *model = self.colors[(NSUInteger) indexPath.row];
-    FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kColorSchemeCellIdentifier forIndexPath:indexPath];
+    FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWColorSchemePickerCellIdentifier forIndexPath:indexPath];
     cell.colorNameLabel.text = model.colorSchemeName;
     cell.cellPreviewFillColor = model.fillColor;
     cell.cellPreviewBorderColor = model.borderColor;
@@ -68,7 +69,7 @@ static NSString *kColorSchemeCellIdentifier = @"ColorSchemeCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return kFWColorSchemePickerCellHeight;
 }
 
 #pragma mark - UITableViewDelegate

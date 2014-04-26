@@ -9,9 +9,10 @@
 #import "FWCellModel.h"
 #import "FWRandomNumberGenerator.h"
 
-static NSUInteger kFWColorSchemeTableViewCellNumberOfColumns = 15;
-static NSUInteger kFWColorSchemeTableViewCellNumberOfRows = 3;
-static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
+static NSUInteger const kFWColorSchemeTableViewCellNumberOfColumns = 15;
+static NSUInteger const kFWColorSchemeTableViewCellNumberOfRows = 3;
+static CGFloat const kFWColorSchemeTableViewCellBorderWidth = 1.0f;
+static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 
 @interface FWColorSchemeTableViewCell ()
 
@@ -43,6 +44,7 @@ static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
 {
     [super layoutSubviews];
 
+    // TODO: make this more elegant
     _gameBoardView.frame = CGRectMake(self.contentView.bounds.size.width - 150 - 10, 10, 150, 30);
 }
 
@@ -83,7 +85,7 @@ static CGFloat kFWColorSchemeTableViewCellBorderWidth = 1.0f;
             FWCellModel *cell = [[FWCellModel alloc] init];
             cell.column = columnIterator;
             cell.row = rowIterator;
-            cell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:30];
+            cell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:kFWColorSchemeTableViewCellLiveCellPercentage];
             if (cell.alive)
             {
                 [array addObject:cell];
