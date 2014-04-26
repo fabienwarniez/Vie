@@ -63,6 +63,14 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
     cell.cellPreviewFillColor = model.fillColor;
     cell.cellPreviewBorderColor = model.borderColor;
     cell.selected = [self.currentlyActiveColorScheme isEqualToColorScheme:model];
+    if ([model isEqualToColorScheme:self.currentlyActiveColorScheme])
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
 
     return cell;
 }
@@ -81,7 +89,16 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    NSUInteger oldColorSchemeIndex = [self.colors indexOfObject:self.currentlyActiveColorScheme];
+    UITableViewCell *previouslySelectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:oldColorSchemeIndex inSection:0]];
+    previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
+
     FWColorSchemeModel *colorScheme = self.colors[(NSUInteger) indexPath.row];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
     self.currentlyActiveColorScheme = colorScheme;
     [self.delegate colorSchemeDidChange:colorScheme];
 }
