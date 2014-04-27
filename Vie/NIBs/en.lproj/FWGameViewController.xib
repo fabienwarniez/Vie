@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -9,10 +9,11 @@
             <connections>
                 <outlet property="backButtonItem" destination="EQn-Xs-DPW" id="gFa-tH-S6t"/>
                 <outlet property="gameBoardView" destination="s64-Ux-IZu" id="Njk-7z-XhD"/>
+                <outlet property="generateNewBoardButtonItem" destination="uxD-Lm-yFK" id="1sq-AH-M53"/>
                 <outlet property="nextButtonItem" destination="ggn-5M-jae" id="1hC-kS-vO8"/>
                 <outlet property="pauseButtonItem" destination="4cG-Rg-Dn7" id="6Nz-Og-3Ra"/>
                 <outlet property="playButtonItem" destination="dOX-pU-ltu" id="E4j-hR-ULu"/>
-                <outlet property="reloadButtonItem" destination="wEd-Ll-blh" id="CMe-Wg-qEK"/>
+                <outlet property="restartButtonItem" destination="wEd-Ll-blh" id="CMe-Wg-qEK"/>
                 <outlet property="toolbar" destination="auv-ld-PEy" id="i1T-o6-kP0"/>
                 <outlet property="view" destination="hv1-FZ-NOM" id="zzr-T4-wh4"/>
             </connections>
@@ -31,12 +32,18 @@
                     <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem systemItem="refresh" id="wEd-Ll-blh">
+                        <barButtonItem systemItem="compose" id="uxD-Lm-yFK">
                             <connections>
-                                <action selector="reloadButtonTapped:" destination="-1" id="JAe-xp-0N9"/>
+                                <action selector="generateNewBoardButtonTapped:" destination="-1" id="sjA-Ph-6mP"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="sMv-vv-4Mw"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="NQX-oF-5Lo"/>
+                        <barButtonItem systemItem="rewind" id="EQn-Xs-DPW">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="-1" id="atX-kL-Mde"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="Hut-Xq-dhs"/>
                         <barButtonItem systemItem="pause" id="4cG-Rg-Dn7">
                             <connections>
                                 <action selector="pauseButtonTapped:" destination="-1" id="YYm-uB-7aV"/>
@@ -47,15 +54,16 @@
                                 <action selector="playButtonTapped:" destination="-1" id="T8v-cB-qH4"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Tlc-K4-f1K"/>
-                        <barButtonItem systemItem="rewind" id="EQn-Xs-DPW">
-                            <connections>
-                                <action selector="backButtonTapped:" destination="-1" id="atX-kL-Mde"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="uvt-0B-P3h"/>
                         <barButtonItem systemItem="fastForward" id="ggn-5M-jae">
                             <connections>
                                 <action selector="nextButtonTapped:" destination="-1" id="DQv-oM-nGc"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="neV-N9-tYg"/>
+                        <barButtonItem systemItem="refresh" id="wEd-Ll-blh">
+                            <connections>
+                                <action selector="restartButtonTapped:" destination="-1" id="ho3-GA-InL"/>
                             </connections>
                         </barButtonItem>
                     </items>

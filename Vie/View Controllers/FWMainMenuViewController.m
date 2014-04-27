@@ -17,9 +17,9 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
 @implementation FWMainMenuViewController
 
-- (id)init
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if (self)
     {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -40,6 +40,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 {
     self.tableView.frame = self.view.bounds;
     self.title = NSLocalizedString(@"main_menu_title", nil);
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 #pragma mark - UITableViewDataSource
