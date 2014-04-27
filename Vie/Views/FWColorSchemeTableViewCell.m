@@ -32,7 +32,7 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
     {
         _gameBoardView = [[FWBoardView alloc] init];
         _gameBoardView.backgroundColor = [UIColor clearColor];
-        _gameBoardView.boardSize = [[FWBoardSizeModel alloc] initWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
+        _gameBoardView.boardSize = [[FWBoardSizeModel alloc] initWithName:nil numberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
         _gameBoardView.borderWidth = kFWColorSchemeTableViewCellBorderWidth;
         _gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
 

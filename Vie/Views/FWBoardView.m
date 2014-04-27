@@ -90,7 +90,7 @@
 
 - (void)setLiveCells:(NSArray *)liveCells
 {
-    NSAssert(self.boardSize != nil, @"The game board size must be set before setting cellsNSArray.");
+    NSAssert(self.boardSize != nil, @"The game board size must be set before setting currentCellsNSArray.");
 
     _liveCells = liveCells;
 

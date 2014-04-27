@@ -5,11 +5,12 @@
 
 @interface FWBoardSizeModel : NSObject
 
+@property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSUInteger numberOfColumns;
 @property (nonatomic, assign) NSUInteger numberOfRows;
 
-- (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
-+ (instancetype)boardSizeWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
+- (instancetype)initWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
++ (instancetype)boardSizeWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
 
 - (BOOL)isEqualToBoardSize:(FWBoardSizeModel *)other;
 

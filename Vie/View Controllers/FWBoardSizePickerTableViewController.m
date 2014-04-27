@@ -58,8 +58,16 @@ static CGFloat const kFWBoardSizePickerCellHeight = 50.0f;
 {
     FWBoardSizeModel *model = self.boardSizes[(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWBoardSizePickerCellIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"%u x %u", model.numberOfColumns, model.numberOfRows];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%lu x %lu)", model.name, (unsigned long) model.numberOfColumns, (unsigned long) model.numberOfRows];
     cell.selected = [self.currentlyActiveBoardSize isEqualToBoardSize:model];
+    if ([model isEqualToBoardSize:self.currentlyActiveBoardSize])
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
 
     return cell;
 }
@@ -78,7 +86,17 @@ static CGFloat const kFWBoardSizePickerCellHeight = 50.0f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    NSUInteger oldColorSchemeIndex = [self.boardSizes indexOfObject:self.currentlyActiveBoardSize];
+    UITableViewCell *previouslySelectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:oldColorSchemeIndex
+                                                                                                  inSection:0]];
+    previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
+
     FWBoardSizeModel *boardSizeModel = self.boardSizes[(NSUInteger) indexPath.row];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
     self.currentlyActiveBoardSize = boardSizeModel;
     [self.delegate boardSizeDidChange:boardSizeModel];
 }
