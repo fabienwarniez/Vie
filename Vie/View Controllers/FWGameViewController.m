@@ -330,7 +330,7 @@
 
 #pragma mark - IBActions
 
-- (IBAction)reloadButtonTapped:(id)sender
+- (IBAction)generateNewBoardButtonTapped:(id)sender
 {
     if ([self isRunning])
     {
@@ -338,6 +338,16 @@
     }
 
     [self resetGame];
+}
+
+- (IBAction)restartButtonTapped:(id)sender
+{
+    self.currentCellsNSArray = self.initialBoard;
+    [self copyNSArray:self.currentCellsNSArray toCArray:_currentCellsArray];
+
+    self.gameBoardView.liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+
+    self.isRewindingPossible = NO;
 }
 
 - (IBAction)pauseButtonTapped:(id)sender
@@ -407,7 +417,8 @@
     self.initialBoard = initialBoard;
     self.previousNSArrayOfCells = secondArrayOfCells;
 
-    [self updateCArraysOfCells];
+    [self copyNSArray:self.currentCellsNSArray toCArray:_currentCellsArray];
+    [self copyNSArray:self.previousNSArrayOfCells toCArray:_previousArrayOfCells];
 
     NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
 
@@ -438,18 +449,12 @@
     _previousArrayOfCells = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
 }
 
-- (void)updateCArraysOfCells
+- (void)copyNSArray:(NSArray *)source toCArray:(FWCellModel * __unsafe_unretained *)destination
 {
-    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
-
-    NSArray *cellsArray = self.currentCellsNSArray;
-    NSArray *secondArrayOfCells = self.previousNSArrayOfCells;
-
-    // Copy all cells from managed arrays into non-managed C arrays
-    for (NSUInteger i = 0; i < numberOfCells; i++)
+    NSUInteger numberOfItems = [source count];
+    for (NSUInteger i = 0; i < numberOfItems; i++)
     {
-        _currentCellsArray[i] = cellsArray[i];
-        _previousArrayOfCells[i] = secondArrayOfCells[i];
+        destination[i] = source[i];
     }
 }
 
