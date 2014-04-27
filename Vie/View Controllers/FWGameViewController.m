@@ -27,9 +27,9 @@
 
 @implementation FWGameViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithCoder:aDecoder];
     if (self)
     {
         _cArraysAllocated = NO;
@@ -99,9 +99,13 @@
 
 - (void)viewDidLoad
 {
-    [self resetGame];
+    [super viewDidLoad];
 
-    [self pause];
+    NSMutableArray *items = [self.toolbar.items mutableCopy];
+    [items removeObject:self.pauseButtonItem]; // remove the pause button because resetGame will pause and remove the playButton
+    self.toolbar.items = items;
+
+    [self resetGame];
 }
 
 - (void)dealloc
@@ -115,7 +119,10 @@
 - (void)interruptGame
 {
     self.wasPlayingBeforeInterruption = [self isRunning];
-    [self pause];
+    if ([self isRunning])
+    {
+        [self pause];
+    }
 }
 
 - (void)resumeAfterInterruption
@@ -141,8 +148,7 @@
                                                        userInfo:nil
                                                         repeats:YES];
     }
-    self.pauseButtonItem.enabled = YES;
-    self.playButtonItem.enabled = NO;
+    [self enablePauseButton];
 }
 
 - (void)pause
@@ -151,8 +157,7 @@
     {
         [self.refreshTimer invalidate];
     }
-    self.pauseButtonItem.enabled = NO;
-    self.playButtonItem.enabled = YES;
+    [self enablePlayButton];
 }
 
 /*
@@ -330,7 +335,7 @@
 
 #pragma mark - IBActions
 
-- (IBAction)reloadButtonTapped:(id)sender
+- (IBAction)generateNewBoardButtonTapped:(id)sender
 {
     if ([self isRunning])
     {
@@ -338,6 +343,16 @@
     }
 
     [self resetGame];
+}
+
+- (IBAction)restartButtonTapped:(id)sender
+{
+    self.currentCellsNSArray = self.initialBoard;
+    [self copyNSArray:self.currentCellsNSArray toCArray:_currentCellsArray];
+
+    self.gameBoardView.liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+
+    self.isRewindingPossible = NO;
 }
 
 - (IBAction)pauseButtonTapped:(id)sender
@@ -399,6 +414,11 @@
 
 - (void)resetGame
 {
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
     NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
     NSArray *initialBoard = [[NSArray alloc] initWithArray:cellsArray copyItems:YES];
     NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
@@ -407,7 +427,8 @@
     self.initialBoard = initialBoard;
     self.previousNSArrayOfCells = secondArrayOfCells;
 
-    [self updateCArraysOfCells];
+    [self copyNSArray:self.currentCellsNSArray toCArray:_currentCellsArray];
+    [self copyNSArray:self.previousNSArrayOfCells toCArray:_previousArrayOfCells];
 
     NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
 
@@ -438,18 +459,12 @@
     _previousArrayOfCells = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
 }
 
-- (void)updateCArraysOfCells
+- (void)copyNSArray:(NSArray *)source toCArray:(FWCellModel * __unsafe_unretained *)destination
 {
-    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
-
-    NSArray *cellsArray = self.currentCellsNSArray;
-    NSArray *secondArrayOfCells = self.previousNSArrayOfCells;
-
-    // Copy all cells from managed arrays into non-managed C arrays
-    for (NSUInteger i = 0; i < numberOfCells; i++)
+    NSUInteger numberOfItems = [source count];
+    for (NSUInteger i = 0; i < numberOfItems; i++)
     {
-        _currentCellsArray[i] = cellsArray[i];
-        _previousArrayOfCells[i] = secondArrayOfCells[i];
+        destination[i] = source[i];
     }
 }
 
@@ -466,6 +481,36 @@
     }
 
     return [liveCellsArray copy];
+}
+
+- (void)enablePlayButton
+{
+    NSMutableArray *items = [self.toolbar.items mutableCopy];
+    NSUInteger buttonIndex = [items indexOfObject:self.pauseButtonItem];
+    if (buttonIndex != NSNotFound)
+    {
+        [items replaceObjectAtIndex:buttonIndex withObject:self.playButtonItem];
+        self.toolbar.items = items;
+    }
+    else
+    {
+        NSLog(@"Pause button not found in array.");
+    }
+}
+
+- (void)enablePauseButton
+{
+    NSMutableArray *items = [self.toolbar.items mutableCopy];
+    NSUInteger buttonIndex = [items indexOfObject:self.playButtonItem];
+    if (buttonIndex != NSNotFound)
+    {
+        [items replaceObjectAtIndex:buttonIndex withObject:self.pauseButtonItem];
+        self.toolbar.items = items;
+    }
+    else
+    {
+        NSLog(@"Play button not found in array.");
+    }
 }
 
 @end

@@ -10,7 +10,8 @@
 
 @property (nonatomic, strong) IBOutlet FWBoardView *gameBoardView;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *reloadButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *generateNewBoardButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *restartButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *pauseButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
@@ -31,7 +32,8 @@
 - (void)play;
 - (void)pause;
 
-- (IBAction)reloadButtonTapped:(id)sender;
+- (IBAction)generateNewBoardButtonTapped:(id)sender;
+- (IBAction)restartButtonTapped:(id)sender;
 - (IBAction)pauseButtonTapped:(id)sender;
 - (IBAction)playButtonTapped:(id)sender;
 - (IBAction)backButtonTapped:(id)sender;

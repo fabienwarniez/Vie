@@ -12,147 +12,85 @@
 #import "FWUserModel.h"
 #import "FWSettingsManager.h"
 
-static CGFloat const kFWMenuSwipeableAreaWidth = 40.0f;
+@interface FWMainViewController () <UINavigationBarDelegate>
 
-@interface FWMainViewController ()
-
-@property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
-@property (nonatomic, strong) UINavigationController *swipeOutNavigationController;
-@property (nonatomic, strong) UIView *navigationContainerView;
-@property (nonatomic, assign) CGRect navigationContainerClosedFrame;
-@property (nonatomic, assign) CGRect navigationContainerOpenFrame;
+@property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, assign) BOOL isMenuExpanded;
 
 @end
 
 @implementation FWMainViewController
 
-- (instancetype)init
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _isMenuExpanded = NO;
-
         FWUserModel *userModel = [FWUserModel sharedUserModel];
 
-        FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
-        gameViewController.boardSize = userModel.gameBoardSize;
-        gameViewController.cellBorderWidth = 1.0f;
-        gameViewController.cellBorderColor = userModel.colorScheme.borderColor;
-        gameViewController.cellFillColor = userModel.colorScheme.fillColor;
+        _gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
+        _gameViewController.boardSize = userModel.gameBoardSize;
+        _gameViewController.cellBorderWidth = 1.0f;
+        _gameViewController.cellBorderColor = userModel.colorScheme.borderColor;
+        _gameViewController.cellFillColor = userModel.colorScheme.fillColor;
 
-        [self addChildViewController:gameViewController];
-        [gameViewController didMoveToParentViewController:self];
-        _gameViewController = gameViewController;
-
-        FWMainMenuViewController *mainMenuViewController = [[FWMainMenuViewController alloc] init];
-        mainMenuViewController.mainViewController = self;
-        _mainMenuViewController = mainMenuViewController;
-
-        UINavigationController *swipeOutNavigationController = [[UINavigationController alloc] initWithRootViewController:_mainMenuViewController];
-        [self addChildViewController:swipeOutNavigationController];
-        [swipeOutNavigationController didMoveToParentViewController:self];
-        _swipeOutNavigationController = swipeOutNavigationController;
+        _isMenuExpanded = NO;
     }
     return self;
 }
 
 #pragma mark - UIViewController
 
-- (void)loadView
-{
-    // set arbitrary frame
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-
-    [view addSubview:self.gameViewController.view];
-
-    self.navigationContainerView = [[UIView alloc] init];
-    self.navigationContainerView.clipsToBounds = NO; // reactive area is smaller than display area
-    [view addSubview:self.navigationContainerView];
-
-    [self.navigationContainerView addSubview:self.swipeOutNavigationController.view];
-
-    UISwipeGestureRecognizer *rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleNavigationSwipe:)];
-    rightSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    UISwipeGestureRecognizer *leftSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleNavigationSwipe:)];
-    rightSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.navigationContainerView addGestureRecognizer:rightSwipeGestureRecognizer];
-    [self.navigationContainerView addGestureRecognizer:leftSwipeGestureRecognizer];
-
-    self.view = view;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    [self updateNavigationFrames];
+    self.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.navigationBar.layer.shadowOpacity = 0.3f;
+    self.navigationBar.layer.shadowOffset = CGSizeZero;
+    self.navigationBar.layer.shadowRadius = 3.0f;
+    self.navigationBar.layer.masksToBounds = NO;
+
+    [self addChildViewController:self.gameViewController];
+    self.gameViewController.view.frame = self.gameBoardContainerView.bounds;
+    self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.gameBoardContainerView addSubview:self.gameViewController.view];
+    [self.gameViewController didMoveToParentViewController:self];
+
+    self.menuNavigationController.navigationBar.tintColor = [UIColor whiteColor]; // needed to make the back arrow white
+    self.menuNavigationController.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.menuNavigationController.navigationBar.layer.shadowOpacity = 0.3f;
+    self.menuNavigationController.navigationBar.layer.shadowOffset = CGSizeZero;
+    self.menuNavigationController.navigationBar.layer.shadowRadius = 3.0f;
+    self.menuNavigationController.navigationBar.layer.masksToBounds = NO;
+    self.menuNavigationController.view.frame = self.menuNavigationControllerContainerView.bounds;
+    self.menuNavigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.menuNavigationControllerContainerView addSubview:self.menuNavigationController.view];
 }
 
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
+#pragma mark - IBAction's
 
-    [self updateNavigationFrames];
-}
-
-#pragma mark - Private Methods
-
-- (void)updateNavigationFrames
-{
-    self.navigationContainerOpenFrame = self.view.bounds;
-
-    CGRect navigationContainerClosedFrame = self.view.bounds;
-    navigationContainerClosedFrame.origin.x -= navigationContainerClosedFrame.size.width - kFWMenuSwipeableAreaWidth;
-    navigationContainerClosedFrame.size.height -= self.gameViewController.toolbar.frame.size.height;
-    self.navigationContainerClosedFrame = navigationContainerClosedFrame;
-
-    CGRect swipeOutNavigationFrame = self.navigationContainerView.bounds;
-    swipeOutNavigationFrame.size.width -= kFWMenuSwipeableAreaWidth;
-    swipeOutNavigationFrame.size.height += self.gameViewController.toolbar.frame.size.height;
-    self.swipeOutNavigationController.view.frame = swipeOutNavigationFrame;
-
-    self.gameViewController.view.frame = self.view.bounds;
-
-    if (self.isMenuExpanded)
-    {
-        self.navigationContainerView.frame = self.navigationContainerOpenFrame;
-    }
-    else
-    {
-        self.navigationContainerView.frame = self.navigationContainerClosedFrame;
-    }
-}
-
-- (void)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer
+- (IBAction)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer
 {
     if (!self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight)
     {
-        [self.gameViewController interruptGame];
-
-        [UIView animateWithDuration:0.3
-                              delay:0.0
-                            options: UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.navigationContainerView.frame = self.navigationContainerOpenFrame;
-                         }
-                         completion:nil];
-
-        self.isMenuExpanded = YES;
+        [self openMenu];
     }
     else if (self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
     {
-        [UIView animateWithDuration:0.3
-                              delay:0.0
-                            options: UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.navigationContainerView.frame = self.navigationContainerClosedFrame;
-                         }
-                         completion:nil];
+        [self closeMenu];
+    }
+}
 
-        self.isMenuExpanded = NO;
-        [self.gameViewController resumeAfterInterruption];
+- (IBAction)handleMenuButtonTapped:(id)sender
+{
+    if (self.isMenuExpanded)
+    {
+        [self closeMenu];
+    }
+    else
+    {
+        [self openMenu];
     }
 }
 
@@ -176,6 +114,49 @@ static CGFloat const kFWMenuSwipeableAreaWidth = 40.0f;
 
     self.gameViewController.boardSize = newBoardSize;
     [self.gameViewController setForceResumeAfterInterruption:NO];
+}
+
+#pragma mark - UINavigationToolbarDelegate
+
+- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+{
+    return UIBarPositionTopAttached;
+}
+
+#pragma mark - Private Methods
+
+- (void)openMenu
+{
+    [self.gameViewController interruptGame];
+
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         CGRect newFrame = self.mainContentContainerView.frame;
+                         newFrame.origin.x += self.menuNavigationControllerContainerView.frame.size.width;
+                         self.mainContentContainerView.frame = newFrame;
+                     }
+                     completion:nil];
+
+    self.isMenuExpanded = YES;
+}
+
+- (void)closeMenu
+{
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         CGRect newFrame = self.mainContentContainerView.frame;
+                         newFrame.origin.x = 0;
+                         self.mainContentContainerView.frame = newFrame;
+                     }
+                     completion:nil];
+
+    self.isMenuExpanded = NO;
+
+    [self.gameViewController resumeAfterInterruption];
 }
 
 @end
