@@ -52,7 +52,7 @@
     self.gameBoardView.boardSize = boardSize;
 
     [self reallocCArrays];
-    [self resetGame];
+    [self setupNewGame];
 }
 
 - (BOOL)isRunning
@@ -102,10 +102,10 @@
     [super viewDidLoad];
 
     NSMutableArray *items = [self.toolbar.items mutableCopy];
-    [items removeObject:self.pauseButtonItem]; // remove the pause button because resetGame will pause and remove the playButton
+    [items removeObject:self.pauseButtonItem]; // remove the pause button because setupNewGame will pause and remove the playButton
     self.toolbar.items = items;
 
-    [self resetGame];
+    [self setupNewGame];
 }
 
 - (void)dealloc
@@ -342,13 +342,18 @@
         [self pause];
     }
 
-    [self resetGame];
+    [self setupNewGame];
 }
 
 - (IBAction)restartButtonTapped:(id)sender
 {
-    self.currentCellsNSArray = self.initialBoard;
-    [self copyNSArray:self.currentCellsNSArray toCArray:_currentCellsArray];
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    [self copyCellsStatusesFromArray:self.initialBoard toArray:self.currentCellsNSArray];
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
 
     self.gameBoardView.liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
 
@@ -412,7 +417,7 @@
 
 #pragma mark - Private Methods
 
-- (void)resetGame
+- (void)setupNewGame
 {
     if ([self isRunning])
     {
@@ -427,8 +432,8 @@
     self.initialBoard = initialBoard;
     self.previousNSArrayOfCells = secondArrayOfCells;
 
-    [self copyNSArray:self.currentCellsNSArray toCArray:_currentCellsArray];
-    [self copyNSArray:self.previousNSArrayOfCells toCArray:_previousArrayOfCells];
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
+    [self fillCArray:_previousArrayOfCells withNSArray:self.previousNSArrayOfCells];
 
     NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
 
@@ -459,12 +464,26 @@
     _previousArrayOfCells = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
 }
 
-- (void)copyNSArray:(NSArray *)source toCArray:(FWCellModel * __unsafe_unretained *)destination
+- (void)fillCArray:(FWCellModel * __unsafe_unretained *)destination withNSArray:(NSArray *)source
 {
     NSUInteger numberOfItems = [source count];
     for (NSUInteger i = 0; i < numberOfItems; i++)
     {
         destination[i] = source[i];
+    }
+}
+
+- (void)copyCellsStatusesFromArray:(NSArray *)source toArray:(NSArray *)destination
+{
+    NSUInteger numberOfItems = [source count];
+    for (NSUInteger i = 0; i < numberOfItems; i++)
+    {
+        FWCellModel *sourceCell = source[i];
+        FWCellModel *destinationCell = destination[i];
+
+        NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same position on grid.");
+
+        destinationCell.alive = sourceCell.alive;
     }
 }
 
@@ -487,30 +506,22 @@
 {
     NSMutableArray *items = [self.toolbar.items mutableCopy];
     NSUInteger buttonIndex = [items indexOfObject:self.pauseButtonItem];
-    if (buttonIndex != NSNotFound)
-    {
-        [items replaceObjectAtIndex:buttonIndex withObject:self.playButtonItem];
-        self.toolbar.items = items;
-    }
-    else
-    {
-        NSLog(@"Pause button not found in array.");
-    }
+
+    NSAssert(buttonIndex != NSNotFound, @"Pause button was not found in the toolbar items array.");
+
+    [items replaceObjectAtIndex:buttonIndex withObject:self.playButtonItem];
+    self.toolbar.items = items;
 }
 
 - (void)enablePauseButton
 {
     NSMutableArray *items = [self.toolbar.items mutableCopy];
     NSUInteger buttonIndex = [items indexOfObject:self.playButtonItem];
-    if (buttonIndex != NSNotFound)
-    {
-        [items replaceObjectAtIndex:buttonIndex withObject:self.pauseButtonItem];
-        self.toolbar.items = items;
-    }
-    else
-    {
-        NSLog(@"Play button not found in array.");
-    }
+
+    NSAssert(buttonIndex != NSNotFound, @"Play button was not found in the toolbar items array.");
+
+    [items replaceObjectAtIndex:buttonIndex withObject:self.pauseButtonItem];
+    self.toolbar.items = items;
 }
 
 @end
