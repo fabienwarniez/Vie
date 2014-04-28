@@ -7,6 +7,6 @@
 
 @interface FWMainMenuViewController : UIViewController
 
-@property (nonatomic, weak) FWMainViewController *mainViewController;
+@property (nonatomic, weak) IBOutlet FWMainViewController *mainViewController;
 
 @end

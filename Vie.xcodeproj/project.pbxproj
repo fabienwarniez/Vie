@@ -19,6 +19,7 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
+		4642AF51190D923D00BE5FB4 /* FWMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4642AF50190D923D00BE5FB4 /* FWMainViewController.xib */; };
 		A6BD8018D114C5E7674F3EB2 /* Colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6BD8C0E6D6B384D0122E516 /* Colors.plist */; };
 		A6BD80297226552BB8AADC90 /* UIColor+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8D536C6FE056313634DE /* UIColor+FWConvenience.m */; };
 		A6BD80C3486A9B732AFEAF78 /* FWBoardSizePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD832EE4E38F61CA175F8E /* FWBoardSizePickerTableViewController.m */; };
@@ -66,6 +67,7 @@
 		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
+		4642AF50190D923D00BE5FB4 /* FWMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWMainViewController.xib; sourceTree = "<group>"; };
 		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A6BD8079034775ACBDEAA9A3 /* FWColorSchemeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemeTableViewCell.h; sourceTree = "<group>"; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
@@ -207,13 +209,14 @@
 			children = (
 				A6BD81239C5465908CDDAA83 /* FWGameViewController.m */,
 				A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */,
+				A6BD82764DB78469ADF28EC1 /* FWGameViewController.xib */,
 				A6BD8F008B945759E90FEF5C /* FWMainViewController.m */,
 				A6BD808AFF54817340C0A620 /* FWMainViewController.h */,
+				4642AF50190D923D00BE5FB4 /* FWMainViewController.xib */,
 				A6BD80FCE400FDAB18145184 /* FWMainMenuViewController.m */,
 				A6BD86BCF885F8D58881822E /* FWMainMenuViewController.h */,
 				A6BD8EFE3203A78EA52393E6 /* FWColorSchemePickerTableViewController.m */,
 				A6BD8320CBAFA5E3A03C92EF /* FWColorSchemePickerTableViewController.h */,
-				A6BD82764DB78469ADF28EC1 /* FWGameViewController.xib */,
 				A6BD8AA29962F87D7AA78778 /* FWBoardSizePickerTableViewController.h */,
 				A6BD832EE4E38F61CA175F8E /* FWBoardSizePickerTableViewController.m */,
 			);
@@ -349,6 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4642AF51190D923D00BE5FB4 /* FWMainViewController.xib in Resources */,
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
 				A6BD8D1EAB617431B8D658BF /* Localizable.strings in Resources */,

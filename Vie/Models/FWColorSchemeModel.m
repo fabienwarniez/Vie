@@ -72,7 +72,7 @@
 
 - (BOOL)isEqualToColorScheme:(FWColorSchemeModel *)otherColorScheme
 {
-    return self.guid == otherColorScheme.guid;
+    return [self.guid isEqualToString:otherColorScheme.guid];
 }
 
 + (NSArray *)colorSchemesFromFile

@@ -13,3 +13,6 @@
 "board_size_title" = "Taille de la Grille";
 "menu_item_cell_color" = "Couleur de Cellules";
 "menu_item_board_size" = "Taille de la Grille";
+"board_size_small" = "Petite";
+"board_size_medium" = "Moyenne";
+"board_size_large" = "Grande";

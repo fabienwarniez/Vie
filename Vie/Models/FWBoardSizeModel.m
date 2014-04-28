@@ -7,20 +7,21 @@
 
 @implementation FWBoardSizeModel
 
-- (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
+- (instancetype)initWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
 {
     self = [super init];
     if (self)
     {
+        _name = name;
         _numberOfColumns = numberOfColumns;
         _numberOfRows = numberOfRows;
     }
     return self;
 }
 
-+ (instancetype)boardSizeWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
++ (instancetype)boardSizeWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
 {
-    return [[self alloc] initWithNumberOfColumns:numberOfColumns numberOfRows:numberOfRows];
+    return [[self alloc] initWithName:name numberOfColumns:numberOfColumns numberOfRows:numberOfRows];
 }
 
 - (BOOL)isEqual:(id)other
@@ -47,9 +48,9 @@
 + (NSArray *)boardSizes
 {
     return @[
-            [FWBoardSizeModel boardSizeWithNumberOfColumns:32 numberOfRows:48],
-            [FWBoardSizeModel boardSizeWithNumberOfColumns:48 numberOfRows:72],
-            [FWBoardSizeModel boardSizeWithNumberOfColumns:64 numberOfRows:96]
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_small", @"Small") numberOfColumns:32 numberOfRows:48],
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_medium", @"Medium") numberOfColumns:48 numberOfRows:72],
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_large", @"Large") numberOfColumns:64 numberOfRows:96]
     ];
 }
 

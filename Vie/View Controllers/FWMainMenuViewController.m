@@ -17,9 +17,9 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
 @implementation FWMainMenuViewController
 
-- (id)init
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if (self)
     {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -40,6 +40,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 {
     self.tableView.frame = self.view.bounds;
     self.title = NSLocalizedString(@"main_menu_title", nil);
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 #pragma mark - UITableViewDataSource
@@ -55,7 +56,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
     if (indexPath.row == 0)
     {
-        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_cell_color", nil);;
+        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_cell_color", nil);
     }
     else if (indexPath.row == 1)
     {
@@ -66,13 +67,14 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
         NSAssert(false, @"There are only 2 items in the menu");
     }
 
+    dequeuedCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     dequeuedCell.textLabel.textColor = [UIColor blackColor];
     return dequeuedCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return kFWMainMenuViewControllerCellHeight;
 }
 
 #pragma mark - UITableViewDelegate
@@ -84,6 +86,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 0)
     {
         FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];

@@ -8,9 +8,18 @@
 
 @class FWBoardSizeModel;
 @class FWGameViewController;
+@class FWMainMenuViewController;
 
 @interface FWMainViewController : UIViewController <FWColorSchemePickerTableViewControllerDelegate, FWBoardSizePickerTableViewControllerDelegate>
 
-@property (nonatomic, strong) FWGameViewController *gameViewController;
+@property (nonatomic, strong) IBOutlet FWMainMenuViewController *mainMenuViewController;
+@property (nonatomic, strong) IBOutlet UINavigationController *menuNavigationController;
+@property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
+@property (nonatomic, strong) IBOutlet UIView *menuNavigationControllerContainerView;
+@property (nonatomic, strong) IBOutlet UIView *mainContentContainerView;
+@property (nonatomic, strong) IBOutlet UIView *gameBoardContainerView;
+
+- (IBAction)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer;
+- (IBAction)handleMenuButtonTapped:(id)sender;
 
 @end

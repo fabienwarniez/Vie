@@ -13,3 +13,6 @@
 "board_size_title" = "Sizes";
 "menu_item_cell_color" = "Cell Colours";
 "menu_item_board_size" = "Board Sizes";
+"board_size_small" = "Small";
+"board_size_medium" = "Medium";
+"board_size_large" = "Large";

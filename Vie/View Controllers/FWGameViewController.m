@@ -11,27 +11,29 @@
 
 @interface FWGameViewController ()
 {
-    FWCellModel * __unsafe_unretained *_cellsArray;
-    FWCellModel * __unsafe_unretained *_secondArrayOfCells;
+    FWCellModel * __unsafe_unretained *_currentCellsArray;
+    FWCellModel * __unsafe_unretained *_previousArrayOfCells;
 }
 
 @property (nonatomic, assign) BOOL cArraysAllocated;
-@property (nonatomic, strong) NSArray *cellsNSArray;
-@property (nonatomic, strong) NSArray *secondNSArrayOfCells;
+@property (nonatomic, strong) NSArray *currentCellsNSArray;
+@property (nonatomic, strong) NSArray *previousNSArrayOfCells;
 @property (nonatomic, strong) NSArray *initialBoard;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, assign) BOOL wasPlayingBeforeInterruption;
+@property (nonatomic, assign) BOOL isRewindingPossible;
 
 @end
 
 @implementation FWGameViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         _cArraysAllocated = NO;
+        _isRewindingPossible = NO;
     }
 
     return self;
@@ -50,7 +52,7 @@
     self.gameBoardView.boardSize = boardSize;
 
     [self reallocCArrays];
-    [self resetGame];
+    [self setupNewGame];
 }
 
 - (BOOL)isRunning
@@ -76,6 +78,12 @@
     self.gameBoardView.fillColor = cellFillColor;
 }
 
+- (void)setIsRewindingPossible:(BOOL)isRewindingPossible
+{
+    _isRewindingPossible = isRewindingPossible;
+    self.backButtonItem.enabled = isRewindingPossible;
+}
+
 #pragma mark - UIViewController
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -91,15 +99,20 @@
 
 - (void)viewDidLoad
 {
-    [self resetGame];
+    [super viewDidLoad];
 
+    self.gameBoardView.boardPadding = 10.0f;
+
+    // Needed to update the play / pause buttons
     [self pause];
+
+    [self setupNewGame];
 }
 
 - (void)dealloc
 {
-    free(_cellsArray);
-    free(_secondArrayOfCells);
+    free(_currentCellsArray);
+    free(_previousArrayOfCells);
 }
 
 #pragma mark - Game Lifecycle Management
@@ -107,7 +120,10 @@
 - (void)interruptGame
 {
     self.wasPlayingBeforeInterruption = [self isRunning];
-    [self pause];
+    if ([self isRunning])
+    {
+        [self pause];
+    }
 }
 
 - (void)resumeAfterInterruption
@@ -199,8 +215,8 @@
 
 - (void)calculateNextCycle
 {
-    NSArray *nextCycleArray = self.secondNSArrayOfCells;
-    FWCellModel * __unsafe_unretained *currentCycleArray = _cellsArray;
+    NSArray *nextCycleArray = self.previousNSArrayOfCells;
+    FWCellModel * __unsafe_unretained *currentCycleArray = _currentCellsArray;
     NSMutableArray *liveCellsArray = [NSMutableArray array];
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
@@ -309,23 +325,42 @@
         }
     }
 
-    _cellsArray = _secondArrayOfCells;
-    _secondArrayOfCells = currentCycleArray;
-    self.secondNSArrayOfCells = self.cellsNSArray;
-    self.cellsNSArray = nextCycleArray;
+    _currentCellsArray = _previousArrayOfCells;
+    _previousArrayOfCells = currentCycleArray;
+    self.previousNSArrayOfCells = self.currentCellsNSArray;
+    self.currentCellsNSArray = nextCycleArray;
     self.gameBoardView.liveCells = liveCellsArray;
+    if (!self.isRewindingPossible)
+    {
+        self.isRewindingPossible = YES;
+    }
 }
 
 #pragma mark - IBActions
 
-- (IBAction)reloadButtonTapped:(id)sender
+- (IBAction)generateNewBoardButtonTapped:(id)sender
 {
     if ([self isRunning])
     {
         [self pause];
     }
 
-    [self resetGame];
+    [self setupNewGame];
+}
+
+- (IBAction)restartButtonTapped:(id)sender
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    [self copyCellsStatusesFromArray:self.initialBoard toArray:self.currentCellsNSArray];
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
+
+    self.gameBoardView.liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+
+    self.isRewindingPossible = NO;
 }
 
 - (IBAction)pauseButtonTapped:(id)sender
@@ -346,7 +381,29 @@
 
 - (IBAction)backButtonTapped:(id)sender
 {
-    // later
+    NSAssert(self.isRewindingPossible, @"Back button should be disabled if rewinding is not possible.");
+
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+    else
+    {
+        // swap NSArray's
+        NSArray *nextCycleArray = self.previousNSArrayOfCells;
+        self.previousNSArrayOfCells = self.currentCellsNSArray;
+        self.currentCellsNSArray = nextCycleArray;
+
+        // swap C arrays
+        FWCellModel * __unsafe_unretained *currentCycleArray = _currentCellsArray;
+        _currentCellsArray = _previousArrayOfCells;
+        _previousArrayOfCells = currentCycleArray;
+
+        self.isRewindingPossible = NO;
+
+        NSArray *liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+        self.gameBoardView.liveCells = liveCells;
+    }
 }
 
 - (IBAction)nextButtonTapped:(id)sender
@@ -363,17 +420,23 @@
 
 #pragma mark - Private Methods
 
-- (void)resetGame
+- (void)setupNewGame
 {
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
     NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
     NSArray *initialBoard = [[NSArray alloc] initWithArray:cellsArray copyItems:YES];
     NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
 
-    self.cellsNSArray = cellsArray;
+    self.currentCellsNSArray = cellsArray;
     self.initialBoard = initialBoard;
-    self.secondNSArrayOfCells = secondArrayOfCells;
+    self.previousNSArrayOfCells = secondArrayOfCells;
 
-    [self updateCArraysOfCells];
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
+    [self fillCArray:_previousArrayOfCells withNSArray:self.previousNSArrayOfCells];
 
     NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
 
@@ -382,6 +445,8 @@
     self.gameBoardView.borderColor = self.cellBorderColor;
     self.gameBoardView.fillColor = self.cellFillColor;
     self.gameBoardView.liveCells = liveCells;
+
+    self.isRewindingPossible = NO;
 }
 
 - (void)reallocCArrays
@@ -390,30 +455,38 @@
 
     if (_cArraysAllocated)
     {
-        free(_cellsArray);
-        free(_secondArrayOfCells);
+        free(_currentCellsArray);
+        free(_previousArrayOfCells);
     }
     else
     {
         _cArraysAllocated = YES;
     }
 
-    _cellsArray = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
-    _secondArrayOfCells = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
+    _currentCellsArray = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
+    _previousArrayOfCells = (FWCellModel * __unsafe_unretained *) malloc(sizeof(FWCellModel *) * numberOfCells);
 }
 
-- (void)updateCArraysOfCells
+- (void)fillCArray:(FWCellModel * __unsafe_unretained *)destination withNSArray:(NSArray *)source
 {
-    NSUInteger numberOfCells = self.boardSize.numberOfColumns * self.boardSize.numberOfRows;
-
-    NSArray *cellsArray = self.cellsNSArray;
-    NSArray *secondArrayOfCells = self.secondNSArrayOfCells;
-
-    // Copy all cells from managed arrays into non-managed C arrays
-    for (NSUInteger i = 0; i < numberOfCells; i++)
+    NSUInteger numberOfItems = [source count];
+    for (NSUInteger i = 0; i < numberOfItems; i++)
     {
-        _cellsArray[i] = cellsArray[i];
-        _secondArrayOfCells[i] = secondArrayOfCells[i];
+        destination[i] = source[i];
+    }
+}
+
+- (void)copyCellsStatusesFromArray:(NSArray *)source toArray:(NSArray *)destination
+{
+    NSUInteger numberOfItems = [source count];
+    for (NSUInteger i = 0; i < numberOfItems; i++)
+    {
+        FWCellModel *sourceCell = source[i];
+        FWCellModel *destinationCell = destination[i];
+
+        NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same position on grid.");
+
+        destinationCell.alive = sourceCell.alive;
     }
 }
 

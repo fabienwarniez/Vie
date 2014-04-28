@@ -30,7 +30,8 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil] forCellReuseIdentifier:kFWColorSchemePickerCellIdentifier];
+        [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil]
+         forCellReuseIdentifier:kFWColorSchemePickerCellIdentifier];
 
         _colors = [FWColorSchemeModel colorSchemesFromFile];
         _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
@@ -58,11 +59,19 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWColorSchemeModel *model = self.colors[(NSUInteger) indexPath.row];
-    FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWColorSchemePickerCellIdentifier forIndexPath:indexPath];
+    FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWColorSchemePickerCellIdentifier
+                                                                       forIndexPath:indexPath];
     cell.colorNameLabel.text = model.colorSchemeName;
     cell.cellPreviewFillColor = model.fillColor;
     cell.cellPreviewBorderColor = model.borderColor;
-    cell.selected = [self.currentlyActiveColorScheme isEqualToColorScheme:model];
+    if ([model isEqualToColorScheme:self.currentlyActiveColorScheme])
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
 
     return cell;
 }
@@ -81,7 +90,17 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    NSUInteger oldColorSchemeIndex = [self.colors indexOfObject:self.currentlyActiveColorScheme];
+    UITableViewCell *previouslySelectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:oldColorSchemeIndex
+                                                                                                  inSection:0]];
+    previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
+
     FWColorSchemeModel *colorScheme = self.colors[(NSUInteger) indexPath.row];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
     self.currentlyActiveColorScheme = colorScheme;
     [self.delegate colorSchemeDidChange:colorScheme];
 }
