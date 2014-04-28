@@ -9,7 +9,7 @@
 #import "FWCellModel.h"
 #import "FWRandomNumberGenerator.h"
 
-static NSUInteger const kFWColorSchemeTableViewCellNumberOfColumns = 12;
+static NSUInteger const kFWColorSchemeTableViewCellNumberOfColumns = 9;
 static NSUInteger const kFWColorSchemeTableViewCellNumberOfRows = 3;
 static CGFloat const kFWColorSchemeTableViewCellBorderWidth = 1.0f;
 static CGFloat const kFWColorSchemeTableViewCellSpacingWidth = 10.0f;
@@ -46,7 +46,7 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
     [super layoutSubviews];
 
     // TODO: make this more elegant
-    _gameBoardView.frame = CGRectMake(CGRectGetMaxX(self.colorNameLabel.frame) + kFWColorSchemeTableViewCellSpacingWidth, 10, 120, 30);
+    _gameBoardView.frame = CGRectMake(CGRectGetMaxX(self.colorNameLabel.frame) + kFWColorSchemeTableViewCellSpacingWidth, 10, 90, 30);
 }
 
 #pragma mark - UITableViewCell
