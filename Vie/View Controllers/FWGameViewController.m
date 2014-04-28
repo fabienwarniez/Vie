@@ -27,9 +27,9 @@
 
 @implementation FWGameViewController
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithCoder:aDecoder];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         _cArraysAllocated = NO;
@@ -101,9 +101,10 @@
 {
     [super viewDidLoad];
 
-    NSMutableArray *items = [self.toolbar.items mutableCopy];
-    [items removeObject:self.pauseButtonItem]; // remove the pause button because setupNewGame will pause and remove the playButton
-    self.toolbar.items = items;
+    self.gameBoardView.boardPadding = 10.0f;
+
+    // Needed to update the play / pause buttons
+    [self pause];
 
     [self setupNewGame];
 }
@@ -148,7 +149,8 @@
                                                        userInfo:nil
                                                         repeats:YES];
     }
-    [self enablePauseButton];
+    self.pauseButtonItem.enabled = YES;
+    self.playButtonItem.enabled = NO;
 }
 
 - (void)pause
@@ -157,7 +159,8 @@
     {
         [self.refreshTimer invalidate];
     }
-    [self enablePlayButton];
+    self.pauseButtonItem.enabled = NO;
+    self.playButtonItem.enabled = YES;
 }
 
 /*
@@ -500,28 +503,6 @@
     }
 
     return [liveCellsArray copy];
-}
-
-- (void)enablePlayButton
-{
-    NSMutableArray *items = [self.toolbar.items mutableCopy];
-    NSUInteger buttonIndex = [items indexOfObject:self.pauseButtonItem];
-
-    NSAssert(buttonIndex != NSNotFound, @"Pause button was not found in the toolbar items array.");
-
-    [items replaceObjectAtIndex:buttonIndex withObject:self.playButtonItem];
-    self.toolbar.items = items;
-}
-
-- (void)enablePauseButton
-{
-    NSMutableArray *items = [self.toolbar.items mutableCopy];
-    NSUInteger buttonIndex = [items indexOfObject:self.playButtonItem];
-
-    NSAssert(buttonIndex != NSNotFound, @"Play button was not found in the toolbar items array.");
-
-    [items replaceObjectAtIndex:buttonIndex withObject:self.pauseButtonItem];
-    self.toolbar.items = items;
 }
 
 @end

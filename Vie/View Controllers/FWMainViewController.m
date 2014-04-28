@@ -5,12 +5,13 @@
 
 #import "FWMainViewController.h"
 #import "FWGameViewController.h"
-#import "FWMainMenuViewController.h"
 #import "FWBoardSizeModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWAppDelegate.h"
 #import "FWUserModel.h"
-#import "FWSettingsManager.h"
+
+static CGFloat const kFWMainViewControllerMenuWidthPad = 320.0f;
+static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
 
 @interface FWMainViewController () <UINavigationBarDelegate>
 
@@ -56,6 +57,17 @@
     self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.gameBoardContainerView addSubview:self.gameViewController.view];
     [self.gameViewController didMoveToParentViewController:self];
+
+    CGRect navigationContainerFrame = self.menuNavigationControllerContainerView.frame;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        navigationContainerFrame.size.width = kFWMainViewControllerMenuWidthPad;
+    }
+    else // iPhone
+    {
+        navigationContainerFrame.size.width = kFWMainViewControllerMenuWidthPhone;
+    }
+    self.menuNavigationControllerContainerView.frame = navigationContainerFrame;
 
     self.menuNavigationController.navigationBar.tintColor = [UIColor whiteColor]; // needed to make the back arrow white
     self.menuNavigationController.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
