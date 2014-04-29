@@ -12,6 +12,7 @@
 
 static CGFloat const kFWMainViewControllerMenuWidthPad = 320.0f;
 static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
+static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 @interface FWMainViewController () <UINavigationBarDelegate>
 
@@ -31,8 +32,7 @@ static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
 
         _gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
         _gameViewController.boardSize = userModel.gameBoardSize;
-        _gameViewController.cellBorderWidth = 1.0f;
-        _gameViewController.cellBorderColor = userModel.colorScheme.borderColor;
+        _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
         _gameViewController.cellFillColor = userModel.colorScheme.fillColor;
 
         _isMenuExpanded = NO;
@@ -113,7 +113,6 @@ static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
     FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
     [sharedUserModel setColorScheme:newColorScheme];
 
-    self.gameViewController.cellBorderColor = newColorScheme.borderColor;
     self.gameViewController.cellFillColor = newColorScheme.fillColor;
 }
 

@@ -63,7 +63,6 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
                                                                        forIndexPath:indexPath];
     cell.colorNameLabel.text = model.colorSchemeName;
     cell.cellPreviewFillColor = model.fillColor;
-    cell.cellPreviewBorderColor = model.borderColor;
     if ([model isEqualToColorScheme:self.currentlyActiveColorScheme])
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
