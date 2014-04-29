@@ -18,12 +18,9 @@
         NSString *fillColorHexString = [dictionary valueForKey:@"fill_color"];
         _fillColor = [UIColor colorWithHexString:fillColorHexString];
 
-        NSString *borderColorHexString = [dictionary valueForKey:@"border_color"];
-        _borderColor = [UIColor colorWithHexString:borderColorHexString];
-
         _colorSchemeName = [dictionary valueForKey:@"color_name"];
 
-        if (_guid == nil || _fillColor == nil || _borderColor == nil || _colorSchemeName == nil)
+        if (_guid == nil || _fillColor == nil || _colorSchemeName == nil)
         {
             self = nil;
         }
@@ -36,22 +33,21 @@
     return [[self alloc] initWithDictionary:dictionary];
 }
 
-- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName
+- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor colorSchemeName:(NSString *)colorSchemeName
 {
     self = [super init];
     if (self)
     {
         _guid = guid;
         _fillColor = fillColor;
-        _borderColor = borderColor;
         _colorSchemeName = colorSchemeName;
     }
     return self;
 }
 
-+ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName
++ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor colorSchemeName:(NSString *)colorSchemeName
 {
-    return [[self alloc] initWithGuid:nil fillColor:fillColor borderColor:borderColor colorSchemeName:colorSchemeName];
+    return [[self alloc] initWithGuid:nil fillColor:fillColor colorSchemeName:colorSchemeName];
 }
 
 - (BOOL)isEqual:(id)other

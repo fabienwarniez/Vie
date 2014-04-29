@@ -9,6 +9,8 @@
 #import "FWBoardSizeModel.h"
 #import "FWRandomNumberGenerator.h"
 
+static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
+
 @interface FWGameViewController ()
 {
     FWCellModel * __unsafe_unretained *_currentCellsArray;
@@ -66,12 +68,6 @@
     self.gameBoardView.borderWidth = cellBorderWidth;
 }
 
-- (void)setCellBorderColor:(UIColor *)cellBorderColor
-{
-    _cellBorderColor = cellBorderColor;
-    self.gameBoardView.borderColor = cellBorderColor;
-}
-
 - (void)setCellFillColor:(UIColor *)cellFillColor
 {
     _cellFillColor = cellFillColor;
@@ -101,7 +97,7 @@
 {
     [super viewDidLoad];
 
-    self.gameBoardView.boardPadding = 10.0f;
+    self.gameBoardView.minimumBoardPadding = kFWGameViewControllerBoardPadding;
 
     // Needed to update the play / pause buttons
     [self pause];
@@ -442,7 +438,6 @@
 
     self.gameBoardView.boardSize = self.boardSize;
     self.gameBoardView.borderWidth = self.cellBorderWidth;
-    self.gameBoardView.borderColor = self.cellBorderColor;
     self.gameBoardView.fillColor = self.cellFillColor;
     self.gameBoardView.liveCells = liveCells;
 

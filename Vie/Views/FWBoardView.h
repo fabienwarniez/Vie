@@ -8,7 +8,7 @@
 @interface FWBoardView : UIView
 
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
-@property (nonatomic, assign) CGFloat boardPadding;
+@property (nonatomic, assign) CGFloat minimumBoardPadding;
 @property (nonatomic, strong) NSArray *liveCells;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, strong) UIColor *borderColor;

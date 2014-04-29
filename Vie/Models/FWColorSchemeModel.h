@@ -7,14 +7,13 @@
 
 @property (nonatomic, strong) NSString *guid;
 @property (nonatomic, strong) UIColor *fillColor;
-@property (nonatomic, strong) UIColor *borderColor;
 @property (nonatomic, strong) NSString *colorSchemeName;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 + (instancetype)colorSchemeWithDictionary:(NSDictionary *)dictionary;
 
-- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName;
-+ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor borderColor:(UIColor *)borderColor colorSchemeName:(NSString *)colorSchemeName;
+- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor colorSchemeName:(NSString *)colorSchemeName;
++ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor colorSchemeName:(NSString *)colorSchemeName;
 
 - (BOOL)isEqualToColorScheme:(FWColorSchemeModel *)other;
 
