@@ -23,7 +23,7 @@
     self = [super initWithCoder:coder];
     if (self)
     {
-        _boardPadding = 0.0f;
+        _minimumBoardPadding = 0.0f;
     }
     return self;
 }
@@ -33,7 +33,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        _boardPadding = 0.0f;
+        _minimumBoardPadding = 0.0f;
     }
     return self;
 }
@@ -42,25 +42,30 @@
 {
     [super layoutSubviews];
 
-    self.cellSize = [self calculateCellSize];
+    CGFloat pixelScale = [[UIScreen mainScreen] scale];
 
-    // Apparently need to cast the NSUInteger into CGFloat to use in calculations
-    CGFloat numberOfColumns = self.boardSize.numberOfColumns;
-    CGFloat finalHorizontalPadding = (self.bounds.size.width - self.cellSize.width * numberOfColumns) / 2.0f;
-    CGFloat numberOfRows = self.boardSize.numberOfRows;
-    CGFloat verticalPadding = (self.bounds.size.height - self.cellSize.height * numberOfRows) / 2.0f;
+    CGFloat totalBorderWidth = (self.boardSize.numberOfColumns - 1) * self.borderWidth;
+    CGFloat totalBorderHeight = (self.boardSize.numberOfRows - 1) * self.borderWidth;
+    CGFloat maxCellWidth = (self.bounds.size.width - 2 * self.minimumBoardPadding - totalBorderWidth) / self.boardSize.numberOfColumns;
+    CGFloat maxCellHeight = (self.bounds.size.height - 2 * self.minimumBoardPadding - totalBorderHeight) / self.boardSize.numberOfRows;
+    CGFloat finalCellSideLength = floorf(pixelScale * MIN(maxCellWidth, maxCellHeight)) / pixelScale;
 
-    self.cellContainerFrame =
-            CGRectMake(finalHorizontalPadding, verticalPadding, self.cellSize.width * self.boardSize.numberOfColumns, self.cellSize.height * self.boardSize.numberOfRows);
+    self.cellSize = CGSizeMake(finalCellSideLength, finalCellSideLength);
+
+    CGFloat finalBoardWidth = self.cellSize.width * self.boardSize.numberOfColumns + totalBorderWidth;
+    CGFloat finalBoardHeight = self.cellSize.height * self.boardSize.numberOfRows + totalBorderHeight;
+    CGFloat finalHorizontalPadding = (self.bounds.size.width - finalBoardWidth) / 2.0f;
+    CGFloat finalVerticalPadding = (self.bounds.size.height - finalBoardHeight) / 2.0f;
+    finalHorizontalPadding = floorf(pixelScale * finalHorizontalPadding) / pixelScale;
+    finalVerticalPadding = floorf(pixelScale * finalVerticalPadding) / pixelScale;
+
+    self.cellContainerFrame = CGRectMake(finalHorizontalPadding, finalVerticalPadding, finalBoardWidth, finalBoardHeight);
 }
 
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGFloat borderWidth = self.borderWidth;
-    CGFloat borderInset = borderWidth / 2.0f;
-    CGContextSetLineWidth(context, borderWidth);
-    CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
     CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 
     CGSize cellSize = self.cellSize;
@@ -70,12 +75,12 @@
     {
         if (cell.alive)
         {
-            CGRect cellRect = CGRectMake(origin.x + cell.column * cellSize.width, origin.y + cell.row * cellSize.height, cellSize.width, cellSize.height);
-            CGContextAddRect(context, CGRectInset(cellRect, borderInset, borderInset));
+            CGRect cellRect = CGRectMake(origin.x + cell.column * (cellSize.width + borderWidth), origin.y + cell.row * (cellSize.height + borderWidth), cellSize.width, cellSize.height);
+            CGContextAddRect(context, cellRect);
         }
     }
 
-    CGContextDrawPath(context, kCGPathFillStroke);
+    CGContextDrawPath(context, kCGPathFill);
 }
 
 #pragma mark - Accessors
@@ -121,8 +126,10 @@
 
 - (CGSize)calculateCellSize
 {
-    CGFloat cellWidth = (self.bounds.size.width - 2 * self.boardPadding) / self.boardSize.numberOfColumns;
-    CGFloat cellHeight = (self.bounds.size.height - 2 * self.boardPadding) / self.boardSize.numberOfRows;
+    CGFloat totalBorderWidth = (self.boardSize.numberOfColumns - 1) * self.borderWidth;
+    CGFloat totalBorderHeight = (self.boardSize.numberOfRows - 1) * self.borderWidth;
+    CGFloat cellWidth = (self.bounds.size.width - 2 * self.minimumBoardPadding - totalBorderWidth) / self.boardSize.numberOfColumns;
+    CGFloat cellHeight = (self.bounds.size.height - 2 * self.minimumBoardPadding - totalBorderHeight) / self.boardSize.numberOfRows;
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
     CGFloat cellSideLength = floorf(pixelScale * MIN(cellWidth, cellHeight)) / pixelScale;
     return CGSizeMake(cellSideLength, cellSideLength);

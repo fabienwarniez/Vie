@@ -11,7 +11,7 @@
 
 static NSUInteger const kFWColorSchemeTableViewCellNumberOfColumns = 9;
 static NSUInteger const kFWColorSchemeTableViewCellNumberOfRows = 3;
-static CGFloat const kFWColorSchemeTableViewCellBorderWidth = 1.0f;
+static CGFloat const kFWColorSchemeTableViewCellBorderWidth = 2.0f;
 static CGFloat const kFWColorSchemeTableViewCellSpacingWidth = 10.0f;
 static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 
@@ -69,7 +69,6 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 
 - (void)setCellPreviewBorderColor:(UIColor *)cellPreviewBorderColor
 {
-    _cellPreviewBorderColor = cellPreviewBorderColor;
     self.gameBoardView.borderColor = cellPreviewBorderColor;
 }
 

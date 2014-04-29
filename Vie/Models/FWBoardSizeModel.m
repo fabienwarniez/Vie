@@ -48,9 +48,10 @@
 + (NSArray *)boardSizes
 {
     return @[
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_small", @"Small") numberOfColumns:32 numberOfRows:48],
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_medium", @"Medium") numberOfColumns:48 numberOfRows:72],
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_large", @"Large") numberOfColumns:64 numberOfRows:96]
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_small", @"Small") numberOfColumns:30 numberOfRows:40],
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_medium", @"Medium") numberOfColumns:45 numberOfRows:60],
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_large", @"Large") numberOfColumns:60 numberOfRows:80],
+            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_extra_large", @"Extra Large") numberOfColumns:90 numberOfRows:120]
     ];
 }
 

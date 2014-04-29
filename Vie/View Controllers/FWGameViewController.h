@@ -22,7 +22,6 @@
 
 // Cell Style
 @property (nonatomic, assign) CGFloat cellBorderWidth;
-@property (nonatomic, strong) UIColor *cellBorderColor;
 @property (nonatomic, strong) UIColor *cellFillColor;
 
 - (void)interruptGame;
