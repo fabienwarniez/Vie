@@ -17,3 +17,6 @@
 "board_size_medium" = "Medium";
 "board_size_large" = "Large";
 "board_size_extra_large" = "Extra Large";
+"menu_item_save_game" = "Save Current Game";
+"menu_item_load_game" = "Load Saved Game";
+"saved_game_picker_title" = "Saved Games";

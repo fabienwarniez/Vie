@@ -159,6 +159,11 @@ static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
     self.playButtonItem.enabled = YES;
 }
 
+- (NSArray *)initialBoardLiveCells
+{
+    return [self liveCellsFromGameMatrix:self.initialBoard];
+}
+
 /*
   Debugging purposes
  */

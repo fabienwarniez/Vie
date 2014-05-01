@@ -7,9 +7,7 @@
 #import "FWColorSchemeModel.h"
 #import "FWSettingsManager.h"
 #import "FWBoardSizeModel.h"
-
-static NSUInteger kUserModelDefaultNumberOfColumns = 32;
-static NSUInteger kUserModelDefaultNumberOfRows = 48;
+#import "FWSavedGame.h"
 
 @implementation FWUserModel
 {
@@ -78,8 +76,7 @@ static NSUInteger kUserModelDefaultNumberOfRows = 48;
 
         if (userGameBoardSize.numberOfColumns == 0 || userGameBoardSize.numberOfRows == 0)
         {
-            userGameBoardSize.numberOfColumns = kUserModelDefaultNumberOfColumns;
-            userGameBoardSize.numberOfRows = kUserModelDefaultNumberOfRows;
+            userGameBoardSize = [FWBoardSizeModel defaultBoardSize];
 
             [FWSettingsManager saveUserBoardSize:userGameBoardSize];
         }
@@ -93,6 +90,22 @@ static NSUInteger kUserModelDefaultNumberOfRows = 48;
 {
     _gameBoardSize = gameBoardSize;
     [FWSettingsManager saveUserBoardSize:gameBoardSize];
+}
+
+- (NSArray *)savedGames
+{
+    NSArray *savedGames = [FWSettingsManager getUserSavedGames];
+    if (savedGames == nil)
+    {
+        savedGames = [NSArray array];
+        [FWSettingsManager setUserSavedGames:savedGames];
+    }
+    return savedGames;
+}
+
+- (void)addSavedGame:(FWSavedGame *)savedGame
+{
+    [FWSettingsManager addUserSavedGame:savedGame];
 }
 
 @end

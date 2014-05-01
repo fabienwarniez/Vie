@@ -5,6 +5,7 @@
 
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
+@class FWSavedGame;
 
 @interface FWSettingsManager : NSObject
 
@@ -13,5 +14,9 @@
 
 + (FWBoardSizeModel *)getUserBoardSize;
 + (void)saveUserBoardSize:(FWBoardSizeModel *)boardSize;
+
++ (NSArray *)getUserSavedGames;
++ (void)setUserSavedGames:(NSArray *)savedGames;
++ (void)addUserSavedGame:(FWSavedGame *)savedGame;
 
 @end

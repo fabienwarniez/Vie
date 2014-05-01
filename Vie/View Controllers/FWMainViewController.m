@@ -9,6 +9,7 @@
 #import "FWColorSchemeModel.h"
 #import "FWAppDelegate.h"
 #import "FWUserModel.h"
+#import "FWSavedGame.h"
 
 static CGFloat const kFWMainViewControllerMenuWidthPad = 320.0f;
 static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
@@ -78,6 +79,8 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.menuNavigationController.view.frame = self.menuNavigationControllerContainerView.bounds;
     self.menuNavigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.menuNavigationControllerContainerView addSubview:self.menuNavigationController.view];
+
+    self.mainMenuViewController.delegate = self;
 }
 
 #pragma mark - IBAction's
@@ -106,6 +109,25 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     }
 }
 
+#pragma mark - FWMainMenuViewControllerDelegate
+
+- (void)saveCurrentGame
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM dd, yyyy HH:mm"];
+    NSDate *now = [[NSDate alloc] init];
+    NSString *dateString = [dateFormatter stringFromDate:now];
+
+    NSArray *liveCells = [self.gameViewController initialBoardLiveCells];
+
+    FWSavedGame *savedGame = [FWSavedGame gameWithName:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
+
+    FWUserModel *userModel = [FWUserModel sharedUserModel];
+    [userModel addSavedGame:savedGame];
+
+    // TODO: display confirmation message
+}
+
 #pragma mark - FWColorSchemePickerTableViewControllerDelegate
 
 - (void)colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
@@ -125,6 +147,14 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
     self.gameViewController.boardSize = newBoardSize;
     [self.gameViewController setForceResumeAfterInterruption:NO];
+}
+
+#pragma mark - FWSavedGamePickerTableViewControllerDelegate
+
+- (void)loadSavedGame:(FWSavedGame *)savedGame
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self closeMenu];
 }
 
 #pragma mark - UINavigationToolbarDelegate

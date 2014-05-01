@@ -31,6 +31,8 @@
 - (void)play;
 - (void)pause;
 
+- (NSArray *)initialBoardLiveCells;
+
 - (IBAction)generateNewBoardButtonTapped:(id)sender;
 - (IBAction)restartButtonTapped:(id)sender;
 - (IBAction)pauseButtonTapped:(id)sender;

@@ -5,6 +5,7 @@
 
 #import "FWMainMenuViewController.h"
 #import "FWMainViewController.h"
+#import "FWSavedGamePickerTableViewController.h"
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
@@ -47,7 +48,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,6 +63,14 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     {
         dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_board_size", nil);
     }
+    else if (indexPath.row == 2)
+    {
+        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_save_game", nil);
+    }
+    else if (indexPath.row == 3)
+    {
+        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_load_game", nil);
+    }
     else
     {
         NSAssert(false, @"There are only 2 items in the menu");
@@ -69,6 +78,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
     dequeuedCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     dequeuedCell.textLabel.textColor = [UIColor blackColor];
+
     return dequeuedCell;
 }
 
@@ -87,6 +97,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if (indexPath.row == 0)
     {
         FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];
@@ -98,6 +109,16 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
         FWBoardSizePickerTableViewController *boardSizePickerTableViewController = [[FWBoardSizePickerTableViewController alloc] init];
         boardSizePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:boardSizePickerTableViewController animated:YES];
+    }
+    else if (indexPath.row == 2)
+    {
+        [self.delegate saveCurrentGame];
+    }
+    else if (indexPath.row == 3)
+    {
+        FWSavedGamePickerTableViewController *savedGamePickerTableViewController = [[FWSavedGamePickerTableViewController alloc] init];
+        savedGamePickerTableViewController.delegate = self.mainViewController;
+        [self.navigationController pushViewController:savedGamePickerTableViewController animated:YES];
     }
 }
 
