@@ -8,6 +8,7 @@
 #import "FWBoardView.h"
 #import "FWBoardSizeModel.h"
 #import "FWRandomNumberGenerator.h"
+#import "FWSavedGame.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
 
@@ -159,6 +160,42 @@ static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
     self.playButtonItem.enabled = YES;
 }
 
+- (void)loadSavedGame:(FWSavedGame *)savedGame
+{
+    _boardSize = [FWBoardSizeModel boardSizeWithName:savedGame.boardSize.name
+                                     numberOfColumns:savedGame.boardSize.numberOfColumns
+                                        numberOfRows:savedGame.boardSize.numberOfRows];
+
+    [self reallocCArrays];
+
+    self.currentCellsNSArray = [self generateInitialCellsWithColumns:savedGame.boardSize.numberOfColumns
+                                                                rows:savedGame.boardSize.numberOfRows
+                                               percentageOfLiveCells:0];
+
+    NSUInteger numberOfLiveCells = [savedGame.liveCells count];
+    NSUInteger numberOfRows = savedGame.boardSize.numberOfRows;
+    for (NSUInteger i = 0; i < numberOfLiveCells; i++)
+    {
+        FWCellModel *liveCell = savedGame.liveCells[i];
+        FWCellModel *cellToMakeAlive = self.currentCellsNSArray[liveCell.column * numberOfRows + liveCell.row];
+        NSAssert(liveCell.column == cellToMakeAlive.column && liveCell.row == cellToMakeAlive.row, @"Cells attributes should match");
+        cellToMakeAlive.alive = YES;
+    }
+
+    self.initialBoard = [[NSArray alloc] initWithArray:self.currentCellsNSArray copyItems:YES];
+    self.previousNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows percentageOfLiveCells:0];
+
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
+    [self fillCArray:_previousArrayOfCells withNSArray:self.previousNSArrayOfCells];
+
+    NSArray *liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+
+    self.gameBoardView.boardSize = self.boardSize;
+    self.gameBoardView.liveCells = liveCells;
+
+    self.isRewindingPossible = NO;
+}
+
 - (NSArray *)initialBoardLiveCells
 {
     return [self liveCellsFromGameMatrix:self.initialBoard];
@@ -187,7 +224,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
     return cells;
 }
 
-- (NSArray *)generateInitialCellsWithColumns:(NSUInteger)numberOfColumns rows:(NSUInteger)numberOfRows
+- (NSArray *)generateInitialCellsWithColumns:(NSUInteger)numberOfColumns rows:(NSUInteger)numberOfRows percentageOfLiveCells:(NSUInteger)percentageOfLiveCells
 {
     NSMutableArray *cells = [NSMutableArray array];
 
@@ -200,7 +237,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
             newCell.column = columnIndex;
             newCell.row = rowIndex;
 
-            newCell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:15];
+            newCell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:percentageOfLiveCells];
 
             cells[columnIndex * numberOfRows + rowIndex] = newCell;
         }
@@ -428,9 +465,9 @@ static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
         [self pause];
     }
 
-    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *cellsArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows percentageOfLiveCells:15];
     NSArray *initialBoard = [[NSArray alloc] initWithArray:cellsArray copyItems:YES];
-    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows];
+    NSArray *secondArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows percentageOfLiveCells:0];
 
     self.currentCellsNSArray = cellsArray;
     self.initialBoard = initialBoard;

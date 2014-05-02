@@ -153,7 +153,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)loadSavedGame:(FWSavedGame *)savedGame
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.gameViewController loadSavedGame:savedGame];
+
+    [self.gameViewController setForceResumeAfterInterruption:NO];
     [self closeMenu];
 }
 

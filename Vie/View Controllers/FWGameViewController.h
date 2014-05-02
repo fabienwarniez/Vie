@@ -5,6 +5,7 @@
 
 @class FWBoardView;
 @class FWBoardSizeModel;
+@class FWSavedGame;
 
 @interface FWGameViewController : UIViewController
 
@@ -30,6 +31,7 @@
 
 - (void)play;
 - (void)pause;
+- (void)loadSavedGame:(FWSavedGame *)savedGame;
 
 - (NSArray *)initialBoardLiveCells;
 

@@ -126,7 +126,7 @@ static NSString * const kUserSavedGameDictionaryCellsKey = @"cells";
     NSMutableArray *serializedCells = [NSMutableArray array];
     for (FWCellModel *cell in savedGame.liveCells)
     {
-        NSNumber *cellIndex = [NSNumber numberWithUnsignedInteger:cell.column + cell.row * savedGame.boardSize.numberOfColumns];
+        NSNumber *cellIndex = [NSNumber numberWithUnsignedInteger:cell.column * savedGame.boardSize.numberOfRows + cell.row];
         [serializedCells addObject:cellIndex];
     }
 
@@ -153,8 +153,8 @@ static NSString * const kUserSavedGameDictionaryCellsKey = @"cells";
     for (NSNumber *liveCellIndexObject in cells)
     {
         NSUInteger liveCellIndex = [liveCellIndexObject unsignedIntegerValue];
-        NSUInteger column = liveCellIndex % numberOfColumns;
-        NSUInteger row = liveCellIndex / numberOfRows;
+        NSUInteger column = liveCellIndex / numberOfColumns;
+        NSUInteger row = liveCellIndex % numberOfRows;
         FWCellModel *cellModel = [FWCellModel cellWithAlive:YES column:column row:row];
         [deserializedCells addObject:cellModel];
     }
