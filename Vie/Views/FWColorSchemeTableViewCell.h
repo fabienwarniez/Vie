@@ -7,8 +7,6 @@
 
 @interface FWColorSchemeTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UILabel *colorNameLabel;
-
 @property (nonatomic, strong) UIColor *cellPreviewFillColor;
 
 @end

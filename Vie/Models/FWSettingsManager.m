@@ -153,7 +153,7 @@ static NSString * const kUserSavedGameDictionaryCellsKey = @"cells";
     for (NSNumber *liveCellIndexObject in cells)
     {
         NSUInteger liveCellIndex = [liveCellIndexObject unsignedIntegerValue];
-        NSUInteger column = liveCellIndex / numberOfColumns;
+        NSUInteger column = liveCellIndex / numberOfRows;
         NSUInteger row = liveCellIndex % numberOfRows;
         FWCellModel *cellModel = [FWCellModel cellWithAlive:YES column:column row:row];
         [deserializedCells addObject:cellModel];

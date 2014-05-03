@@ -30,10 +30,9 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerNib:[UINib nibWithNibName:@"FWColorSchemeTableViewCell" bundle:nil]
-         forCellReuseIdentifier:kFWColorSchemePickerCellIdentifier];
+        [_tableView registerClass:[FWColorSchemeTableViewCell class] forCellReuseIdentifier:kFWColorSchemePickerCellIdentifier];
 
-        _colors = [FWColorSchemeModel colorSchemesFromFile];
+        _colors = [FWColorSchemeModel colors];
         _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
     }
     return self;
@@ -61,7 +60,6 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
     FWColorSchemeModel *model = self.colors[(NSUInteger) indexPath.row];
     FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWColorSchemePickerCellIdentifier
                                                                        forIndexPath:indexPath];
-    cell.colorNameLabel.text = model.colorSchemeName;
     cell.cellPreviewFillColor = model.fillColor;
     if ([model isEqualToColorScheme:self.currentlyActiveColorScheme])
     {

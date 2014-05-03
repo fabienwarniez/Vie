@@ -43,7 +43,7 @@
 {
     if (_colorScheme == nil)
     {
-        NSArray *colorSchemes = [FWColorSchemeModel colorSchemesFromFile];
+        NSArray *colorSchemes = [FWColorSchemeModel colors];
         NSString *colorSchemeGuid = [FWSettingsManager getUserColorSchemeGuid];
 
         FWColorSchemeModel *userColorScheme = [FWColorSchemeModel colorSchemeFromGuid:colorSchemeGuid inArray:colorSchemes];

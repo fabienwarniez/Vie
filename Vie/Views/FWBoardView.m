@@ -108,13 +108,6 @@
     [self setNeedsDisplay];
 }
 
-- (void)setBorderColor:(UIColor *)borderColor
-{
-    _borderColor = borderColor;
-
-    [self setNeedsDisplay];
-}
-
 - (void)setFillColor:(UIColor *)fillColor
 {
     _fillColor = fillColor;

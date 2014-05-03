@@ -10,7 +10,7 @@
 #import "FWRandomNumberGenerator.h"
 #import "FWSavedGame.h"
 
-static CGFloat const kFWGameViewControllerBoardPadding = 10.0f;
+static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
 @interface FWGameViewController ()
 {
