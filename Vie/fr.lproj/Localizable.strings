@@ -17,3 +17,6 @@
 "board_size_medium" = "Moyenne";
 "board_size_large" = "Grande";
 "board_size_extra_large" = "Très Grande";
+"menu_item_save_game" = "Sauvegarder";
+"menu_item_load_game" = "Charger";
+"saved_game_picker_title" = "Parties";

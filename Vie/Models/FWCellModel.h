@@ -9,4 +9,8 @@
 @property (nonatomic, assign) NSUInteger column;
 @property (nonatomic, assign) NSUInteger row;
 
+- (instancetype)initWithAlive:(BOOL)alive column:(NSUInteger)column row:(NSUInteger)row;
+
++ (instancetype)cellWithAlive:(BOOL)alive column:(NSUInteger)column row:(NSUInteger)row;
+
 @end

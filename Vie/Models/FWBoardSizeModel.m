@@ -55,4 +55,9 @@
     ];
 }
 
++ (instancetype)defaultBoardSize
+{
+    return [[FWBoardSizeModel boardSizes] firstObject];
+}
+
 @end

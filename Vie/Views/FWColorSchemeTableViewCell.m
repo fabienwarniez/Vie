@@ -9,15 +9,19 @@
 #import "FWCellModel.h"
 #import "FWRandomNumberGenerator.h"
 
-static NSUInteger const kFWColorSchemeTableViewCellNumberOfColumns = 9;
-static NSUInteger const kFWColorSchemeTableViewCellNumberOfRows = 3;
 static CGFloat const kFWColorSchemeTableViewCellBorderWidth = 2.0f;
-static CGFloat const kFWColorSchemeTableViewCellSpacingWidth = 10.0f;
+static CGFloat const kFWColorSchemeTableViewCellSpacingWidth = 15.0f;
+static CGFloat const kFWColorSchemeTableViewCellBoardWidthForPhone = 180.0f;
+static CGFloat const kFWColorSchemeTableViewCellBoardWidthForPad = 260.0f;
+static CGFloat const kFWColorSchemeTableViewCellBoardHeight = 30.0f;
+static CGFloat const kFWColorSchemeTableViewCellCellSize = 10.0f;
 static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 
 @interface FWColorSchemeTableViewCell ()
 
 @property (nonatomic, strong) FWBoardView *gameBoardView;
+@property (nonatomic, assign) NSUInteger numberOfColumns;
+@property (nonatomic, assign) NSUInteger numberOfRows;
 
 @end
 
@@ -25,16 +29,27 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 
 #pragma mark - UIView
 
-- (id)initWithCoder:(NSCoder *)coder
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithCoder:coder];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            _numberOfColumns = (NSUInteger) (kFWColorSchemeTableViewCellBoardWidthForPhone / kFWColorSchemeTableViewCellCellSize);
+        }
+        else
+        {
+            _numberOfColumns = (NSUInteger) (kFWColorSchemeTableViewCellBoardWidthForPad / kFWColorSchemeTableViewCellCellSize);
+        }
+        _numberOfRows = (NSUInteger) (kFWColorSchemeTableViewCellBoardHeight / kFWColorSchemeTableViewCellCellSize);
+
         _gameBoardView = [[FWBoardView alloc] init];
+        _gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         _gameBoardView.backgroundColor = [UIColor clearColor];
-        _gameBoardView.boardSize = [[FWBoardSizeModel alloc] initWithName:nil numberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
+        _gameBoardView.boardSize = [[FWBoardSizeModel alloc] initWithName:nil numberOfColumns:_numberOfColumns numberOfRows:_numberOfRows];
         _gameBoardView.borderWidth = kFWColorSchemeTableViewCellBorderWidth;
-        _gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
+        _gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows];
 
         [self.contentView addSubview:_gameBoardView];
     }
@@ -45,8 +60,15 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 {
     [super layoutSubviews];
 
-    // TODO: make this more elegant
-    _gameBoardView.frame = CGRectMake(CGRectGetMaxX(self.colorNameLabel.frame) + kFWColorSchemeTableViewCellSpacingWidth, 10, 90, 30);
+    CGFloat yOffset = (self.contentView.bounds.size.height - kFWColorSchemeTableViewCellBoardHeight) / 2.0f;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        _gameBoardView.frame = CGRectMake(kFWColorSchemeTableViewCellSpacingWidth, yOffset, kFWColorSchemeTableViewCellBoardWidthForPhone, kFWColorSchemeTableViewCellBoardHeight);
+    }
+    else
+    {
+        _gameBoardView.frame = CGRectMake(kFWColorSchemeTableViewCellSpacingWidth, yOffset, kFWColorSchemeTableViewCellBoardWidthForPad, kFWColorSchemeTableViewCellBoardHeight);
+    }
 }
 
 #pragma mark - UITableViewCell
@@ -55,8 +77,7 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 {
     [super prepareForReuse];
     self.cellPreviewFillColor = nil;
-    self.cellPreviewBorderColor = nil;
-    self.gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:kFWColorSchemeTableViewCellNumberOfColumns numberOfRows:kFWColorSchemeTableViewCellNumberOfRows];
+    self.gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows];
 }
 
 #pragma mark - Accessors
@@ -65,11 +86,6 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 {
     _cellPreviewFillColor = cellPreviewFillColor;
     self.gameBoardView.fillColor = cellPreviewFillColor;
-}
-
-- (void)setCellPreviewBorderColor:(UIColor *)cellPreviewBorderColor
-{
-    self.gameBoardView.borderColor = cellPreviewBorderColor;
 }
 
 #pragma mark - Private Methods

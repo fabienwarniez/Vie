@@ -4,50 +4,25 @@
 //
 
 #import "FWColorSchemeModel.h"
-#import "UIColor+FWConvenience.h"
+
+static NSArray *kFWColorSchemeColorList = nil;
 
 @implementation FWColorSchemeModel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
-    self = [super init];
-    if (self)
-    {
-        _guid = [dictionary valueForKey:@"guid"];
-
-        NSString *fillColorHexString = [dictionary valueForKey:@"fill_color"];
-        _fillColor = [UIColor colorWithHexString:fillColorHexString];
-
-        _colorSchemeName = [dictionary valueForKey:@"color_name"];
-
-        if (_guid == nil || _fillColor == nil || _colorSchemeName == nil)
-        {
-            self = nil;
-        }
-    }
-    return self;
-}
-
-+ (instancetype)colorSchemeWithDictionary:(NSDictionary *)dictionary
-{
-    return [[self alloc] initWithDictionary:dictionary];
-}
-
-- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor colorSchemeName:(NSString *)colorSchemeName
+- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor
 {
     self = [super init];
     if (self)
     {
         _guid = guid;
         _fillColor = fillColor;
-        _colorSchemeName = colorSchemeName;
     }
     return self;
 }
 
-+ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor colorSchemeName:(NSString *)colorSchemeName
++ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor
 {
-    return [[self alloc] initWithGuid:nil fillColor:fillColor colorSchemeName:colorSchemeName];
+    return [[self alloc] initWithGuid:guid fillColor:fillColor];
 }
 
 - (BOOL)isEqual:(id)other
@@ -71,22 +46,6 @@
     return [self.guid isEqualToString:otherColorScheme.guid];
 }
 
-+ (NSArray *)colorSchemesFromFile
-{
-    NSMutableArray *colorSchemes = [NSMutableArray array];
-
-    NSArray *colorList = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Colors" ofType:@"plist"]];
-    NSAssert(colorList != nil, @"Colors.plist is corrupted. Root object is not an array.");
-    for (NSDictionary *colorDictionary in colorList)
-    {
-        FWColorSchemeModel *colorObject = [FWColorSchemeModel colorSchemeWithDictionary:colorDictionary];
-        NSAssert(colorObject != nil, @"Colors.plist is corrupted. At least one entry did not contain valid values.");
-        [colorSchemes addObject:colorObject];
-    }
-
-    return [colorSchemes copy];
-}
-
 + (FWColorSchemeModel *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array
 {
     FWColorSchemeModel *userColorScheme = nil;
@@ -98,6 +57,26 @@
         }
     }
     return userColorScheme;
+}
+
++ (NSArray *)colors
+{
+    if (kFWColorSchemeColorList == nil)
+    {
+        kFWColorSchemeColorList = @[
+                [FWColorSchemeModel colorSchemeWithGuid:@"default" fillColor:[UIColor colorWithRed:200.0f/255.0f green:200.0f/255.0f blue:200.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color1" fillColor:[UIColor colorWithRed:228.0f/255.0f green:144.0f/255.0f blue:63.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color2" fillColor:[UIColor colorWithRed:228.0f/255.0f green:191.0f/255.0f blue:63.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color3" fillColor:[UIColor colorWithRed:200.0f/255.0f green:228.0f/255.0f blue:63.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color4" fillColor:[UIColor colorWithRed:63.0f/255.0f green:212.0f/255.0f blue:228.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color5" fillColor:[UIColor colorWithRed:63.0f/255.0f green:166.0f/255.0f blue:228.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color6" fillColor:[UIColor colorWithRed:187.0f/255.0f green:112.0f/255.0f blue:233.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color7" fillColor:[UIColor colorWithRed:229.0f/255.0f green:117.0f/255.0f blue:214.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color8" fillColor:[UIColor colorWithRed:229.0f/255.0f green:117.0f/255.0f blue:174.0f/255.0f alpha:1.0]],
+                [FWColorSchemeModel colorSchemeWithGuid:@"color9" fillColor:[UIColor colorWithRed:229.0f/255.0f green:113.0f/255.0f blue:132.0f/255.0f alpha:1.0]]
+        ];
+    }
+    return kFWColorSchemeColorList;
 }
 
 @end

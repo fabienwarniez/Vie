@@ -5,12 +5,16 @@
 
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
+@class FWSavedGame;
 
 @interface FWUserModel : NSObject
 
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, strong) FWBoardSizeModel *gameBoardSize;
+@property (nonatomic, strong, readonly) NSArray *savedGames;
 
 + (instancetype)sharedUserModel;
+
+- (void)addSavedGame:(FWSavedGame *)savedGame;
 
 @end

@@ -11,7 +11,6 @@
 @property (nonatomic, assign) CGFloat minimumBoardPadding;
 @property (nonatomic, strong) NSArray *liveCells;
 @property (nonatomic, assign) CGFloat borderWidth;
-@property (nonatomic, strong) UIColor *borderColor;
 @property (nonatomic, strong) UIColor *fillColor;
 
 @end
