@@ -16,9 +16,9 @@
 
 @implementation FWBoardView
 
-#pragma mark - UIView
+#pragma mark - Initializers
 
-- (id)initWithCoder:(NSCoder *)coder
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self)
@@ -37,6 +37,8 @@
     }
     return self;
 }
+
+#pragma mark - UIView
 
 - (void)layoutSubviews
 {
@@ -85,13 +87,6 @@
 
 #pragma mark - Accessors
 
-- (void)setBoardSize:(FWBoardSizeModel *)boardSize
-{
-    _boardSize = boardSize;
-
-    [self setNeedsLayout];
-}
-
 - (void)setLiveCells:(NSArray *)liveCells
 {
     NSAssert(self.boardSize != nil, @"The game board size must be set before setting currentCellsNSArray.");
@@ -99,6 +94,13 @@
     _liveCells = liveCells;
 
     [self setNeedsDisplay];
+}
+
+- (void)setBoardSize:(FWBoardSizeModel *)boardSize
+{
+    _boardSize = boardSize;
+
+    [self setNeedsLayout];
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth
@@ -113,19 +115,6 @@
     _fillColor = fillColor;
 
     [self setNeedsDisplay];
-}
-
-#pragma mark - Private Methods
-
-- (CGSize)calculateCellSize
-{
-    CGFloat totalBorderWidth = (self.boardSize.numberOfColumns - 1) * self.borderWidth;
-    CGFloat totalBorderHeight = (self.boardSize.numberOfRows - 1) * self.borderWidth;
-    CGFloat cellWidth = (self.bounds.size.width - 2 * self.minimumBoardPadding - totalBorderWidth) / self.boardSize.numberOfColumns;
-    CGFloat cellHeight = (self.bounds.size.height - 2 * self.minimumBoardPadding - totalBorderHeight) / self.boardSize.numberOfRows;
-    CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideLength = floorf(pixelScale * MIN(cellWidth, cellHeight)) / pixelScale;
-    return CGSizeMake(cellSideLength, cellSideLength);
 }
 
 @end

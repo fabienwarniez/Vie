@@ -24,6 +24,8 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 @implementation FWMainViewController
 
+#pragma mark - Initializers
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -109,6 +111,11 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     }
 }
 
+- (IBAction)handleGameBoardOverlayTapped:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    [self closeMenu];
+}
+
 #pragma mark - FWMainMenuViewControllerDelegate
 
 - (void)saveCurrentGame
@@ -180,9 +187,14 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
                          newFrame.origin.x += self.menuNavigationControllerContainerView.frame.size.width;
                          self.mainContentContainerView.frame = newFrame;
                      }
-                     completion:nil];
-
-    self.isMenuExpanded = YES;
+                     completion:^(BOOL finished)
+                     {
+                         if (finished)
+                         {
+                             self.isMenuExpanded = YES;
+                             self.gameBoardOverlayView.hidden = NO;
+                         }
+                     }];
 }
 
 - (void)closeMenu
@@ -195,11 +207,15 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
                          newFrame.origin.x = 0;
                          self.mainContentContainerView.frame = newFrame;
                      }
-                     completion:nil];
-
-    self.isMenuExpanded = NO;
-
-    [self.gameViewController resumeAfterInterruption];
+                     completion:^(BOOL finished)
+                     {
+                         if (finished)
+                         {
+                             [self.gameViewController resumeAfterInterruption];
+                             self.isMenuExpanded = NO;
+                             self.gameBoardOverlayView.hidden = YES;
+                         }
+                     }];
 }
 
 @end

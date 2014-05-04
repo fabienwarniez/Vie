@@ -23,8 +23,10 @@
 @property (nonatomic, strong) IBOutlet UIView *menuNavigationControllerContainerView;
 @property (nonatomic, strong) IBOutlet UIView *mainContentContainerView;
 @property (nonatomic, strong) IBOutlet UIView *gameBoardContainerView;
+@property (nonatomic, strong) IBOutlet UIView *gameBoardOverlayView;
 
 - (IBAction)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer;
 - (IBAction)handleMenuButtonTapped:(id)sender;
+- (IBAction)handleGameBoardOverlayTapped:(UITapGestureRecognizer *)tapGestureRecognizer;
 
 @end
