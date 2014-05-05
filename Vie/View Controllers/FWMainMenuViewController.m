@@ -5,10 +5,10 @@
 
 #import "FWMainMenuViewController.h"
 #import "FWMainViewController.h"
-#import "FWSavedGamePickerTableViewController.h"
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
+static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2.0;
 
 @interface FWMainMenuViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -73,7 +73,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     }
     else
     {
-        NSAssert(false, @"There are only 2 items in the menu");
+        NSAssert(false, @"There are only 4 items in the menu");
     }
 
     dequeuedCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -112,7 +112,13 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     }
     else if (indexPath.row == 2)
     {
+        UITableViewCell *saveGameCell = [tableView cellForRowAtIndexPath:indexPath];
         [self.delegate saveCurrentGame];
+        saveGameCell.accessoryType = UITableViewCellAccessoryCheckmark;
+        __weak UITableViewCell *weakCell = saveGameCell;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kFWMainMenuViewControllerCheckmarkIndicatorDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            weakCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        });
     }
     else if (indexPath.row == 3)
     {
