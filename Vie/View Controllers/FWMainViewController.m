@@ -181,7 +181,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
     [UIView animateWithDuration:0.3
                           delay:0.0
-                        options: UIViewAnimationOptionCurveEaseOut
+                        options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          CGRect newFrame = self.mainContentContainerView.frame;
                          newFrame.origin.x += self.menuNavigationControllerContainerView.frame.size.width;
@@ -201,7 +201,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 {
     [UIView animateWithDuration:0.3
                           delay:0.0
-                        options: UIViewAnimationOptionCurveEaseOut
+                        options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          CGRect newFrame = self.mainContentContainerView.frame;
                          newFrame.origin.x = 0;
