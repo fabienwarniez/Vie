@@ -6,6 +6,8 @@
 #import "FWSmartTableViewCell.h"
 #import "UIColor+FWAppColors.h"
 
+static NSTimeInterval const kFWSmartTableViewCellCheckmarkIndicatorDelay = 2.0;
+
 @interface FWSmartTableViewCell ()
 
 @property (nonatomic, strong) UIColor *savedBackgroundColor;
@@ -24,13 +26,24 @@
         UIView *backgroundView = [[UIView alloc] init];
         backgroundView.backgroundColor = [UIColor whiteColor];
         self.backgroundView = backgroundView;
-
-        UIView *selectedBackgroundView = [[UIView alloc] init];
-        selectedBackgroundView.backgroundColor = [UIColor selectedTableViewCellColor];
-        self.selectedBackgroundView = selectedBackgroundView;
-        self.savedBackgroundColor = selectedBackgroundView.backgroundColor;
+        self.savedBackgroundColor = backgroundView.backgroundColor;
     }
     return self;
+}
+
+- (void)showSaveButton
+{
+    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [saveButton setImage:[UIImage imageNamed:@"save"] forState:UIControlStateNormal];
+    [saveButton addTarget:self action:@selector(accessoryButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton sizeToFit];
+    self.accessoryView = saveButton;
+}
+
+- (void)accessoryButtonTapped:(id)sender
+{
+    [self markAsCompleteFor:kFWSmartTableViewCellCheckmarkIndicatorDelay];
+    [self.delegate accessoryButtonTapped:self];
 }
 
 - (void)prepareForReuse
@@ -39,12 +52,13 @@
 
     self.backgroundView.backgroundColor = [UIColor whiteColor];
     self.selectedBackgroundView.backgroundColor = [UIColor selectedTableViewCellColor];
+    self.savedBackgroundColor = self.selectedBackgroundView.backgroundColor;
+    self.delegate = nil;
 }
 
 - (void)markAsCompleteFor:(NSTimeInterval)seconds
 {
-    UIImageView *accessoryImageView = (UIImageView *) self.accessoryView;
-    self.savedBackgroundColor = self.backgroundView.backgroundColor;
+    UIButton *accessoryButton = (UIButton *) self.accessoryView;
 
     __weak FWSmartTableViewCell *weakSelf = self;
 
@@ -54,11 +68,14 @@
                     }
                     completion:nil];
 
-    [UIView transitionWithView:accessoryImageView
+    accessoryButton.imageView.animationImages = [NSArray arrayWithObject:[UIImage imageNamed:@"checkmark"]];
+    [accessoryButton.imageView startAnimating];
+
+    [UIView transitionWithView:accessoryButton
                       duration:0.3
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
-                        accessoryImageView.image = [UIImage imageNamed:@"checkmark"];
+
                     }
             completion:nil];
 
@@ -69,11 +86,13 @@
                          }
                          completion:nil];
 
-        [UIView transitionWithView:accessoryImageView
+        accessoryButton.imageView.animationImages = [NSArray arrayWithObject:[UIImage imageNamed:@"save"]];
+        [accessoryButton.imageView startAnimating];
+
+        [UIView transitionWithView:accessoryButton
                           duration:0.3
                            options:UIViewAnimationOptionTransitionFlipFromRight
                         animations:^{
-                            accessoryImageView.image = [UIImage imageNamed:@"right_arrow"];
                         }
                         completion:nil];
     });

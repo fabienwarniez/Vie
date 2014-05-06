@@ -9,9 +9,8 @@
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
-static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2.0;
 
-@interface FWMainMenuViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface FWMainMenuViewController () <UITableViewDataSource, UITableViewDelegate, FWSmartTableViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -56,28 +55,33 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
 {
     FWSmartTableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:kFWMainMenuViewControllerCellIdentifier forIndexPath:indexPath];
 
-    if (indexPath.row == 0)
-    {
-        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_cell_color", nil);
-    }
-    else if (indexPath.row == 1)
-    {
-        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_board_size", nil);
-    }
-    else if (indexPath.row == 2)
+    if (indexPath.row == 2)
     {
         dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_save_game", nil);
-    }
-    else if (indexPath.row == 3)
-    {
-        dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_load_game", nil);
+        dequeuedCell.delegate = self;
+        [dequeuedCell showSaveButton];
     }
     else
     {
-        NSAssert(false, @"There are only 4 items in the menu");
-    }
+        if (indexPath.row == 0)
+        {
+            dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_cell_color", nil);
+        }
+        else if (indexPath.row == 1)
+        {
+            dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_board_size", nil);
+        }
+        else if (indexPath.row == 3)
+        {
+            dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_load_game", nil);
+        }
+        else
+        {
+            NSAssert(false, @"There are only 4 items in the menu");
+        }
 
-    dequeuedCell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_arrow"]];
+        dequeuedCell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_arrow"]];
+    }
 
     return dequeuedCell;
 }
@@ -91,7 +95,7 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return indexPath.row != 2;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,18 +114,18 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
         boardSizePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:boardSizePickerTableViewController animated:YES];
     }
-    else if (indexPath.row == 2)
-    {
-        FWSmartTableViewCell *saveGameCell = (FWSmartTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
-        [self.delegate saveCurrentGame];
-        [saveGameCell markAsCompleteFor:kFWMainMenuViewControllerCheckmarkIndicatorDelay];
-    }
     else if (indexPath.row == 3)
     {
         FWSavedGamePickerTableViewController *savedGamePickerTableViewController = [[FWSavedGamePickerTableViewController alloc] init];
         savedGamePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:savedGamePickerTableViewController animated:YES];
     }
+}
+
+- (void)accessoryButtonTapped:(FWSmartTableViewCell *)sender
+{
+//    FWSmartTableViewCell *saveGameCell = (FWSmartTableViewCell *) [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    [self.delegate saveCurrentGame];
 }
 
 @end
