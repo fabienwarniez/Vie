@@ -15,6 +15,7 @@
         _alive = alive;
         _column = column;
         _row = row;
+        _age = 0;
     }
     return self;
 }
@@ -30,6 +31,7 @@
     copy.alive = self.alive;
     copy.column = self.column;
     copy.row = self.row;
+    copy.age = self.age;
 
     return copy;
 }

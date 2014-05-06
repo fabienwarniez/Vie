@@ -6,11 +6,19 @@
 @interface FWColorSchemeModel : NSObject
 
 @property (nonatomic, strong) NSString *guid;
-@property (nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *youngFillColor;
+@property (nonatomic, strong) UIColor *mediumFillColor;
+@property (nonatomic, strong) UIColor *oldFillColor;
 
-- (instancetype)initWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor;
+- (instancetype)initWithGuid:(NSString *)guid
+              youngFillColor:(UIColor *)youngFillColor
+             mediumFillColor:(UIColor *)mediumFillColor
+                oldFillColor:(UIColor *)oldFillColor;
 
-+ (instancetype)colorSchemeWithGuid:(NSString *)guid fillColor:(UIColor *)fillColor;
++ (instancetype)colorSchemeWithGuid:(NSString *)guid
+                     youngFillColor:(UIColor *)youngFillColor
+                    mediumFillColor:(UIColor *)mediumFillColor
+                       oldFillColor:(UIColor *)oldFillColor;
 
 - (BOOL)isEqualToColorScheme:(FWColorSchemeModel *)other;
 

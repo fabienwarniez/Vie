@@ -6,6 +6,10 @@
 #import "FWBoardView.h"
 #import "FWCellModel.h"
 #import "FWBoardSizeModel.h"
+#import "FWColorSchemeModel.h"
+#import "FWGameViewController.h"
+
+static NSUInteger const kFWNumberOfCellAgeGroups = 3;
 
 @interface FWBoardView ()
 
@@ -68,21 +72,34 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGFloat borderWidth = self.borderWidth;
-    CGContextSetFillColorWithColor(context, self.fillColor.CGColor);
 
     CGSize cellSize = self.cellSize;
     CGPoint origin = self.cellContainerFrame.origin;
 
-    for (FWCellModel *cell in self.liveCells)
+    for (NSUInteger i = 0; i < kFWNumberOfCellAgeGroups; i++)
     {
-        if (cell.alive)
+        NSArray *groupedCells = self.liveCells[i];
+        for (FWCellModel *cell in groupedCells)
         {
             CGRect cellRect = CGRectMake(origin.x + cell.column * (cellSize.width + borderWidth), origin.y + cell.row * (cellSize.height + borderWidth), cellSize.width, cellSize.height);
             CGContextAddRect(context, cellRect);
         }
-    }
 
-    CGContextDrawPath(context, kCGPathFill);
+        if (i == FWCellAgeGroupYoung)
+        {
+            CGContextSetFillColorWithColor(context, self.fillColorScheme.youngFillColor.CGColor);
+        }
+        else if (i == FWCellAgeGroupMedium)
+        {
+            CGContextSetFillColorWithColor(context, self.fillColorScheme.mediumFillColor.CGColor);
+        }
+        else if (i == FWCellAgeGroupOld)
+        {
+            CGContextSetFillColorWithColor(context, self.fillColorScheme.oldFillColor.CGColor);
+        }
+
+        CGContextDrawPath(context, kCGPathFill);
+    }
 }
 
 #pragma mark - Accessors
@@ -90,6 +107,7 @@
 - (void)setLiveCells:(NSArray *)liveCells
 {
     NSAssert(self.boardSize != nil, @"The game board size must be set before setting currentCellsNSArray.");
+    NSAssert(liveCells.count == 3, @"Trying to set an array of cells with more or less than 3 age groups.");
 
     _liveCells = liveCells;
 
@@ -110,9 +128,9 @@
     [self setNeedsDisplay];
 }
 
-- (void)setFillColor:(UIColor *)fillColor
+- (void)setFillColorScheme:(FWColorSchemeModel *)fillColorScheme
 {
-    _fillColor = fillColor;
+    _fillColorScheme = fillColorScheme;
 
     [self setNeedsDisplay];
 }
