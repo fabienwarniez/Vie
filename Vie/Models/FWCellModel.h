@@ -6,6 +6,7 @@
 @interface FWCellModel : NSObject <NSCopying>
 
 @property (nonatomic, assign) BOOL alive;
+@property (nonatomic, assign) NSUInteger age;
 @property (nonatomic, assign) NSUInteger column;
 @property (nonatomic, assign) NSUInteger row;
 

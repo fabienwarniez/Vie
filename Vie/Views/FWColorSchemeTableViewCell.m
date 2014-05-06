@@ -7,6 +7,7 @@
 #import "FWBoardView.h"
 #import "FWBoardSizeModel.h"
 #import "FWCellModel.h"
+#import "FWColorSchemeModel.h"
 #import "FWRandomNumberGenerator.h"
 
 static CGFloat const kFWColorSchemeTableViewCellBorderWidth = 2.0f;
@@ -76,23 +77,23 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    self.cellPreviewFillColor = nil;
-    self.gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:_numberOfColumns numberOfRows:_numberOfRows];
+    self.cellPreviewFillColorScheme = nil;
+    self.gameBoardView.liveCells = [self randomArrayOfCellsWithNumberOfColumns:self.numberOfColumns numberOfRows:self.numberOfRows];
 }
 
 #pragma mark - Accessors
 
-- (void)setCellPreviewFillColor:(UIColor *)cellPreviewFillColor
+- (void)setCellPreviewFillColorScheme:(FWColorSchemeModel *)cellPreviewFillColorScheme
 {
-    _cellPreviewFillColor = cellPreviewFillColor;
-    self.gameBoardView.fillColor = cellPreviewFillColor;
+    _cellPreviewFillColorScheme = cellPreviewFillColorScheme;
+    self.gameBoardView.fillColorScheme = cellPreviewFillColorScheme;
 }
 
 #pragma mark - Private Methods
 
 - (NSArray *)randomArrayOfCellsWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
 {
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
 
     for (NSUInteger columnIterator = 0; columnIterator < numberOfColumns; columnIterator++)
     {
@@ -104,7 +105,8 @@ static NSUInteger const kFWColorSchemeTableViewCellLiveCellPercentage = 30;
             cell.alive = [FWRandomNumberGenerator randomBooleanWithPositivePercentageOf:kFWColorSchemeTableViewCellLiveCellPercentage];
             if (cell.alive)
             {
-                [array addObject:cell];
+                NSUInteger ageGroup = [FWRandomNumberGenerator randomUnsignedIntegerBetweenLowerBound:0 andHigherBound:2];
+                [array[ageGroup] addObject:cell];
             }
         }
     }

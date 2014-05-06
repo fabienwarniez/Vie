@@ -6,6 +6,14 @@
 @class FWBoardView;
 @class FWBoardSizeModel;
 @class FWSavedGame;
+@class FWColorSchemeModel;
+
+typedef enum FWCellAgeGroup
+{
+    FWCellAgeGroupYoung = 0,
+    FWCellAgeGroupMedium = 1,
+    FWCellAgeGroupOld = 2
+} FWCellAgeGroup;
 
 @interface FWGameViewController : UIViewController
 
@@ -23,7 +31,7 @@
 
 // Cell Style
 @property (nonatomic, assign) CGFloat cellBorderWidth;
-@property (nonatomic, strong) UIColor *cellFillColor;
+@property (nonatomic, strong) FWColorSchemeModel *cellFillColorScheme;
 
 - (void)interruptGame;
 - (void)resumeAfterInterruption;

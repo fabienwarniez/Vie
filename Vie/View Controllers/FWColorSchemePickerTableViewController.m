@@ -60,7 +60,7 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
     FWColorSchemeModel *model = self.colors[(NSUInteger) indexPath.row];
     FWColorSchemeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWColorSchemePickerCellIdentifier
                                                                        forIndexPath:indexPath];
-    cell.cellPreviewFillColor = model.fillColor;
+    cell.cellPreviewFillColorScheme = model;
     if ([model isEqualToColorScheme:self.currentlyActiveColorScheme])
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;

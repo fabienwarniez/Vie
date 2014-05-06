@@ -4,9 +4,10 @@
 //
 
 @class FWBoardView;
+@class FWColorSchemeModel;
 
 @interface FWColorSchemeTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UIColor *cellPreviewFillColor;
+@property (nonatomic, strong) FWColorSchemeModel *cellPreviewFillColorScheme;
 
 @end

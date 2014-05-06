@@ -36,7 +36,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         _gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
         _gameViewController.boardSize = userModel.gameBoardSize;
         _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
-        _gameViewController.cellFillColor = userModel.colorScheme.fillColor;
+        _gameViewController.cellFillColorScheme = userModel.colorScheme;
 
         _isMenuExpanded = NO;
     }
@@ -142,7 +142,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
     [sharedUserModel setColorScheme:newColorScheme];
 
-    self.gameViewController.cellFillColor = newColorScheme.fillColor;
+    self.gameViewController.cellFillColorScheme = newColorScheme;
 }
 
 #pragma mark - FWBoardSizePickerTableViewControllerDelegate

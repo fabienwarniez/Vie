@@ -9,6 +9,7 @@
 #import "FWBoardSizeModel.h"
 #import "FWRandomNumberGenerator.h"
 #import "FWSavedGame.h"
+#import "FWColorSchemeModel.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
@@ -69,10 +70,10 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     self.gameBoardView.borderWidth = cellBorderWidth;
 }
 
-- (void)setCellFillColor:(UIColor *)cellFillColor
+- (void)setCellFillColorScheme:(FWColorSchemeModel *)cellFillColorScheme
 {
-    _cellFillColor = cellFillColor;
-    self.gameBoardView.fillColor = cellFillColor;
+    _cellFillColorScheme = cellFillColorScheme;
+    self.gameBoardView.fillColorScheme = cellFillColorScheme;
 }
 
 - (void)setIsRewindingPossible:(BOOL)isRewindingPossible
@@ -188,7 +189,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
     [self fillCArray:_previousArrayOfCells withNSArray:self.previousNSArrayOfCells];
 
-    NSArray *liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+    NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
 
     self.gameBoardView.boardSize = self.boardSize;
     self.gameBoardView.liveCells = liveCells;
@@ -255,7 +256,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     NSArray *nextCycleArray = self.previousNSArrayOfCells;
     FWCellModel * __unsafe_unretained *currentCycleArray = _currentCellsArray;
-    NSMutableArray *liveCellsArray = [NSMutableArray array];
+    NSMutableArray *liveCellsArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
@@ -342,6 +343,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
                 else
                 {
                     nextCycleCell.alive = YES;
+                    nextCycleCell.age = currentCell.age + 1;
                 }
             }
             else
@@ -349,6 +351,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
                 if (numberOfNeighbours == 3)
                 {
                     nextCycleCell.alive = YES;
+                    nextCycleCell.age = 0;
                 }
                 else
                 {
@@ -358,7 +361,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
             if (nextCycleCell.alive)
             {
-                [liveCellsArray addObject:nextCycleCell];
+                [liveCellsArray[[FWGameViewController ageGroupFromAge:nextCycleCell.age]] addObject:nextCycleCell];
             }
         }
     }
@@ -396,7 +399,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     [self copyCellsStatusesFromArray:self.initialBoard toArray:self.currentCellsNSArray];
     [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
 
-    self.gameBoardView.liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+    self.gameBoardView.liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
 
     self.isRewindingPossible = NO;
 }
@@ -439,7 +442,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
         self.isRewindingPossible = NO;
 
-        NSArray *liveCells = [self liveCellsFromGameMatrix:self.currentCellsNSArray];
+        NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
         self.gameBoardView.liveCells = liveCells;
     }
 }
@@ -476,11 +479,11 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
     [self fillCArray:_previousArrayOfCells withNSArray:self.previousNSArrayOfCells];
 
-    NSArray *liveCells = [self liveCellsFromGameMatrix:cellsArray];
+    NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:cellsArray];
 
     self.gameBoardView.boardSize = self.boardSize;
     self.gameBoardView.borderWidth = self.cellBorderWidth;
-    self.gameBoardView.fillColor = self.cellFillColor;
+    self.gameBoardView.fillColorScheme = self.cellFillColorScheme;
     self.gameBoardView.liveCells = liveCells;
 
     self.isRewindingPossible = NO;
@@ -540,6 +543,37 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     }
 
     return [liveCellsArray copy];
+}
+
+- (NSArray *)liveCellsGroupedByAgeFromGameMatrix:(NSArray *)cells
+{
+    NSMutableArray *liveCellsArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
+
+    for (FWCellModel *cell in cells)
+    {
+        if (cell.alive)
+        {
+            [liveCellsArray[[FWGameViewController ageGroupFromAge:cell.age]] addObject:cell];
+        }
+    }
+
+    return [liveCellsArray copy];
+}
+
++ (FWCellAgeGroup)ageGroupFromAge:(NSUInteger)age
+{
+    if (age > 10)
+    {
+        return FWCellAgeGroupOld;
+    }
+    else if (age > 3)
+    {
+        return FWCellAgeGroupMedium;
+    }
+    else
+    {
+        return FWCellAgeGroupYoung;
+    }
 }
 
 @end
