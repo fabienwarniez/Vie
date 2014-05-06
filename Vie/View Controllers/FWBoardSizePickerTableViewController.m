@@ -59,7 +59,6 @@ static CGFloat const kFWBoardSizePickerCellHeight = 50.0f;
     FWBoardSizeModel *model = self.boardSizes[(NSUInteger) indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWBoardSizePickerCellIdentifier forIndexPath:indexPath];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ (%lu x %lu)", model.name, (unsigned long) model.numberOfColumns, (unsigned long) model.numberOfRows];
-    cell.selected = [self.currentlyActiveBoardSize isEqualToBoardSize:model];
     if ([model isEqualToBoardSize:self.currentlyActiveBoardSize])
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;

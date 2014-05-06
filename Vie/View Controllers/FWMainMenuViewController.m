@@ -5,6 +5,7 @@
 
 #import "FWMainMenuViewController.h"
 #import "FWMainViewController.h"
+#import "FWSmartTableViewCell.h"
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
@@ -27,7 +28,7 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kFWMainMenuViewControllerCellIdentifier];
+        [_tableView registerClass:[FWSmartTableViewCell class] forCellReuseIdentifier:kFWMainMenuViewControllerCellIdentifier];
     }
     return self;
 }
@@ -53,7 +54,7 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:kFWMainMenuViewControllerCellIdentifier forIndexPath:indexPath];
+    FWSmartTableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:kFWMainMenuViewControllerCellIdentifier forIndexPath:indexPath];
 
     if (indexPath.row == 0)
     {
@@ -76,8 +77,7 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
         NSAssert(false, @"There are only 4 items in the menu");
     }
 
-    dequeuedCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    dequeuedCell.textLabel.textColor = [UIColor blackColor];
+    dequeuedCell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_arrow"]];
 
     return dequeuedCell;
 }
@@ -112,13 +112,9 @@ static NSTimeInterval const kFWMainMenuViewControllerCheckmarkIndicatorDelay = 2
     }
     else if (indexPath.row == 2)
     {
-        UITableViewCell *saveGameCell = [tableView cellForRowAtIndexPath:indexPath];
+        FWSmartTableViewCell *saveGameCell = (FWSmartTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
         [self.delegate saveCurrentGame];
-        saveGameCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        __weak UITableViewCell *weakCell = saveGameCell;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kFWMainMenuViewControllerCheckmarkIndicatorDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            weakCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        });
+        [saveGameCell markAsCompleteFor:kFWMainMenuViewControllerCheckmarkIndicatorDelay];
     }
     else if (indexPath.row == 3)
     {
