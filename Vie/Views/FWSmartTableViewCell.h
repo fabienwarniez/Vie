@@ -15,7 +15,11 @@
 
 @property (nonatomic, weak) id<FWSmartTableViewCellDelegate> delegate;
 
-- (void)showSaveButton;
-- (void)markAsCompleteFor:(NSTimeInterval)seconds;
+@property (nonatomic, strong) UIImage *accessoryImage;
+@property (nonatomic, strong) UIImage *accessoryImageFlipped;
+@property (nonatomic, strong) UIColor *flashColor;
+@property (nonatomic, assign) BOOL useCustomAccessoryView;
+
+- (void)flashFlippedImageFor:(NSTimeInterval)seconds;
 
 @end

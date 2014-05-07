@@ -6,6 +6,7 @@
 #import "FWMainMenuViewController.h"
 #import "FWMainViewController.h"
 #import "FWSmartTableViewCell.h"
+#import "UIColor+FWAppColors.h"
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
@@ -58,8 +59,11 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     if (indexPath.row == 2)
     {
         dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_save_game", nil);
+        dequeuedCell.useCustomAccessoryView = YES;
+        dequeuedCell.accessoryImage = [UIImage imageNamed:@"save"];
+        dequeuedCell.accessoryImageFlipped = [UIImage imageNamed:@"checkmark"];
+        dequeuedCell.flashColor = [UIColor successfulBackgroundColor];
         dequeuedCell.delegate = self;
-        [dequeuedCell showSaveButton];
     }
     else
     {
