@@ -4,10 +4,13 @@
 //
 
 #import "FWSmartTableViewCell.h"
-#import "UIColor+FWAppColors.h"
+
+static NSTimeInterval const kFWSmartTableViewCellCheckmarkIndicatorDelay = 2.0f;
+static NSTimeInterval const kFWSmartTableViewCellAnimationsDuration = 0.2f;
 
 @interface FWSmartTableViewCell ()
 
+@property (nonatomic, strong) UIButton *accessoryButton;
 @property (nonatomic, strong) UIColor *savedBackgroundColor;
 
 @end
@@ -24,58 +27,124 @@
         UIView *backgroundView = [[UIView alloc] init];
         backgroundView.backgroundColor = [UIColor whiteColor];
         self.backgroundView = backgroundView;
+        self.savedBackgroundColor = backgroundView.backgroundColor;
 
-        UIView *selectedBackgroundView = [[UIView alloc] init];
-        selectedBackgroundView.backgroundColor = [UIColor selectedTableViewCellColor];
-        self.selectedBackgroundView = selectedBackgroundView;
-        self.savedBackgroundColor = selectedBackgroundView.backgroundColor;
+        self.useCustomAccessoryView = NO;
     }
     return self;
+}
+
+- (void)setAccessoryImage:(UIImage *)accessoryImage
+{
+    _accessoryImage = accessoryImage;
+
+    if (accessoryImage != nil)
+    {
+        NSAssert(self.accessoryButton != nil, @"useCustomAccessoryView should be set to YES before setting images.");
+
+        [self.accessoryButton setImage:accessoryImage forState:UIControlStateNormal];
+        [self.accessoryButton sizeToFit];
+    }
+}
+
+- (void)setAccessoryImageFlipped:(UIImage *)accessoryImageFlipped
+{
+    _accessoryImageFlipped = accessoryImageFlipped;
+
+    if (accessoryImageFlipped != nil)
+    {
+        NSAssert(self.accessoryButton != nil, @"useCustomAccessoryView should be set to YES before setting images.");
+    }
+}
+
+- (void)setUseCustomAccessoryView:(BOOL)useCustomAccessoryView
+{
+    _useCustomAccessoryView = useCustomAccessoryView;
+    if (useCustomAccessoryView)
+    {
+        self.accessoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.accessoryButton addTarget:self action:@selector(accessoryButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        self.accessoryView = self.accessoryButton;
+    }
+    else
+    {
+        if (self.accessoryButton != nil)
+        {
+            [self.accessoryButton removeFromSuperview];
+            self.accessoryView = nil;
+        }
+        self.accessoryButton = nil;
+    }
+}
+
+- (void)accessoryButtonTapped:(id)sender
+{
+    [self.accessoryButton removeTarget:self action:@selector(accessoryButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self flashFlippedImageFor:kFWSmartTableViewCellCheckmarkIndicatorDelay];
+    [self.delegate accessoryButtonTapped:self];
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
 
+    self.accessoryImage = nil;
+    self.accessoryImageFlipped = nil;
+    self.flashColor = nil;
+    self.useCustomAccessoryView = NO;
+
     self.backgroundView.backgroundColor = [UIColor whiteColor];
-    self.selectedBackgroundView.backgroundColor = [UIColor selectedTableViewCellColor];
+    self.savedBackgroundColor = self.backgroundView.backgroundColor;
+    self.delegate = nil;
 }
 
-- (void)markAsCompleteFor:(NSTimeInterval)seconds
+- (void)flashFlippedImageFor:(NSTimeInterval)seconds
 {
-    UIImageView *accessoryImageView = (UIImageView *) self.accessoryView;
-    self.savedBackgroundColor = self.backgroundView.backgroundColor;
+    NSAssert(self.useCustomAccessoryView, @"useCustomAccessoryView should be set to YES and images set before trying to flash.");
+
+    UIButton *accessoryButton = (UIButton *) self.accessoryView;
 
     __weak FWSmartTableViewCell *weakSelf = self;
 
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:kFWSmartTableViewCellAnimationsDuration
                     animations:^{
-                        weakSelf.backgroundView.backgroundColor = [UIColor successfulBackgroundColor];
+                        weakSelf.backgroundView.backgroundColor = self.flashColor;
                     }
                     completion:nil];
 
-    [UIView transitionWithView:accessoryImageView
-                      duration:0.3
+    accessoryButton.imageView.animationImages = [NSArray arrayWithObject:self.accessoryImageFlipped];
+    [accessoryButton.imageView startAnimating];
+
+    [UIView transitionWithView:accessoryButton
+                      duration:kFWSmartTableViewCellAnimationsDuration
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
-                        accessoryImageView.image = [UIImage imageNamed:@"checkmark"];
+
                     }
             completion:nil];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (seconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.3
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kFWSmartTableViewCellAnimationsDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+        [UIView animateWithDuration:kFWSmartTableViewCellAnimationsDuration
                          animations:^{
                              weakSelf.backgroundView.backgroundColor = self.savedBackgroundColor;
                          }
                          completion:nil];
+    });
 
-        [UIView transitionWithView:accessoryImageView
-                          duration:0.3
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (seconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+        accessoryButton.imageView.animationImages = [NSArray arrayWithObject:self.accessoryImage];
+        [accessoryButton.imageView startAnimating];
+
+        [UIView transitionWithView:accessoryButton
+                          duration:kFWSmartTableViewCellAnimationsDuration
                            options:UIViewAnimationOptionTransitionFlipFromRight
                         animations:^{
-                            accessoryImageView.image = [UIImage imageNamed:@"right_arrow"];
                         }
-                        completion:nil];
+                        completion:^(BOOL finished) {
+                            [accessoryButton addTarget:self action:@selector(accessoryButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+                        }];
     });
 }
 
