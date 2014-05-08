@@ -20,7 +20,7 @@ static CGFloat const kFWBoardSizePickerCellHeight = 50.0f;
 
 @implementation FWBoardSizePickerTableViewController
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)

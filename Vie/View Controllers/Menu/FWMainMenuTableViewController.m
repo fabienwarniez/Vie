@@ -7,6 +7,7 @@
 #import "FWMainViewController.h"
 #import "FWSmartTableViewCell.h"
 #import "UIColor+FWAppColors.h"
+#import "FWCellPatternPickerTableViewController.h"
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
@@ -49,7 +50,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,9 +80,13 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
         {
             dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_load_game", nil);
         }
+        else if (indexPath.row == 4)
+        {
+            dequeuedCell.textLabel.text = NSLocalizedString(@"menu_item_load_patterns", nil);
+        }
         else
         {
-            NSAssert(false, @"There are only 4 items in the menu");
+            NSAssert(false, @"There are only 5 items in the menu");
         }
 
         dequeuedCell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_arrow"]];
@@ -123,6 +128,12 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
         FWSavedGamePickerTableViewController *savedGamePickerTableViewController = [[FWSavedGamePickerTableViewController alloc] init];
         savedGamePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:savedGamePickerTableViewController animated:YES];
+    }
+    else if (indexPath.row == 4)
+    {
+        FWCellPatternPickerTableViewController *cellPatternPickerTableViewController = [[FWCellPatternPickerTableViewController alloc] init];
+//        cellPatternPickerTableViewController.delegate = self.mainViewController;
+        [self.navigationController pushViewController:cellPatternPickerTableViewController animated:YES];
     }
 }
 

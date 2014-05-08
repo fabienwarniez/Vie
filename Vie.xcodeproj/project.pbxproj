@@ -42,6 +42,7 @@
 		A6BD8D4E382AD099F9168486 /* FWSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */; };
 		A6BD8DF13ABCF912598D6E74 /* FWUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD82E63F111524CAD13825 /* FWUserModel.m */; };
 		A6BD8E8A0B77F033B2D2DEBE /* FWBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */; };
+		A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSettingsManager.m; sourceTree = "<group>"; };
 		A6BD853AA73F8765DB26E53C /* FWSavedGamePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGamePickerTableViewController.h; sourceTree = "<group>"; };
 		A6BD86536E6892BAEEA8ABCB /* FWSmartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSmartTableViewCell.h; sourceTree = "<group>"; };
+		A6BD86C12D759F5A736D5812 /* FWCellPatternModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternModel.h; sourceTree = "<group>"; };
 		A6BD86C511ED5999B01F1F1B /* FWCellPatternTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternTableViewCell.h; sourceTree = "<group>"; };
 		A6BD87965C2D52824CDDC6EF /* FWColorSchemePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorSchemePickerTableViewController.m; sourceTree = "<group>"; };
 		A6BD87C92FF24586F6F1DC83 /* UIColor+FWAppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FWAppColors.m"; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		A6BD8A8C8A24BC057374AE68 /* FWColorSchemeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorSchemeModel.m; sourceTree = "<group>"; };
 		A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardView.m; sourceTree = "<group>"; };
+		A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternModel.m; sourceTree = "<group>"; };
 		A6BD8C551EDB50DF2488C256 /* FWColorSchemeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemeTableViewCell.h; sourceTree = "<group>"; };
 		A6BD8D0C66A406A3CF3F47C9 /* FWUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWUserModel.h; sourceTree = "<group>"; };
 		A6BD8E5087A30A47774FB85A /* FWBoardSizePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardSizePickerTableViewController.h; sourceTree = "<group>"; };
@@ -280,6 +283,8 @@
 				A6BD8D0C66A406A3CF3F47C9 /* FWUserModel.h */,
 				A6BD838D491FDD0A49EC17F4 /* FWSavedGame.m */,
 				A6BD8049E4BEBFBC98587383 /* FWSavedGame.h */,
+				A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */,
+				A6BD86C12D759F5A736D5812 /* FWCellPatternModel.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 				A6BD8B7C075A22118D5D046C /* FWColorSchemeTableViewCell.m in Sources */,
 				A6BD8686EEFCA8127AA8B817 /* FWCellPatternPickerTableViewController.m in Sources */,
 				A6BD890533614F3D6AF2F6C2 /* FWCellPatternTableViewCell.m in Sources */,
+				A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

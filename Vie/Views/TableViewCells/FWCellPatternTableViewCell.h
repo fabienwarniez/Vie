@@ -3,8 +3,13 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWBoardView;
+@class FWCellPatternModel;
+@class FWColorSchemeModel;
+
 @interface FWCellPatternTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) NSArray *cellMatrix;
+@property (nonatomic, strong) FWCellPatternModel *cellPattern;
+@property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 
 @end

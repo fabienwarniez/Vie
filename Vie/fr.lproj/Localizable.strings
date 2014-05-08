@@ -20,3 +20,4 @@
 "menu_item_save_game" = "Sauvegarder";
 "menu_item_load_game" = "Charger";
 "saved_game_picker_title" = "Parties";
+"menu_item_load_patterns" = "Motifs";
