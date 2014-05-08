@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWMainMenuViewController.h"
+#import "FWMainMenuTableViewController.h"
 #import "FWMainViewController.h"
 #import "FWSmartTableViewCell.h"
 #import "UIColor+FWAppColors.h"
@@ -11,15 +11,15 @@
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
 
-@interface FWMainMenuViewController () <UITableViewDataSource, UITableViewDelegate, FWSmartTableViewCellDelegate>
+@interface FWMainMenuTableViewController () <UITableViewDataSource, UITableViewDelegate, FWSmartTableViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
-@implementation FWMainMenuViewController
+@implementation FWMainMenuTableViewController
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self)

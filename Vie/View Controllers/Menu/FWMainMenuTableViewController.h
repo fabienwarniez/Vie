@@ -11,7 +11,7 @@
 
 @end
 
-@interface FWMainMenuViewController : UIViewController
+@interface FWMainMenuTableViewController : UIViewController
 
 @property (nonatomic, weak) id<FWMainMenuViewControllerDelegate> delegate;
 

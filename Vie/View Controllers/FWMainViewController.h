@@ -5,19 +5,19 @@
 
 #import "FWColorSchemePickerTableViewController.h"
 #import "FWBoardSizePickerTableViewController.h"
-#import "FWMainMenuViewController.h"
+#import "FWMainMenuTableViewController.h"
 #import "FWSavedGamePickerTableViewController.h"
 
 @class FWBoardSizeModel;
 @class FWGameViewController;
-@class FWMainMenuViewController;
+@class FWMainMenuTableViewController;
 
 @interface FWMainViewController : UIViewController
         <FWColorSchemePickerTableViewControllerDelegate,
         FWBoardSizePickerTableViewControllerDelegate,
         FWMainMenuViewControllerDelegate, FWSavedGamePickerTableViewControllerDelegate>
 
-@property (nonatomic, strong) IBOutlet FWMainMenuViewController *mainMenuViewController;
+@property (nonatomic, strong) IBOutlet FWMainMenuTableViewController *mainMenuViewController;
 @property (nonatomic, strong) IBOutlet UINavigationController *menuNavigationController;
 @property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, strong) IBOutlet UIView *menuNavigationControllerContainerView;
