@@ -202,29 +202,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     return [self liveCellsFromGameMatrix:self.initialBoard];
 }
 
-/*
-  Debugging purposes
- */
-- (NSArray *)generateCellsFromArray:(NSArray *)simpleArray
-{
-    NSMutableArray *cells = [NSMutableArray array];
-
-    for (NSUInteger columnIndex = 0; columnIndex < [simpleArray count]; columnIndex++)
-    {
-        NSArray *simpleRow = simpleArray[columnIndex];
-        for (NSUInteger rowIndex = 0; rowIndex < [simpleRow count]; rowIndex++)
-        {
-            FWCellModel *newCell = [[FWCellModel alloc] init];
-
-            newCell.alive = [simpleRow[rowIndex] unsignedIntegerValue] == 1;
-
-            cells[columnIndex * self.boardSize.numberOfRows + rowIndex] = newCell;
-        }
-    }
-
-    return cells;
-}
-
 - (NSArray *)generateInitialCellsWithColumns:(NSUInteger)numberOfColumns rows:(NSUInteger)numberOfRows percentageOfLiveCells:(NSUInteger)percentageOfLiveCells
 {
     NSMutableArray *cells = [NSMutableArray array];

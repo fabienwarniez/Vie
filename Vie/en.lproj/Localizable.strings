@@ -20,3 +20,4 @@
 "menu_item_save_game" = "Save Current Game";
 "menu_item_load_game" = "Load Saved Game";
 "saved_game_picker_title" = "Saved Games";
+"menu_item_load_patterns" = "Load Patterns";

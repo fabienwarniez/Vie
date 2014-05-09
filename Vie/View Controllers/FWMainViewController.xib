@@ -98,7 +98,7 @@
                 <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             </navigationBar>
             <viewControllers>
-                <viewController title="Menu" id="6Uw-Qa-Peu" userLabel="Menu View Controller" customClass="FWMainMenuViewController">
+                <viewController title="Menu" id="6Uw-Qa-Peu" userLabel="Menu View Controller" customClass="FWMainMenuTableViewController">
                     <navigationItem key="navigationItem" title="Item" id="RO6-dL-UAY"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
