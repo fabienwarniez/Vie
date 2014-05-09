@@ -87,7 +87,8 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    // TODO: deal with cell selection
+    FWCellPatternModel *selectedModel = self.cellPatterns[(NSUInteger) indexPath.row];
+    [self.delegate didSelectCellPattern:selectedModel];
 }
 
 @end

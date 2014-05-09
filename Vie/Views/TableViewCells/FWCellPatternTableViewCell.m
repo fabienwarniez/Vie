@@ -8,12 +8,11 @@
 #import "FWBoardSizeModel.h"
 #import "FWCellModel.h"
 #import "FWCellPatternModel.h"
-#import "FWCellPatternModel.h"
 #import "FWColorSchemeModel.h"
 
 static CGFloat const kFWCellPatternTableViewCellBorderWidth = 1.0f;
 static CGFloat const kFWCellPatternTableViewCellSpacingWidth = 15.0f;
-static CGFloat const kFWCellPatternTableViewCellLabelWidth = 50.0f;
+static CGFloat const kFWCellPatternTableViewCellLabelWidth = 80.0f;
 static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
 
 @interface FWCellPatternTableViewCell ()
@@ -33,7 +32,7 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
     {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _titleLabel.textColor = [UIColor blackColor];
-        _titleLabel.numberOfLines = 2;
+        _titleLabel.numberOfLines = 0;
         [self.contentView addSubview:_titleLabel];
 
         _gameBoardView = [[FWBoardView alloc] init];
@@ -59,7 +58,21 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
             CGRectGetMaxX(self.titleLabel.frame) + kFWCellPatternTableViewCellSpacingWidth,
             kFWCellPatternTableViewCellVerticalPadding,
             self.contentView.bounds.size.width - CGRectGetMaxX(self.titleLabel.frame) - 2 * kFWCellPatternTableViewCellSpacingWidth,
-            (self.contentView.bounds.size.height - kFWCellPatternTableViewCellVerticalPadding) / 2.0f);
+            self.contentView.bounds.size.height - 2 * kFWCellPatternTableViewCellVerticalPadding);
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    [super setHighlighted:highlighted animated:animated];
+
+    if (highlighted)
+    {
+        self.gameBoardView.fillColorScheme = [FWColorSchemeModel colorSchemeWithGuid:nil youngFillColor:[UIColor whiteColor] mediumFillColor:[UIColor whiteColor] oldFillColor:[UIColor whiteColor]];
+    }
+    else
+    {
+        self.gameBoardView.fillColorScheme = self.colorScheme;
+    }
 }
 
 #pragma mark - Accessors
@@ -69,29 +82,13 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
     _cellPattern = cellPattern;
     self.gameBoardView.boardSize = cellPattern.boardSize;
     self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];
+    self.titleLabel.text = cellPattern.name;
 }
 
 - (void)setColorScheme:(FWColorSchemeModel *)colorScheme
 {
     _colorScheme = colorScheme;
     self.gameBoardView.fillColorScheme = colorScheme;
-}
-
-#pragma mark - Private Methods
-
-- (NSArray *)liveCellsGroupedByAgeFromGameMatrix:(NSArray *)cells
-{
-    NSMutableArray *liveCellsArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
-
-    for (FWCellModel *cell in cells)
-    {
-        if (cell.alive)
-        {
-            [liveCellsArray[0] addObject:cell];
-        }
-    }
-
-    return [liveCellsArray copy];
 }
 
 @end

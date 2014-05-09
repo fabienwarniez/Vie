@@ -10,6 +10,7 @@
 #import "FWAppDelegate.h"
 #import "FWUserModel.h"
 #import "FWSavedGame.h"
+#import "FWCellPatternModel.h"
 
 static CGFloat const kFWMainViewControllerMenuWidthPad = 320.0f;
 static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
@@ -164,6 +165,13 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
     [self.gameViewController setForceResumeAfterInterruption:NO];
     [self closeMenu];
+}
+
+#pragma mark - FWCellPatternPickerTableViewControllerDelegate
+
+- (void)didSelectCellPattern:(FWCellPatternModel *)cellPattern
+{
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
 }
 
 #pragma mark - UINavigationToolbarDelegate

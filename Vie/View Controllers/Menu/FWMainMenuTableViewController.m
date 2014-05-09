@@ -132,7 +132,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     else if (indexPath.row == 4)
     {
         FWCellPatternPickerTableViewController *cellPatternPickerTableViewController = [[FWCellPatternPickerTableViewController alloc] init];
-//        cellPatternPickerTableViewController.delegate = self.mainViewController;
+        cellPatternPickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:cellPatternPickerTableViewController animated:YES];
     }
 }
