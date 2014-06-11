@@ -19,6 +19,7 @@ static NSArray *kFWCellPatternList = nil;
         _name = name;
         _liveCells = liveCells;
         _boardSize = boardSize;
+        _recommendedPosition = FWPatternPositionLeft | FWPatternPositionTop;
     }
 
     return self;
@@ -47,6 +48,7 @@ static NSArray *kFWCellPatternList = nil;
                 ]
         ];
         pattern.name = @"FW";
+        pattern.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
 
         FWCellPatternModel *pattern2 = [self generatePatternFromArray:
                 @[
@@ -64,6 +66,7 @@ static NSArray *kFWCellPatternList = nil;
                 ]
         ];
         pattern2.name = @"Gosper's Glider Gun";
+        pattern2.recommendedPosition = FWPatternPositionLeft | FWPatternPositionTop;
 
         [patterns addObject:pattern];
         [patterns addObject:pattern2];

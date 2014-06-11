@@ -61,6 +61,11 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
             self.contentView.bounds.size.height - 2 * kFWCellPatternTableViewCellVerticalPadding);
 }
 
+- (void)setHighlighted:(BOOL)highlighted
+{
+    [self setHighlighted:highlighted animated:NO];
+}
+
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     [super setHighlighted:highlighted animated:animated];

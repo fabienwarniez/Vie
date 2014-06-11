@@ -7,6 +7,7 @@
 @class FWBoardSizeModel;
 @class FWSavedGame;
 @class FWColorSchemeModel;
+@class FWCellPatternModel;
 
 typedef enum FWCellAgeGroup
 {
@@ -14,6 +15,16 @@ typedef enum FWCellAgeGroup
     FWCellAgeGroupMedium = 1,
     FWCellAgeGroupOld = 2
 } FWCellAgeGroup;
+
+typedef enum FWPatternPosition
+{
+    FWPatternPositionTop = 1 << 0,
+    FWPatternPositionMiddle = 1 << 1,
+    FWPatternPositionBottom = 1 << 2,
+    FWPatternPositionLeft = 1 << 3,
+    FWPatternPositionCenter = 1 << 4,
+    FWPatternPositionRight = 1 << 5
+} FWPatternPosition;
 
 @interface FWGameViewController : UIViewController
 
@@ -40,6 +51,7 @@ typedef enum FWCellAgeGroup
 - (void)play;
 - (void)pause;
 - (void)loadSavedGame:(FWSavedGame *)savedGame;
+- (void)setPattern:(FWCellPatternModel *)cellPattern;
 
 - (NSArray *)initialBoardLiveCells;
 

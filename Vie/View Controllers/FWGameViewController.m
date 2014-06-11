@@ -10,6 +10,7 @@
 #import "FWRandomNumberGenerator.h"
 #import "FWSavedGame.h"
 #import "FWColorSchemeModel.h"
+#import "FWCellPatternModel.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
@@ -192,6 +193,70 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
 
     self.gameBoardView.boardSize = self.boardSize;
+    self.gameBoardView.liveCells = liveCells;
+
+    self.isRewindingPossible = NO;
+}
+
+- (void)setPattern:(FWCellPatternModel *)cellPattern
+{
+    NSAssert([self.boardSize isGreaterOrEqualToBoardSize:cellPattern.boardSize], @"The pattern loaded is too big for the board size");
+
+    self.currentCellsNSArray = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns
+                                                                rows:self.boardSize.numberOfRows
+                                               percentageOfLiveCells:0];
+
+    NSUInteger xOffset;
+    NSUInteger yOffset;
+
+    if (cellPattern.recommendedPosition & FWPatternPositionLeft)
+    {
+        xOffset = 0;
+    }
+    else if (cellPattern.recommendedPosition & FWPatternPositionCenter)
+    {
+        xOffset = (NSUInteger) lround((self.boardSize.numberOfColumns - cellPattern.boardSize.numberOfColumns) / 2.0f);
+    }
+    else
+    {
+        NSAssert(cellPattern.recommendedPosition & FWPatternPositionRight, @"The passed position bit mask is invalid.");
+        xOffset = self.boardSize.numberOfColumns - cellPattern.boardSize.numberOfColumns;
+    }
+
+    if (cellPattern.recommendedPosition & FWPatternPositionTop)
+    {
+        yOffset = 0;
+    }
+    else if (cellPattern.recommendedPosition & FWPatternPositionMiddle)
+    {
+        yOffset = (NSUInteger) lround((self.boardSize.numberOfRows - cellPattern.boardSize.numberOfRows) / 2.0f);
+    }
+    else
+    {
+        NSAssert(cellPattern.recommendedPosition & FWPatternPositionBottom, @"The passed position bit mask is invalid.");
+        yOffset = self.boardSize.numberOfRows - cellPattern.boardSize.numberOfRows;
+    }
+
+    NSUInteger numberOfLiveCells = [cellPattern.liveCells count];
+    NSUInteger numberOfRows = self.boardSize.numberOfRows;
+    for (NSUInteger i = 0; i < numberOfLiveCells; i++)
+    {
+        FWCellModel *liveCell = cellPattern.liveCells[i];
+        NSUInteger liveCellDestinationColumn = liveCell.column + xOffset;
+        NSUInteger liveCellDestinationRow = liveCell.row + yOffset;
+        FWCellModel *cellToMakeAlive = self.currentCellsNSArray[liveCellDestinationColumn * numberOfRows + liveCellDestinationRow];
+        NSAssert(liveCellDestinationColumn == cellToMakeAlive.column && liveCellDestinationRow == cellToMakeAlive.row, @"Cells attributes should match");
+        cellToMakeAlive.alive = YES;
+    }
+
+    self.initialBoard = [[NSArray alloc] initWithArray:self.currentCellsNSArray copyItems:YES];
+    self.previousNSArrayOfCells = [self generateInitialCellsWithColumns:self.boardSize.numberOfColumns rows:self.boardSize.numberOfRows percentageOfLiveCells:0];
+
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
+    [self fillCArray:_previousArrayOfCells withNSArray:self.previousNSArrayOfCells];
+
+    NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
+
     self.gameBoardView.liveCells = liveCells;
 
     self.isRewindingPossible = NO;
@@ -501,7 +566,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
         FWCellModel *sourceCell = source[i];
         FWCellModel *destinationCell = destination[i];
 
-        NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same position on grid.");
+        NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same recommendedPosition on grid.");
 
         destinationCell.alive = sourceCell.alive;
     }
