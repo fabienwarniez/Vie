@@ -569,6 +569,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
         NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same recommendedPosition on grid.");
 
         destinationCell.alive = sourceCell.alive;
+        destinationCell.age = 0;
     }
 }
 
