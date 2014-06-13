@@ -38,11 +38,12 @@
 		A6BD89E7122834A9EC66CED5 /* FWSavedGame.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD838D491FDD0A49EC17F4 /* FWSavedGame.m */; };
 		A6BD8B7C075A22118D5D046C /* FWColorSchemeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD88C336DCDC398652CC42 /* FWColorSchemeTableViewCell.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainViewController.m */; };
-		A6BD8D1EAB617431B8D658BF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6BD85A95F13A91085192362 /* Localizable.strings */; };
 		A6BD8D4E382AD099F9168486 /* FWSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */; };
 		A6BD8DF13ABCF912598D6E74 /* FWUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD82E63F111524CAD13825 /* FWUserModel.m */; };
 		A6BD8E8A0B77F033B2D2DEBE /* FWBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */; };
 		A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */; };
+		B3935135680D968D45AAD95B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B393569A4AFED5F4DAFDDF59 /* Localizable.strings */; };
+		B3935FA6823798258F5203A1 /* patterns.dat in Resources */ = {isa = PBXBuildFile; fileRef = B3935125771F4A068BE99A04 /* patterns.dat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,7 +79,6 @@
 		A6BD8049E4BEBFBC98587383 /* FWSavedGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGame.h; sourceTree = "<group>"; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
 		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
-		A6BD815FCE73D1EA77EF34BD /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		A6BD81E0EA6F40B6B7C5C34D /* FWRandomNumberGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWRandomNumberGenerator.m; sourceTree = "<group>"; };
 		A6BD82E63F111524CAD13825 /* FWUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWUserModel.m; sourceTree = "<group>"; };
 		A6BD833129B45552540EB09D /* FWSavedGamePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGamePickerTableViewController.m; sourceTree = "<group>"; };
@@ -112,13 +112,15 @@
 		A6BD8C551EDB50DF2488C256 /* FWColorSchemeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemeTableViewCell.h; sourceTree = "<group>"; };
 		A6BD8D0C66A406A3CF3F47C9 /* FWUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWUserModel.h; sourceTree = "<group>"; };
 		A6BD8E5087A30A47774FB85A /* FWBoardSizePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardSizePickerTableViewController.h; sourceTree = "<group>"; };
-		A6BD8E875DF22FFD2EB1E643 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		A6BD8EC4545250BB51B5318D /* FWSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSettingsManager.h; sourceTree = "<group>"; };
 		A6BD8EDF30BA0974376425DB /* FWCellPatternTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternTableViewCell.m; sourceTree = "<group>"; };
 		A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSizeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizeModel.m; sourceTree = "<group>"; };
 		A6BD8F008B945759E90FEF5C /* FWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainViewController.m; sourceTree = "<group>"; };
 		A6BD8F40379E2A6C727EB8CA /* FWMainMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuTableViewController.m; sourceTree = "<group>"; };
 		A6BD8F73C32A4126F5D74C61 /* FWBoardSizePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizePickerTableViewController.m; sourceTree = "<group>"; };
+		B3935125771F4A068BE99A04 /* patterns.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.dat; path = patterns.dat; sourceTree = "<group>"; };
+		B39357EEF679DDD1D5B5F8BC /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		B39358B9C09DE5678D48CEBF /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,8 +187,8 @@
 				A6BD8013992770013A7E2DCC /* View Controllers */,
 				A6BD8E7878082940867AADB3 /* Views */,
 				A6BD85C9170D14B5DD851835 /* Models */,
-				A6BD8EF0FE586169CB31E227 /* Resources */,
 				A6BD88C89AEEA4B5BF5737BA /* Categories */,
+				B39354A54140E1EC0816A136 /* Resources */,
 			);
 			path = Vie;
 			sourceTree = "<group>";
@@ -308,10 +310,11 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A6BD8EF0FE586169CB31E227 /* Resources */ = {
+		B39354A54140E1EC0816A136 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A6BD85A95F13A91085192362 /* Localizable.strings */,
+				B393569A4AFED5F4DAFDDF59 /* Localizable.strings */,
+				B3935125771F4A068BE99A04 /* patterns.dat */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -399,8 +402,9 @@
 				4642AF51190D923D00BE5FB4 /* FWMainViewController.xib in Resources */,
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
-				A6BD8D1EAB617431B8D658BF /* Localizable.strings in Resources */,
 				A6BD8680990F497C1682DC19 /* FWGameViewController.xib in Resources */,
+				B3935135680D968D45AAD95B /* Localizable.strings in Resources */,
+				B3935FA6823798258F5203A1 /* patterns.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,11 +493,11 @@
 			name = FWGameViewController.xib;
 			sourceTree = "<group>";
 		};
-		A6BD85A95F13A91085192362 /* Localizable.strings */ = {
+		B393569A4AFED5F4DAFDDF59 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A6BD815FCE73D1EA77EF34BD /* en */,
-				A6BD8E875DF22FFD2EB1E643 /* fr */,
+				B39358B9C09DE5678D48CEBF /* en */,
+				B39357EEF679DDD1D5B5F8BC /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
