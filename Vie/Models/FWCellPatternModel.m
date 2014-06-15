@@ -30,6 +30,79 @@ static NSArray *kFWCellPatternList = nil;
     return [[self alloc] initWithName:name liveCells:liveCells boardSize:boardSize];
 }
 
++ (NSArray *)cellPatternsFromFile
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"patterns" ofType:@"dat"];
+    NSString *fileContents = [NSString stringWithContentsOfFile:filePath
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:nil];
+    NSArray *lines = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+
+    for (NSString *line in lines)
+    {
+        NSArray *components = [line componentsSeparatedByString:@"|"];
+        if ([components count] != 6)
+        {
+            NSLog(@"Entry badly formatted.");
+            continue;
+        }
+        else
+        {
+            FWCellPatternModel *cellPatternModel = [[FWCellPatternModel alloc] init];
+            cellPatternModel.fileName = components[0];
+            cellPatternModel.format = components[1];
+            cellPatternModel.name = components[2];
+            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+            [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            NSNumber *numberOfColumns = [numberFormatter numberFromString:components[3]];
+            NSNumber *numberOfRows = [numberFormatter numberFromString:components[4]];
+            cellPatternModel.boardSize = [FWBoardSizeModel
+                    boardSizeWithName:nil
+                      numberOfColumns:[numberOfColumns unsignedIntegerValue]
+                         numberOfRows:[numberOfRows unsignedIntegerValue]
+            ];
+            NSString *data = components[5];
+
+            if ([cellPatternModel.format isEqualToString:@"rle"])
+            {
+                cellPatternModel.liveCells = [FWCellPatternModel cellMatrixFromRLEString:data];
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
+
+    return lines;
+}
+
++ (NSArray *)cellMatrixFromRLEString:(NSString *)data
+{
+    NSScanner *scanner = [NSScanner scannerWithString:data];
+
+    NSMutableArray *liveCells = [NSMutableArray array];
+    NSUInteger columnIndex = 0;
+    NSUInteger rowIndex = 0;
+
+    while (![scanner isAtEnd])
+    {
+        NSInteger numberOfOccurences;
+        if (![scanner scanInteger:&numberOfOccurences])
+        {
+            numberOfOccurences = 1;
+        }
+        NSString *c = [data substringWithRange:NSMakeRange(characterIndex, 1)];
+        while (characterIndex < dataLength && [[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c])
+        {
+            NSUInteger digit = [[NSNumber numberWithChar:c] unsignedIntegerValue];
+            characterOccurences = characterOccurences * 10 + digit;
+        }
+    }
+
+    return liveCells;
+}
+
 + (NSArray *)cellPatterns
 {
     if (kFWCellPatternList == nil)

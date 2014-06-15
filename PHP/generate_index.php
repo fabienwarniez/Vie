@@ -41,7 +41,7 @@ while (false !== ($filename = readdir($directoryHandler)))
 
                 if ($columns > 0 && $rows > 0)
                 {
-                    $size = sprintf('%dx%d', $columns, $rows);
+                    $size = sprintf('%d|%d', $columns, $rows);
                 }
                 else
                 {
