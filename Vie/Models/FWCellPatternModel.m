@@ -37,6 +37,7 @@ static NSArray *kFWCellPatternList = nil;
                                                        encoding:NSUTF8StringEncoding
                                                           error:nil];
     NSArray *lines = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSMutableArray *patterns = [NSMutableArray array];
 
     for (NSString *line in lines)
     {
@@ -49,6 +50,7 @@ static NSArray *kFWCellPatternList = nil;
         else
         {
             FWCellPatternModel *cellPatternModel = [[FWCellPatternModel alloc] init];
+            cellPatternModel.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
             cellPatternModel.fileName = components[0];
             cellPatternModel.format = components[1];
             cellPatternModel.name = components[2];
@@ -66,6 +68,7 @@ static NSArray *kFWCellPatternList = nil;
             if ([cellPatternModel.format isEqualToString:@"rle"])
             {
                 cellPatternModel.liveCells = [FWCellPatternModel cellMatrixFromRLEString:data];
+                [patterns addObject:cellPatternModel];
             }
             else
             {
@@ -74,7 +77,7 @@ static NSArray *kFWCellPatternList = nil;
         }
     }
 
-    return lines;
+    return patterns;
 }
 
 + (NSArray *)cellMatrixFromRLEString:(NSString *)data
@@ -92,12 +95,31 @@ static NSArray *kFWCellPatternList = nil;
         {
             numberOfOccurences = 1;
         }
-        NSString *c = [data substringWithRange:NSMakeRange(characterIndex, 1)];
-        while (characterIndex < dataLength && [[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c])
+
+        NSString *nextCharacter = [data substringWithRange:NSMakeRange([scanner scanLocation], 1)];
+        if ([nextCharacter isEqualToString:@"!"]) // end of file
         {
-            NSUInteger digit = [[NSNumber numberWithChar:c] unsignedIntegerValue];
-            characterOccurences = characterOccurences * 10 + digit;
+            break;
         }
+        else if ([nextCharacter isEqualToString:@"$"]) // line end
+        {
+            columnIndex = 0;
+            rowIndex++;
+        }
+        else if ([nextCharacter isEqualToString:@"b"]) // dead cell
+        {
+            columnIndex += numberOfOccurences;
+        }
+        else if ([nextCharacter isEqualToString:@"o"]) // live cell
+        {
+            for (NSUInteger i = 0; i < numberOfOccurences; i++)
+            {
+                FWCellModel *cellModel = [FWCellModel cellWithAlive:YES column:columnIndex row:rowIndex];
+                columnIndex++;
+                [liveCells addObject:cellModel];
+            }
+        }
+        [scanner setScanLocation:[scanner scanLocation] + 1];
     }
 
     return liveCells;
