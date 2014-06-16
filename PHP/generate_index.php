@@ -11,7 +11,7 @@ while (false !== ($filename = readdir($directoryHandler)))
     $format = null;
     $name = null;
     $size = null;
-    $data = null;
+    $data = '';
 
     if (strpos($filename, '.rle') !== false)
     {
@@ -37,7 +37,7 @@ while (false !== ($filename = readdir($directoryHandler)))
             }
             else if (strpos($line, 'x = ') === 0)
             {
-                list($columns, $rows) = sscanf($line, "x = %i, y = %i,%s");
+                list($columns, $rows, $rule, $a, $b) = sscanf($line, "x = %i, y = %i,%s = %i/%i");
 
                 if ($columns > 0 && $rows > 0)
                 {
@@ -50,7 +50,7 @@ while (false !== ($filename = readdir($directoryHandler)))
             }
             else if (strpos($line, '#') !== 0)
             {
-                $data = $line;
+                $data .= $line;
             }
         }
     }

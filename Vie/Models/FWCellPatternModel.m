@@ -32,52 +32,52 @@ static NSArray *kFWCellPatternList = nil;
 
 + (NSArray *)cellPatternsFromFile
 {
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"patterns" ofType:@"dat"];
-    NSString *fileContents = [NSString stringWithContentsOfFile:filePath
-                                                       encoding:NSUTF8StringEncoding
-                                                          error:nil];
-    NSArray *lines = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    NSMutableArray *patterns = [NSMutableArray array];
-
-    for (NSString *line in lines)
+    if (kFWCellPatternList == nil)
     {
-        NSArray *components = [line componentsSeparatedByString:@"|"];
-        if ([components count] != 6)
-        {
-            NSLog(@"Entry badly formatted.");
-            continue;
-        }
-        else
-        {
-            FWCellPatternModel *cellPatternModel = [[FWCellPatternModel alloc] init];
-            cellPatternModel.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
-            cellPatternModel.fileName = components[0];
-            cellPatternModel.format = components[1];
-            cellPatternModel.name = components[2];
-            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-            [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSNumber *numberOfColumns = [numberFormatter numberFromString:components[3]];
-            NSNumber *numberOfRows = [numberFormatter numberFromString:components[4]];
-            cellPatternModel.boardSize = [FWBoardSizeModel
-                    boardSizeWithName:nil
-                      numberOfColumns:[numberOfColumns unsignedIntegerValue]
-                         numberOfRows:[numberOfRows unsignedIntegerValue]
-            ];
-            NSString *data = components[5];
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"patterns" ofType:@"dat"];
+        NSString *fileContents = [NSString stringWithContentsOfFile:filePath
+                                                           encoding:NSUTF8StringEncoding
+                                                              error:nil];
+        NSArray *lines = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        NSMutableArray *patterns = [NSMutableArray array];
 
-            if ([cellPatternModel.format isEqualToString:@"rle"])
-            {
-                cellPatternModel.liveCells = [FWCellPatternModel cellMatrixFromRLEString:data];
-                [patterns addObject:cellPatternModel];
-            }
-            else
-            {
+        for (NSString *line in lines) {
+            NSArray *components = [line componentsSeparatedByString:@"|"];
+            if ([components count] != 6) {
+                NSLog(@"Entry badly formatted.");
                 continue;
             }
+            else {
+                FWCellPatternModel *cellPatternModel = [[FWCellPatternModel alloc] init];
+                cellPatternModel.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
+                cellPatternModel.fileName = components[0];
+                cellPatternModel.format = components[1];
+                cellPatternModel.name = components[2];
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                NSNumber *numberOfColumns = [numberFormatter numberFromString:components[3]];
+                NSNumber *numberOfRows = [numberFormatter numberFromString:components[4]];
+                cellPatternModel.boardSize = [FWBoardSizeModel
+                        boardSizeWithName:nil
+                          numberOfColumns:[numberOfColumns unsignedIntegerValue]
+                             numberOfRows:[numberOfRows unsignedIntegerValue]
+                ];
+                NSString *data = components[5];
+
+                if ([cellPatternModel.format isEqualToString:@"rle"]) {
+                    cellPatternModel.liveCells = [FWCellPatternModel cellMatrixFromRLEString:data];
+                    [patterns addObject:cellPatternModel];
+                }
+                else {
+                    continue;
+                }
+            }
         }
+
+        kFWCellPatternList = patterns;
     }
 
-    return patterns;
+    return kFWCellPatternList;
 }
 
 + (NSArray *)cellMatrixFromRLEString:(NSString *)data
