@@ -172,6 +172,11 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)didSelectCellPattern:(FWCellPatternModel *)cellPattern
 {
     NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
+
+    [self.gameViewController setPattern:cellPattern];
+
+    [self.gameViewController setForceResumeAfterInterruption:NO];
+    [self closeMenu];
 }
 
 #pragma mark - UINavigationToolbarDelegate

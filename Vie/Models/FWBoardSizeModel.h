@@ -13,6 +13,7 @@
 + (instancetype)boardSizeWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows;
 
 - (BOOL)isEqualToBoardSize:(FWBoardSizeModel *)other;
+- (BOOL)isGreaterOrEqualToBoardSize:(FWBoardSizeModel *)other;
 
 + (NSArray *)boardSizes;
 + (instancetype)defaultBoardSize;

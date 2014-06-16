@@ -19,6 +19,7 @@ static NSArray *kFWCellPatternList = nil;
         _name = name;
         _liveCells = liveCells;
         _boardSize = boardSize;
+        _recommendedPosition = FWPatternPositionLeft | FWPatternPositionTop;
     }
 
     return self;
@@ -27,6 +28,101 @@ static NSArray *kFWCellPatternList = nil;
 + (instancetype)cellPatternWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize
 {
     return [[self alloc] initWithName:name liveCells:liveCells boardSize:boardSize];
+}
+
++ (NSArray *)cellPatternsFromFile
+{
+    if (kFWCellPatternList == nil)
+    {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"patterns" ofType:@"dat"];
+        NSString *fileContents = [NSString stringWithContentsOfFile:filePath
+                                                           encoding:NSUTF8StringEncoding
+                                                              error:nil];
+        NSArray *lines = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        NSMutableArray *patterns = [NSMutableArray array];
+
+        for (NSString *line in lines) {
+            NSArray *components = [line componentsSeparatedByString:@"|"];
+            if ([components count] != 6) {
+                NSLog(@"Entry badly formatted.");
+                continue;
+            }
+            else {
+                FWCellPatternModel *cellPatternModel = [[FWCellPatternModel alloc] init];
+                cellPatternModel.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
+                cellPatternModel.fileName = components[0];
+                cellPatternModel.format = components[1];
+                cellPatternModel.name = components[2];
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                NSNumber *numberOfColumns = [numberFormatter numberFromString:components[3]];
+                NSNumber *numberOfRows = [numberFormatter numberFromString:components[4]];
+                cellPatternModel.boardSize = [FWBoardSizeModel
+                        boardSizeWithName:nil
+                          numberOfColumns:[numberOfColumns unsignedIntegerValue]
+                             numberOfRows:[numberOfRows unsignedIntegerValue]
+                ];
+                NSString *data = components[5];
+
+                if ([cellPatternModel.format isEqualToString:@"rle"]) {
+                    cellPatternModel.liveCells = [FWCellPatternModel cellMatrixFromRLEString:data];
+                    [patterns addObject:cellPatternModel];
+                }
+                else {
+                    continue;
+                }
+            }
+        }
+
+        kFWCellPatternList = patterns;
+    }
+
+    return kFWCellPatternList;
+}
+
++ (NSArray *)cellMatrixFromRLEString:(NSString *)data
+{
+    NSScanner *scanner = [NSScanner scannerWithString:data];
+
+    NSMutableArray *liveCells = [NSMutableArray array];
+    NSUInteger columnIndex = 0;
+    NSUInteger rowIndex = 0;
+
+    while (![scanner isAtEnd])
+    {
+        NSInteger numberOfOccurences;
+        if (![scanner scanInteger:&numberOfOccurences])
+        {
+            numberOfOccurences = 1;
+        }
+
+        NSString *nextCharacter = [data substringWithRange:NSMakeRange([scanner scanLocation], 1)];
+        if ([nextCharacter isEqualToString:@"!"]) // end of file
+        {
+            break;
+        }
+        else if ([nextCharacter isEqualToString:@"$"]) // line end
+        {
+            columnIndex = 0;
+            rowIndex++;
+        }
+        else if ([nextCharacter isEqualToString:@"b"]) // dead cell
+        {
+            columnIndex += numberOfOccurences;
+        }
+        else if ([nextCharacter isEqualToString:@"o"]) // live cell
+        {
+            for (NSUInteger i = 0; i < numberOfOccurences; i++)
+            {
+                FWCellModel *cellModel = [FWCellModel cellWithAlive:YES column:columnIndex row:rowIndex];
+                columnIndex++;
+                [liveCells addObject:cellModel];
+            }
+        }
+        [scanner setScanLocation:[scanner scanLocation] + 1];
+    }
+
+    return liveCells;
 }
 
 + (NSArray *)cellPatterns
@@ -47,6 +143,7 @@ static NSArray *kFWCellPatternList = nil;
                 ]
         ];
         pattern.name = @"FW";
+        pattern.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
 
         FWCellPatternModel *pattern2 = [self generatePatternFromArray:
                 @[
@@ -64,6 +161,7 @@ static NSArray *kFWCellPatternList = nil;
                 ]
         ];
         pattern2.name = @"Gosper's Glider Gun";
+        pattern2.recommendedPosition = FWPatternPositionLeft | FWPatternPositionTop;
 
         [patterns addObject:pattern];
         [patterns addObject:pattern2];

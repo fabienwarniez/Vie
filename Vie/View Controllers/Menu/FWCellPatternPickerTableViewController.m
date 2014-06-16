@@ -27,7 +27,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
     self = [super init];
     if (self)
     {
-        _cellPatterns = [FWCellPatternModel cellPatterns];
+        _cellPatterns = [FWCellPatternModel cellPatternsFromFile];
 
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
