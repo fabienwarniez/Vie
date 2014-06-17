@@ -42,7 +42,15 @@
         [self loadFileIfNeeded];
 
         NSMutableArray *newlyParsedPatterns = [NSMutableArray array];
-        NSUInteger lineIndexStart = alreadyParsedPatternRange.location + alreadyParsedPatternRange.length;
+        NSUInteger lineIndexStart;
+        if (alreadyParsedPatternRange.length > 0)
+        {
+            lineIndexStart = alreadyParsedPatternRange.location + alreadyParsedPatternRange.length;
+        }
+        else
+        {
+            lineIndexStart = [self.patternList count];
+        }
         NSUInteger lineIndexEnd = range.location + range.length;
 
         for (NSUInteger lineIndex = lineIndexStart; lineIndex < lineIndexEnd; ++lineIndex)
