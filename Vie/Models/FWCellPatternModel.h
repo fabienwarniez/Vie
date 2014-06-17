@@ -19,7 +19,4 @@
 - (instancetype)initWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize;
 + (instancetype)cellPatternWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize;
 
-+ (NSArray *)cellPatternsFromFile;
-+ (NSArray *)cellPatterns;
-
 @end
