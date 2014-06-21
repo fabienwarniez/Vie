@@ -50,6 +50,11 @@
     return self.numberOfColumns >= other.numberOfColumns && self.numberOfRows >= other.numberOfRows;
 }
 
+- (BOOL)isSmallerOrEqualToBoardSize:(FWBoardSizeModel *)other
+{
+    return self.numberOfColumns <= other.numberOfColumns && self.numberOfRows <= other.numberOfRows;
+}
+
 + (NSArray *)boardSizes
 {
     return @[

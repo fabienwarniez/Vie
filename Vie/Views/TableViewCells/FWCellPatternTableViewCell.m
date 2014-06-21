@@ -6,7 +6,6 @@
 #import "FWCellPatternTableViewCell.h"
 #import "FWBoardView.h"
 #import "FWBoardSizeModel.h"
-#import "FWCellModel.h"
 #import "FWCellPatternModel.h"
 #import "FWColorSchemeModel.h"
 
@@ -19,6 +18,7 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
 
 @property (nonatomic, strong) FWBoardView *gameBoardView;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *sizeLabel;
 @property (nonatomic, strong) FWBoardSizeModel * boardSize;
 
 @end
@@ -31,9 +31,14 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
     if (self)
     {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.textColor = [UIColor blackColor];
+        _titleLabel.textColor = [UIColor darkGrayColor];
         _titleLabel.numberOfLines = 0;
+        _titleLabel.font = [UIFont systemFontOfSize:12.0f];
         [self.contentView addSubview:_titleLabel];
+
+        _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _sizeLabel.font = [UIFont systemFontOfSize:10.0f];
+        [self.contentView addSubview:_sizeLabel];
 
         _gameBoardView = [[FWBoardView alloc] init];
         _gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
@@ -48,12 +53,19 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
 {
     [super layoutSubviews];
 
-    CGSize labelSize = [self.titleLabel sizeThatFits:CGSizeMake(kFWCellPatternTableViewCellLabelWidth, self.contentView.bounds.size.height)];
+    CGSize sizeLabelSize = [self.sizeLabel sizeThatFits:CGSizeMake(kFWCellPatternTableViewCellLabelWidth, self.contentView.bounds.size.height)];
+    CGSize titleLabelSize = [self.titleLabel sizeThatFits:CGSizeMake(kFWCellPatternTableViewCellLabelWidth, sizeLabelSize.height)];
+
     self.titleLabel.frame = CGRectMake(
             kFWCellPatternTableViewCellSpacingWidth,
-            (self.contentView.bounds.size.height - labelSize.height) / 2.0f,
+            5.0f,
             kFWCellPatternTableViewCellLabelWidth,
-            labelSize.height);
+            titleLabelSize.height);
+    self.sizeLabel.frame = CGRectMake(
+            kFWCellPatternTableViewCellSpacingWidth,
+            self.bounds.size.height - sizeLabelSize.height - 5.0f,
+            kFWCellPatternTableViewCellLabelWidth,
+            sizeLabelSize.height);
     self.gameBoardView.frame = CGRectMake(
             CGRectGetMaxX(self.titleLabel.frame) + kFWCellPatternTableViewCellSpacingWidth,
             kFWCellPatternTableViewCellVerticalPadding,
@@ -80,14 +92,36 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
     }
 }
 
+- (void)setFitsOnCurrentBoard:(BOOL)fitsOnCurrentBoard
+{
+    _fitsOnCurrentBoard = fitsOnCurrentBoard;
+
+    if (fitsOnCurrentBoard)
+    {
+        self.sizeLabel.textColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        self.sizeLabel.textColor = [UIColor redColor];
+    }
+}
+
 #pragma mark - Accessors
 
 - (void)setCellPattern:(FWCellPatternModel *)cellPattern
 {
     _cellPattern = cellPattern;
-    self.gameBoardView.boardSize = cellPattern.boardSize;
-    self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];
+    if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithName:nil numberOfColumns:90 numberOfRows:120]])
+    {
+        self.gameBoardView.boardSize = cellPattern.boardSize;
+        self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];
+    }
+    else
+    {
+        self.gameBoardView.liveCells = nil;
+    }
     self.titleLabel.text = cellPattern.name;
+    self.sizeLabel.text = [NSString stringWithFormat:@"%dx%d", cellPattern.boardSize.numberOfColumns, cellPattern.boardSize.numberOfRows];
 }
 
 - (void)setColorScheme:(FWColorSchemeModel *)colorScheme

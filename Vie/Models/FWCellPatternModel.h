@@ -13,10 +13,8 @@
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *format;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
+@property (nonatomic, strong) NSString *encodedData;
 @property (nonatomic, strong) NSArray *liveCells;
 @property (nonatomic, assign) FWPatternPosition recommendedPosition;
-
-- (instancetype)initWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize;
-+ (instancetype)cellPatternWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize;
 
 @end

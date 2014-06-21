@@ -11,5 +11,6 @@
 
 @property (nonatomic, strong) FWCellPatternModel *cellPattern;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
+@property (nonatomic, assign) BOOL fitsOnCurrentBoard;
 
 @end

@@ -4,6 +4,7 @@
 //
 
 @class FWCellPatternModel;
+@class FWBoardSizeModel;
 
 @protocol FWCellPatternPickerTableViewControllerDelegate
 

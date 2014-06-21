@@ -14,6 +14,7 @@
 
 - (BOOL)isEqualToBoardSize:(FWBoardSizeModel *)other;
 - (BOOL)isGreaterOrEqualToBoardSize:(FWBoardSizeModel *)other;
+- (BOOL)isSmallerOrEqualToBoardSize:(FWBoardSizeModel *)other;
 
 + (NSArray *)boardSizes;
 + (instancetype)defaultBoardSize;

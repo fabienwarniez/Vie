@@ -4,27 +4,69 @@
 //
 
 #import "FWCellPatternModel.h"
-#import "FWBoardSizeModel.h"
+#import "FWCellModel.h"
 
 @implementation FWCellPatternModel
 
-- (instancetype)initWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize
+- (NSArray *)liveCells
 {
-    self = [super init];
-    if (self)
+    if (_liveCells == nil && self.encodedData != nil)
     {
-        _name = name;
-        _liveCells = liveCells;
-        _boardSize = boardSize;
-        _recommendedPosition = FWPatternPositionLeft | FWPatternPositionTop;
+        if ([self.format isEqualToString:@"rle"])
+        {
+           _liveCells = [self cellMatrixFromRLEString:self.encodedData];
+        }
+        else
+        {
+            // TODO: support more formats
+        }
     }
-
-    return self;
+    return _liveCells;
 }
 
-+ (instancetype)cellPatternWithName:(NSString *)name liveCells:(NSArray *)liveCells boardSize:(FWBoardSizeModel *)boardSize
+- (NSArray *)cellMatrixFromRLEString:(NSString *)data
 {
-    return [[self alloc] initWithName:name liveCells:liveCells boardSize:boardSize];
+    NSScanner *scanner = [NSScanner scannerWithString:data];
+
+    NSMutableArray *liveCells = [NSMutableArray array];
+    NSUInteger columnIndex = 0;
+    NSUInteger rowIndex = 0;
+
+    while (![scanner isAtEnd])
+    {
+        NSInteger numberOfOccurences;
+        if (![scanner scanInteger:&numberOfOccurences])
+        {
+            numberOfOccurences = 1;
+        }
+
+        NSString *nextCharacter = [data substringWithRange:NSMakeRange([scanner scanLocation], 1)];
+        if ([nextCharacter isEqualToString:@"!"]) // end of file
+        {
+            break;
+        }
+        else if ([nextCharacter isEqualToString:@"$"]) // line end
+        {
+            columnIndex = 0;
+            rowIndex++;
+        }
+        else if ([nextCharacter isEqualToString:@"b"]) // dead cell
+        {
+            columnIndex += numberOfOccurences;
+        }
+        else if ([nextCharacter isEqualToString:@"o"]) // live cell
+        {
+            for (NSUInteger i = 0; i < numberOfOccurences; i++)
+            {
+                FWCellModel *cellModel = [FWCellModel cellWithAlive:YES column:columnIndex row:rowIndex];
+                columnIndex++;
+                [liveCells addObject:cellModel];
+            }
+        }
+        [scanner setScanLocation:[scanner scanLocation] + 1];
+    }
+
+    return liveCells;
 }
 
 @end

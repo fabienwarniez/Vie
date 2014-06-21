@@ -9,6 +9,7 @@
 #import "FWUserModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWCellPatternLoader.h"
+#import "FWBoardSizeModel.h"
 
 static NSString * const kFWCellPatternPickerViewControllerCellIdentifier = @"PatternCell";
 static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
@@ -18,6 +19,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) FWCellPatternLoader *cellPatternLoader;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
+@property (nonatomic, strong) FWBoardSizeModel *boardSize;
 
 @end
 
@@ -36,8 +38,9 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
         _tableView.delegate = self;
         [_tableView registerClass:[FWCellPatternTableViewCell class] forCellReuseIdentifier:kFWCellPatternPickerViewControllerCellIdentifier];
 
-        FWColorSchemeModel *colorScheme = [[FWUserModel sharedUserModel] colorScheme];
-        _colorScheme = colorScheme;
+        FWUserModel *userModel = [FWUserModel sharedUserModel];
+        _colorScheme = [userModel colorScheme];
+        _boardSize = [userModel gameBoardSize];
     }
     return self;
 }
@@ -70,6 +73,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
     FWCellPatternModel *model = modelArray[0];
     dequeuedCell.cellPattern = model;
     dequeuedCell.colorScheme = self.colorScheme;
+    dequeuedCell.fitsOnCurrentBoard = [model.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
 
     return dequeuedCell;
 }
@@ -83,7 +87,10 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+    NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+    FWCellPatternModel *selectedModel = modelArray[0];
+    return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

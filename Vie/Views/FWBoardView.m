@@ -106,8 +106,11 @@ static NSUInteger const kFWNumberOfCellAgeGroups = 3;
 
 - (void)setLiveCells:(NSArray *)liveCells
 {
-    NSAssert(self.boardSize != nil, @"The game board size must be set before setting currentCellsNSArray.");
-    NSAssert(liveCells.count == 3, @"Trying to set an array of cells with more or less than 3 age groups.");
+    if (liveCells != nil)
+    {
+        NSAssert(self.boardSize != nil, @"The game board size must be set before setting currentCellsNSArray.");
+        NSAssert(liveCells.count == 3, @"Trying to set an array of cells with more or less than 3 age groups.");
+    }
 
     _liveCells = liveCells;
 
