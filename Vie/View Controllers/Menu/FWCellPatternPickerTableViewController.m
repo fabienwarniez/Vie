@@ -14,12 +14,15 @@
 static NSString * const kFWCellPatternPickerViewControllerCellIdentifier = @"PatternCell";
 static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
-@interface FWCellPatternPickerTableViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface FWCellPatternPickerTableViewController () <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchDisplayController *customSearchDisplayController;
 @property (nonatomic, strong) FWCellPatternLoader *cellPatternLoader;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
+@property (nonatomic, strong) NSArray *filteredPatternsArray;
 
 @end
 
@@ -38,9 +41,20 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
         _tableView.delegate = self;
         [_tableView registerClass:[FWCellPatternTableViewCell class] forCellReuseIdentifier:kFWCellPatternPickerViewControllerCellIdentifier];
 
+        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+        _searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+
+        _customSearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+        _customSearchDisplayController.delegate = self;
+        _customSearchDisplayController.searchResultsDelegate = self;
+        _customSearchDisplayController.searchResultsDataSource = self;
+
         FWUserModel *userModel = [FWUserModel sharedUserModel];
         _colorScheme = [userModel colorScheme];
         _boardSize = [userModel gameBoardSize];
+
+        [self setExtendedLayoutIncludesOpaqueBars:YES];
     }
     return self;
 }
@@ -48,29 +62,51 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 - (void)loadView
 {
     self.view = self.tableView;
+    self.tableView.tableHeaderView = self.searchBar;
 }
 
 - (void)viewDidLoad
 {
-    self.tableView.frame = self.view.bounds;
     self.title = NSLocalizedString(@"main_menu_title", nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.cellPatternLoader numberOfPatterns];
+    if (tableView == self.tableView)
+    {
+        return [self.cellPatternLoader numberOfPatterns];
+    }
+    else
+    {
+        return [self.filteredPatternsArray count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWCellPatternTableViewCell *dequeuedCell = [tableView dequeueReusableCellWithIdentifier:kFWCellPatternPickerViewControllerCellIdentifier forIndexPath:indexPath];
+    FWCellPatternTableViewCell *dequeuedCell = [self.tableView dequeueReusableCellWithIdentifier:kFWCellPatternPickerViewControllerCellIdentifier forIndexPath:indexPath];
+    FWCellPatternModel *model = nil;
 
-    NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-    NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-    FWCellPatternModel *model = modelArray[0];
+    if (tableView == self.tableView)
+    {
+        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+        model = modelArray[0];
+    }
+    else
+    {
+        model = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+    }
+
     dequeuedCell.cellPattern = model;
     dequeuedCell.colorScheme = self.colorScheme;
     dequeuedCell.fitsOnCurrentBoard = [model.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
@@ -87,9 +123,19 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-    NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-    FWCellPatternModel *selectedModel = modelArray[0];
+    FWCellPatternModel *selectedModel = nil;
+
+    if (tableView == self.tableView)
+    {
+        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+        selectedModel = modelArray[0];
+    }
+    else
+    {
+        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+    }
+
     return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
 }
 
@@ -97,10 +143,35 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-    NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-    FWCellPatternModel *selectedModel = modelArray[0];
+    FWCellPatternModel *selectedModel = nil;
+
+    if (tableView == self.tableView)
+    {
+        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+        selectedModel = modelArray[0];
+    }
+    else
+    {
+        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+    }
+
     [self.delegate didSelectCellPattern:selectedModel];
+}
+
+#pragma mark - UISearchDisplayDelegate
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
+    [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
+    self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
+
+    return YES;
 }
 
 @end

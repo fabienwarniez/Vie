@@ -7,7 +7,6 @@
 #import "FWGameViewController.h"
 #import "FWBoardSizeModel.h"
 #import "FWColorSchemeModel.h"
-#import "FWAppDelegate.h"
 #import "FWUserModel.h"
 #import "FWSavedGame.h"
 #import "FWCellPatternModel.h"
