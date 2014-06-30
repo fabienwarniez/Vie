@@ -68,13 +68,30 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 - (void)viewDidLoad
 {
     self.title = NSLocalizedString(@"main_menu_title", nil);
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem =
+            [[UIBarButtonItem alloc] initWithTitle:@""
+                                             style:UIBarButtonItemStylePlain
+                                            target:nil
+                                            action:nil];
+    self.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                                          target:self
+                                                          action:@selector(searchButtonTapped:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
+    });
 }
 
 #pragma mark - UITableViewDataSource
@@ -161,17 +178,30 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
 #pragma mark - UISearchDisplayDelegate
 
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
-{
-    [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
-}
-
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
     self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
 
     return YES;
+}
+
+#pragma mark - Private methods
+
+- (void)searchButtonTapped:(id)sender
+{
+    double delay = 0;
+
+    if (self.tableView.contentInset.top != -1 * self.tableView.contentOffset.y)
+    {
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        delay = 0.3f;
+    }
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void) {
+        [self.searchDisplayController setActive:YES animated:YES];
+        [self.searchBar becomeFirstResponder];
+    });
 }
 
 @end
