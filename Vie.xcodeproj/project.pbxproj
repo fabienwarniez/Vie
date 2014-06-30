@@ -44,6 +44,7 @@
 		A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */; };
 		B3935122B861B58E592BEFEB /* FWCellPatternLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */; };
 		B3935135680D968D45AAD95B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B393569A4AFED5F4DAFDDF59 /* Localizable.strings */; };
+		B3935B5381E7417A8D97A4EB /* FWRleReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935D2F5AFB88B89F1D9D90 /* FWRleReader.m */; };
 		B3935FA6823798258F5203A1 /* patterns.dat in Resources */ = {isa = PBXBuildFile; fileRef = B3935125771F4A068BE99A04 /* patterns.dat */; };
 /* End PBXBuildFile section */
 
@@ -120,10 +121,13 @@
 		A6BD8F40379E2A6C727EB8CA /* FWMainMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuTableViewController.m; sourceTree = "<group>"; };
 		A6BD8F73C32A4126F5D74C61 /* FWBoardSizePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizePickerTableViewController.m; sourceTree = "<group>"; };
 		B3935125771F4A068BE99A04 /* patterns.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.dat; path = patterns.dat; sourceTree = "<group>"; };
+		B3935764A58EADFAA8362858 /* FWRleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWRleReader.h; sourceTree = "<group>"; };
 		B39357EEF679DDD1D5B5F8BC /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B39358B9C09DE5678D48CEBF /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternLoader.m; sourceTree = "<group>"; };
 		B3935B1A7B9F99B4EF158411 /* FWCellPatternLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternLoader.h; sourceTree = "<group>"; };
+		B3935C3ACD3F4A6DBAEF6BDE /* FWPatternFormatReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternFormatReader.h; sourceTree = "<group>"; };
+		B3935D2F5AFB88B89F1D9D90 /* FWRleReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWRleReader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +296,7 @@
 				A6BD86C12D759F5A736D5812 /* FWCellPatternModel.h */,
 				B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */,
 				B3935B1A7B9F99B4EF158411 /* FWCellPatternLoader.h */,
+				B3935B4A31A3B749D077D68E /* PatternFormatReaders */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -322,6 +327,16 @@
 				B3935125771F4A068BE99A04 /* patterns.dat */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		B3935B4A31A3B749D077D68E /* PatternFormatReaders */ = {
+			isa = PBXGroup;
+			children = (
+				B3935D2F5AFB88B89F1D9D90 /* FWRleReader.m */,
+				B3935764A58EADFAA8362858 /* FWRleReader.h */,
+				B3935C3ACD3F4A6DBAEF6BDE /* FWPatternFormatReader.h */,
+			);
+			path = PatternFormatReaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,6 +467,7 @@
 				A6BD890533614F3D6AF2F6C2 /* FWCellPatternTableViewCell.m in Sources */,
 				A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */,
 				B3935122B861B58E592BEFEB /* FWCellPatternLoader.m in Sources */,
+				B3935B5381E7417A8D97A4EB /* FWRleReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
