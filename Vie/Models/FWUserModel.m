@@ -108,4 +108,9 @@
     [FWSettingsManager addUserSavedGame:savedGame];
 }
 
+- (void)editSavedGame:(FWSavedGame *)savedGame
+{
+    [FWSettingsManager editUserSavedGame:savedGame];
+}
+
 @end

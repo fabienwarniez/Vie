@@ -16,5 +16,6 @@
 + (instancetype)sharedUserModel;
 
 - (void)addSavedGame:(FWSavedGame *)savedGame;
+- (void)editSavedGame:(FWSavedGame *)savedGame;
 
 @end

@@ -10,18 +10,19 @@
 #import "FWSavedGameTableViewCell.h"
 
 static NSString * const kFWSavedGamePickerCellIdentifier = @"SavedGameCell";
-static CGFloat const kFWSavedGamePickerCellHeight = 50.0f;
+static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
 
-@interface FWSavedGamePickerTableViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface FWSavedGamePickerTableViewController () <UITableViewDataSource, UITableViewDelegate, FWSavedGameTableViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *savedGames;
+@property (nonatomic, strong) FWUserModel *userModel;
 
 @end
 
 @implementation FWSavedGamePickerTableViewController
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
@@ -32,8 +33,8 @@ static CGFloat const kFWSavedGamePickerCellHeight = 50.0f;
         _tableView.delegate = self;
         [_tableView registerClass:[FWSavedGameTableViewCell class] forCellReuseIdentifier:kFWSavedGamePickerCellIdentifier];
 
-        FWUserModel *userModel = [FWUserModel sharedUserModel];
-        _savedGames = [userModel savedGames];
+        _userModel = [FWUserModel sharedUserModel];
+        _savedGames = [_userModel savedGames];
     }
     return self;
 }
@@ -46,6 +47,13 @@ static CGFloat const kFWSavedGamePickerCellHeight = 50.0f;
 - (void)viewDidLoad
 {
     self.title = NSLocalizedString(@"saved_game_picker_title", nil);
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:animated];
 }
 
 #pragma mark - UITableViewDataSource
@@ -58,10 +66,11 @@ static CGFloat const kFWSavedGamePickerCellHeight = 50.0f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWSavedGame *model = self.savedGames[(NSUInteger) indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWSavedGamePickerCellIdentifier
+    FWSavedGameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWSavedGamePickerCellIdentifier
                                                                        forIndexPath:indexPath];
     cell.textLabel.text = model.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"Board Size %lu x %lu", (unsigned long) model.boardSize.numberOfColumns, (unsigned long) model.boardSize.numberOfRows];
+    cell.delegate = self;
 
     return cell;
 }
@@ -70,6 +79,19 @@ static CGFloat const kFWSavedGamePickerCellHeight = 50.0f;
 {
     return kFWSavedGamePickerCellHeight;
 }
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Delete row %u", indexPath.row);
+}
+
+//- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return @[
+//            [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:nil],
+//            [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Rename" handler:nil]
+//    ];
+//}
 
 #pragma mark - UITableViewDelegate
 
@@ -85,6 +107,16 @@ static CGFloat const kFWSavedGamePickerCellHeight = 50.0f;
     FWSavedGame *savedGame = self.savedGames[(NSUInteger) indexPath.row];
 
     [self.delegate loadSavedGame:savedGame];
+}
+
+#pragma mark - FWSavedGameTableViewCellDelegate methods
+
+- (void)savedGameCell:(FWSavedGameTableViewCell *)savedGameCell didEditGameName:(NSString *)name
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:savedGameCell];
+    FWSavedGame *savedGameToEdit = self.savedGames[(NSUInteger) indexPath.row];
+    savedGameToEdit.name = name;
+    [self.userModel editSavedGame:savedGameToEdit];
 }
 
 @end

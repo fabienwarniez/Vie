@@ -4,6 +4,7 @@
 //
 
 @class FWSavedGame;
+@class FWUserModel;
 
 @protocol FWSavedGamePickerTableViewControllerDelegate <NSObject>
 

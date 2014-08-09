@@ -63,6 +63,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 {
     self.view = self.tableView;
     self.tableView.tableHeaderView = self.searchBar;
+//    self.customSearchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
 - (void)viewDidLoad
@@ -73,16 +74,6 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
                                              style:UIBarButtonItemStylePlain
                                             target:nil
                                             action:nil];
-    self.navigationItem.rightBarButtonItem =
-            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                          target:self
-                                                          action:@selector(searchButtonTapped:)];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -184,24 +175,6 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
     self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
 
     return YES;
-}
-
-#pragma mark - Private methods
-
-- (void)searchButtonTapped:(id)sender
-{
-    double delay = 0;
-
-    if (self.tableView.contentInset.top != -1 * self.tableView.contentOffset.y)
-    {
-        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-        delay = 0.3f;
-    }
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void) {
-        [self.searchDisplayController setActive:YES animated:YES];
-        [self.searchBar becomeFirstResponder];
-    });
 }
 
 @end

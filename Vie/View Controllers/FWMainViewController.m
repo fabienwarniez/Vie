@@ -127,7 +127,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
     NSArray *liveCells = [self.gameViewController initialBoardLiveCells];
 
-    FWSavedGame *savedGame = [FWSavedGame gameWithName:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
+    FWSavedGame *savedGame = [FWSavedGame gameWithUuid:[[NSUUID UUID] UUIDString] name:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
 
     FWUserModel *userModel = [FWUserModel sharedUserModel];
     [userModel addSavedGame:savedGame];

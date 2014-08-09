@@ -14,6 +14,7 @@ static NSString * const kUserBoardSizeColumnsKey = @"board_size_columns";
 static NSString * const kUserBoardSizeRowsKey = @"board_size_rows";
 
 static NSString * const kUserSavedGamesKey = @"saved_games";
+static NSString * const kUserSavedGameDictionaryUuidKey = @"uuid";
 static NSString * const kUserSavedGameDictionaryNameKey = @"name";
 static NSString * const kUserSavedGameDictionaryNumberOfColumnsKey = @"columns";
 static NSString * const kUserSavedGameDictionaryNumberOfRowsKey = @"rows";
@@ -115,32 +116,86 @@ static NSString * const kUserSavedGameDictionaryCellsKey = @"cells";
     [userDefaults setObject:resultArray forKey:kUserSavedGamesKey];
 }
 
++ (void)editUserSavedGame:(FWSavedGame *)savedGame
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *arrayOfGames = [userDefaults arrayForKey:kUserSavedGamesKey];
+
+    NSAssert(arrayOfGames != nil, @"Trying to edit a game when there are no games saved.");
+
+    NSMutableArray *resultArray = [arrayOfGames mutableCopy];
+
+    NSUInteger searchedGameIndex = NSNotFound;
+    for (NSDictionary *serializedGameIterator in arrayOfGames)
+    {
+        if ([serializedGameIterator[kUserSavedGameDictionaryUuidKey] isEqualToString:savedGame.uuid])
+        {
+            searchedGameIndex = [arrayOfGames indexOfObject:serializedGameIterator];
+        }
+    }
+
+    NSAssert(searchedGameIndex != NSNotFound, @"Saved game not found, but should exist.");
+
+    NSDictionary *serializedGame = [FWSettingsManager serializeSavedGame:savedGame];
+
+    resultArray[searchedGameIndex] = serializedGame;
+
+    [userDefaults setObject:resultArray forKey:kUserSavedGamesKey];
+}
+
++ (void)deleteUserSavedGame:(FWSavedGame *)savedGame
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *arrayOfGames = [userDefaults arrayForKey:kUserSavedGamesKey];
+
+    NSAssert(arrayOfGames != nil, @"Trying to delete a game when there are no games saved.");
+
+    NSMutableArray *resultArray = [arrayOfGames mutableCopy];
+
+    NSUInteger searchedGameIndex = NSNotFound;
+    for (NSDictionary *serializedGameIterator in arrayOfGames)
+    {
+        if ([serializedGameIterator[kUserSavedGameDictionaryUuidKey] isEqualToString:savedGame.uuid])
+        {
+            searchedGameIndex = [arrayOfGames indexOfObject:serializedGameIterator];
+        }
+    }
+
+    NSAssert(searchedGameIndex != NSNotFound, @"Saved game not found, but should exist.");
+
+    [resultArray removeObjectAtIndex:searchedGameIndex];
+
+    [userDefaults setObject:resultArray forKey:kUserSavedGamesKey];
+}
+
 + (NSDictionary *)serializeSavedGame:(FWSavedGame *)savedGame
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-    [dictionary setObject:savedGame.name forKey:kUserSavedGameDictionaryNameKey];
-    [dictionary setObject:[NSNumber numberWithUnsignedInteger:savedGame.boardSize.numberOfColumns] forKey:kUserSavedGameDictionaryNumberOfColumnsKey];
-    [dictionary setObject:[NSNumber numberWithUnsignedInteger:savedGame.boardSize.numberOfRows] forKey:kUserSavedGameDictionaryNumberOfRowsKey];
+    dictionary[kUserSavedGameDictionaryUuidKey] = savedGame.uuid;
+    dictionary[kUserSavedGameDictionaryNameKey] = savedGame.name;
+    dictionary[kUserSavedGameDictionaryNumberOfColumnsKey] = @(savedGame.boardSize.numberOfColumns);
+    dictionary[kUserSavedGameDictionaryNumberOfRowsKey] = @(savedGame.boardSize.numberOfRows);
 
     NSMutableArray *serializedCells = [NSMutableArray array];
     for (FWCellModel *cell in savedGame.liveCells)
     {
-        NSNumber *cellIndex = [NSNumber numberWithUnsignedInteger:cell.column * savedGame.boardSize.numberOfRows + cell.row];
+        NSNumber *cellIndex = @(cell.column * savedGame.boardSize.numberOfRows + cell.row);
         [serializedCells addObject:cellIndex];
     }
 
-    [dictionary setObject:[serializedCells copy] forKey:kUserSavedGameDictionaryCellsKey];
+    dictionary[kUserSavedGameDictionaryCellsKey] = [serializedCells copy];
 
     return dictionary;
 }
 
 + (FWSavedGame *)deserializeSavedGame:(NSDictionary *)gameDictionary
 {
-    NSString *name = [gameDictionary objectForKey:kUserSavedGameDictionaryNameKey];
-    NSNumber *numberOfColumnsObject = [gameDictionary objectForKey:kUserSavedGameDictionaryNumberOfColumnsKey];
-    NSNumber *numberOfRowsObject = [gameDictionary objectForKey:kUserSavedGameDictionaryNumberOfRowsKey];
-    NSArray *cells = [gameDictionary objectForKey:kUserSavedGameDictionaryCellsKey];
+    NSString *uuid = gameDictionary[kUserSavedGameDictionaryUuidKey];
+    NSString *name = gameDictionary[kUserSavedGameDictionaryNameKey];
+    NSNumber *numberOfColumnsObject = gameDictionary[kUserSavedGameDictionaryNumberOfColumnsKey];
+    NSNumber *numberOfRowsObject = gameDictionary[kUserSavedGameDictionaryNumberOfRowsKey];
+    NSArray *cells = gameDictionary[kUserSavedGameDictionaryCellsKey];
 
     NSUInteger numberOfColumns = [numberOfColumnsObject unsignedIntegerValue];
     NSUInteger numberOfRows = [numberOfRowsObject unsignedIntegerValue];
@@ -159,7 +214,7 @@ static NSString * const kUserSavedGameDictionaryCellsKey = @"cells";
         [deserializedCells addObject:cellModel];
     }
 
-    return [FWSavedGame gameWithName:name boardSize:boardSize liveCells:[deserializedCells copy]];
+    return [FWSavedGame gameWithUuid:uuid name:name boardSize:boardSize liveCells:[deserializedCells copy]];
 }
 
 @end
