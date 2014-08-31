@@ -15,7 +15,7 @@
 
 + (instancetype)sharedUserModel;
 
-- (void)addSavedGame:(FWSavedGame *)savedGame;
+- (void)saveGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells;
 - (void)editSavedGame:(FWSavedGame *)savedGame;
 
 @end

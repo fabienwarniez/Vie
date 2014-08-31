@@ -164,7 +164,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
 - (void)loadSavedGame:(FWSavedGame *)savedGame
 {
-    _boardSize = [FWBoardSizeModel boardSizeWithName:savedGame.boardSize.name
+    _boardSize = [FWBoardSizeModel boardSizeWithName:nil
                                      numberOfColumns:savedGame.boardSize.numberOfColumns
                                         numberOfRows:savedGame.boardSize.numberOfRows];
 

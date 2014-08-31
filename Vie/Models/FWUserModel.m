@@ -3,11 +3,18 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 #import "FWUserModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWSettingsManager.h"
 #import "FWBoardSizeModel.h"
 #import "FWSavedGame.h"
+
+@interface FWUserModel ()
+
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+@end
 
 @implementation FWUserModel
 {
@@ -15,15 +22,28 @@
     FWBoardSizeModel *_gameBoardSize;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
     {
         _colorScheme = nil;
         _gameBoardSize = nil;
+        _managedObjectContext = [self createManagedObjectContext];
     }
     return self;
+}
+
+- (NSManagedObjectContext *)createManagedObjectContext
+{
+    NSURL *url = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"Database.sqlite"];
+    NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    [persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:nil];
+    NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc]initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
+
+    return managedObjectContext;
 }
 
 + (instancetype)sharedUserModel
@@ -94,23 +114,40 @@
 
 - (NSArray *)savedGames
 {
-    NSArray *savedGames = [FWSettingsManager getUserSavedGames];
-    if (savedGames == nil)
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedGame" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+
+    NSError *error;
+    NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
+    if (result != nil)
     {
-        savedGames = [NSArray array];
-        [FWSettingsManager setUserSavedGames:savedGames];
+        for (FWSavedGame *object in result)
+        {
+            NSLog(@"%@", object.name);
+        }
     }
-    return savedGames;
+    return result;
 }
 
-- (void)addSavedGame:(FWSavedGame *)savedGame
+- (void)saveGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells
 {
-    [FWSettingsManager addUserSavedGame:savedGame];
+    NSManagedObjectContext *context = self.managedObjectContext;
+    FWSavedGame *savedGame = [NSEntityDescription insertNewObjectForEntityForName:@"SavedGame"
+                                                           inManagedObjectContext:context];
+    savedGame.name = name;
+    savedGame.boardSize = boardSize;
+    savedGame.liveCells = liveCells;
+
+    [context save:nil];
 }
 
 - (void)editSavedGame:(FWSavedGame *)savedGame
 {
-    [FWSettingsManager editUserSavedGame:savedGame];
+    NSManagedObjectContext *context = savedGame.managedObjectContext;
+    NSAssert(context != nil, @"The saved game context is nil.");
+    [context save:nil];
 }
 
 @end

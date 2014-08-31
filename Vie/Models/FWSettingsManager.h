@@ -15,10 +15,4 @@
 + (FWBoardSizeModel *)getUserBoardSize;
 + (void)saveUserBoardSize:(FWBoardSizeModel *)boardSize;
 
-+ (NSArray *)getUserSavedGames;
-+ (void)setUserSavedGames:(NSArray *)savedGames;
-+ (void)addUserSavedGame:(FWSavedGame *)savedGame;
-+ (void)editUserSavedGame:(FWSavedGame *)savedGame;
-+ (void)deleteUserSavedGame:(FWSavedGame *)savedGame;
-
 @end

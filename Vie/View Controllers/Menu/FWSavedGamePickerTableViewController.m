@@ -5,9 +5,9 @@
 
 #import "FWSavedGamePickerTableViewController.h"
 #import "FWUserModel.h"
+#import "FWSavedGameTableViewCell.h"
 #import "FWSavedGame.h"
 #import "FWBoardSizeModel.h"
-#import "FWSavedGameTableViewCell.h"
 
 static NSString * const kFWSavedGamePickerCellIdentifier = @"SavedGameCell";
 static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
@@ -84,14 +84,6 @@ static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
 {
     NSLog(@"Delete row %u", indexPath.row);
 }
-
-//- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return @[
-//            [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:nil],
-//            [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Rename" handler:nil]
-//    ];
-//}
 
 #pragma mark - UITableViewDelegate
 
