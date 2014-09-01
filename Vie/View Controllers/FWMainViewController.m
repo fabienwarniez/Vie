@@ -10,15 +10,16 @@
 #import "FWUserModel.h"
 #import "FWSavedGame.h"
 #import "FWCellPatternModel.h"
+#import "FWMainMenuViewController.h"
+#import "UIView+FWConvenience.h"
 
-static CGFloat const kFWMainViewControllerMenuWidthPad = 320.0f;
-static CGFloat const kFWMainViewControllerMenuWidthPhone = 240.0f;
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
-@interface FWMainViewController () <UINavigationBarDelegate>
+@interface FWMainViewController () <UINavigationBarDelegate, FWMainMenuViewControllerDelegate>
 
 @property (nonatomic, strong) FWGameViewController *gameViewController;
-@property (nonatomic, assign) BOOL isMenuExpanded;
+@property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
+@property (nonatomic, assign) BOOL isQuickGameVisible;
 
 @end
 
@@ -26,9 +27,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 #pragma mark - Initializers
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self)
     {
         FWUserModel *userModel = [FWUserModel sharedUserModel];
@@ -38,85 +39,68 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
         _gameViewController.cellFillColorScheme = userModel.colorScheme;
 
-        _isMenuExpanded = NO;
+        _mainMenuViewController = [[FWMainMenuViewController alloc] init];
+
+        _isQuickGameVisible = NO;
     }
     return self;
 }
 
 #pragma mark - UIViewController
 
+- (void)loadView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
+
+    self.view = view;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.navigationBar.layer.shadowOpacity = 0.3f;
-    self.navigationBar.layer.shadowOffset = CGSizeZero;
-    self.navigationBar.layer.shadowRadius = 3.0f;
-    self.navigationBar.layer.masksToBounds = NO;
+    [self addChildViewController:self.mainMenuViewController];
+    self.mainMenuViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.mainMenuViewController.view.frame = self.view.bounds;
+    [self.view addSubview:self.mainMenuViewController.view];
+    [self.mainMenuViewController didMoveToParentViewController:self];
 
     [self addChildViewController:self.gameViewController];
-    self.gameViewController.view.frame = self.gameBoardContainerView.bounds;
     self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.gameBoardContainerView addSubview:self.gameViewController.view];
+    self.gameViewController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.gameViewController.view];
     [self.gameViewController didMoveToParentViewController:self];
-
-    CGRect navigationContainerFrame = self.menuNavigationControllerContainerView.frame;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        navigationContainerFrame.size.width = kFWMainViewControllerMenuWidthPad;
-    }
-    else // iPhone
-    {
-        navigationContainerFrame.size.width = kFWMainViewControllerMenuWidthPhone;
-    }
-    self.menuNavigationControllerContainerView.frame = navigationContainerFrame;
-
-    self.menuNavigationController.navigationBar.tintColor = [UIColor whiteColor]; // needed to make the back arrow white
-    self.menuNavigationController.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.menuNavigationController.navigationBar.layer.shadowOpacity = 0.3f;
-    self.menuNavigationController.navigationBar.layer.shadowOffset = CGSizeZero;
-    self.menuNavigationController.navigationBar.layer.shadowRadius = 3.0f;
-    self.menuNavigationController.navigationBar.layer.masksToBounds = NO;
-    self.menuNavigationController.view.frame = self.menuNavigationControllerContainerView.bounds;
-    self.menuNavigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.menuNavigationControllerContainerView addSubview:self.menuNavigationController.view];
 
     self.mainMenuViewController.delegate = self;
 }
 
-#pragma mark - IBAction's
-
-- (IBAction)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer
+- (void)viewWillLayoutSubviews
 {
-    if (!self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight)
+    if (self.isQuickGameVisible)
     {
-        [self openMenu];
-    }
-    else if (self.isMenuExpanded && swipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        [self closeMenu];
-    }
-}
-
-- (IBAction)handleMenuButtonTapped:(id)sender
-{
-    if (self.isMenuExpanded)
-    {
-        [self closeMenu];
+        self.gameViewController.view.frame = self.view.bounds;
     }
     else
     {
-        [self openMenu];
+        self.gameViewController.view.frame = [self.view frameBelow];
     }
 }
 
-- (IBAction)handleGameBoardOverlayTapped:(UITapGestureRecognizer *)tapGestureRecognizer
+#pragma mark - Private Methods
+
+- (void)showQuickGame
 {
-    [self closeMenu];
+    [self.gameViewController.view slideTo:self.view.bounds];
 }
 
 #pragma mark - FWMainMenuViewControllerDelegate
+
+- (void)quickGameButtonTapped
+{
+    [self showQuickGame];
+}
+
+#pragma mark - FWMainMenuTableViewControllerDelegate
 
 - (void)saveCurrentGame
 {
@@ -145,33 +129,33 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
 {
-    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
-    [sharedUserModel setGameBoardSize:newBoardSize];
-
-    self.gameViewController.boardSize = newBoardSize;
-    [self.gameViewController setForceResumeAfterInterruption:NO];
+//    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+//    [sharedUserModel setGameBoardSize:newBoardSize];
+//
+//    self.gameViewController.boardSize = newBoardSize;
+//    [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 
 #pragma mark - FWSavedGamePickerTableViewControllerDelegate
 
 - (void)loadSavedGame:(FWSavedGame *)savedGame
 {
-    [self.gameViewController loadSavedGame:savedGame];
-
-    [self.gameViewController setForceResumeAfterInterruption:NO];
-    [self closeMenu];
+//    [self.gameViewController loadSavedGame:savedGame];
+//
+//    [self.gameViewController setForceResumeAfterInterruption:NO];
+//    [self closeMenu];
 }
 
 #pragma mark - FWCellPatternPickerTableViewControllerDelegate
 
 - (void)didSelectCellPattern:(FWCellPatternModel *)cellPattern
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
-
-    [self.gameViewController setPattern:cellPattern];
-
-    [self.gameViewController setForceResumeAfterInterruption:NO];
-    [self closeMenu];
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
+//
+//    [self.gameViewController setPattern:cellPattern];
+//
+//    [self.gameViewController setForceResumeAfterInterruption:NO];
+//    [self closeMenu];
 }
 
 #pragma mark - UINavigationToolbarDelegate
@@ -179,51 +163,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
 {
     return UIBarPositionTopAttached;
-}
-
-#pragma mark - Private Methods
-
-- (void)openMenu
-{
-    [self.gameViewController interruptGame];
-
-    [UIView animateWithDuration:0.3
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         CGRect newFrame = self.mainContentContainerView.frame;
-                         newFrame.origin.x += self.menuNavigationControllerContainerView.frame.size.width;
-                         self.mainContentContainerView.frame = newFrame;
-                     }
-                     completion:^(BOOL finished)
-                     {
-                         if (finished)
-                         {
-                             self.isMenuExpanded = YES;
-                             self.gameBoardOverlayView.hidden = NO;
-                         }
-                     }];
-}
-
-- (void)closeMenu
-{
-    [UIView animateWithDuration:0.3
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         CGRect newFrame = self.mainContentContainerView.frame;
-                         newFrame.origin.x = 0;
-                         self.mainContentContainerView.frame = newFrame;
-                     }
-                     completion:^(BOOL finished)
-                     {
-                         if (finished)
-                         {
-                             [self.gameViewController resumeAfterInterruption];
-                             self.isMenuExpanded = NO;
-                             self.gameBoardOverlayView.hidden = YES;
-                         }
-                     }];
 }
 
 @end

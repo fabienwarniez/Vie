@@ -19,7 +19,7 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
-		4642AF51190D923D00BE5FB4 /* FWMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4642AF50190D923D00BE5FB4 /* FWMainViewController.xib */; };
+		4642AF51190D923D00BE5FB4 /* FWMainViewControllerBackup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4642AF50190D923D00BE5FB4 /* FWMainViewControllerBackup.xib */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
 		5F29805819B29ED8006C4C91 /* FWSavedGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805719B29ED8006C4C91 /* FWSavedGame.m */; };
 		5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF3D86719B29AEB00F97192 /* CoreData.framework */; };
@@ -46,7 +46,11 @@
 		A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */; };
 		B3935122B861B58E592BEFEB /* FWCellPatternLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */; };
 		B3935135680D968D45AAD95B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B393569A4AFED5F4DAFDDF59 /* Localizable.strings */; };
+		B393556A420DDDCC1BC3926F /* UIFont+FWAppFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = B39354FA427EDDAD37D20935 /* UIFont+FWAppFonts.m */; };
+		B39355BF45D67AD507E80C27 /* FWMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */; };
+		B393587659FE47A6A07057E1 /* UIView+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */; };
 		B3935B5381E7417A8D97A4EB /* FWRleReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935D2F5AFB88B89F1D9D90 /* FWRleReader.m */; };
+		B3935E753B9F7C8847181708 /* Gotham-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = B39352AE7FA16BDCFD1F1C3A /* Gotham-Book.otf */; };
 		B3935FA6823798258F5203A1 /* patterns.dat in Resources */ = {isa = PBXBuildFile; fileRef = B3935125771F4A068BE99A04 /* patterns.dat */; };
 /* End PBXBuildFile section */
 
@@ -77,7 +81,7 @@
 		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
-		4642AF50190D923D00BE5FB4 /* FWMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWMainViewController.xib; sourceTree = "<group>"; };
+		4642AF50190D923D00BE5FB4 /* FWMainViewControllerBackup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWMainViewControllerBackup.xib; sourceTree = "<group>"; };
 		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5F29805419B29BB3006C4C91 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5F29805619B29ED8006C4C91 /* FWSavedGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGame.h; sourceTree = "<group>"; };
@@ -124,10 +128,17 @@
 		A6BD8F008B945759E90FEF5C /* FWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainViewController.m; sourceTree = "<group>"; };
 		A6BD8F40379E2A6C727EB8CA /* FWMainMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuTableViewController.m; sourceTree = "<group>"; };
 		A6BD8F73C32A4126F5D74C61 /* FWBoardSizePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizePickerTableViewController.m; sourceTree = "<group>"; };
+		B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FWConvenience.m"; sourceTree = "<group>"; };
 		B3935125771F4A068BE99A04 /* patterns.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.dat; path = patterns.dat; sourceTree = "<group>"; };
+		B393517F0C800643852B9D41 /* UIView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FWConvenience.h"; sourceTree = "<group>"; };
+		B39352AE7FA16BDCFD1F1C3A /* Gotham-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file.otf; path = "Gotham-Book.otf"; sourceTree = "<group>"; };
+		B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuViewController.m; sourceTree = "<group>"; };
+		B3935446538A8833CCEA7A65 /* FWMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainMenuViewController.h; sourceTree = "<group>"; };
+		B39354FA427EDDAD37D20935 /* UIFont+FWAppFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FWAppFonts.m"; sourceTree = "<group>"; };
 		B3935764A58EADFAA8362858 /* FWRleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWRleReader.h; sourceTree = "<group>"; };
 		B39357EEF679DDD1D5B5F8BC /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B39358B9C09DE5678D48CEBF /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		B3935A6E4750297783C74045 /* UIFont+FWAppFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FWAppFonts.h"; sourceTree = "<group>"; };
 		B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternLoader.m; sourceTree = "<group>"; };
 		B3935B1A7B9F99B4EF158411 /* FWCellPatternLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternLoader.h; sourceTree = "<group>"; };
 		B3935C3ACD3F4A6DBAEF6BDE /* FWPatternFormatReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternFormatReader.h; sourceTree = "<group>"; };
@@ -244,8 +255,10 @@
 				A6BD82764DB78469ADF28EC1 /* FWGameViewController.xib */,
 				A6BD8F008B945759E90FEF5C /* FWMainViewController.m */,
 				A6BD808AFF54817340C0A620 /* FWMainViewController.h */,
-				4642AF50190D923D00BE5FB4 /* FWMainViewController.xib */,
+				4642AF50190D923D00BE5FB4 /* FWMainViewControllerBackup.xib */,
 				A6BD84DC839C08995F3571F3 /* Menu */,
+				B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */,
+				B3935446538A8833CCEA7A65 /* FWMainMenuViewController.h */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -313,6 +326,10 @@
 			children = (
 				A6BD87C92FF24586F6F1DC83 /* UIColor+FWAppColors.m */,
 				A6BD8A460358D84F00240009 /* UIColor+FWAppColors.h */,
+				B39354FA427EDDAD37D20935 /* UIFont+FWAppFonts.m */,
+				B3935A6E4750297783C74045 /* UIFont+FWAppFonts.h */,
+				B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */,
+				B393517F0C800643852B9D41 /* UIView+FWConvenience.h */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -332,6 +349,7 @@
 			children = (
 				B393569A4AFED5F4DAFDDF59 /* Localizable.strings */,
 				B3935125771F4A068BE99A04 /* patterns.dat */,
+				B3935CCC9C5FAD86A0A8E105 /* Fonts */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -344,6 +362,14 @@
 				B3935C3ACD3F4A6DBAEF6BDE /* FWPatternFormatReader.h */,
 			);
 			path = PatternFormatReaders;
+			sourceTree = "<group>";
+		};
+		B3935CCC9C5FAD86A0A8E105 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B39352AE7FA16BDCFD1F1C3A /* Gotham-Book.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -426,12 +452,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4642AF51190D923D00BE5FB4 /* FWMainViewController.xib in Resources */,
+				4642AF51190D923D00BE5FB4 /* FWMainViewControllerBackup.xib in Resources */,
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
 				A6BD8680990F497C1682DC19 /* FWGameViewController.xib in Resources */,
 				B3935135680D968D45AAD95B /* Localizable.strings in Resources */,
 				B3935FA6823798258F5203A1 /* patterns.dat in Resources */,
+				B3935E753B9F7C8847181708 /* Gotham-Book.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +503,9 @@
 				5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */,
 				B3935122B861B58E592BEFEB /* FWCellPatternLoader.m in Sources */,
 				B3935B5381E7417A8D97A4EB /* FWRleReader.m in Sources */,
+				B39355BF45D67AD507E80C27 /* FWMainMenuViewController.m in Sources */,
+				B393556A420DDDCC1BC3926F /* UIFont+FWAppFonts.m in Sources */,
+				B393587659FE47A6A07057E1 /* UIView+FWConvenience.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

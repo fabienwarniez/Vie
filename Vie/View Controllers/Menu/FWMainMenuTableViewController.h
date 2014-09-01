@@ -5,7 +5,7 @@
 
 @class FWMainViewController;
 
-@protocol FWMainMenuViewControllerDelegate
+@protocol FWMainMenuTableViewControllerDelegate
 
 - (void)saveCurrentGame;
 
@@ -13,7 +13,7 @@
 
 @interface FWMainMenuTableViewController : UIViewController
 
-@property (nonatomic, weak) id<FWMainMenuViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<FWMainMenuTableViewControllerDelegate> delegate;
 
 @property (nonatomic, weak) IBOutlet FWMainViewController *mainViewController;
 

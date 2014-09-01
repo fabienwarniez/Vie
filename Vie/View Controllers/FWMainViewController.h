@@ -16,20 +16,8 @@
 @interface FWMainViewController : UIViewController
         <FWColorSchemePickerTableViewControllerDelegate,
         FWBoardSizePickerTableViewControllerDelegate,
-        FWMainMenuViewControllerDelegate,
+        FWMainMenuTableViewControllerDelegate,
         FWSavedGamePickerTableViewControllerDelegate,
         FWCellPatternPickerTableViewControllerDelegate>
-
-@property (nonatomic, strong) IBOutlet FWMainMenuTableViewController *mainMenuViewController;
-@property (nonatomic, strong) IBOutlet UINavigationController *menuNavigationController;
-@property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
-@property (nonatomic, strong) IBOutlet UIView *menuNavigationControllerContainerView;
-@property (nonatomic, strong) IBOutlet UIView *mainContentContainerView;
-@property (nonatomic, strong) IBOutlet UIView *gameBoardContainerView;
-@property (nonatomic, strong) IBOutlet UIView *gameBoardOverlayView;
-
-- (IBAction)handleNavigationSwipe:(UISwipeGestureRecognizer *)swipeGestureRecognizer;
-- (IBAction)handleMenuButtonTapped:(id)sender;
-- (IBAction)handleGameBoardOverlayTapped:(UITapGestureRecognizer *)tapGestureRecognizer;
 
 @end

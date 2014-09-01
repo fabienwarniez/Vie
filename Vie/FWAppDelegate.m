@@ -8,8 +8,6 @@
 
 #import "FWAppDelegate.h"
 #import "FWMainViewController.h"
-#import "FWBoardSizeModel.h"
-#import "FWUserModel.h"
 
 @interface FWAppDelegate ()
 
@@ -24,7 +22,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    self.mainViewController = [[FWMainViewController alloc] initWithNibName:@"FWMainViewController" bundle:nil];
+    self.mainViewController = [[FWMainViewController alloc] init];
     self.window.rootViewController = self.mainViewController;
     
     [self.window makeKeyAndVisible];

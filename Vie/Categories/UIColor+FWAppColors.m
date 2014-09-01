@@ -7,9 +7,14 @@
 
 @implementation UIColor (FWAppColors)
 
++ (UIColor *)mainAppColor
+{
+    return [UIColor colorWithRed:94.0f / 255.0f green:172.0f / 255.0f blue:107.0f / 255.0f alpha:1.0f];
+}
+
 + (UIColor *)successfulBackgroundColor
 {
-    return [UIColor colorWithRed:198.0f/255.0f green:241.0f/255.0f blue:150.0f/255.0f alpha:1.0];
+    return [UIColor greenColor];
 }
 
 + (UIColor *)selectedTableViewCellColor
