@@ -5,7 +5,9 @@
 
 @interface UIView (FWConvenience)
 
-- (void)slideTo:(CGRect)position;
+- (void)slideTo:(CGRect)position duration:(CGFloat)duration delay:(CGFloat)delay;
+- (void)fadeInWithDuration:(CGFloat)duration delay:(CGFloat)delay;
+- (CGRect)frameShiftedVerticallyByOffset:(CGFloat)offset;
 - (CGRect)frameBelow;
 
 @end

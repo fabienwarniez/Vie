@@ -90,7 +90,8 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)showQuickGame
 {
-    [self.gameViewController.view slideTo:self.view.bounds];
+    [self.gameViewController.view slideTo:self.view.bounds duration:0.5f delay:0];
+    self.isQuickGameVisible = YES;
 }
 
 #pragma mark - FWMainMenuViewControllerDelegate
