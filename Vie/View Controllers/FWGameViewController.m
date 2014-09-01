@@ -14,7 +14,7 @@
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
-@interface FWGameViewController ()
+@interface FWGameViewController () <UINavigationBarDelegate>
 {
     FWCellModel * __unsafe_unretained *_currentCellsArray;
     FWCellModel * __unsafe_unretained *_previousArrayOfCells;
@@ -100,6 +100,8 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     [super viewDidLoad];
 
+    self.navigationBar.delegate = self;
+
     self.gameBoardView.minimumBoardPadding = kFWGameViewControllerBoardPadding;
 
     // Needed to update the play / pause buttons
@@ -112,6 +114,13 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     free(_currentCellsArray);
     free(_previousArrayOfCells);
+}
+
+#pragma mark - UINavigationBarDelegate
+
+- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+{
+    return UIBarPositionTopAttached;
 }
 
 #pragma mark - Game Lifecycle Management

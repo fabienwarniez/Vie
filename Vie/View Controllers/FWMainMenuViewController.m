@@ -80,15 +80,20 @@
 
     if (!self.areFirstLoadAnimationsExecuted)
     {
-        [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0];
-        [self.quickPlayButton fadeInWithDuration:0.5f delay:1.0f];
-        [self.patternsButton fadeInWithDuration:0.5f delay:1.0f];
-        [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];
+        [self animateItems];
         self.areFirstLoadAnimationsExecuted = YES;
     }
 }
 
 #pragma mark - Private Methods
+
+- (void)animateItems
+{
+    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0];
+    [self.quickPlayButton fadeInWithDuration:0.5f delay:1.0f];
+    [self.patternsButton fadeInWithDuration:0.5f delay:1.0f];
+    [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];
+}
 
 - (void)quickButtonTapped:(UIButton *)button
 {
