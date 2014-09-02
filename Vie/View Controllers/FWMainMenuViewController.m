@@ -35,35 +35,23 @@
 - (void)loadView
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
-    view.backgroundColor = [UIColor mainAppColor];
+    view.backgroundColor = [UIColor appPrimaryVibrantColor];
 
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
-    logoImageView.center = CGPointMake(view.bounds.size.width / 2.0f, 200.0f);
     logoImageView.autoresizingMask =
             UIViewAutoresizingFlexibleRightMargin
             | UIViewAutoresizingFlexibleBottomMargin
             | UIViewAutoresizingFlexibleLeftMargin;
     self.logoImageView = logoImageView;
 
-    UIButton *quickPlayButton = [FWMainMenuViewController createMenuButtonWithTitle:@"quick play"];
-    quickPlayButton.center = CGPointMake(view.bounds.size.width / 2.0f, 600.0f);
-    quickPlayButton.alpha = 0.0f;
-    self.quickPlayButton = quickPlayButton;
-
-    UIButton *patternsButton = [FWMainMenuViewController createMenuButtonWithTitle:@"patterns"];
-    patternsButton.center = CGPointMake(view.bounds.size.width / 2.0f, 700.0f);
-    patternsButton.alpha = 0.0f;
-    self.patternsButton = patternsButton;
-
-    UIButton *savedGamesButton = [FWMainMenuViewController createMenuButtonWithTitle:@"saved games"];
-    savedGamesButton.center = CGPointMake(view.bounds.size.width / 2.0f, 800.0f);
-    savedGamesButton.alpha = 0.0f;
-    self.savedGamesButton = savedGamesButton;
+    self.quickPlayButton = [FWMainMenuViewController createMenuButtonWithTitle:@"quick play"];
+    self.patternsButton = [FWMainMenuViewController createMenuButtonWithTitle:@"patterns"];
+    self.savedGamesButton = [FWMainMenuViewController createMenuButtonWithTitle:@"saved games"];
 
     [view addSubview:logoImageView];
-    [view addSubview:quickPlayButton];
-    [view addSubview:patternsButton];
-    [view addSubview:savedGamesButton];
+    [view addSubview:self.quickPlayButton];
+    [view addSubview:self.patternsButton];
+    [view addSubview:self.savedGamesButton];
 
     self.view = view;
 }
@@ -71,7 +59,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.quickPlayButton addTarget:self action:@selector(quickButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f, 200.0f);
+
+    [self.quickPlayButton addTarget:self action:@selector(quickGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+
+    [UIView distributeVerticallyViews:@[self.quickPlayButton, self.patternsButton, self.savedGamesButton]
+                      startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 400.0f)
+                     withIncrementsOf:40.0f];
 }
 
 - (void)viewDidLayoutSubviews
@@ -89,13 +89,13 @@
 
 - (void)animateItems
 {
-    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0];
+    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0.0f];
     [self.quickPlayButton fadeInWithDuration:0.5f delay:1.0f];
     [self.patternsButton fadeInWithDuration:0.5f delay:1.0f];
     [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];
 }
 
-- (void)quickButtonTapped:(UIButton *)button
+- (void)quickGameButtonTapped:(id)sender
 {
     [self.delegate quickGameButtonTapped];
 }
@@ -106,8 +106,9 @@
     [newButton setTitle:title forState:UIControlStateNormal];
     [newButton.titleLabel setFont:[UIFont defaultAppFontWithSize:18.0f]];
     [newButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [newButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-    [newButton sizeToFit];
+    [newButton setTitleColor:[UIColor appLightTextColor] forState:UIControlStateHighlighted];
+    newButton.alpha = 0.0f;
+    newButton.frame = CGRectMake(0.0f, 0.0f, 200.0f, 30.0f);
     newButton.autoresizingMask =
             UIViewAutoresizingFlexibleTopMargin
                     | UIViewAutoresizingFlexibleRightMargin

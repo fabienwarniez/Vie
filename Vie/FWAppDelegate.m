@@ -39,7 +39,8 @@
             NSForegroundColorAttributeName:[UIColor whiteColor],
             NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:20]
     }];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor mainAppColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor appPrimaryVibrantColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 @end

@@ -7,9 +7,19 @@
 
 @implementation UIColor (FWAppColors)
 
-+ (UIColor *)mainAppColor
++ (UIColor *)appPrimaryVibrantColor
 {
     return [UIColor colorWithRed:94.0f / 255.0f green:172.0f / 255.0f blue:107.0f / 255.0f alpha:1.0f];
+}
+
++ (UIColor *)appDarkTextColor
+{
+    return [UIColor darkGrayColor];
+}
+
++ (UIColor *)appLightTextColor
+{
+    return [UIColor lightGrayColor];
 }
 
 + (UIColor *)successfulBackgroundColor

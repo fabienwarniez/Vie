@@ -10,4 +10,6 @@
 - (CGRect)frameShiftedVerticallyByOffset:(CGFloat)offset;
 - (CGRect)frameBelow;
 
++ (void)distributeVerticallyViews:(NSArray *)views startingAtPoint:(CGPoint)point withIncrementsOf:(CGFloat)increment;
+
 @end

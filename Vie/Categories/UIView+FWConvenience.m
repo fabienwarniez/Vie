@@ -39,4 +39,15 @@
     return CGRectMake(self.frame.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, self.frame.size.height);
 }
 
++ (void)distributeVerticallyViews:(NSArray *)views startingAtPoint:(CGPoint)point withIncrementsOf:(CGFloat)increment
+{
+    CGFloat y = point.y;
+
+    for (UIView *view in views)
+    {
+        view.center = CGPointMake(point.x, y);
+        y += increment;
+    }
+}
+
 @end

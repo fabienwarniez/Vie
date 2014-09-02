@@ -5,7 +5,9 @@
 
 @interface UIColor (FWAppColors)
 
-+ (UIColor *)mainAppColor;
++ (UIColor *)appPrimaryVibrantColor;
++ (UIColor *)appDarkTextColor;
++ (UIColor *)appLightTextColor;
 + (UIColor *)successfulBackgroundColor;
 + (UIColor *)selectedTableViewCellColor;
 

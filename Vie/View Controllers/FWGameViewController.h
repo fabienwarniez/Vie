@@ -8,6 +8,7 @@
 @class FWSavedGame;
 @class FWColorSchemeModel;
 @class FWCellPatternModel;
+@class FWGameViewController;
 
 typedef enum FWCellAgeGroup
 {
@@ -26,6 +27,12 @@ typedef enum FWPatternPosition
     FWPatternPositionRight = 1 << 5
 } FWPatternPosition;
 
+@protocol FWGameViewControllerDelegate
+
+- (void)menuButtonTappedForGameViewController:(FWGameViewController *)gameViewController;
+
+@end
+
 @interface FWGameViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet FWBoardView *gameBoardView;
@@ -38,6 +45,7 @@ typedef enum FWPatternPosition
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *nextButtonItem;
 
+@property (nonatomic, weak) id<FWGameViewControllerDelegate> delegate;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, assign, readonly) BOOL isRunning;
 
@@ -56,6 +64,7 @@ typedef enum FWPatternPosition
 
 - (NSArray *)initialBoardLiveCells;
 
+- (IBAction)menuButtonTapped:(id)sender;
 - (IBAction)generateNewBoardButtonTapped:(id)sender;
 - (IBAction)restartButtonTapped:(id)sender;
 - (IBAction)pauseButtonTapped:(id)sender;

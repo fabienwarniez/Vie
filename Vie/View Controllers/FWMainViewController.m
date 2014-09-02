@@ -12,14 +12,18 @@
 #import "FWCellPatternModel.h"
 #import "FWMainMenuViewController.h"
 #import "UIView+FWConvenience.h"
+#import "FWQuickPlayMenuController.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
-@interface FWMainViewController () <UINavigationBarDelegate, FWMainMenuViewControllerDelegate>
+@interface FWMainViewController () <UINavigationBarDelegate, FWMainMenuViewControllerDelegate, FWGameViewControllerDelegate, FWQuickPlayMenuControllerDelegate>
 
-@property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
+@property (nonatomic, strong) FWGameViewController *gameViewController;
+@property (nonatomic, strong) FWQuickPlayMenuController *quickPlayMenuController;
 @property (nonatomic, assign) BOOL isQuickGameVisible;
+@property (nonatomic, assign) BOOL isQuickGameMenuVisible;
+
 
 @end
 
@@ -38,10 +42,13 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         _gameViewController.boardSize = userModel.gameBoardSize;
         _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
         _gameViewController.cellFillColorScheme = userModel.colorScheme;
+        _gameViewController.delegate = self;
 
         _mainMenuViewController = [[FWMainMenuViewController alloc] init];
+        _mainMenuViewController.delegate = self;
 
         _isQuickGameVisible = NO;
+        _isQuickGameMenuVisible = NO;
     }
     return self;
 }
@@ -70,12 +77,12 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.gameViewController.view.frame = [self.view frameBelow];
     [self.view addSubview:self.gameViewController.view];
     [self.gameViewController didMoveToParentViewController:self];
-
-    self.mainMenuViewController.delegate = self;
 }
 
 - (void)viewWillLayoutSubviews
 {
+    [super viewDidLayoutSubviews];
+
     if (self.isQuickGameVisible)
     {
         self.gameViewController.view.frame = self.view.bounds;
@@ -84,13 +91,22 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     {
         self.gameViewController.view.frame = [self.view frameBelow];
     }
+
+    if (self.isQuickGameMenuVisible)
+    {
+        self.quickPlayMenuController.view.frame = self.view.bounds;
+    }
+    else
+    {
+        self.quickPlayMenuController.view.frame = [self.view frameBelow];
+    }
 }
 
 #pragma mark - Private Methods
 
 - (void)showQuickGame
 {
-    [self.gameViewController.view slideTo:self.view.bounds duration:0.5f delay:0];
+    [self.gameViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
     self.isQuickGameVisible = YES;
 }
 
@@ -99,6 +115,41 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)quickGameButtonTapped
 {
     [self showQuickGame];
+}
+
+#pragma mark - FWGameViewControllerDelegate
+
+- (void)menuButtonTappedForGameViewController:(FWGameViewController *)gameViewController
+{
+    if (self.quickPlayMenuController == nil)
+    {
+        FWQuickPlayMenuController *quickPlayMenuController = [[FWQuickPlayMenuController alloc] initWithNibName:@"FWQuickPlayMenuController" bundle:nil];
+        quickPlayMenuController.delegate = self;
+        [self addChildViewController:quickPlayMenuController];
+        quickPlayMenuController.view.frame = [self.view frameBelow];
+        [self.view addSubview:quickPlayMenuController.view];
+        [quickPlayMenuController didMoveToParentViewController:self];
+        self.quickPlayMenuController = quickPlayMenuController;
+    }
+
+    [self.quickPlayMenuController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+
+    self.isQuickGameMenuVisible = YES;
+}
+
+#pragma mark - FWQuickPlayMenuControllerDelegate
+
+- (void)menuCloseButtonTapped
+{
+    [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    self.isQuickGameMenuVisible = NO;
+}
+
+- (void)quitButtonTapped
+{
+    [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    [self.gameViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.2f];
+    self.isQuickGameMenuVisible = NO;
 }
 
 #pragma mark - FWMainMenuTableViewControllerDelegate

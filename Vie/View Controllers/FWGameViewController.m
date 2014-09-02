@@ -11,6 +11,8 @@
 #import "FWSavedGame.h"
 #import "FWColorSchemeModel.h"
 #import "FWCellPatternModel.h"
+#import "FWQuickPlayMenuController.h"
+#import "UIView+FWConvenience.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
@@ -430,6 +432,16 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
 #pragma mark - IBActions
 
+- (IBAction)menuButtonTapped:(id)sender
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    [self.delegate menuButtonTappedForGameViewController:self];
+}
+
 - (IBAction)generateNewBoardButtonTapped:(id)sender
 {
     if ([self isRunning])
@@ -599,7 +611,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
 - (NSArray *)liveCellsGroupedByAgeFromGameMatrix:(NSArray *)cells
 {
-    NSMutableArray *liveCellsArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
+    NSMutableArray *liveCellsArray = [@[[NSMutableArray array], [NSMutableArray array], [NSMutableArray array]] mutableCopy];
 
     for (FWCellModel *cell in cells)
     {
