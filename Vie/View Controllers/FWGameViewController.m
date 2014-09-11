@@ -11,12 +11,10 @@
 #import "FWSavedGame.h"
 #import "FWColorSchemeModel.h"
 #import "FWCellPatternModel.h"
-#import "FWQuickPlayMenuController.h"
-#import "UIView+FWConvenience.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
-@interface FWGameViewController () <UINavigationBarDelegate>
+@interface FWGameViewController () <UINavigationBarDelegate, ADBannerViewDelegate>
 {
     FWCellModel * __unsafe_unretained *_currentCellsArray;
     FWCellModel * __unsafe_unretained *_previousArrayOfCells;
@@ -103,6 +101,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     [super viewDidLoad];
 
     self.navigationBar.delegate = self;
+    self.adBannerView.delegate = self;
 
     self.gameBoardView.minimumBoardPadding = kFWGameViewControllerBoardPadding;
 
@@ -123,6 +122,18 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
 {
     return UIBarPositionTopAttached;
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    NSLog(@"Ad loaded");
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"Ad could not load");
 }
 
 #pragma mark - Game Lifecycle Management

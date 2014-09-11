@@ -25,6 +25,7 @@
 		5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4510D19B542EC0040F524 /* FWGameViewController.xib */; };
 		5FB4511619B56F280040F524 /* FWQuickPlayMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4511519B56F280040F524 /* FWQuickPlayMenuController.xib */; };
 		5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF3D86719B29AEB00F97192 /* CoreData.framework */; };
+		5FFB649219C01196007F1DC7 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB649119C01196007F1DC7 /* iAd.framework */; };
 		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
 		A6BD82830830E2147D4899C3 /* FWMainMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F40379E2A6C727EB8CA /* FWMainMenuTableViewController.m */; };
 		A6BD83CCA3F3D88E36020196 /* FWBoardSizeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSizeModel.m */; };
@@ -90,7 +91,9 @@
 		5F29805719B29ED8006C4C91 /* FWSavedGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGame.m; sourceTree = "<group>"; };
 		5FB4510D19B542EC0040F524 /* FWGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWGameViewController.xib; sourceTree = "<group>"; };
 		5FB4511519B56F280040F524 /* FWQuickPlayMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWQuickPlayMenuController.xib; sourceTree = "<group>"; };
+		5FB868B919C010E5002FD7D7 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		5FF3D86719B29AEB00F97192 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5FFB649119C01196007F1DC7 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		A6BD800671CFA1FAAA661B35 /* FWCellPatternPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternPickerTableViewController.h; sourceTree = "<group>"; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
 		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
@@ -155,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FFB649219C01196007F1DC7 /* iAd.framework in Frameworks */,
 				5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */,
 				46330F9C18E2964100E5C7EC /* CoreGraphics.framework in Frameworks */,
 				46330F9E18E2964100E5C7EC /* UIKit.framework in Frameworks */,
@@ -197,6 +201,8 @@
 		46330F9818E2964100E5C7EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FFB649119C01196007F1DC7 /* iAd.framework */,
+				5FB868B919C010E5002FD7D7 /* AdSupport.framework */,
 				5FF3D86719B29AEB00F97192 /* CoreData.framework */,
 				46330F9918E2964100E5C7EC /* Foundation.framework */,
 				46330F9B18E2964100E5C7EC /* CoreGraphics.framework */,

@@ -38,6 +38,7 @@ typedef enum FWPatternPosition
 @property (nonatomic, strong) IBOutlet FWBoardView *gameBoardView;
 @property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet ADBannerView *adBannerView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *generateNewBoardButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *restartButtonItem;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *pauseButtonItem;
