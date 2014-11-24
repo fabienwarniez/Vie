@@ -12,4 +12,9 @@
     return [UIFont fontWithName:@"Gotham-Book" size:size];
 }
 
++ (UIFont *)smallRegular
+{
+    return [UIFont fontWithName:@"Gotham-Book" size:14.0f];
+}
+
 @end

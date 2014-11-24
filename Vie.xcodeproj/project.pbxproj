@@ -19,7 +19,6 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
-		4642AF51190D923D00BE5FB4 /* FWMainViewControllerBackup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4642AF50190D923D00BE5FB4 /* FWMainViewControllerBackup.xib */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
 		5F29805819B29ED8006C4C91 /* FWSavedGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805719B29ED8006C4C91 /* FWSavedGame.m */; };
 		5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4510D19B542EC0040F524 /* FWGameViewController.xib */; };
@@ -86,7 +85,6 @@
 		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
-		4642AF50190D923D00BE5FB4 /* FWMainViewControllerBackup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWMainViewControllerBackup.xib; sourceTree = "<group>"; };
 		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5F29805419B29BB3006C4C91 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5F29805619B29ED8006C4C91 /* FWSavedGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGame.h; sourceTree = "<group>"; };
@@ -271,7 +269,6 @@
 				A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */,
 				A6BD8F008B945759E90FEF5C /* FWMainViewController.m */,
 				A6BD808AFF54817340C0A620 /* FWMainViewController.h */,
-				4642AF50190D923D00BE5FB4 /* FWMainViewControllerBackup.xib */,
 				A6BD84DC839C08995F3571F3 /* Menu */,
 				B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */,
 				B3935446538A8833CCEA7A65 /* FWMainMenuViewController.h */,
@@ -474,7 +471,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4642AF51190D923D00BE5FB4 /* FWMainViewControllerBackup.xib in Resources */,
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
 				B3935135680D968D45AAD95B /* Localizable.strings in Resources */,

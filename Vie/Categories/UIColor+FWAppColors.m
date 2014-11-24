@@ -7,6 +7,11 @@
 
 @implementation UIColor (FWAppColors)
 
++ (UIColor *)colorWithDecimalRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue
+{
+    return [UIColor colorWithRed:red / 255.0f green:green / 255.0f blue:blue / 255.0f alpha:1.0f];
+}
+
 + (UIColor *)appPrimaryVibrantColor
 {
     return [UIColor colorWithRed:94.0f / 255.0f green:172.0f / 255.0f blue:107.0f / 255.0f alpha:1.0f];

@@ -7,12 +7,14 @@
 #import "FWColorSchemeModel.h"
 #import "FWUserModel.h"
 #import "UIView+FWConvenience.h"
+#import "UIFont+FWAppFonts.h"
+#import "UIColor+FWAppColors.h"
 
 static NSUInteger const kNumberOfColorColumns = 3;
 static CGFloat const kFWColorCellHorizontalMargin = 50.0f;
 static CGFloat const kFWColorCellTopPadding = 40.0f;
-static CGFloat const kFWColorCellHorizontalPadding = 1.0f;
-static CGFloat const kFWColorCellVerticalPadding = 1.0f;
+static CGFloat const kFWColorCellSpacing = 1.0f;
+static CGFloat const kFWVerticalSpacing = 10.0f;
 
 @interface FWGameSettingsViewController () <UINavigationBarDelegate>
 
@@ -39,7 +41,12 @@ static CGFloat const kFWColorCellVerticalPadding = 1.0f;
 {
     [super viewDidLoad];
 
-    [self setupColorCells];
+    CGFloat currentY = self.navigationBar.frame.origin.y + self.navigationBar.frame.size.height + kFWColorCellTopPadding;
+    currentY += [self placeLabelWithString:@"colour" at:currentY];
+    currentY += kFWVerticalSpacing;
+    currentY += [self setupColorCellsStartingAt:currentY];
+    currentY += kFWVerticalSpacing;
+    currentY += [self placeLabelWithString:@"size" at:currentY];
 }
 
 #pragma mark - UINavigationBarDelegate
@@ -59,10 +66,30 @@ static CGFloat const kFWColorCellVerticalPadding = 1.0f;
 
 #pragma mark - Private Methods
 
-- (void)setupColorCells
+- (CGFloat)placeLabelWithString:(NSString *)string at:(CGFloat)y
 {
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kNumberOfColorColumns - 1) * kFWColorCellHorizontalPadding) / kNumberOfColorColumns;
-    CGFloat currentY = self.navigationBar.frame.origin.y + self.navigationBar.frame.size.height + kFWColorCellTopPadding;
+    UILabel *colorLabel = [[UILabel alloc] init];
+    colorLabel.text = string;
+    colorLabel.font = [UIFont smallRegular];
+    colorLabel.textColor = [UIColor colorWithDecimalRed:98.0f green:98.0f blue:98.0f];
+    [colorLabel sizeToFit];
+    colorLabel.frame = CGRectMake(
+            (self.view.bounds.size.width - colorLabel.frame.size.width) / 2.0f,
+            y,
+            colorLabel.frame.size.width,
+            colorLabel.frame.size.height
+    );
+
+    [self.view addSubview:colorLabel];
+
+    return colorLabel.frame.size.height;
+}
+
+- (CGFloat)setupColorCellsStartingAt:(CGFloat)y
+{
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kNumberOfColorColumns - 1) * kFWColorCellSpacing) / kNumberOfColorColumns;
+    CGFloat currentY = y;
+    CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
     for (FWColorSchemeModel *colorSchemeModel in self.colors)
@@ -70,14 +97,15 @@ static CGFloat const kFWColorCellVerticalPadding = 1.0f;
         UIView *newCell = [[UIView alloc] init];
         newCell.backgroundColor = colorSchemeModel.youngFillColor;
         newCell.frame = CGRectMake(
-                kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellHorizontalPadding),
+                kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
         );
         if (currentColumn == kNumberOfColorColumns - 1)
         {
-            currentY += kFWColorCellVerticalPadding + cellSideSize;
+            currentY += kFWColorCellSpacing + cellSideSize;
+            totalHeight += kFWColorCellSpacing + cellSideSize;
             currentColumn = 0;
         }
         else
@@ -87,6 +115,8 @@ static CGFloat const kFWColorCellVerticalPadding = 1.0f;
 
         [self.view addSubview:newCell];
     }
+
+    return totalHeight;
 }
 
 @end

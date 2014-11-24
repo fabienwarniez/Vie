@@ -5,6 +5,7 @@
 
 @interface UIColor (FWAppColors)
 
++ (UIColor *)colorWithDecimalRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 + (UIColor *)appPrimaryVibrantColor;
 + (UIColor *)appDarkTextColor;
 + (UIColor *)appLightTextColor;

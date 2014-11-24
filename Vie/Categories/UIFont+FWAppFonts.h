@@ -6,5 +6,6 @@
 @interface UIFont (FWAppFonts)
 
 + (UIFont *)defaultAppFontWithSize:(CGFloat)size;
++ (UIFont *)smallRegular;
 
 @end
