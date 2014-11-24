@@ -3,10 +3,12 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWQuickPlayMenuController;
+
 @protocol FWQuickPlayMenuControllerDelegate
 
-- (void)menuCloseButtonTapped;
-- (void)quitButtonTapped;
+- (void)quickPlayMenuDidClose:(FWQuickPlayMenuController *)quickPlayMenuViewController;
+- (void)quit;
 
 @end
 

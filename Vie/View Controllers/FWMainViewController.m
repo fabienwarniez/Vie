@@ -139,13 +139,12 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 #pragma mark - FWQuickPlayMenuControllerDelegate
 
-- (void)menuCloseButtonTapped
+- (void)quickPlayMenuDidClose:(FWQuickPlayMenuController *)quickPlayMenuViewController
 {
-    [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
     self.isQuickGameMenuVisible = NO;
 }
 
-- (void)quitButtonTapped
+- (void)quit
 {
     [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
     [self.gameViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.2f];

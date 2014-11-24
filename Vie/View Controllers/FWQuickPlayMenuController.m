@@ -7,8 +7,13 @@
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
 #import "UIView+FWConvenience.h"
+#import "FWGameSettingsViewController.h"
+#import "FWColorSchemeModel.h"
+#import "FWBoardSizeModel.h"
 
-@interface FWQuickPlayMenuController () <UINavigationBarDelegate>
+@interface FWQuickPlayMenuController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate>
+
+@property (nonatomic, strong) FWGameSettingsViewController *gameSettingsViewController;
 
 @property (nonatomic, strong) UIButton *saveButton;
 @property (nonatomic, strong) UIButton *createGameButton;
@@ -20,11 +25,24 @@
 @property (nonatomic, strong) UIView *line3;
 @property (nonatomic, strong) UIView *line4;
 
+@property (nonatomic, assign) BOOL areGameSettingsVisible;
+
 @end
 
 @implementation FWQuickPlayMenuController
 
 #pragma mark - UIViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        _areGameSettingsVisible = NO;
+    }
+
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -72,11 +90,29 @@
     return UIBarPositionTopAttached;
 }
 
+#pragma mark - FWGameSettingsViewControllerDelegate
+
+- (void)gameSettingsDidClose:(FWGameSettingsViewController *)gameSettingsViewController
+{
+    self.areGameSettingsVisible = NO;
+}
+
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
+{
+
+}
+
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
+{
+
+}
+
 #pragma mark - IBActions
 
 - (IBAction)closeButtonTapped:(id)sender
 {
-    [self.delegate menuCloseButtonTapped];
+    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
+    [self.delegate quickPlayMenuDidClose:self];
 }
 
 #pragma mark - Private Methods
@@ -93,12 +129,29 @@
 
 - (void)settingsButtonTapped:(id)sender
 {
-
+    if (self.gameSettingsViewController == nil)
+    {
+        FWGameSettingsViewController *gameSettingsViewController = [[FWGameSettingsViewController alloc] initWithNibName:@"FWGameSettingsViewController" bundle:nil];
+        gameSettingsViewController.delegate = self;
+        [self addChildViewController:gameSettingsViewController];
+        gameSettingsViewController.view.frame = [self.view frameBelow];
+        [self.view addSubview:gameSettingsViewController.view];
+        [gameSettingsViewController didMoveToParentViewController:self];
+        self.gameSettingsViewController = gameSettingsViewController;
+    }
+    else
+    {
+        [self addChildViewController:self.gameSettingsViewController];
+        self.gameSettingsViewController.view.frame = [self.view frameBelow];
+        [self.view addSubview:self.gameSettingsViewController.view];
+        [self.gameSettingsViewController didMoveToParentViewController:self];
+    }
+    [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
 }
 
 - (void)quitButtonTapped:(id)sender
 {
-    [self.delegate quitButtonTapped];
+    [self.delegate quit];
 }
 
 + (UIButton *)createMenuButtonWithTitle:(NSString *)title

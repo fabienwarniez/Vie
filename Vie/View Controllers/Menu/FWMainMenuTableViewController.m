@@ -7,7 +7,6 @@
 #import "FWMainViewController.h"
 #import "FWSmartTableViewCell.h"
 #import "UIColor+FWAppColors.h"
-#import "FWCellPatternPickerTableViewController.h"
 
 static NSString * const kFWMainMenuViewControllerCellIdentifier = @"MenuCell";
 static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;

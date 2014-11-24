@@ -21,7 +21,7 @@ static CGFloat const kFWColorSchemePickerCellHeight = 50.0f;
 
 @implementation FWColorSchemePickerTableViewController
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
