@@ -9,6 +9,7 @@
 #import "UIView+FWConvenience.h"
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
+#import "FWTileButton.h"
 
 static NSUInteger const kNumberOfColorColumns = 3;
 static CGFloat const kFWColorCellHorizontalMargin = 50.0f;
@@ -87,16 +88,17 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
 
 - (CGFloat)setupColorCellsStartingAt:(CGFloat)y
 {
+    CGFloat pixelScale = [[UIScreen mainScreen] scale];
     CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kNumberOfColorColumns - 1) * kFWColorCellSpacing) / kNumberOfColorColumns;
+    cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
     CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
     for (FWColorSchemeModel *colorSchemeModel in self.colors)
     {
-        UIView *newCell = [[UIView alloc] init];
-        newCell.backgroundColor = colorSchemeModel.youngFillColor;
-        newCell.frame = CGRectMake(
+        FWTileButton *newTile = [FWTileButton buttonWithMainColor:colorSchemeModel.youngFillColor];
+        newTile.frame = CGRectMake(
                 kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
                 currentY,
                 cellSideSize,
@@ -113,7 +115,7 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
             currentColumn++;
         }
 
-        [self.view addSubview:newCell];
+        [self.view addSubview:newTile];
     }
 
     return totalHeight;

@@ -47,6 +47,7 @@
 		A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */; };
 		B3935122B861B58E592BEFEB /* FWCellPatternLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */; };
 		B3935135680D968D45AAD95B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B393569A4AFED5F4DAFDDF59 /* Localizable.strings */; };
+		B393548F7B8F1B064AE10C7D /* FWTileButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B39357A3B12A8B057AAD77DE /* FWTileButton.m */; };
 		B393556A420DDDCC1BC3926F /* UIFont+FWAppFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = B39354FA427EDDAD37D20935 /* UIFont+FWAppFonts.m */; };
 		B39355BF45D67AD507E80C27 /* FWMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */; };
 		B3935820369BEF29F55BEF35 /* FWGameSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B393542D07FDFB318986B555 /* FWGameSettingsViewController.xib */; };
@@ -135,6 +136,7 @@
 		A6BD8F40379E2A6C727EB8CA /* FWMainMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuTableViewController.m; sourceTree = "<group>"; };
 		A6BD8F73C32A4126F5D74C61 /* FWBoardSizePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizePickerTableViewController.m; sourceTree = "<group>"; };
 		B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FWConvenience.m"; sourceTree = "<group>"; };
+		B39350932AD906BE0ACF4309 /* FWTileButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTileButton.h; sourceTree = "<group>"; };
 		B3935125771F4A068BE99A04 /* patterns.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.dat; path = patterns.dat; sourceTree = "<group>"; };
 		B393517F0C800643852B9D41 /* UIView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FWConvenience.h"; sourceTree = "<group>"; };
 		B39352AE7FA16BDCFD1F1C3A /* Gotham-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file.otf; path = "Gotham-Book.otf"; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 		B3935446538A8833CCEA7A65 /* FWMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainMenuViewController.h; sourceTree = "<group>"; };
 		B39354FA427EDDAD37D20935 /* UIFont+FWAppFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FWAppFonts.m"; sourceTree = "<group>"; };
 		B3935764A58EADFAA8362858 /* FWRleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWRleReader.h; sourceTree = "<group>"; };
+		B39357A3B12A8B057AAD77DE /* FWTileButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWTileButton.m; sourceTree = "<group>"; };
 		B39357EEF679DDD1D5B5F8BC /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B393584039B2DDD70B05D3F7 /* FWQuickPlayMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWQuickPlayMenuController.m; sourceTree = "<group>"; };
 		B39358B9C09DE5678D48CEBF /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -359,8 +362,18 @@
 				A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */,
 				A6BD836CE463AA1E6203A65D /* FWBoardView.h */,
 				A6BD83AE9AB22D29631499D8 /* TableViewCells */,
+				B393513F52048E2C3EA6CA1D /* Buttons */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		B393513F52048E2C3EA6CA1D /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				B39357A3B12A8B057AAD77DE /* FWTileButton.m */,
+				B39350932AD906BE0ACF4309 /* FWTileButton.h */,
+			);
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 		B39354A54140E1EC0816A136 /* Resources */ = {
@@ -528,6 +541,7 @@
 				B393587659FE47A6A07057E1 /* UIView+FWConvenience.m in Sources */,
 				B3935CE8F8AD8AD6512B72BE /* FWQuickPlayMenuController.m in Sources */,
 				B3935AA5BDA0DF56DF308BF2 /* FWGameSettingsViewController.m in Sources */,
+				B393548F7B8F1B064AE10C7D /* FWTileButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
