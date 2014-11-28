@@ -5,17 +5,17 @@
 
 #import "FWReflectiveButton.h"
 
-@class FWTileButton;
+@class FWSizeButton;
 
-@protocol FWTileButtonDelegate <NSObject>
+@protocol FWSizeButtonDelegate <NSObject>
 
-- (void)tileButtonWasSelected:(FWTileButton *)tileButton;
+- (void)tileButtonWasSelected:(FWSizeButton *)tileButton;
 
 @end
 
-@interface FWTileButton : FWReflectiveButton
+@interface FWSizeButton : FWReflectiveButton
 
-@property (nonatomic, weak) id<FWTileButtonDelegate> delegate;
+@property (nonatomic, weak) id<FWSizeButtonDelegate> delegate;
 @property (nonatomic, strong) UIImage *image;
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor image:(UIImage *)image;

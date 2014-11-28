@@ -10,7 +10,7 @@
 @interface FWUserModel : NSObject
 
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
-@property (nonatomic, strong) FWBoardSizeModel *gameBoardSize;
+@property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong, readonly) NSArray *savedGames;
 
 + (instancetype)sharedUserModel;

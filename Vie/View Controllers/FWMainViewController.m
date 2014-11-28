@@ -12,7 +12,7 @@
 #import "FWCellPatternModel.h"
 #import "FWMainMenuViewController.h"
 #import "UIView+FWConvenience.h"
-#import "FWQuickPlayMenuController.h"
+#import "FWQuickPlayMenuViewController.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
@@ -20,10 +20,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 @property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
 @property (nonatomic, strong) FWGameViewController *gameViewController;
-@property (nonatomic, strong) FWQuickPlayMenuController *quickPlayMenuController;
+@property (nonatomic, strong) FWQuickPlayMenuViewController *quickPlayMenuController;
 @property (nonatomic, assign) BOOL isQuickGameVisible;
 @property (nonatomic, assign) BOOL isQuickGameMenuVisible;
-
 
 @end
 
@@ -39,7 +38,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         FWUserModel *userModel = [FWUserModel sharedUserModel];
 
         _gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
-        _gameViewController.boardSize = userModel.gameBoardSize;
+        _gameViewController.boardSize = userModel.boardSize;
         _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
         _gameViewController.cellFillColorScheme = userModel.colorScheme;
         _gameViewController.delegate = self;
@@ -123,7 +122,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 {
     if (self.quickPlayMenuController == nil)
     {
-        FWQuickPlayMenuController *quickPlayMenuController = [[FWQuickPlayMenuController alloc] initWithNibName:@"FWQuickPlayMenuController" bundle:nil];
+        FWQuickPlayMenuViewController *quickPlayMenuController = [[FWQuickPlayMenuViewController alloc] initWithNibName:@"FWQuickPlayMenuController" bundle:nil];
         quickPlayMenuController.delegate = self;
         [self addChildViewController:quickPlayMenuController];
         quickPlayMenuController.view.frame = [self.view frameBelow];
@@ -139,16 +138,24 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 #pragma mark - FWQuickPlayMenuControllerDelegate
 
-- (void)quickPlayMenuDidClose:(FWQuickPlayMenuController *)quickPlayMenuViewController
+- (void)quickPlayMenuDidClose:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
 {
     self.isQuickGameMenuVisible = NO;
 }
 
-- (void)quit
+- (void)quickPlayMenuDidQuit:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
 {
     [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
     [self.gameViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.2f];
     self.isQuickGameMenuVisible = NO;
+}
+
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme
+{
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setColorScheme:colorScheme];
+
+    self.gameViewController.cellFillColorScheme = colorScheme;
 }
 
 #pragma mark - FWMainMenuTableViewControllerDelegate
@@ -164,16 +171,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
     FWUserModel *userModel = [FWUserModel sharedUserModel];
     [userModel saveGameWithName:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
-}
-
-#pragma mark - FWColorSchemePickerTableViewControllerDelegate
-
-- (void)colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
-{
-    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
-    [sharedUserModel setColorScheme:newColorScheme];
-
-    self.gameViewController.cellFillColorScheme = newColorScheme;
 }
 
 #pragma mark - FWBoardSizePickerTableViewControllerDelegate

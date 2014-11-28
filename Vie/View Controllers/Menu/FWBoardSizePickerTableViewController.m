@@ -32,7 +32,7 @@ static CGFloat const kFWBoardSizePickerCellHeight = 50.0f;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kFWBoardSizePickerCellIdentifier];
 
         _boardSizes = [FWBoardSizeModel boardSizes];
-        _currentlyActiveBoardSize = [[FWUserModel sharedUserModel] gameBoardSize];
+        _currentlyActiveBoardSize = [[FWUserModel sharedUserModel] boardSize];
     }
     return self;
 }

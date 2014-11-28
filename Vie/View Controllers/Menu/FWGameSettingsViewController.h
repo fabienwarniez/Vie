@@ -18,6 +18,7 @@
 @interface FWGameSettingsViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) id<FWGameSettingsViewControllerDelegate> delegate;
 
 - (IBAction)closeButtonTapped:(id)sender;

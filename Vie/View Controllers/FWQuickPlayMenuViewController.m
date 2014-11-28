@@ -3,7 +3,7 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWQuickPlayMenuController.h"
+#import "FWQuickPlayMenuViewController.h"
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
 #import "UIView+FWConvenience.h"
@@ -11,7 +11,7 @@
 #import "FWColorSchemeModel.h"
 #import "FWBoardSizeModel.h"
 
-@interface FWQuickPlayMenuController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate>
+@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate>
 
 @property (nonatomic, strong) FWGameSettingsViewController *gameSettingsViewController;
 
@@ -29,7 +29,7 @@
 
 @end
 
-@implementation FWQuickPlayMenuController
+@implementation FWQuickPlayMenuViewController
 
 #pragma mark - UIViewController
 
@@ -48,20 +48,20 @@
 {
     [super viewDidLoad];
 
-    self.saveButton = [FWQuickPlayMenuController createMenuButtonWithTitle:@"save"];
-    self.createGameButton = [FWQuickPlayMenuController createMenuButtonWithTitle:@"new game"];
-    self.settingsButton = [FWQuickPlayMenuController createMenuButtonWithTitle:@"settings"];
-    self.quitButton = [FWQuickPlayMenuController createMenuButtonWithTitle:@"quit"];
+    self.saveButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"save"];
+    self.createGameButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"new game"];
+    self.settingsButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"settings"];
+    self.quitButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"quit"];
 
     [self.saveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.createGameButton addTarget:self action:@selector(createGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.settingsButton addTarget:self action:@selector(settingsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.quitButton addTarget:self action:@selector(quitButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-    self.line1 = [FWQuickPlayMenuController createLineOfWidth:140.0f];
-    self.line2 = [FWQuickPlayMenuController createLineOfWidth:140.0f];
-    self.line3 = [FWQuickPlayMenuController createLineOfWidth:140.0f];
-    self.line4 = [FWQuickPlayMenuController createLineOfWidth:140.0f];
+    self.line1 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
+    self.line2 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
+    self.line3 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
+    self.line4 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
 
     [self.view addSubview:self.saveButton];
     [self.view addSubview:self.createGameButton];
@@ -97,9 +97,9 @@
     self.areGameSettingsVisible = NO;
 }
 
-- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme
 {
-
+    [self.delegate quickPlayMenu:self colorSchemeDidChange:colorScheme];
 }
 
 - (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
@@ -151,7 +151,7 @@
 
 - (void)quitButtonTapped:(id)sender
 {
-    [self.delegate quit];
+    [self.delegate quickPlayMenuDidQuit:self];
 }
 
 + (UIButton *)createMenuButtonWithTitle:(NSString *)title

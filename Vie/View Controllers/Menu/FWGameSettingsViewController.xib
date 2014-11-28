@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWGameSettingsViewController">
             <connections>
                 <outlet property="navigationBar" destination="tDM-ca-suz" id="Zm4-Ov-vFY"/>
+                <outlet property="scrollView" destination="G1k-8z-yMz" id="Bga-H4-RYc"/>
                 <outlet property="view" destination="IHF-Ba-l0f" id="zDk-pv-uLO"/>
             </connections>
         </placeholder>
@@ -32,6 +33,11 @@
                         <outlet property="delegate" destination="-1" id="CyZ-lP-IwE"/>
                     </connections>
                 </navigationBar>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" id="G1k-8z-yMz">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
         </view>

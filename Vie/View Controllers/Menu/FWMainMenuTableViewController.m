@@ -113,7 +113,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     if (indexPath.row == 0)
     {
         FWColorSchemePickerTableViewController *colorSchemePickerTableViewController = [[FWColorSchemePickerTableViewController alloc] init];
-        colorSchemePickerTableViewController.delegate = self.mainViewController;
+//        colorSchemePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:colorSchemePickerTableViewController animated:YES];
     }
     else if (indexPath.row == 1)

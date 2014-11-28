@@ -19,7 +19,7 @@
 @implementation FWUserModel
 {
     FWColorSchemeModel *_colorScheme;
-    FWBoardSizeModel *_gameBoardSize;
+    FWBoardSizeModel *_boardSize;
 }
 
 - (instancetype)init
@@ -28,7 +28,7 @@
     if (self)
     {
         _colorScheme = nil;
-        _gameBoardSize = nil;
+        _boardSize = nil;
         _managedObjectContext = [self createManagedObjectContext];
     }
     return self;
@@ -86,9 +86,9 @@
     [FWSettingsManager saveUserColorSchemeGuid:colorScheme.guid];
 }
 
-- (FWBoardSizeModel *)gameBoardSize
+- (FWBoardSizeModel *)boardSize
 {
-    if (_gameBoardSize == nil)
+    if (_boardSize == nil)
     {
         FWBoardSizeModel *userGameBoardSize = [FWSettingsManager getUserBoardSize];
 
@@ -100,16 +100,16 @@
 
             [FWSettingsManager saveUserBoardSize:userGameBoardSize];
         }
-        _gameBoardSize = userGameBoardSize;
+        _boardSize = userGameBoardSize;
     }
 
-    return _gameBoardSize;
+    return _boardSize;
 }
 
-- (void)setGameBoardSize:(FWBoardSizeModel *)gameBoardSize
+- (void)setBoardSize:(FWBoardSizeModel *)boardSize
 {
-    _gameBoardSize = gameBoardSize;
-    [FWSettingsManager saveUserBoardSize:gameBoardSize];
+    _boardSize = boardSize;
+    [FWSettingsManager saveUserBoardSize:boardSize];
 }
 
 - (NSArray *)savedGames

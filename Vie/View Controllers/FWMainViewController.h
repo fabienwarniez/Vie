@@ -11,11 +11,9 @@
 
 @class FWBoardSizeModel;
 @class FWGameViewController;
-@class FWMainMenuTableViewController;
 
 @interface FWMainViewController : UIViewController
-        <FWColorSchemePickerTableViewControllerDelegate,
-        FWBoardSizePickerTableViewControllerDelegate,
+        <FWBoardSizePickerTableViewControllerDelegate,
         FWMainMenuTableViewControllerDelegate,
         FWSavedGamePickerTableViewControllerDelegate,
         FWCellPatternPickerTableViewControllerDelegate>

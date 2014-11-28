@@ -3,9 +3,10 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWTileButton.h"
+#import "FWSizeButton.h"
+#import "UIColor+FWAppColors.h"
 
-@implementation FWTileButton
+@implementation FWSizeButton
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor image:(UIImage *)image
 {
@@ -63,15 +64,10 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    if (self.isSelected)
-    {
-        CGPoint imagePoint = CGPointMake(
-                (self.bounds.size.width - self.image.size.width) / 2.0f,
-                (self.bounds.size.height - self.image.size.height) / 2.0f
-        );
-
-        [self.image drawAtPoint:imagePoint];
-    }
+    CGRect squareRect = CGRectMake(10, 10, self.bounds.size.width - 20, self.bounds.size.height - 20);
+    CGContextAddRect(context, squareRect);
+    CGContextSetFillColorWithColor(context, [UIColor colorWithDecimalRed:27 green:206 blue:124].CGColor);
+    CGContextFillPath(context);
 }
 
 @end

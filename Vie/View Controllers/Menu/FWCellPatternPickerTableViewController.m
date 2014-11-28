@@ -52,7 +52,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
         FWUserModel *userModel = [FWUserModel sharedUserModel];
         _colorScheme = [userModel colorScheme];
-        _boardSize = [userModel gameBoardSize];
+        _boardSize = [userModel boardSize];
 
         [self setExtendedLayoutIncludesOpaqueBars:YES];
     }

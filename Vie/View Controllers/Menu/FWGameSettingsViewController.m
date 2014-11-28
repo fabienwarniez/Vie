@@ -10,17 +10,28 @@
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
 #import "FWTileButton.h"
+#import "FWBoardSizeModel.h"
+#import "FWSizeButton.h"
 
 static NSUInteger const kNumberOfColorColumns = 3;
-static CGFloat const kFWColorCellHorizontalMargin = 50.0f;
-static CGFloat const kFWColorCellTopPadding = 40.0f;
+static NSUInteger const kNumberOfSizeColumns = 2;
+static CGFloat const kFWColorCellHorizontalMargin = 46.0f;
+static CGFloat const kFWSizeCellHorizontalMargin = 60.0f;
+static CGFloat const kFWColorCellTopPadding = 36.0f;
 static CGFloat const kFWColorCellSpacing = 1.0f;
-static CGFloat const kFWVerticalSpacing = 10.0f;
+static CGFloat const kFWLabelBottomMargin = 22.0f;
+static CGFloat const kFWVerticalSpacing = 36.0f;
 
-@interface FWGameSettingsViewController () <UINavigationBarDelegate>
+@interface FWGameSettingsViewController () <UINavigationBarDelegate, FWTileButtonDelegate>
 
 @property (nonatomic, strong) NSArray *colors;
+@property (nonatomic, strong) NSArray *colorTiles;
 @property (nonatomic, strong) FWColorSchemeModel *currentlyActiveColorScheme;
+@property (nonatomic, strong) NSArray *boardSizes;
+@property (nonatomic, strong) FWBoardSizeModel *currentlyActiveSize;
+
+@property (nonatomic, strong) UILabel *colorLabel;
+@property (nonatomic, strong) UILabel *sizeLabel;
 
 @end
 
@@ -33,6 +44,8 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
     {
         _colors = [FWColorSchemeModel colors];
         _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
+        _boardSizes = [FWBoardSizeModel boardSizes];
+        _currentlyActiveSize = [[FWUserModel sharedUserModel] boardSize];
     }
 
     return self;
@@ -42,12 +55,26 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
 {
     [super viewDidLoad];
 
-    CGFloat currentY = self.navigationBar.frame.origin.y + self.navigationBar.frame.size.height + kFWColorCellTopPadding;
-    currentY += [self placeLabelWithString:@"colour" at:currentY];
+    self.colorLabel = [self placeLabelWithString:@"colour"];
+    [self placeColorTiles];
+    self.sizeLabel = [self placeLabelWithString:@"size"];
+    [self placeSizeTiles];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+
+    CGFloat currentY = kFWColorCellTopPadding;
+    currentY += [self layoutLabel:self.colorLabel at:currentY];
+    currentY += kFWLabelBottomMargin;
+    currentY += [self layoutColorTilesStartingAt:currentY];
     currentY += kFWVerticalSpacing;
-    currentY += [self setupColorCellsStartingAt:currentY];
+    currentY += [self layoutLabel:self.sizeLabel at:currentY];
+    currentY += kFWLabelBottomMargin;
+    currentY += [self layoutSizeTilesStartingAt:currentY];
     currentY += kFWVerticalSpacing;
-    currentY += [self placeLabelWithString:@"size" at:currentY];
+    self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, currentY);
 }
 
 #pragma mark - UINavigationBarDelegate
@@ -55,6 +82,24 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
 {
     return UIBarPositionTopAttached;
+}
+
+#pragma mark - FWTileButtonDelegate
+
+- (void)tileButtonWasSelected:(FWTileButton *)tileButton
+{
+    for (FWTileButton *colorTile in self.colorTiles)
+    {
+        if (colorTile != tileButton)
+        {
+            [colorTile setSelected:NO];
+        }
+    }
+
+    NSUInteger index = [self.colorTiles indexOfObject:tileButton];
+    FWColorSchemeModel *newColorScheme = self.colors[index];
+    self.currentlyActiveColorScheme = newColorScheme;
+    [self.delegate gameSettings:self colorSchemeDidChange:newColorScheme];
 }
 
 #pragma mark - IBActions
@@ -67,26 +112,51 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
 
 #pragma mark - Private Methods
 
-- (CGFloat)placeLabelWithString:(NSString *)string at:(CGFloat)y
+- (UILabel *)placeLabelWithString:(NSString *)string
 {
-    UILabel *colorLabel = [[UILabel alloc] init];
-    colorLabel.text = string;
-    colorLabel.font = [UIFont smallRegular];
-    colorLabel.textColor = [UIColor colorWithDecimalRed:98.0f green:98.0f blue:98.0f];
-    [colorLabel sizeToFit];
-    colorLabel.frame = CGRectMake(
-            (self.view.bounds.size.width - colorLabel.frame.size.width) / 2.0f,
-            y,
-            colorLabel.frame.size.width,
-            colorLabel.frame.size.height
-    );
+    UILabel *label = [[UILabel alloc] init];
+    label.text = string;
+    label.font = [UIFont smallRegular];
+    label.textColor = [UIColor colorWithDecimalRed:98.0f green:98.0f blue:98.0f];
 
-    [self.view addSubview:colorLabel];
+    [self.scrollView addSubview:label];
 
-    return colorLabel.frame.size.height;
+    return label;
 }
 
-- (CGFloat)setupColorCellsStartingAt:(CGFloat)y
+- (CGFloat)layoutLabel:(UILabel *)label at:(CGFloat)y
+{
+    [label sizeToFit];
+    label.frame = CGRectMake(
+            (self.view.bounds.size.width - label.frame.size.width) / 2.0f,
+            y,
+            label.frame.size.width,
+            label.frame.size.height
+    );
+
+    return label.frame.size.height;
+}
+
+- (void)placeColorTiles
+{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (FWColorSchemeModel *colorSchemeModel in self.colors)
+    {
+        FWTileButton *newTile = [FWTileButton buttonWithMainColor:colorSchemeModel.youngFillColor image:[UIImage imageNamed:@"check"]];
+        if (colorSchemeModel == self.currentlyActiveColorScheme)
+        {
+            newTile.selected = YES;
+        }
+        newTile.delegate = self;
+        [self.scrollView addSubview:newTile];
+        [array addObject:newTile];
+    }
+    
+    self.colorTiles = [array copy];
+}
+
+- (CGFloat)layoutColorTilesStartingAt:(CGFloat)y
 {
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
     CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kNumberOfColorColumns - 1) * kFWColorCellSpacing) / kNumberOfColorColumns;
@@ -95,10 +165,9 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
     CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
-    for (FWColorSchemeModel *colorSchemeModel in self.colors)
+    for (FWTileButton *tile in self.colorTiles)
     {
-        FWTileButton *newTile = [FWTileButton buttonWithMainColor:colorSchemeModel.youngFillColor];
-        newTile.frame = CGRectMake(
+        tile.frame = CGRectMake(
                 kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
                 currentY,
                 cellSideSize,
@@ -114,8 +183,53 @@ static CGFloat const kFWVerticalSpacing = 10.0f;
         {
             currentColumn++;
         }
+    }
 
-        [self.view addSubview:newTile];
+    return totalHeight;
+}
+
+- (void)placeSizeTiles
+{
+    NSMutableArray *array = [NSMutableArray array];
+
+    for (FWBoardSizeModel *boardSizeModel in self.boardSizes)
+    {
+        FWSizeButton *newTile = [FWSizeButton buttonWithMainColor:[UIColor colorWithDecimalRed:235 green:238 blue:240] image:[UIImage imageNamed:@"check"]];
+//        newTile.delegate = self;
+        [self.scrollView addSubview:newTile];
+        [array addObject:newTile];
+    }
+
+    self.boardSizes = [array copy];
+}
+
+- (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
+{
+    CGFloat pixelScale = [[UIScreen mainScreen] scale];
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSizeCellHorizontalMargin - (kNumberOfSizeColumns - 1) * kFWColorCellSpacing) / kNumberOfSizeColumns;
+    cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
+    CGFloat currentY = y;
+    CGFloat totalHeight = cellSideSize;
+    NSUInteger currentColumn = 0;
+
+    for (FWSizeButton *tile in self.boardSizes)
+    {
+        tile.frame = CGRectMake(
+                kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
+                currentY,
+                cellSideSize,
+                cellSideSize
+        );
+        if (currentColumn == kNumberOfSizeColumns - 1)
+        {
+            currentY += kFWColorCellSpacing + cellSideSize;
+            totalHeight += kFWColorCellSpacing + cellSideSize;
+            currentColumn = 0;
+        }
+        else
+        {
+            currentColumn++;
+        }
     }
 
     return totalHeight;
