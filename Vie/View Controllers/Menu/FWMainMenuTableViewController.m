@@ -62,7 +62,7 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
         dequeuedCell.useCustomAccessoryView = YES;
         dequeuedCell.accessoryImage = [UIImage imageNamed:@"save"];
         dequeuedCell.accessoryImageFlipped = [UIImage imageNamed:@"checkmark"];
-        dequeuedCell.flashColor = [UIColor successfulBackgroundColor];
+//        dequeuedCell.flashColor = [UIColor successfulBackgroundColor];
         dequeuedCell.delegate = self;
     }
     else

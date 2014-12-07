@@ -9,6 +9,7 @@
 #import "FWAppDelegate.h"
 #import "FWMainViewController.h"
 #import "UIColor+FWAppColors.h"
+#import "UIFont+FWAppFonts.h"
 
 @interface FWAppDelegate ()
 
@@ -37,10 +38,8 @@
 {
     [[UINavigationBar appearance] setTitleTextAttributes:@{
             NSForegroundColorAttributeName:[UIColor whiteColor],
-            NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:20]
+            NSFontAttributeName:[UIFont smallCondensed]
     }];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor appPrimaryVibrantColor]];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 @end

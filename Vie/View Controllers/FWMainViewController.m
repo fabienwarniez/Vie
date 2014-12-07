@@ -158,6 +158,14 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.gameViewController.cellFillColorScheme = colorScheme;
 }
 
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController boardSizeDidChange:(FWBoardSizeModel *)boardSize
+{
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setBoardSize:boardSize];
+
+    self.gameViewController.boardSize = boardSize;
+}
+
 #pragma mark - FWMainMenuTableViewControllerDelegate
 
 - (void)saveCurrentGame

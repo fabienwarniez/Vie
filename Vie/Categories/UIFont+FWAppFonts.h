@@ -5,7 +5,15 @@
 
 @interface UIFont (FWAppFonts)
 
-+ (UIFont *)defaultAppFontWithSize:(CGFloat)size;
++ (UIFont *)smallCondensed;
++ (UIFont *)smallCondensedBold;
++ (UIFont *)largeCondensedBold;
++ (UIFont *)largeCondensedRegular;
++ (UIFont *)tinyBold;
++ (UIFont *)largeBold;
++ (UIFont *)tinyRegular;
++ (UIFont *)largeRegular;
 + (UIFont *)smallRegular;
++ (UIFont *)smallUppercase;
 
 @end

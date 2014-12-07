@@ -9,9 +9,9 @@
 #import "UIView+FWConvenience.h"
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
-#import "FWTileButton.h"
+#import "FWColorTile.h"
 #import "FWBoardSizeModel.h"
-#import "FWSizeButton.h"
+#import "FWSizeTile.h"
 
 static NSUInteger const kNumberOfColorColumns = 3;
 static NSUInteger const kNumberOfSizeColumns = 2;
@@ -22,13 +22,14 @@ static CGFloat const kFWColorCellSpacing = 1.0f;
 static CGFloat const kFWLabelBottomMargin = 22.0f;
 static CGFloat const kFWVerticalSpacing = 36.0f;
 
-@interface FWGameSettingsViewController () <UINavigationBarDelegate, FWTileButtonDelegate>
+@interface FWGameSettingsViewController () <UINavigationBarDelegate, FWColorTileDelegate, FWSizeTileDelegate>
 
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) NSArray *colorTiles;
 @property (nonatomic, strong) FWColorSchemeModel *currentlyActiveColorScheme;
 @property (nonatomic, strong) NSArray *boardSizes;
-@property (nonatomic, strong) FWBoardSizeModel *currentlyActiveSize;
+@property (nonatomic, strong) NSArray *sizeTiles;
+@property (nonatomic, strong) FWBoardSizeModel *currentlyActiveBoardSize;
 
 @property (nonatomic, strong) UILabel *colorLabel;
 @property (nonatomic, strong) UILabel *sizeLabel;
@@ -45,7 +46,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
         _colors = [FWColorSchemeModel colors];
         _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
         _boardSizes = [FWBoardSizeModel boardSizes];
-        _currentlyActiveSize = [[FWUserModel sharedUserModel] boardSize];
+        _currentlyActiveBoardSize = [[FWUserModel sharedUserModel] boardSize];
     }
 
     return self;
@@ -84,22 +85,40 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     return UIBarPositionTopAttached;
 }
 
-#pragma mark - FWTileButtonDelegate
+#pragma mark - FWColorTileDelegate
 
-- (void)tileButtonWasSelected:(FWTileButton *)tileButton
+- (void)tileButtonWasSelected:(FWColorTile *)selectedColorTile
 {
-    for (FWTileButton *colorTile in self.colorTiles)
+    for (FWColorTile *colorTile in self.colorTiles)
     {
-        if (colorTile != tileButton)
+        if (colorTile != selectedColorTile)
         {
             [colorTile setSelected:NO];
         }
     }
 
-    NSUInteger index = [self.colorTiles indexOfObject:tileButton];
+    NSUInteger index = [self.colorTiles indexOfObject:selectedColorTile];
     FWColorSchemeModel *newColorScheme = self.colors[index];
     self.currentlyActiveColorScheme = newColorScheme;
     [self.delegate gameSettings:self colorSchemeDidChange:newColorScheme];
+}
+
+#pragma mark - FWSizeTileDelegate
+
+- (void)sizeTileWasSelected:(FWSizeTile *)selectedSizeTile
+{
+    for (FWSizeTile *sizeTile in self.sizeTiles)
+    {
+        if (sizeTile != selectedSizeTile)
+        {
+            [sizeTile setSelected:NO];
+        }
+    }
+
+    NSUInteger index = [self.sizeTiles indexOfObject:selectedSizeTile];
+    FWBoardSizeModel *newBoardSize = self.boardSizes[index];
+    self.currentlyActiveBoardSize = newBoardSize;
+    [self.delegate gameSettings:self boardSizeDidChange:newBoardSize];
 }
 
 #pragma mark - IBActions
@@ -117,7 +136,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     UILabel *label = [[UILabel alloc] init];
     label.text = string;
     label.font = [UIFont smallRegular];
-    label.textColor = [UIColor colorWithDecimalRed:98.0f green:98.0f blue:98.0f];
+    label.textColor = [UIColor darkGrey];
 
     [self.scrollView addSubview:label];
 
@@ -143,11 +162,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     
     for (FWColorSchemeModel *colorSchemeModel in self.colors)
     {
-        FWTileButton *newTile = [FWTileButton buttonWithMainColor:colorSchemeModel.youngFillColor image:[UIImage imageNamed:@"check"]];
-        if (colorSchemeModel == self.currentlyActiveColorScheme)
-        {
-            newTile.selected = YES;
-        }
+        FWColorTile *newTile = [FWColorTile buttonWithMainColor:colorSchemeModel.youngFillColor image:[UIImage imageNamed:@"check"]];
+        newTile.selected = [colorSchemeModel isEqualToColorScheme:self.currentlyActiveColorScheme];
         newTile.delegate = self;
         [self.scrollView addSubview:newTile];
         [array addObject:newTile];
@@ -165,7 +181,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
-    for (FWTileButton *tile in self.colorTiles)
+    for (FWColorTile *tile in self.colorTiles)
     {
         tile.frame = CGRectMake(
                 kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
@@ -192,15 +208,20 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 {
     NSMutableArray *array = [NSMutableArray array];
 
+    NSUInteger index = 1;
     for (FWBoardSizeModel *boardSizeModel in self.boardSizes)
     {
-        FWSizeButton *newTile = [FWSizeButton buttonWithMainColor:[UIColor colorWithDecimalRed:235 green:238 blue:240] image:[UIImage imageNamed:@"check"]];
-//        newTile.delegate = self;
+        FWSizeTile *newTile = [FWSizeTile buttonWithMainColor:[UIColor lightGrey]
+                                                  squareColor:[UIColor vieGreenDark]
+                                      squareWidthAsPercentage:[FWSizeTile squarePercentageForSizeIndex:index]];
+        newTile.selected = [boardSizeModel isEqualToBoardSize:self.currentlyActiveBoardSize];
+        newTile.delegate = self;
         [self.scrollView addSubview:newTile];
         [array addObject:newTile];
+        index++;
     }
 
-    self.boardSizes = [array copy];
+    self.sizeTiles = [array copy];
 }
 
 - (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
@@ -212,7 +233,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
-    for (FWSizeButton *tile in self.boardSizes)
+    for (FWSizeTile *tile in self.sizeTiles)
     {
         tile.frame = CGRectMake(
                 kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),

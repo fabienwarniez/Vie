@@ -9,8 +9,8 @@
 
 @protocol FWGameSettingsViewControllerDelegate <NSObject>
 
-- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController colorSchemeDidChange:(FWColorSchemeModel *)newColorScheme;
-- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController boardSizeDidChange:(FWBoardSizeModel *)newBoardSize;
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme;
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController boardSizeDidChange:(FWBoardSizeModel *)boardSize;
 - (void)gameSettingsDidClose:(FWGameSettingsViewController *)gameSettingsViewController;
 
 @end

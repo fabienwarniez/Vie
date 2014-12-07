@@ -35,7 +35,6 @@
 - (void)loadView
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
-    view.backgroundColor = [UIColor appPrimaryVibrantColor];
 
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     logoImageView.autoresizingMask =
@@ -104,9 +103,9 @@
 {
     UIButton *newButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [newButton setTitle:title forState:UIControlStateNormal];
-    [newButton.titleLabel setFont:[UIFont defaultAppFontWithSize:18.0f]];
+    [newButton.titleLabel setFont:[UIFont smallCondensed]];
     [newButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [newButton setTitleColor:[UIColor appLightTextColor] forState:UIControlStateHighlighted];
+    [newButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     newButton.alpha = 0.0f;
     newButton.frame = CGRectMake(0.0f, 0.0f, 200.0f, 30.0f);
     newButton.autoresizingMask =

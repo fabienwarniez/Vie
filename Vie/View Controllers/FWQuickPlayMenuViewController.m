@@ -58,11 +58,6 @@
     [self.settingsButton addTarget:self action:@selector(settingsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.quitButton addTarget:self action:@selector(quitButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-    self.line1 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
-    self.line2 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
-    self.line3 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
-    self.line4 = [FWQuickPlayMenuViewController createLineOfWidth:140.0f];
-
     [self.view addSubview:self.saveButton];
     [self.view addSubview:self.createGameButton];
     [self.view addSubview:self.settingsButton];
@@ -78,7 +73,7 @@
 {
     [super viewWillLayoutSubviews];
 
-    [UIView distributeVerticallyViews:@[self.saveButton, self.line1, self.createGameButton, self.line2, self.settingsButton, self.line3, self.quitButton, self.line4]
+    [UIView distributeVerticallyViews:@[self.saveButton, self.createGameButton, self.settingsButton, self.quitButton]
                       startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 150.0f)
                      withIncrementsOf:30.5f];
 }
@@ -102,9 +97,9 @@
     [self.delegate quickPlayMenu:self colorSchemeDidChange:colorScheme];
 }
 
-- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController boardSizeDidChange:(FWBoardSizeModel *)boardSize
 {
-
+    [self.delegate quickPlayMenu:self boardSizeDidChange:boardSize];
 }
 
 #pragma mark - IBActions
@@ -158,9 +153,9 @@
 {
     UIButton *newButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [newButton setTitle:title forState:UIControlStateNormal];
-    [newButton.titleLabel setFont:[UIFont defaultAppFontWithSize:20.0f]];
-    [newButton setTitleColor:[UIColor appDarkTextColor] forState:UIControlStateNormal];
-    [newButton setTitleColor:[UIColor appLightTextColor] forState:UIControlStateHighlighted];
+    [newButton.titleLabel setFont:[UIFont smallCondensed]];
+    [newButton setTitleColor:[UIColor vieGreen] forState:UIControlStateNormal];
+    [newButton setTitleColor:[UIColor vieGreen] forState:UIControlStateHighlighted];
     newButton.frame = CGRectMake(0.0f, 0.0f, 200.0f, 32.0f);
     newButton.autoresizingMask =
             UIViewAutoresizingFlexibleTopMargin
@@ -168,13 +163,6 @@
                     | UIViewAutoresizingFlexibleBottomMargin
                     | UIViewAutoresizingFlexibleLeftMargin;
     return newButton;
-}
-
-+ (UIView *)createLineOfWidth:(CGFloat)width
-{
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 1)];
-    lineView.backgroundColor = [UIColor appLightTextColor];
-    return lineView;
 }
 
 @end

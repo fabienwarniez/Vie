@@ -5,7 +5,7 @@
 
 #import "FWColorSchemeModel.h"
 
-static NSArray *kFWColorSchemeColorList = nil;
+static NSArray *kFWColorSchemeList = nil;
 
 @implementation FWColorSchemeModel
 
@@ -48,6 +48,11 @@ static NSArray *kFWColorSchemeColorList = nil;
     return [self.guid isEqualToString:otherColorScheme.guid];
 }
 
+- (NSUInteger)hash
+{
+    return [self.guid hash];
+}
+
 + (FWColorSchemeModel *)colorSchemeFromGuid:(NSString *)guid inArray:(NSArray *)array
 {
     FWColorSchemeModel *userColorScheme = nil;
@@ -63,9 +68,9 @@ static NSArray *kFWColorSchemeColorList = nil;
 
 + (NSArray *)colors
 {
-    if (kFWColorSchemeColorList == nil)
+    if (kFWColorSchemeList == nil)
     {
-        kFWColorSchemeColorList = @[
+        kFWColorSchemeList = @[
                 [FWColorSchemeModel colorSchemeWithGuid:@"default"
                                          youngFillColor:[UIColor colorWithRed:200.0f / 255.0f green:200.0f / 255.0f blue:200.0f / 255.0f alpha:1.0]
                                         mediumFillColor:[UIColor colorWithRed:150.0f / 255.0f green:150.0f / 255.0f blue:150.0f / 255.0f alpha:1.0]
@@ -81,7 +86,7 @@ static NSArray *kFWColorSchemeColorList = nil;
                 [FWColorSchemeModel colorSchemeWithGuid:@"color9" youngFillColor:[UIColor colorWithRed:229.0f / 255.0f green:113.0f / 255.0f blue:132.0f / 255.0f alpha:1.0] mediumFillColor:nil oldFillColor:nil]
         ];
     }
-    return kFWColorSchemeColorList;
+    return kFWColorSchemeList;
 }
 
 @end

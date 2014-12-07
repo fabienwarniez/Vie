@@ -26,7 +26,8 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Gotham-Book.otf</string>
+		<string>Avenir Next.ttc</string>
+		<string>Avenir Next Condensed.ttc</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

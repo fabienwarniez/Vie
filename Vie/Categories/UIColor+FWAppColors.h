@@ -5,11 +5,13 @@
 
 @interface UIColor (FWAppColors)
 
-+ (UIColor *)colorWithDecimalRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
-+ (UIColor *)appPrimaryVibrantColor;
-+ (UIColor *)appDarkTextColor;
-+ (UIColor *)appLightTextColor;
-+ (UIColor *)successfulBackgroundColor;
-+ (UIColor *)selectedTableViewCellColor;
++ (UIColor *)vieGreen;
++ (UIColor *)vieGreenDark;
++ (UIColor *)darkGrey;
++ (UIColor *)lightGrey;
++ (UIColor *)mediumGrey;
++ (UIColor *)buttonGrey;
++ (UIColor *)darkBlue;
++ (UIColor *)brightPink;
 
 @end

@@ -5,6 +5,8 @@
 
 #import "FWBoardSizeModel.h"
 
+static NSArray *kFWBoardSizeList = nil;
+
 @implementation FWBoardSizeModel
 
 - (instancetype)initWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
@@ -45,6 +47,15 @@
     return self.numberOfColumns == otherBoardSize.numberOfColumns && self.numberOfRows == otherBoardSize.numberOfRows;
 }
 
+- (NSUInteger)hash
+{
+    NSUInteger prime = 31;
+    NSUInteger hash = 1;
+    hash += prime * hash + self.numberOfColumns;
+    hash += prime * hash + self.numberOfRows;
+    return hash;
+}
+
 - (BOOL)isGreaterOrEqualToBoardSize:(FWBoardSizeModel *)other
 {
     return self.numberOfColumns >= other.numberOfColumns && self.numberOfRows >= other.numberOfRows;
@@ -57,12 +68,16 @@
 
 + (NSArray *)boardSizes
 {
-    return @[
+    if (kFWBoardSizeList == nil)
+    {
+        kFWBoardSizeList = @[
             [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_small", @"Small") numberOfColumns:30 numberOfRows:40],
             [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_medium", @"Medium") numberOfColumns:45 numberOfRows:60],
             [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_large", @"Large") numberOfColumns:60 numberOfRows:80],
             [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_extra_large", @"Extra Large") numberOfColumns:90 numberOfRows:120]
-    ];
+        ];
+    }
+    return kFWBoardSizeList;
 }
 
 + (instancetype)defaultBoardSize
