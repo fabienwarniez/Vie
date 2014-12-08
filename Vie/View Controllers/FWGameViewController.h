@@ -5,7 +5,7 @@
 
 @class FWBoardView;
 @class FWBoardSizeModel;
-@class FWSavedGame;
+@class FWSavedGameModel;
 @class FWColorSchemeModel;
 @class FWCellPatternModel;
 @class FWGameViewController;
@@ -48,6 +48,7 @@ typedef enum FWPatternPosition
 
 @property (nonatomic, weak) id<FWGameViewControllerDelegate> delegate;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
+@property (nonatomic, assign) NSUInteger gameSpeed;
 @property (nonatomic, assign, readonly) BOOL isRunning;
 
 // Cell Style
@@ -60,7 +61,7 @@ typedef enum FWPatternPosition
 
 - (void)play;
 - (void)pause;
-- (void)loadSavedGame:(FWSavedGame *)savedGame;
+- (void)loadSavedGame:(FWSavedGameModel *)savedGame;
 - (void)setPattern:(FWCellPatternModel *)cellPattern;
 
 - (NSArray *)initialBoardLiveCells;

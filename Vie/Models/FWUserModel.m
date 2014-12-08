@@ -8,7 +8,8 @@
 #import "FWColorSchemeModel.h"
 #import "FWSettingsManager.h"
 #import "FWBoardSizeModel.h"
-#import "FWSavedGame.h"
+#import "FWSavedGameModel.h"
+#import "FWGameSpeed.h"
 
 @interface FWUserModel ()
 
@@ -20,6 +21,7 @@
 {
     FWColorSchemeModel *_colorScheme;
     FWBoardSizeModel *_boardSize;
+    NSUInteger _gameSpeed;
 }
 
 - (instancetype)init
@@ -29,6 +31,7 @@
     {
         _colorScheme = nil;
         _boardSize = nil;
+        _gameSpeed = 0;
         _managedObjectContext = [self createManagedObjectContext];
     }
     return self;
@@ -112,6 +115,30 @@
     [FWSettingsManager saveUserBoardSize:boardSize];
 }
 
+- (NSUInteger)gameSpeed
+{
+    if (_gameSpeed == 0)
+    {
+        NSUInteger userGameSpeed = [FWSettingsManager getUserGameSpeed];
+
+        if (userGameSpeed == 0)
+        {
+            userGameSpeed = [FWGameSpeed defaultGameSpeed];
+
+            [FWSettingsManager saveUserGameSpeed:userGameSpeed];
+        }
+        _gameSpeed = userGameSpeed;
+    }
+
+    return _gameSpeed;
+}
+
+- (void)setGameSpeed:(NSUInteger)gameSpeed
+{
+    _gameSpeed = gameSpeed;
+    [FWSettingsManager saveUserGameSpeed:gameSpeed];
+}
+
 - (NSArray *)savedGames
 {
     NSManagedObjectContext *context = self.managedObjectContext;
@@ -123,7 +150,7 @@
     NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
     if (result != nil)
     {
-        for (FWSavedGame *object in result)
+        for (FWSavedGameModel *object in result)
         {
             NSLog(@"%@", object.name);
         }
@@ -134,7 +161,7 @@
 - (void)saveGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells
 {
     NSManagedObjectContext *context = self.managedObjectContext;
-    FWSavedGame *savedGame = [NSEntityDescription insertNewObjectForEntityForName:@"SavedGame"
+    FWSavedGameModel *savedGame = [NSEntityDescription insertNewObjectForEntityForName:@"SavedGame"
                                                            inManagedObjectContext:context];
     savedGame.name = name;
     savedGame.boardSize = boardSize;
@@ -143,7 +170,7 @@
     [context save:nil];
 }
 
-- (void)editSavedGame:(FWSavedGame *)savedGame
+- (void)editSavedGame:(FWSavedGameModel *)savedGame
 {
     NSManagedObjectContext *context = savedGame.managedObjectContext;
     NSAssert(context != nil, @"The saved game context is nil.");

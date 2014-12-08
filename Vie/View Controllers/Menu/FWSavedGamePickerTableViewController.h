@@ -3,12 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWSavedGame;
-@class FWUserModel;
+@class FWSavedGameModel;
 
 @protocol FWSavedGamePickerTableViewControllerDelegate <NSObject>
 
-- (void)loadSavedGame:(FWSavedGame *)savedGame;
+- (void)loadSavedGame:(FWSavedGameModel *)savedGame;
 
 @end
 

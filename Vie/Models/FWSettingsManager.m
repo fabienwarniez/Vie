@@ -5,13 +5,11 @@
 
 #import "FWSettingsManager.h"
 #import "FWBoardSizeModel.h"
-#import "FWSavedGame.h"
-#import "FWCellModel.h"
 
-static NSString * const kUserColorSchemeKey = @"color_scheme";
-
-static NSString * const kUserBoardSizeColumnsKey = @"board_size_columns";
-static NSString * const kUserBoardSizeRowsKey = @"board_size_rows";
+static NSString * const kFWUserColorSchemeKey = @"color_scheme";
+static NSString * const kFWUserBoardSizeColumnsKey = @"board_size_columns";
+static NSString * const kFWUserBoardSizeRowsKey = @"board_size_rows";
+static NSString * const kFWUserGameSpeedKey = @"game_speed";
 
 @implementation FWSettingsManager
 
@@ -20,7 +18,7 @@ static NSString * const kUserBoardSizeRowsKey = @"board_size_rows";
 + (NSString *)getUserColorSchemeGuid
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *colorSchemeGuid = [userDefaults stringForKey:kUserColorSchemeKey];
+    NSString *colorSchemeGuid = [userDefaults stringForKey:kFWUserColorSchemeKey];
 
     return colorSchemeGuid;
 }
@@ -28,7 +26,7 @@ static NSString * const kUserBoardSizeRowsKey = @"board_size_rows";
 + (void)saveUserColorSchemeGuid:(NSString *)colorSchemeGuid
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:colorSchemeGuid forKey:kUserColorSchemeKey];
+    [userDefaults setObject:colorSchemeGuid forKey:kFWUserColorSchemeKey];
 }
 
 #pragma mark - Board Size
@@ -36,8 +34,8 @@ static NSString * const kUserBoardSizeRowsKey = @"board_size_rows";
 + (FWBoardSizeModel *)getUserBoardSize
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger numberOfColumns = [userDefaults integerForKey:kUserBoardSizeColumnsKey];
-    NSInteger numberOfRows = [userDefaults integerForKey:kUserBoardSizeRowsKey];
+    NSInteger numberOfColumns = [userDefaults integerForKey:kFWUserBoardSizeColumnsKey];
+    NSInteger numberOfRows = [userDefaults integerForKey:kFWUserBoardSizeRowsKey];
 
     // ensure values returned are not negative because we need to cast them to unsigned
     numberOfColumns = numberOfColumns >= 0 ? numberOfColumns : 0;
@@ -49,8 +47,24 @@ static NSString * const kUserBoardSizeRowsKey = @"board_size_rows";
 + (void)saveUserBoardSize:(FWBoardSizeModel *)boardSize
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:boardSize.numberOfColumns forKey:kUserBoardSizeColumnsKey];
-    [userDefaults setInteger:boardSize.numberOfRows forKey:kUserBoardSizeRowsKey];
+    [userDefaults setInteger:boardSize.numberOfColumns forKey:kFWUserBoardSizeColumnsKey];
+    [userDefaults setInteger:boardSize.numberOfRows forKey:kFWUserBoardSizeRowsKey];
+}
+
+#pragma mark - Game Speed
+
++ (NSUInteger)getUserGameSpeed
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger gameSpeed = [userDefaults integerForKey:kFWUserGameSpeedKey];
+
+    return (NSUInteger) gameSpeed;
+}
+
++ (void)saveUserGameSpeed:(NSUInteger)gameSpeed
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setInteger:gameSpeed forKey:kFWUserGameSpeedKey];
 }
 
 @end

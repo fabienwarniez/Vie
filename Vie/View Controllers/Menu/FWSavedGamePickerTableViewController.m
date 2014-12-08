@@ -6,7 +6,7 @@
 #import "FWSavedGamePickerTableViewController.h"
 #import "FWUserModel.h"
 #import "FWSavedGameTableViewCell.h"
-#import "FWSavedGame.h"
+#import "FWSavedGameModel.h"
 #import "FWBoardSizeModel.h"
 
 static NSString * const kFWSavedGamePickerCellIdentifier = @"SavedGameCell";
@@ -65,7 +65,7 @@ static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWSavedGame *model = self.savedGames[(NSUInteger) indexPath.row];
+    FWSavedGameModel *model = self.savedGames[(NSUInteger) indexPath.row];
     FWSavedGameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFWSavedGamePickerCellIdentifier
                                                                        forIndexPath:indexPath];
     cell.textLabel.text = model.name;
@@ -82,7 +82,6 @@ static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Delete row %u", indexPath.row);
 }
 
 #pragma mark - UITableViewDelegate
@@ -96,7 +95,7 @@ static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    FWSavedGame *savedGame = self.savedGames[(NSUInteger) indexPath.row];
+    FWSavedGameModel *savedGame = self.savedGames[(NSUInteger) indexPath.row];
 
     [self.delegate loadSavedGame:savedGame];
 }
@@ -106,7 +105,7 @@ static CGFloat const kFWSavedGamePickerCellHeight = 60.0f;
 - (void)savedGameCell:(FWSavedGameTableViewCell *)savedGameCell didEditGameName:(NSString *)name
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:savedGameCell];
-    FWSavedGame *savedGameToEdit = self.savedGames[(NSUInteger) indexPath.row];
+    FWSavedGameModel *savedGameToEdit = self.savedGames[(NSUInteger) indexPath.row];
     savedGameToEdit.name = name;
     [self.userModel editSavedGame:savedGameToEdit];
 }

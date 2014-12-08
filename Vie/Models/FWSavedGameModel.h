@@ -7,7 +7,7 @@
 
 @class FWBoardSizeModel;
 
-@interface FWSavedGame : NSManagedObject
+@interface FWSavedGameModel : NSManagedObject
 
 @property (nonatomic, strong) NSString *name;
 

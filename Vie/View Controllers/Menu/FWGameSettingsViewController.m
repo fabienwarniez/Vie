@@ -12,27 +12,37 @@
 #import "FWColorTile.h"
 #import "FWBoardSizeModel.h"
 #import "FWSizeTile.h"
+#import "FWGameSpeed.h"
+#import "FWSpeedTile.h"
+#import "FWTitleBar.h"
 
-static NSUInteger const kNumberOfColorColumns = 3;
-static NSUInteger const kNumberOfSizeColumns = 2;
+static NSUInteger const kFWNumberOfColorColumns = 3;
+static NSUInteger const kFWNumberOfSizeColumns = 2;
+static NSUInteger const kFWNumberOfSpeedColumns = 3;
 static CGFloat const kFWColorCellHorizontalMargin = 46.0f;
 static CGFloat const kFWSizeCellHorizontalMargin = 60.0f;
 static CGFloat const kFWColorCellTopPadding = 36.0f;
-static CGFloat const kFWColorCellSpacing = 1.0f;
+static CGFloat const kFWCellSpacing = 1.0f;
 static CGFloat const kFWLabelBottomMargin = 22.0f;
 static CGFloat const kFWVerticalSpacing = 36.0f;
 
-@interface FWGameSettingsViewController () <UINavigationBarDelegate, FWColorTileDelegate, FWSizeTileDelegate>
+@interface FWGameSettingsViewController () <FWColorTileDelegate, FWSizeTileDelegate, FWSpeedTileDelegate>
 
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, strong) NSArray *colorTiles;
 @property (nonatomic, strong) FWColorSchemeModel *currentlyActiveColorScheme;
+
 @property (nonatomic, strong) NSArray *boardSizes;
 @property (nonatomic, strong) NSArray *sizeTiles;
 @property (nonatomic, strong) FWBoardSizeModel *currentlyActiveBoardSize;
 
+@property (nonatomic, strong) NSArray *gameSpeeds;
+@property (nonatomic, strong) NSArray *speedTiles;
+@property (nonatomic, assign) NSUInteger currentlyActiveSpeed;
+
 @property (nonatomic, strong) UILabel *colorLabel;
 @property (nonatomic, strong) UILabel *sizeLabel;
+@property (nonatomic, strong) UILabel *speedLabel;
 
 @end
 
@@ -47,6 +57,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
         _currentlyActiveColorScheme = [[FWUserModel sharedUserModel] colorScheme];
         _boardSizes = [FWBoardSizeModel boardSizes];
         _currentlyActiveBoardSize = [[FWUserModel sharedUserModel] boardSize];
+        _gameSpeeds = [FWGameSpeed gameSpeeds];
+        _currentlyActiveSpeed = [[FWUserModel sharedUserModel] gameSpeed];
     }
 
     return self;
@@ -60,6 +72,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     [self placeColorTiles];
     self.sizeLabel = [self placeLabelWithString:@"size"];
     [self placeSizeTiles];
+    self.speedLabel = [self placeLabelWithString:@"speed"];
+    [self placeSpeedTiles];
 }
 
 - (void)viewWillLayoutSubviews
@@ -75,14 +89,24 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     currentY += kFWLabelBottomMargin;
     currentY += [self layoutSizeTilesStartingAt:currentY];
     currentY += kFWVerticalSpacing;
+    currentY += [self layoutLabel:self.speedLabel at:currentY];
+    currentY += kFWLabelBottomMargin;
+    currentY += [self layoutSpeedTilesStartingAt:currentY];
+    currentY += kFWVerticalSpacing;
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, currentY);
 }
 
-#pragma mark - UINavigationBarDelegate
+#pragma mark - FWTitleBarDelegate
 
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+- (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return UIBarPositionTopAttached;
+    return @"Settings";
+}
+
+- (void)buttonTappedFor:(FWTitleBar *)titleBar
+{
+    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
+    [self.delegate gameSettingsDidClose:self];
 }
 
 #pragma mark - FWColorTileDelegate
@@ -121,12 +145,22 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     [self.delegate gameSettings:self boardSizeDidChange:newBoardSize];
 }
 
-#pragma mark - IBActions
+#pragma mark - FWSpeedTileDelegate
 
-- (IBAction)closeButtonTapped:(id)sender
+- (void)speedTileWasSelected:(FWSpeedTile *)selectedSpeedTile
 {
-    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
-    [self.delegate gameSettingsDidClose:self];
+    for (FWSpeedTile *speedTile in self.speedTiles)
+    {
+        if (speedTile != selectedSpeedTile)
+        {
+            [speedTile setSelected:NO];
+        }
+    }
+
+    NSUInteger index = [self.speedTiles indexOfObject:selectedSpeedTile];
+    NSUInteger newGameSpeed = [self.gameSpeeds[index] unsignedIntegerValue];
+    self.currentlyActiveSpeed = newGameSpeed;
+    [self.delegate gameSettings:self gameSpeedDidChange:newGameSpeed];
 }
 
 #pragma mark - Private Methods
@@ -162,7 +196,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     
     for (FWColorSchemeModel *colorSchemeModel in self.colors)
     {
-        FWColorTile *newTile = [FWColorTile buttonWithMainColor:colorSchemeModel.youngFillColor image:[UIImage imageNamed:@"check"]];
+        FWColorTile *newTile = [FWColorTile tileWithMainColor:colorSchemeModel.youngFillColor image:[UIImage imageNamed:@"check"]];
         newTile.selected = [colorSchemeModel isEqualToColorScheme:self.currentlyActiveColorScheme];
         newTile.delegate = self;
         [self.scrollView addSubview:newTile];
@@ -175,24 +209,22 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 - (CGFloat)layoutColorTilesStartingAt:(CGFloat)y
 {
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kNumberOfColorColumns - 1) * kFWColorCellSpacing) / kNumberOfColorColumns;
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kFWNumberOfColorColumns - 1) * kFWCellSpacing) / kFWNumberOfColorColumns;
     cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
-    CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
     for (FWColorTile *tile in self.colorTiles)
     {
         tile.frame = CGRectMake(
-                kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
+                kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
         );
-        if (currentColumn == kNumberOfColorColumns - 1)
+        if (currentColumn == kFWNumberOfColorColumns - 1)
         {
-            currentY += kFWColorCellSpacing + cellSideSize;
-            totalHeight += kFWColorCellSpacing + cellSideSize;
+            currentY += kFWCellSpacing + cellSideSize;
             currentColumn = 0;
         }
         else
@@ -201,7 +233,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
         }
     }
 
-    return totalHeight;
+    NSUInteger numberOfRows = (self.colorTiles.count + kFWNumberOfColorColumns - 1) / kFWNumberOfColorColumns;
+    return numberOfRows * cellSideSize + (numberOfRows - 1) * kFWCellSpacing;
 }
 
 - (void)placeSizeTiles
@@ -211,9 +244,9 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     NSUInteger index = 1;
     for (FWBoardSizeModel *boardSizeModel in self.boardSizes)
     {
-        FWSizeTile *newTile = [FWSizeTile buttonWithMainColor:[UIColor lightGrey]
-                                                  squareColor:[UIColor vieGreenDark]
-                                      squareWidthAsPercentage:[FWSizeTile squarePercentageForSizeIndex:index]];
+        FWSizeTile *newTile = [FWSizeTile tileWithMainColor:[UIColor lightGrey]
+                                                squareColor:[UIColor vieGreenDark]
+                                    squareWidthAsPercentage:[FWGameSettingsViewController squarePercentageForSizeIndex:index]];
         newTile.selected = [boardSizeModel isEqualToBoardSize:self.currentlyActiveBoardSize];
         newTile.delegate = self;
         [self.scrollView addSubview:newTile];
@@ -227,24 +260,23 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 - (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
 {
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSizeCellHorizontalMargin - (kNumberOfSizeColumns - 1) * kFWColorCellSpacing) / kNumberOfSizeColumns;
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSizeCellHorizontalMargin - (kFWNumberOfSizeColumns - 1) * kFWCellSpacing) / kFWNumberOfSizeColumns;
     cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
-    CGFloat totalHeight = cellSideSize;
     NSUInteger currentColumn = 0;
 
     for (FWSizeTile *tile in self.sizeTiles)
     {
         tile.frame = CGRectMake(
-                kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWColorCellSpacing),
+                kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
         );
-        if (currentColumn == kNumberOfSizeColumns - 1)
+
+        if (currentColumn == kFWNumberOfSizeColumns - 1)
         {
-            currentY += kFWColorCellSpacing + cellSideSize;
-            totalHeight += kFWColorCellSpacing + cellSideSize;
+            currentY += kFWCellSpacing + cellSideSize;
             currentColumn = 0;
         }
         else
@@ -253,7 +285,102 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
         }
     }
 
-    return totalHeight;
+    NSUInteger numberOfRows = (self.sizeTiles.count + kFWNumberOfSizeColumns - 1) / kFWNumberOfSizeColumns;
+    return numberOfRows * cellSideSize + (numberOfRows - 1) * kFWCellSpacing;
+}
+
+- (void)placeSpeedTiles
+{
+    NSMutableArray *array = [NSMutableArray array];
+
+    NSUInteger index = 0;
+    for (NSNumber *gameSpeed in self.gameSpeeds)
+    {
+        FWSpeedTile *newTile = [FWSpeedTile tileWithMainColor:[UIColor lightGrey] image:[FWGameSettingsViewController imageForSpeedTileIndex:index]];
+        newTile.selected = [gameSpeed unsignedIntegerValue] == self.currentlyActiveSpeed;
+        newTile.delegate = self;
+        [self.scrollView addSubview:newTile];
+        [array addObject:newTile];
+        index++;
+    }
+
+    self.speedTiles = [array copy];
+}
+
+- (CGFloat)layoutSpeedTilesStartingAt:(CGFloat)y
+{
+    CGFloat pixelScale = [[UIScreen mainScreen] scale];
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSizeCellHorizontalMargin - (kFWNumberOfSpeedColumns - 1) * kFWCellSpacing) / kFWNumberOfSpeedColumns;
+    cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
+    CGFloat currentY = y;
+    NSUInteger currentColumn = 0;
+
+    for (FWSpeedTile *tile in self.speedTiles)
+    {
+        tile.frame = CGRectMake(
+                kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
+                currentY,
+                cellSideSize,
+                cellSideSize
+        );
+
+        if (currentColumn == kFWNumberOfSpeedColumns - 1)
+        {
+            currentY += kFWCellSpacing + cellSideSize;
+            currentColumn = 0;
+        }
+        else
+        {
+            currentColumn++;
+        }
+    }
+
+    NSUInteger numberOfRows = (self.speedTiles.count + kFWNumberOfSpeedColumns - 1) / kFWNumberOfSpeedColumns;
+    return numberOfRows * cellSideSize + (numberOfRows - 1) * kFWCellSpacing;
+}
+
++ (NSUInteger)squarePercentageForSizeIndex:(NSUInteger)index
+{
+    NSUInteger percent = 0;
+
+    if (index == 1)
+    {
+        percent = 50;
+    }
+    else if (index == 2)
+    {
+        percent = 35;
+    }
+    else if (index == 3)
+    {
+        percent = 20;
+    }
+    else if (index == 4)
+    {
+        percent = 5;
+    }
+
+    return percent;
+}
+
++ (UIImage *)imageForSpeedTileIndex:(NSUInteger)index
+{
+    UIImage *image = nil;
+
+    if (index == 0)
+    {
+        return [UIImage imageNamed:@"slow"];
+    }
+    else if (index == 1)
+    {
+        return [UIImage imageNamed:@"fast"];
+    }
+    else if (index == 2)
+    {
+        return [UIImage imageNamed:@"fastest"];
+    }
+
+    return image;
 }
 
 @end

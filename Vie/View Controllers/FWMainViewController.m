@@ -7,12 +7,12 @@
 #import "FWGameViewController.h"
 #import "FWBoardSizeModel.h"
 #import "FWColorSchemeModel.h"
-#import "FWUserModel.h"
-#import "FWSavedGame.h"
+#import "FWSavedGameModel.h"
 #import "FWCellPatternModel.h"
 #import "FWMainMenuViewController.h"
 #import "UIView+FWConvenience.h"
 #import "FWQuickPlayMenuViewController.h"
+#import "FWUserModel.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
@@ -166,6 +166,14 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.gameViewController.boardSize = boardSize;
 }
 
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController gameSpeedDidChange:(NSUInteger)gameSpeed
+{
+    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
+    [sharedUserModel setGameSpeed:gameSpeed];
+
+    self.gameViewController.gameSpeed = gameSpeed;
+}
+
 #pragma mark - FWMainMenuTableViewControllerDelegate
 
 - (void)saveCurrentGame
@@ -194,7 +202,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 #pragma mark - FWSavedGamePickerTableViewControllerDelegate
 
-- (void)loadSavedGame:(FWSavedGame *)savedGame
+- (void)loadSavedGame:(FWSavedGameModel *)savedGame
 {
 //    [self.gameViewController loadSavedGame:savedGame];
 //

@@ -52,7 +52,7 @@
         }
         NSUInteger lineIndexEnd = range.location + range.length;
 
-        NSLog(@"Loading patterns in range %d to %d", lineIndexStart, lineIndexEnd);
+        NSLog(@"Loading patterns in range %lu to %lu", (unsigned long) lineIndexStart, (unsigned long) lineIndexEnd);
 
         for (NSUInteger lineIndex = lineIndexStart; lineIndex < lineIndexEnd; ++lineIndex)
         {

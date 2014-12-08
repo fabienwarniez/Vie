@@ -1,19 +1,20 @@
 //
-// Created by Fabien Warniez on 14-11-25.
+// Created by Fabien Warniez on 14-12-07.
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWColorTile.h"
+#import "FWSpeedTile.h"
 
-@implementation FWColorTile
+@implementation FWSpeedTile
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor image:(UIImage *)image
 {
     self = [super init];
+
     if (self)
     {
         self.mainColor = mainColor;
-        self.image = image;
+        _image = image;
     }
 
     return self;
@@ -24,13 +25,11 @@
     return [[self alloc] initWithMainColor:mainColor image:image];
 }
 
-#pragma mark - Private Methods
-
 - (void)tileWasTapped
 {
     if (!self.isSelected)
     {
-        [self.delegate tileButtonWasSelected:self];
+        [self.delegate speedTileWasSelected:self];
     }
 
     [super tileWasTapped];
@@ -42,17 +41,20 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    if (self.isSelected)
-    {
-        CGPoint imagePoint = CGPointMake(
-                (self.bounds.size.width - self.image.size.width) / 2.0f,
-                (self.bounds.size.height - self.image.size.height) / 2.0f
-        );
-
-        [self.image drawAtPoint:imagePoint];
-    }
+    CGPoint imagePoint = CGPointMake(
+            (self.bounds.size.width - self.image.size.width) / 2.0f,
+            (self.bounds.size.height - self.image.size.height) / 2.0f
+    );
+    [self.image drawAtPoint:imagePoint];
 
     if (self.isHighlighted)
+    {
+        CGContextAddRect(context, self.bounds);
+
+        CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0 green:0 blue:0 alpha:0.36].CGColor);
+        CGContextFillPath(context);
+    }
+    else if (self.isSelected)
     {
         CGContextAddRect(context, self.bounds);
 

@@ -83,7 +83,7 @@ static NSArray *kFWColorSchemeList = nil;
                 [FWColorSchemeModel colorSchemeWithGuid:@"color6" youngFillColor:[UIColor colorWithRed:187.0f / 255.0f green:112.0f / 255.0f blue:233.0f / 255.0f alpha:1.0] mediumFillColor:nil oldFillColor:nil],
                 [FWColorSchemeModel colorSchemeWithGuid:@"color7" youngFillColor:[UIColor colorWithRed:229.0f / 255.0f green:117.0f / 255.0f blue:214.0f / 255.0f alpha:1.0] mediumFillColor:nil oldFillColor:nil],
                 [FWColorSchemeModel colorSchemeWithGuid:@"color8" youngFillColor:[UIColor colorWithRed:229.0f / 255.0f green:117.0f / 255.0f blue:174.0f / 255.0f alpha:1.0] mediumFillColor:nil oldFillColor:nil],
-                [FWColorSchemeModel colorSchemeWithGuid:@"color9" youngFillColor:[UIColor colorWithRed:229.0f / 255.0f green:113.0f / 255.0f blue:132.0f / 255.0f alpha:1.0] mediumFillColor:nil oldFillColor:nil]
+                [FWColorSchemeModel colorSchemeWithGuid:@"color9" youngFillColor:[UIColor colorWithRed:229.0f / 255.0f green:113.0f / 255.0f blue:132.0f / 255.0f alpha:1.0] mediumFillColor:nil oldFillColor:nil],
         ];
     }
     return kFWColorSchemeList;

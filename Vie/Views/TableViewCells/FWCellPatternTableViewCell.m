@@ -121,7 +121,7 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
         self.gameBoardView.liveCells = nil;
     }
     self.titleLabel.text = cellPattern.name;
-    self.sizeLabel.text = [NSString stringWithFormat:@"%dx%d", cellPattern.boardSize.numberOfColumns, cellPattern.boardSize.numberOfRows];
+    self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) cellPattern.boardSize.numberOfColumns, (unsigned long) cellPattern.boardSize.numberOfRows];
 }
 
 - (void)setColorScheme:(FWColorSchemeModel *)colorScheme

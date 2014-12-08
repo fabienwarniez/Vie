@@ -21,66 +21,21 @@
     return self;
 }
 
-+ (instancetype)buttonWithMainColor:(UIColor *)mainColor squareColor:(UIColor *)squareColor squareWidthAsPercentage:(NSUInteger)percentage
++ (instancetype)tileWithMainColor:(UIColor *)mainColor squareColor:(UIColor *)squareColor squareWidthAsPercentage:(NSUInteger)percentage
 {
     return [[self alloc] initWithMainColor:mainColor squareColor:squareColor squareWidthAsPercentage:percentage];
 }
 
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-
-    [self addTarget:self action:@selector(buttonWasTapped) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)willRemoveSubview:(UIView *)subview
-{
-    [super willRemoveSubview:subview];
-
-    [self removeTarget:self action:@selector(buttonWasTapped) forControlEvents:UIControlEventTouchUpInside];
-}
-
-+ (NSUInteger)squarePercentageForSizeIndex:(NSUInteger)index
-{
-    NSUInteger percent = 0;
-
-    if (index == 1)
-    {
-        percent = 50;
-    }
-    else if (index == 2)
-    {
-        percent = 35;
-    }
-    else if (index == 3)
-    {
-        percent = 20;
-    }
-    else if (index == 4)
-    {
-        percent = 5;
-    }
-
-    return percent;
-}
-
 #pragma mark - Private Methods
 
-- (void)buttonWasTapped
+- (void)tileWasTapped
 {
     if (!self.isSelected)
     {
-        self.selected = YES;
-
         [self.delegate sizeTileWasSelected:self];
     }
-}
 
-- (void)setHighlighted:(BOOL)highlighted
-{
-    [super setHighlighted:highlighted];
-
-    [self setNeedsDisplay];
+    [super tileWasTapped];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -97,15 +52,14 @@
     CGContextSetFillColorWithColor(context, [UIColor vieGreen].CGColor);
     CGContextFillPath(context);
 
-    if (self.isSelected)
+    if (self.isHighlighted)
     {
         CGContextAddRect(context, self.bounds);
 
-        CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0 green:0 blue:0 alpha:0.18].CGColor);
+        CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0 green:0 blue:0 alpha:0.36].CGColor);
         CGContextFillPath(context);
     }
-
-    if (self.isHighlighted)
+    else if (self.isSelected)
     {
         CGContextAddRect(context, self.bounds);
 

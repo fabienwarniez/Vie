@@ -7,6 +7,35 @@
 
 @implementation FWReflectiveTile
 
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+
+    [self addTarget:self action:@selector(tileWasTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)willRemoveSubview:(UIView *)subview
+{
+    [super willRemoveSubview:subview];
+
+    [self removeTarget:self action:@selector(tileWasTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    [super setHighlighted:highlighted];
+
+    [self setNeedsDisplay];
+}
+
+- (void)tileWasTapped
+{
+    if (!self.isSelected)
+    {
+        self.selected = YES;
+    }
+}
+
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();

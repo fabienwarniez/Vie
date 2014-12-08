@@ -3,11 +3,11 @@
 //  Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWSavedGame.h"
+#import "FWSavedGameModel.h"
 #import "FWCellModel.h"
 #import "FWBoardSizeModel.h"
 
-@interface FWSavedGame ()
+@interface FWSavedGameModel ()
 
 @property (nonatomic, strong) NSString *serializedLiveCells;
 @property (nonatomic, strong) NSNumber *boardWidth;
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation FWSavedGame
+@implementation FWSavedGameModel
 
 @dynamic name;
 @dynamic serializedLiveCells;

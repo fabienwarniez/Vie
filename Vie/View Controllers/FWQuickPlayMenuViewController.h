@@ -6,6 +6,7 @@
 @class FWQuickPlayMenuViewController;
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
+@class FWGameSettingsViewController;
 
 @protocol FWQuickPlayMenuControllerDelegate
 
@@ -15,6 +16,8 @@
  colorSchemeDidChange:(FWColorSchemeModel *)colorScheme;
 - (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
  boardSizeDidChange:(FWBoardSizeModel *)boardSize;
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
+ gameSpeedDidChange:(NSUInteger)gameSpeed;
 
 @end
 

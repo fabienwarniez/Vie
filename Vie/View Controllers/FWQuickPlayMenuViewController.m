@@ -102,6 +102,11 @@
     [self.delegate quickPlayMenu:self boardSizeDidChange:boardSize];
 }
 
+- (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController gameSpeedDidChange:(NSUInteger)gameSpeed
+{
+    [self.delegate quickPlayMenu:self gameSpeedDidChange:gameSpeed];
+}
+
 #pragma mark - IBActions
 
 - (IBAction)closeButtonTapped:(id)sender

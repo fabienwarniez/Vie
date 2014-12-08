@@ -5,17 +5,18 @@
 
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
-@class FWSavedGame;
+@class FWSavedGameModel;
 
 @interface FWUserModel : NSObject
 
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
+@property (nonatomic, assign) NSUInteger gameSpeed;
 @property (nonatomic, strong, readonly) NSArray *savedGames;
 
 + (instancetype)sharedUserModel;
 
 - (void)saveGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells;
-- (void)editSavedGame:(FWSavedGame *)savedGame;
+- (void)editSavedGame:(FWSavedGameModel *)savedGame;
 
 @end

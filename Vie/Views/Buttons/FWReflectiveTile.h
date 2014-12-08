@@ -8,4 +8,6 @@
 
 @property (nonatomic, strong) UIColor *mainColor;
 
+- (void)tileWasTapped;
+
 @end

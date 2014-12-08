@@ -1,21 +1,22 @@
 //
-// Created by Fabien Warniez on 14-11-25.
+// Created by Fabien Warniez on 14-12-07.
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+
 #import "FWReflectiveTile.h"
 
-@class FWColorTile;
+@class FWSpeedTile;
 
-@protocol FWColorTileDelegate <NSObject>
+@protocol FWSpeedTileDelegate <NSObject>
 
-- (void)tileButtonWasSelected:(FWColorTile *)tileButton;
+- (void)speedTileWasSelected:(FWSpeedTile *)selectedSpeedTile;
 
 @end
 
-@interface FWColorTile : FWReflectiveTile
+@interface FWSpeedTile : FWReflectiveTile
 
-@property (nonatomic, weak) id<FWColorTileDelegate> delegate;
+@property (nonatomic, weak) id<FWSpeedTileDelegate> delegate;
 @property (nonatomic, strong) UIImage *image;
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor image:(UIImage *)image;

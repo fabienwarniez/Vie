@@ -104,8 +104,8 @@
     UIButton *newButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [newButton setTitle:title forState:UIControlStateNormal];
     [newButton.titleLabel setFont:[UIFont smallCondensed]];
-    [newButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [newButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [newButton setTitleColor:[UIColor lightGrey] forState:UIControlStateNormal];
+    [newButton setTitleColor:[UIColor darkGrey] forState:UIControlStateHighlighted];
     newButton.alpha = 0.0f;
     newButton.frame = CGRectMake(0.0f, 0.0f, 200.0f, 30.0f);
     newButton.autoresizingMask =

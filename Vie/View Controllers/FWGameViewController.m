@@ -8,7 +8,7 @@
 #import "FWBoardView.h"
 #import "FWBoardSizeModel.h"
 #import "FWRandomNumberGenerator.h"
-#import "FWSavedGame.h"
+#import "FWSavedGameModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWCellPatternModel.h"
 
@@ -164,7 +164,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     if (self.refreshTimer == nil || ![self.refreshTimer isValid])
     {
-        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f / self.gameSpeed
                                                          target:self
                                                        selector:@selector(calculateNextCycle:)
                                                        userInfo:nil
@@ -184,7 +184,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     self.playButtonItem.enabled = YES;
 }
 
-- (void)loadSavedGame:(FWSavedGame *)savedGame
+- (void)loadSavedGame:(FWSavedGameModel *)savedGame
 {
     _boardSize = [FWBoardSizeModel boardSizeWithName:nil
                                      numberOfColumns:savedGame.boardSize.numberOfColumns

@@ -20,7 +20,6 @@
 @property (nonatomic, assign) NSUInteger widthAsPercentage;
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor squareColor:(UIColor *)squareColor squareWidthAsPercentage:(NSUInteger)percentage;
-+ (instancetype)buttonWithMainColor:(UIColor *)mainColor squareColor:(UIColor *)squareColor squareWidthAsPercentage:(NSUInteger)percentage;
-+ (NSUInteger)squarePercentageForSizeIndex:(NSUInteger)index;
++ (instancetype)tileWithMainColor:(UIColor *)mainColor squareColor:(UIColor *)squareColor squareWidthAsPercentage:(NSUInteger)percentage;
 
 @end
