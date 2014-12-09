@@ -14,7 +14,7 @@
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
-@interface FWGameViewController () <UINavigationBarDelegate, ADBannerViewDelegate>
+@interface FWGameViewController () <ADBannerViewDelegate>
 {
     FWCellModel * __unsafe_unretained *_currentCellsArray;
     FWCellModel * __unsafe_unretained *_previousArrayOfCells;
@@ -100,7 +100,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     [super viewDidLoad];
 
-    self.navigationBar.delegate = self;
     self.adBannerView.delegate = self;
 
     self.gameBoardView.minimumBoardPadding = kFWGameViewControllerBoardPadding;
@@ -117,11 +116,74 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     free(_previousArrayOfCells);
 }
 
-#pragma mark - UINavigationBarDelegate
+#pragma mark - FWTitleBarDelegate
 
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+- (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return UIBarPositionTopAttached;
+    return @"Quick Play";
+}
+
+- (void)buttonTappedFor:(FWTitleBar *)titleBar
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    [self.delegate menuButtonTappedForGameViewController:self];
+}
+
+#pragma mark - FWGameToolbarDelegate
+
+- (void)rewindButtonTappedFor:(FWGameToolbar *)gameToolbar
+{
+    NSAssert(self.isRewindingPossible, @"Back button should be disabled if rewinding is not possible.");
+
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+    else
+    {
+        // swap NSArray's
+        NSArray *nextCycleArray = self.previousNSArrayOfCells;
+        self.previousNSArrayOfCells = self.currentCellsNSArray;
+        self.currentCellsNSArray = nextCycleArray;
+
+        // swap C arrays
+        FWCellModel * __unsafe_unretained *currentCycleArray = _currentCellsArray;
+        _currentCellsArray = _previousArrayOfCells;
+        _previousArrayOfCells = currentCycleArray;
+
+        self.isRewindingPossible = NO;
+
+        NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
+        self.gameBoardView.liveCells = liveCells;
+    }
+}
+
+- (void)playButtonTappedFor:(FWGameToolbar *)gameToolbar
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+    else
+    {
+        [self play];
+    }
+}
+
+- (void)fastForwardButtonTappedFor:(FWGameToolbar *)gameToolbar
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+    else
+    {
+        [self calculateNextCycle];
+    }
 }
 
 #pragma mark - ADBannerViewDelegate
@@ -320,7 +382,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     NSArray *nextCycleArray = self.previousNSArrayOfCells;
     FWCellModel * __unsafe_unretained *currentCycleArray = _currentCellsArray;
-    NSMutableArray *liveCellsArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
+    NSMutableArray *liveCellsArray = [@[[NSMutableArray array], [NSMutableArray array], [NSMutableArray array]] mutableCopy];
     NSUInteger numberOfColumns = self.boardSize.numberOfColumns; // performance optimization
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
 
@@ -443,16 +505,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
 #pragma mark - IBActions
 
-- (IBAction)menuButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-
-    [self.delegate menuButtonTappedForGameViewController:self];
-}
-
 - (IBAction)generateNewBoardButtonTapped:(id)sender
 {
     if ([self isRunning])
@@ -476,61 +528,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     self.gameBoardView.liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
 
     self.isRewindingPossible = NO;
-}
-
-- (IBAction)pauseButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-}
-
-- (IBAction)playButtonTapped:(id)sender
-{
-    if (![self isRunning])
-    {
-        [self play];
-    }
-}
-
-- (IBAction)backButtonTapped:(id)sender
-{
-    NSAssert(self.isRewindingPossible, @"Back button should be disabled if rewinding is not possible.");
-
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-    else
-    {
-        // swap NSArray's
-        NSArray *nextCycleArray = self.previousNSArrayOfCells;
-        self.previousNSArrayOfCells = self.currentCellsNSArray;
-        self.currentCellsNSArray = nextCycleArray;
-
-        // swap C arrays
-        FWCellModel * __unsafe_unretained *currentCycleArray = _currentCellsArray;
-        _currentCellsArray = _previousArrayOfCells;
-        _previousArrayOfCells = currentCycleArray;
-
-        self.isRewindingPossible = NO;
-
-        NSArray *liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
-        self.gameBoardView.liveCells = liveCells;
-    }
-}
-
-- (IBAction)nextButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-    else
-    {
-        [self calculateNextCycle];
-    }
 }
 
 #pragma mark - Private Methods

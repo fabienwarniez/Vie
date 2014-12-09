@@ -78,11 +78,17 @@
                      withIncrementsOf:30.5f];
 }
 
-#pragma mark - UINavigationBarDelegate
+#pragma mark - FWTitleBarDelegate
 
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+- (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return UIBarPositionTopAttached;
+    return @"Menu";
+}
+
+- (void)buttonTappedFor:(FWTitleBar *)titleBar
+{
+    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
+    [self.delegate quickPlayMenuDidClose:self];
 }
 
 #pragma mark - FWGameSettingsViewControllerDelegate
@@ -105,14 +111,6 @@
 - (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController gameSpeedDidChange:(NSUInteger)gameSpeed
 {
     [self.delegate quickPlayMenu:self gameSpeedDidChange:gameSpeed];
-}
-
-#pragma mark - IBActions
-
-- (IBAction)closeButtonTapped:(id)sender
-{
-    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
-    [self.delegate quickPlayMenuDidClose:self];
 }
 
 #pragma mark - Private Methods

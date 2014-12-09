@@ -15,6 +15,5 @@
 @interface FWTitleBar : UIView
 
 @property (nonatomic, weak) IBOutlet id<FWTitleBarDelegate> delegate;
-@property (nonatomic, strong) NSString *title;
 
 @end

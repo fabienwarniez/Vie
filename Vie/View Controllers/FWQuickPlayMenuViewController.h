@@ -3,6 +3,8 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+#import "FWTitleBar.h"
+
 @class FWQuickPlayMenuViewController;
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
@@ -21,11 +23,8 @@
 
 @end
 
-@interface FWQuickPlayMenuViewController : UIViewController
+@interface FWQuickPlayMenuViewController : UIViewController <FWTitleBarDelegate>
 
-@property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, weak) id<FWQuickPlayMenuControllerDelegate> delegate;
-
-- (IBAction)closeButtonTapped:(id)sender;
 
 @end

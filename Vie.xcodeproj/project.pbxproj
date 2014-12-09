@@ -55,6 +55,7 @@
 		B39357CB2D7EC4DA036A2B8E /* FWTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935B98F73C784DF9D763FB /* FWTitleBar.m */; };
 		B3935820369BEF29F55BEF35 /* FWGameSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B393542D07FDFB318986B555 /* FWGameSettingsViewController.xib */; };
 		B393587659FE47A6A07057E1 /* UIView+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */; };
+		B39358E3E71568502E140B8B /* FWGameToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935A97627E0C51427F63AF /* FWGameToolbar.m */; };
 		B3935AA5BDA0DF56DF308BF2 /* FWGameSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39359E3F8913EF80F49CF55 /* FWGameSettingsViewController.m */; };
 		B3935B5381E7417A8D97A4EB /* FWRleReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935D2F5AFB88B89F1D9D90 /* FWRleReader.m */; };
 		B3935BF71AEF71211DCA2BC6 /* FWSizeTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B393527A37CC8A72862273CC /* FWSizeTile.m */; };
@@ -165,6 +166,7 @@
 		B39359E3F8913EF80F49CF55 /* FWGameSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameSettingsViewController.m; sourceTree = "<group>"; };
 		B3935A6E4750297783C74045 /* UIFont+FWAppFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FWAppFonts.h"; sourceTree = "<group>"; };
 		B3935A865D5A17D0124B2B09 /* FWQuickPlayMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWQuickPlayMenuViewController.h; sourceTree = "<group>"; };
+		B3935A97627E0C51427F63AF /* FWGameToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameToolbar.m; sourceTree = "<group>"; };
 		B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternLoader.m; sourceTree = "<group>"; };
 		B3935AD6BA8621D05FAF331E /* FWTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTitleBar.h; sourceTree = "<group>"; };
 		B3935B1A7B9F99B4EF158411 /* FWCellPatternLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternLoader.h; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		B3935C99FC906D5CFEC18740 /* FWSizeTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSizeTile.h; sourceTree = "<group>"; };
 		B3935D2F5AFB88B89F1D9D90 /* FWRleReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWRleReader.m; sourceTree = "<group>"; };
 		B3935D54FA0ACE6E624116C7 /* FWGameSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameSpeed.m; sourceTree = "<group>"; };
+		B3935FB0A3013699512FCC9B /* FWGameToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameToolbar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +387,8 @@
 				B393513F52048E2C3EA6CA1D /* Buttons */,
 				B3935B98F73C784DF9D763FB /* FWTitleBar.m */,
 				B3935AD6BA8621D05FAF331E /* FWTitleBar.h */,
+				B3935A97627E0C51427F63AF /* FWGameToolbar.m */,
+				B3935FB0A3013699512FCC9B /* FWGameToolbar.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -576,6 +581,7 @@
 				B3935CBEDD0FBE03D628425C /* FWGameSpeed.m in Sources */,
 				B3935E634DE9C7C44E3480CA /* FWSpeedTile.m in Sources */,
 				B39357CB2D7EC4DA036A2B8E /* FWTitleBar.m in Sources */,
+				B39358E3E71568502E140B8B /* FWGameToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

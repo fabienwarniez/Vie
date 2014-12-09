@@ -3,6 +3,9 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+#import "FWTitleBar.h"
+#import "FWGameToolbar.h"
+
 @class FWBoardView;
 @class FWBoardSizeModel;
 @class FWSavedGameModel;
@@ -33,10 +36,9 @@ typedef enum FWPatternPosition
 
 @end
 
-@interface FWGameViewController : UIViewController
+@interface FWGameViewController : UIViewController <FWTitleBarDelegate, FWGameToolbarDelegate>
 
 @property (nonatomic, strong) IBOutlet FWBoardView *gameBoardView;
-@property (nonatomic, strong) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, strong) IBOutlet ADBannerView *adBannerView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *generateNewBoardButtonItem;
@@ -66,12 +68,7 @@ typedef enum FWPatternPosition
 
 - (NSArray *)initialBoardLiveCells;
 
-- (IBAction)menuButtonTapped:(id)sender;
 - (IBAction)generateNewBoardButtonTapped:(id)sender;
 - (IBAction)restartButtonTapped:(id)sender;
-- (IBAction)pauseButtonTapped:(id)sender;
-- (IBAction)playButtonTapped:(id)sender;
-- (IBAction)backButtonTapped:(id)sender;
-- (IBAction)nextButtonTapped:(id)sender;
 
 @end
