@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="adBannerView" destination="JUg-5I-gZc" id="r0b-hn-nLl"/>
                 <outlet property="gameBoardView" destination="s64-Ux-IZu" id="Njk-7z-XhD"/>
+                <outlet property="gameToolbar" destination="TjQ-Di-LOB" id="TtG-pq-hKW"/>
                 <outlet property="view" destination="hv1-FZ-NOM" id="zzr-T4-wh4"/>
             </connections>
         </placeholder>

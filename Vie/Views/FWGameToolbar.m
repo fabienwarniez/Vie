@@ -8,14 +8,6 @@
 
 static CGFloat const kFWButtonSpacing = 36.0f;
 
-@interface FWGameToolbar ()
-
-@property (nonatomic, strong) UIButton *rewindButton;
-@property (nonatomic, strong) UIButton *playButton;
-@property (nonatomic, strong) UIButton *fastForwardButton;
-
-@end
-
 @implementation FWGameToolbar
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -48,18 +40,21 @@ static CGFloat const kFWButtonSpacing = 36.0f;
 
     _rewindButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_rewindButton setImage:[UIImage imageNamed:@"rewind"] forState:UIControlStateNormal];
+    [_rewindButton setImage:[UIImage imageNamed:@"rewind-active"] forState:UIControlStateHighlighted];
     [_rewindButton addTarget:self action:@selector(rewindButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 
-    _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-    [_playButton addTarget:self action:@selector(playButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    _playPauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_playPauseButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+    [_playPauseButton setImage:[UIImage imageNamed:@"play-active"] forState:UIControlStateHighlighted];
+    [_playPauseButton addTarget:self action:@selector(playButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 
     _fastForwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_fastForwardButton setImage:[UIImage imageNamed:@"forward"] forState:UIControlStateNormal];
+    [_fastForwardButton setImage:[UIImage imageNamed:@"forward-active"] forState:UIControlStateHighlighted];
     [_fastForwardButton addTarget:self action:@selector(fastForwardButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 
     [self addSubview:_rewindButton];
-    [self addSubview:_playButton];
+    [self addSubview:_playPauseButton];
     [self addSubview:_fastForwardButton];
 }
 
@@ -68,14 +63,34 @@ static CGFloat const kFWButtonSpacing = 36.0f;
     [super layoutSubviews];
 
     [self.rewindButton sizeToFit];
-    [self.playButton sizeToFit];
+    [self.playPauseButton sizeToFit];
     [self.fastForwardButton sizeToFit];
 
-    CGFloat totalWidth = self.rewindButton.frame.size.width + self.playButton.frame.size.width + self.fastForwardButton.frame.size.width + 2 * kFWButtonSpacing;
+    CGFloat totalWidth = self.rewindButton.frame.size.width + self.playPauseButton.frame.size.width + self.fastForwardButton.frame.size.width + 2 * kFWButtonSpacing;
 
     self.rewindButton.center = CGPointMake((self.bounds.size.width - totalWidth + self.rewindButton.frame.size.width) / 2.0f, self.bounds.size.height / 2.0f);
-    self.playButton.center = CGPointMake(self.center.x, self.bounds.size.height / 2.0f);
+    self.playPauseButton.center = CGPointMake(self.center.x, self.bounds.size.height / 2.0f);
     self.fastForwardButton.center = CGPointMake((self.bounds.size.width + totalWidth - self.rewindButton.frame.size.width) / 2.0f, self.bounds.size.height / 2.0f);
+}
+
+- (void)showPlayButton
+{
+    [self.playPauseButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+}
+
+- (void)showPauseButton
+{
+    [self.playPauseButton setImage:[UIImage imageNamed:@"play-active"] forState:UIControlStateNormal];
+}
+
+- (void)enableBackButton
+{
+    self.rewindButton.enabled = YES;
+}
+
+- (void)disableBackButton
+{
+    self.rewindButton.enabled = NO;
 }
 
 - (void)rewindButtonTapped

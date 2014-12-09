@@ -39,14 +39,8 @@ typedef enum FWPatternPosition
 @interface FWGameViewController : UIViewController <FWTitleBarDelegate, FWGameToolbarDelegate>
 
 @property (nonatomic, strong) IBOutlet FWBoardView *gameBoardView;
-@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, strong) IBOutlet FWGameToolbar *gameToolbar;
 @property (nonatomic, strong) IBOutlet ADBannerView *adBannerView;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *generateNewBoardButtonItem;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *restartButtonItem;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *pauseButtonItem;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *playButtonItem;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *backButtonItem;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *nextButtonItem;
 
 @property (nonatomic, weak) id<FWGameViewControllerDelegate> delegate;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
@@ -67,8 +61,5 @@ typedef enum FWPatternPosition
 - (void)setPattern:(FWCellPatternModel *)cellPattern;
 
 - (NSArray *)initialBoardLiveCells;
-
-- (IBAction)generateNewBoardButtonTapped:(id)sender;
-- (IBAction)restartButtonTapped:(id)sender;
 
 @end

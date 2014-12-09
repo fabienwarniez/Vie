@@ -80,7 +80,14 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 - (void)setIsRewindingPossible:(BOOL)isRewindingPossible
 {
     _isRewindingPossible = isRewindingPossible;
-    self.backButtonItem.enabled = isRewindingPossible;
+    if (isRewindingPossible)
+    {
+        [self.gameToolbar enableBackButton];
+    }
+    else
+    {
+        [self.gameToolbar disableBackButton];
+    }
 }
 
 #pragma mark - UIViewController
@@ -232,8 +239,8 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
                                                        userInfo:nil
                                                         repeats:YES];
     }
-    self.pauseButtonItem.enabled = YES;
-    self.playButtonItem.enabled = NO;
+
+    [self.gameToolbar showPauseButton];
 }
 
 - (void)pause
@@ -242,8 +249,8 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     {
         [self.refreshTimer invalidate];
     }
-    self.pauseButtonItem.enabled = NO;
-    self.playButtonItem.enabled = YES;
+
+    [self.gameToolbar showPlayButton];
 }
 
 - (void)loadSavedGame:(FWSavedGameModel *)savedGame

@@ -17,4 +17,13 @@
 
 @property (nonatomic, weak) IBOutlet id<FWGameToolbarDelegate> delegate;
 
+@property (nonatomic, strong) UIButton *rewindButton;
+@property (nonatomic, strong) UIButton *playPauseButton;
+@property (nonatomic, strong) UIButton *fastForwardButton;
+
+- (void)showPlayButton;
+- (void)showPauseButton;
+- (void)enableBackButton;
+- (void)disableBackButton;
+
 @end

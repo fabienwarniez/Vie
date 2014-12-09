@@ -41,6 +41,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         _gameViewController.boardSize = userModel.boardSize;
         _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
         _gameViewController.cellFillColorScheme = userModel.colorScheme;
+        _gameViewController.gameSpeed = userModel.gameSpeed;
         _gameViewController.delegate = self;
 
         _mainMenuViewController = [[FWMainMenuViewController alloc] init];
