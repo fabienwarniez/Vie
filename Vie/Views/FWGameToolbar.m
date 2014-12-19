@@ -80,7 +80,7 @@ static CGFloat const kFWButtonSpacing = 36.0f;
 
 - (void)showPauseButton
 {
-    [self.playPauseButton setImage:[UIImage imageNamed:@"play-active"] forState:UIControlStateNormal];
+    [self.playPauseButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
 }
 
 - (void)enableBackButton

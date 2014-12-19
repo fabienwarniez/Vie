@@ -369,15 +369,15 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 
     if (index == 0)
     {
-        return [UIImage imageNamed:@"slow"];
+        return [UIImage imageNamed:@"settings_slow"];
     }
     else if (index == 1)
     {
-        return [UIImage imageNamed:@"fast"];
+        return [UIImage imageNamed:@"settings_fast"];
     }
     else if (index == 2)
     {
-        return [UIImage imageNamed:@"fastest"];
+        return [UIImage imageNamed:@"settings_fastest"];
     }
 
     return image;

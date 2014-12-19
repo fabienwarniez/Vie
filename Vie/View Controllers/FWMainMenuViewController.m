@@ -10,6 +10,7 @@
 
 @interface FWMainMenuViewController ()
 
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIImageView *logoImageView;
 @property (nonatomic, strong) UIButton *quickPlayButton;
 @property (nonatomic, strong) UIButton *patternsButton;
@@ -36,6 +37,10 @@
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
 
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+    backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    self.backgroundImageView = backgroundImageView;
+
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     logoImageView.autoresizingMask =
             UIViewAutoresizingFlexibleRightMargin
@@ -47,6 +52,7 @@
     self.patternsButton = [FWMainMenuViewController createMenuButtonWithTitle:@"patterns"];
     self.savedGamesButton = [FWMainMenuViewController createMenuButtonWithTitle:@"saved games"];
 
+    [view addSubview:backgroundImageView];
     [view addSubview:logoImageView];
     [view addSubview:self.quickPlayButton];
     [view addSubview:self.patternsButton];
@@ -59,14 +65,20 @@
 {
     [super viewDidLoad];
 
-    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f, 200.0f);
-
     [self.quickPlayButton addTarget:self action:@selector(quickGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+
+    self.backgroundImageView.frame = CGRectMake(
+            (self.view.bounds.size.width - self.backgroundImageView.frame.size.width) / 2.0f,
+            0,
+            self.backgroundImageView.frame.size.width,
+            self.backgroundImageView.frame.size.height
+    );
+    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f, 200.0f);
 
     [UIView distributeVerticallyViews:@[self.quickPlayButton, self.patternsButton, self.savedGamesButton]
                       startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 400.0f)
@@ -103,9 +115,9 @@
 {
     UIButton *newButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [newButton setTitle:title forState:UIControlStateNormal];
-    [newButton.titleLabel setFont:[UIFont smallCondensed]];
-    [newButton setTitleColor:[UIColor lightGrey] forState:UIControlStateNormal];
-    [newButton setTitleColor:[UIColor darkGrey] forState:UIControlStateHighlighted];
+    [newButton.titleLabel setFont:[UIFont largeBold]];
+    [newButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [newButton setTitleColor:[UIColor lightGrey] forState:UIControlStateHighlighted];
     newButton.alpha = 0.0f;
     newButton.frame = CGRectMake(0.0f, 0.0f, 200.0f, 30.0f);
     newButton.autoresizingMask =
