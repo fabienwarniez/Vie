@@ -13,9 +13,5 @@
 @class FWGameViewController;
 
 @interface FWMainViewController : UIViewController
-        <FWBoardSizePickerTableViewControllerDelegate,
-        FWMainMenuTableViewControllerDelegate,
-        FWSavedGamePickerTableViewControllerDelegate,
-        FWCellPatternPickerTableViewControllerDelegate>
 
 @end

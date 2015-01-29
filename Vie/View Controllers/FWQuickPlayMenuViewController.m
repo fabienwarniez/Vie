@@ -86,8 +86,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
 {
-    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
-    [self.delegate quickPlayMenuDidClose:self];
+    [self close];
 }
 
 #pragma mark - FWGameSettingsViewControllerDelegate
@@ -118,10 +117,12 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 {
     if (tileButton == self.saveTile)
     {
-
+        [self.delegate quickPlayMenuDidSave:self];
     }
     else if (tileButton == self.createGameTile)
     {
+        [self.delegate quickPlayMenuDidRestart:self];
+        [self close];
     }
     else if (tileButton == self.settingsTile)
     {
@@ -155,6 +156,12 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 }
 
 #pragma mark - Private Methods
+
+- (void)close
+{
+    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
+    [self.delegate quickPlayMenuDidClose:self];
+}
 
 - (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
 {

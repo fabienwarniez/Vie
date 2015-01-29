@@ -119,19 +119,19 @@ static CGFloat const kFWMainMenuViewControllerCellHeight = 50.0f;
     else if (indexPath.row == 1)
     {
         FWBoardSizePickerTableViewController *boardSizePickerTableViewController = [[FWBoardSizePickerTableViewController alloc] init];
-        boardSizePickerTableViewController.delegate = self.mainViewController;
+//        boardSizePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:boardSizePickerTableViewController animated:YES];
     }
     else if (indexPath.row == 3)
     {
         FWSavedGamePickerTableViewController *savedGamePickerTableViewController = [[FWSavedGamePickerTableViewController alloc] init];
-        savedGamePickerTableViewController.delegate = self.mainViewController;
+//        savedGamePickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:savedGamePickerTableViewController animated:YES];
     }
     else if (indexPath.row == 4)
     {
         FWCellPatternPickerTableViewController *cellPatternPickerTableViewController = [[FWCellPatternPickerTableViewController alloc] init];
-        cellPatternPickerTableViewController.delegate = self.mainViewController;
+//        cellPatternPickerTableViewController.delegate = self.mainViewController;
         [self.navigationController pushViewController:cellPatternPickerTableViewController animated:YES];
     }
 }

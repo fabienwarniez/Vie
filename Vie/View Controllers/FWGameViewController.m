@@ -253,6 +253,31 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     [self.gameToolbar showPlayButton];
 }
 
+- (void)newGame
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    [self setupNewGame];
+}
+
+- (void)restart
+{
+    if ([self isRunning])
+    {
+        [self pause];
+    }
+
+    [self copyCellsStatusesFromArray:self.initialBoard toArray:self.currentCellsNSArray];
+    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
+
+    self.gameBoardView.liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
+
+    self.isRewindingPossible = NO;
+}
+
 - (void)loadSavedGame:(FWSavedGameModel *)savedGame
 {
     _boardSize = [FWBoardSizeModel boardSizeWithName:nil
@@ -508,33 +533,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     {
         self.isRewindingPossible = YES;
     }
-}
-
-#pragma mark - IBActions
-
-- (IBAction)generateNewBoardButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-
-    [self setupNewGame];
-}
-
-- (IBAction)restartButtonTapped:(id)sender
-{
-    if ([self isRunning])
-    {
-        [self pause];
-    }
-
-    [self copyCellsStatusesFromArray:self.initialBoard toArray:self.currentCellsNSArray];
-    [self fillCArray:_currentCellsArray withNSArray:self.currentCellsNSArray];
-
-    self.gameBoardView.liveCells = [self liveCellsGroupedByAgeFromGameMatrix:self.currentCellsNSArray];
-
-    self.isRewindingPossible = NO;
 }
 
 #pragma mark - Private Methods

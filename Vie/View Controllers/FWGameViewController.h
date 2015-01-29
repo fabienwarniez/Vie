@@ -57,6 +57,8 @@ typedef enum FWPatternPosition
 
 - (void)play;
 - (void)pause;
+- (void)newGame;
+- (void)restart;
 - (void)loadSavedGame:(FWSavedGameModel *)savedGame;
 - (void)setPattern:(FWCellPatternModel *)cellPattern;
 

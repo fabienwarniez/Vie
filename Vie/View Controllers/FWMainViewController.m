@@ -115,6 +115,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)quickGameButtonTapped
 {
     [self showQuickGame];
+    // TODO: load new game
 }
 
 #pragma mark - FWGameViewControllerDelegate
@@ -151,6 +152,24 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.isQuickGameMenuVisible = NO;
 }
 
+- (void)quickPlayMenuDidRestart:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
+{
+    [self.gameViewController restart];
+}
+
+- (void)quickPlayMenuDidSave:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM dd, yyyy HH:mm"];
+    NSDate *now = [[NSDate alloc] init];
+    NSString *dateString = [dateFormatter stringFromDate:now];
+
+    NSArray *liveCells = [self.gameViewController initialBoardLiveCells];
+
+    FWUserModel *userModel = [FWUserModel sharedUserModel];
+    [userModel saveGameWithName:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
+}
+
 - (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme
 {
     FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
@@ -173,32 +192,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     [sharedUserModel setGameSpeed:gameSpeed];
 
     self.gameViewController.gameSpeed = gameSpeed;
-}
-
-#pragma mark - FWMainMenuTableViewControllerDelegate
-
-- (void)saveCurrentGame
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM dd, yyyy HH:mm"];
-    NSDate *now = [[NSDate alloc] init];
-    NSString *dateString = [dateFormatter stringFromDate:now];
-
-    NSArray *liveCells = [self.gameViewController initialBoardLiveCells];
-
-    FWUserModel *userModel = [FWUserModel sharedUserModel];
-    [userModel saveGameWithName:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
-}
-
-#pragma mark - FWBoardSizePickerTableViewControllerDelegate
-
-- (void)boardSizeDidChange:(FWBoardSizeModel *)newBoardSize
-{
-//    FWUserModel *sharedUserModel = [FWUserModel sharedUserModel];
-//    [sharedUserModel setGameBoardSize:newBoardSize];
-//
-//    self.gameViewController.boardSize = newBoardSize;
-//    [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 
 #pragma mark - FWSavedGamePickerTableViewControllerDelegate
