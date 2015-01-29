@@ -4,14 +4,19 @@
 //
 
 #import "FWQuickPlayMenuViewController.h"
-#import "UIFont+FWAppFonts.h"
-#import "UIColor+FWAppColors.h"
 #import "UIView+FWConvenience.h"
 #import "FWGameSettingsViewController.h"
 #import "FWColorSchemeModel.h"
 #import "FWBoardSizeModel.h"
+#import "FWSettingsTile.h"
+#import "UIColor+FWAppColors.h"
 
-@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate>
+static NSUInteger const kFWNumberOfSettingsColumns = 2;
+static CGFloat const kFWSettingsCellHorizontalMargin = 27.0f;
+static CGFloat const kFWSettingsCellTopPadding = 36.0f;
+static CGFloat const kFWSettingsCellSpacing = 1.0f;
+
+@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate, FWSettingsTileDelegate>
 
 @property (nonatomic, strong) FWGameSettingsViewController *gameSettingsViewController;
 
@@ -20,10 +25,10 @@
 @property (nonatomic, strong) UIButton *settingsButton;
 @property (nonatomic, strong) UIButton *quitButton;
 
-@property (nonatomic, strong) UIView *line1;
-@property (nonatomic, strong) UIView *line2;
-@property (nonatomic, strong) UIView *line3;
-@property (nonatomic, strong) UIView *line4;
+@property (nonatomic, strong) FWSettingsTile *saveTile;
+@property (nonatomic, strong) FWSettingsTile *createGameTile;
+@property (nonatomic, strong) FWSettingsTile *settingsTile;
+@property (nonatomic, strong) FWSettingsTile *quitTile;
 
 @property (nonatomic, assign) BOOL areGameSettingsVisible;
 
@@ -48,35 +53,29 @@
 {
     [super viewDidLoad];
 
-    self.saveButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"save"];
-    self.createGameButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"new game"];
-    self.settingsButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"settings"];
-    self.quitButton = [FWQuickPlayMenuViewController createMenuButtonWithTitle:@"quit"];
+    self.saveTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"save"] title:@"save" subTitle:nil];
+    self.createGameTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"restart"] title:@"restart" subTitle:nil];
+    self.settingsTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"settings"] title:@"settings" subTitle:nil];
+    self.quitTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"quit"] title:@"quit" subTitle:@"to main menu"];
 
-    [self.saveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.createGameButton addTarget:self action:@selector(createGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.settingsButton addTarget:self action:@selector(settingsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.quitButton addTarget:self action:@selector(quitButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.saveTile.delegate = self;
+    self.createGameTile.delegate = self;
+    self.settingsTile.delegate = self;
+    self.quitTile.delegate = self;
 
-    [self.view addSubview:self.saveButton];
-    [self.view addSubview:self.createGameButton];
-    [self.view addSubview:self.settingsButton];
-    [self.view addSubview:self.quitButton];
-
-    [self.view addSubview:self.line1];
-    [self.view addSubview:self.line2];
-    [self.view addSubview:self.line3];
-    [self.view addSubview:self.line4];
+    [self.contentView addSubview:self.saveTile];
+    [self.contentView addSubview:self.createGameTile];
+    [self.contentView addSubview:self.settingsTile];
+    [self.contentView addSubview:self.quitTile];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
 
-    [UIView distributeVerticallyViews:@[self.saveButton, self.createGameButton, self.settingsButton, self.quitButton]
-                      startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 150.0f)
-                     withIncrementsOf:30.5f];
+    [self layoutSizeTilesStartingAt:kFWSettingsCellTopPadding];
 }
+
 
 #pragma mark - FWTitleBarDelegate
 
@@ -113,59 +112,82 @@
     [self.delegate quickPlayMenu:self gameSpeedDidChange:gameSpeed];
 }
 
-#pragma mark - Private Methods
+#pragma mark - FWSettingsTileDelegate
 
-- (void)saveButtonTapped:(id)sender
+- (void)tileButtonWasSelected:(FWSettingsTile *)tileButton
 {
-
-}
-
-- (void)createGameButtonTapped:(id)sender
-{
-
-}
-
-- (void)settingsButtonTapped:(id)sender
-{
-    if (self.gameSettingsViewController == nil)
+    if (tileButton == self.saveTile)
     {
-        FWGameSettingsViewController *gameSettingsViewController = [[FWGameSettingsViewController alloc] initWithNibName:@"FWGameSettingsViewController" bundle:nil];
-        gameSettingsViewController.delegate = self;
-        [self addChildViewController:gameSettingsViewController];
-        gameSettingsViewController.view.frame = [self.view frameBelow];
-        [self.view addSubview:gameSettingsViewController.view];
-        [gameSettingsViewController didMoveToParentViewController:self];
-        self.gameSettingsViewController = gameSettingsViewController;
+
+    }
+    else if (tileButton == self.createGameTile)
+    {
+    }
+    else if (tileButton == self.settingsTile)
+    {
+        if (self.gameSettingsViewController == nil)
+        {
+            FWGameSettingsViewController *gameSettingsViewController = [[FWGameSettingsViewController alloc] initWithNibName:@"FWGameSettingsViewController" bundle:nil];
+            gameSettingsViewController.delegate = self;
+            [self addChildViewController:gameSettingsViewController];
+            gameSettingsViewController.view.frame = [self.view frameBelow];
+            [self.view addSubview:gameSettingsViewController.view];
+            [gameSettingsViewController didMoveToParentViewController:self];
+            self.gameSettingsViewController = gameSettingsViewController;
+        }
+        else
+        {
+            [self addChildViewController:self.gameSettingsViewController];
+            self.gameSettingsViewController.view.frame = [self.view frameBelow];
+            [self.view addSubview:self.gameSettingsViewController.view];
+            [self.gameSettingsViewController didMoveToParentViewController:self];
+        }
+        [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+    }
+    else if (tileButton == self.quitTile)
+    {
+        [self.delegate quickPlayMenuDidQuit:self];
     }
     else
     {
-        [self addChildViewController:self.gameSettingsViewController];
-        self.gameSettingsViewController.view.frame = [self.view frameBelow];
-        [self.view addSubview:self.gameSettingsViewController.view];
-        [self.gameSettingsViewController didMoveToParentViewController:self];
+        NSAssert(NO, @"Unrecognized tile.");
     }
-    [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
 }
 
-- (void)quitButtonTapped:(id)sender
-{
-    [self.delegate quickPlayMenuDidQuit:self];
-}
+#pragma mark - Private Methods
 
-+ (UIButton *)createMenuButtonWithTitle:(NSString *)title
+- (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
 {
-    UIButton *newButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [newButton setTitle:title forState:UIControlStateNormal];
-    [newButton.titleLabel setFont:[UIFont smallCondensed]];
-    [newButton setTitleColor:[UIColor vieGreen] forState:UIControlStateNormal];
-    [newButton setTitleColor:[UIColor vieGreen] forState:UIControlStateHighlighted];
-    newButton.frame = CGRectMake(0.0f, 0.0f, 200.0f, 32.0f);
-    newButton.autoresizingMask =
-            UIViewAutoresizingFlexibleTopMargin
-                    | UIViewAutoresizingFlexibleRightMargin
-                    | UIViewAutoresizingFlexibleBottomMargin
-                    | UIViewAutoresizingFlexibleLeftMargin;
-    return newButton;
+    CGFloat pixelScale = [[UIScreen mainScreen] scale];
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSettingsCellHorizontalMargin - (kFWNumberOfSettingsColumns - 1) * kFWSettingsCellSpacing) / kFWNumberOfSettingsColumns;
+    cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
+    CGFloat currentY = y;
+    NSUInteger currentColumn = 0;
+
+    NSArray *tiles = @[self.saveTile, self.createGameTile, self.settingsTile, self.quitTile];
+
+    for (FWSettingsTile *tile in tiles)
+    {
+        tile.frame = CGRectMake(
+                kFWSettingsCellHorizontalMargin + currentColumn * (cellSideSize + kFWSettingsCellSpacing),
+                currentY,
+                cellSideSize,
+                cellSideSize
+        );
+
+        if (currentColumn == kFWNumberOfSettingsColumns - 1)
+        {
+            currentY += kFWSettingsCellSpacing + cellSideSize;
+            currentColumn = 0;
+        }
+        else
+        {
+            currentColumn++;
+        }
+    }
+
+    NSUInteger numberOfRows = (tiles.count + kFWNumberOfSettingsColumns - 1) / kFWNumberOfSettingsColumns;
+    return numberOfRows * cellSideSize + (numberOfRows - 1) * kFWSettingsCellSpacing;
 }
 
 @end

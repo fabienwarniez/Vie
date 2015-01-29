@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWQuickPlayMenuViewController">
             <connections>
+                <outlet property="contentView" destination="fbo-Zz-h05" id="RBC-c8-Vzl"/>
                 <outlet property="view" destination="IHF-Ba-l0f" id="zDk-pv-uLO"/>
             </connections>
         </placeholder>
@@ -22,6 +23,11 @@
                     <connections>
                         <outlet property="delegate" destination="-1" id="gw4-7E-RcR"/>
                     </connections>
+                </view>
+                <view contentMode="scaleToFill" id="fbo-Zz-h05" userLabel="Content View">
+                    <rect key="frame" x="0.0" y="66" width="320" height="502"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

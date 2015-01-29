@@ -14,7 +14,6 @@
 #import "FWSizeTile.h"
 #import "FWGameSpeed.h"
 #import "FWSpeedTile.h"
-#import "FWTitleBar.h"
 
 static NSUInteger const kFWNumberOfColorColumns = 3;
 static NSUInteger const kFWNumberOfSizeColumns = 2;

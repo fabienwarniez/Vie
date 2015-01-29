@@ -9,22 +9,21 @@
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
 @class FWGameSettingsViewController;
+@class FWSettingsTile;
 
 @protocol FWQuickPlayMenuControllerDelegate
 
 - (void)quickPlayMenuDidClose:(FWQuickPlayMenuViewController *)quickPlayMenuViewController;
 - (void)quickPlayMenuDidQuit:(FWQuickPlayMenuViewController *)quickPlayMenuViewController;
-- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
- colorSchemeDidChange:(FWColorSchemeModel *)colorScheme;
-- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
- boardSizeDidChange:(FWBoardSizeModel *)boardSize;
-- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
- gameSpeedDidChange:(NSUInteger)gameSpeed;
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme;
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController boardSizeDidChange:(FWBoardSizeModel *)boardSize;
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController gameSpeedDidChange:(NSUInteger)gameSpeed;
 
 @end
 
 @interface FWQuickPlayMenuViewController : UIViewController <FWTitleBarDelegate>
 
+@property (nonatomic, strong) IBOutlet UIView *contentView;
 @property (nonatomic, weak) id<FWQuickPlayMenuControllerDelegate> delegate;
 
 @end
