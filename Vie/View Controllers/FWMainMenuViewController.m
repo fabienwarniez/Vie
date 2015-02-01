@@ -78,7 +78,7 @@
             self.backgroundImageView.frame.size.width,
             self.backgroundImageView.frame.size.height
     );
-    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f, 200.0f);
+    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f + 23, 286.0f);
 
     [UIView distributeVerticallyViews:@[self.quickPlayButton, self.patternsButton, self.savedGamesButton]
                       startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 400.0f)

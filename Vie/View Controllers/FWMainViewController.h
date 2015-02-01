@@ -3,9 +3,6 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWColorSchemePickerTableViewController.h"
-#import "FWBoardSizePickerTableViewController.h"
-#import "FWMainMenuTableViewController.h"
 #import "FWSavedGamePickerTableViewController.h"
 #import "FWCellPatternPickerTableViewController.h"
 
