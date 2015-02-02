@@ -19,6 +19,7 @@
 		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
+		46DB436F1A7F387300AF3366 /* FWPatternPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB436E1A7F387300AF3366 /* FWPatternPickerViewController.xib */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
 		5F29805819B29ED8006C4C91 /* FWSavedGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */; };
 		5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4510D19B542EC0040F524 /* FWGameViewController.xib */; };
@@ -38,7 +39,9 @@
 		A6BD890533614F3D6AF2F6C2 /* FWCellPatternTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8EDF30BA0974376425DB /* FWCellPatternTableViewCell.m */; };
 		A6BD8B7C075A22118D5D046C /* FWColorSchemeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD88C336DCDC398652CC42 /* FWColorSchemeTableViewCell.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainViewController.m */; };
+		A6BD8CF255F5265DD20E2D15 /* FWPatternPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C92FE91E66F48C87311 /* FWPatternPickerViewController.m */; };
 		A6BD8D4E382AD099F9168486 /* FWSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */; };
+		A6BD8DEB16ED331141F4F586 /* FWPatternCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8A9FE5A6088AB496D9F1 /* FWPatternCollectionViewCell.m */; };
 		A6BD8DF13ABCF912598D6E74 /* FWUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD82E63F111524CAD13825 /* FWUserModel.m */; };
 		A6BD8E8A0B77F033B2D2DEBE /* FWBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */; };
 		A6BD8FCD8CA8F9F4DB687236 /* FWCellPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */; };
@@ -92,6 +95,7 @@
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
 		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		46DB436E1A7F387300AF3366 /* FWPatternPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWPatternPickerViewController.xib; sourceTree = "<group>"; };
 		5F29805419B29BB3006C4C91 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5F29805619B29ED8006C4C91 /* FWSavedGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameModel.h; sourceTree = "<group>"; };
 		5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameModel.m; sourceTree = "<group>"; };
@@ -104,6 +108,7 @@
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
 		A6BD81239C5465908CDDAA83 /* FWGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameViewController.m; sourceTree = "<group>"; };
 		A6BD81E0EA6F40B6B7C5C34D /* FWRandomNumberGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWRandomNumberGenerator.m; sourceTree = "<group>"; };
+		A6BD82ACAF736222FAB313EC /* FWPatternCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternCollectionViewCell.h; sourceTree = "<group>"; };
 		A6BD82E63F111524CAD13825 /* FWUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWUserModel.m; sourceTree = "<group>"; };
 		A6BD833129B45552540EB09D /* FWSavedGamePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGamePickerTableViewController.m; sourceTree = "<group>"; };
 		A6BD836CE463AA1E6203A65D /* FWBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardView.h; sourceTree = "<group>"; };
@@ -125,10 +130,13 @@
 		A6BD8A2E44E2D89FFF694DD0 /* FWCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellModel.h; sourceTree = "<group>"; };
 		A6BD8A460358D84F00240009 /* UIColor+FWAppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FWAppColors.h"; sourceTree = "<group>"; };
 		A6BD8A8C8A24BC057374AE68 /* FWColorSchemeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorSchemeModel.m; sourceTree = "<group>"; };
+		A6BD8A9FE5A6088AB496D9F1 /* FWPatternCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWPatternCollectionViewCell.m; sourceTree = "<group>"; };
 		A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardView.m; sourceTree = "<group>"; };
+		A6BD8BF7B16172ED3DDB8D24 /* FWPatternPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternPickerViewController.h; sourceTree = "<group>"; };
 		A6BD8C08B7E4AF2AD65E3BF5 /* FWCellPatternModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternModel.m; sourceTree = "<group>"; };
 		A6BD8C551EDB50DF2488C256 /* FWColorSchemeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWColorSchemeTableViewCell.h; sourceTree = "<group>"; };
+		A6BD8C92FE91E66F48C87311 /* FWPatternPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWPatternPickerViewController.m; sourceTree = "<group>"; };
 		A6BD8D0C66A406A3CF3F47C9 /* FWUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWUserModel.h; sourceTree = "<group>"; };
 		A6BD8EC4545250BB51B5318D /* FWSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSettingsManager.h; sourceTree = "<group>"; };
 		A6BD8EDF30BA0974376425DB /* FWCellPatternTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellPatternTableViewCell.m; sourceTree = "<group>"; };
@@ -321,6 +329,9 @@
 				B39359E3F8913EF80F49CF55 /* FWGameSettingsViewController.m */,
 				B3935BB769DA4E0FC1A31E70 /* FWGameSettingsViewController.h */,
 				B393542D07FDFB318986B555 /* FWGameSettingsViewController.xib */,
+				A6BD8C92FE91E66F48C87311 /* FWPatternPickerViewController.m */,
+				A6BD8BF7B16172ED3DDB8D24 /* FWPatternPickerViewController.h */,
+				46DB436E1A7F387300AF3366 /* FWPatternPickerViewController.xib */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -353,6 +364,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A6BD86389D7A9CE6F76ADF39 /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD8A9FE5A6088AB496D9F1 /* FWPatternCollectionViewCell.m */,
+				A6BD82ACAF736222FAB313EC /* FWPatternCollectionViewCell.h */,
+			);
+			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
 		A6BD88C89AEEA4B5BF5737BA /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +397,7 @@
 				B3935AD6BA8621D05FAF331E /* FWTitleBar.h */,
 				B3935A97627E0C51427F63AF /* FWGameToolbar.m */,
 				B3935FB0A3013699512FCC9B /* FWGameToolbar.h */,
+				A6BD86389D7A9CE6F76ADF39 /* CollectionViewCells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -509,6 +530,7 @@
 			files = (
 				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
+				46DB436F1A7F387300AF3366 /* FWPatternPickerViewController.xib in Resources */,
 				B3935135680D968D45AAD95B /* Localizable.strings in Resources */,
 				B3935FA6823798258F5203A1 /* patterns.dat in Resources */,
 				5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */,
@@ -570,6 +592,8 @@
 				B39357CB2D7EC4DA036A2B8E /* FWTitleBar.m in Sources */,
 				B39358E3E71568502E140B8B /* FWGameToolbar.m in Sources */,
 				B393539DD243836BB5958E25 /* FWSettingsTile.m in Sources */,
+				A6BD8CF255F5265DD20E2D15 /* FWPatternPickerViewController.m in Sources */,
+				A6BD8DEB16ED331141F4F586 /* FWPatternCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

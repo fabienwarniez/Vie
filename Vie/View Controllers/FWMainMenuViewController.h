@@ -6,6 +6,7 @@
 @protocol FWMainMenuViewControllerDelegate
 
 - (void)quickGameButtonTapped;
+- (void)patternsButtonTapped;
 
 @end
 

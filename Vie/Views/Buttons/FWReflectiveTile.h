@@ -3,7 +3,6 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-
 @interface FWReflectiveTile : UIControl
 
 @property (nonatomic, strong) UIColor *mainColor;
