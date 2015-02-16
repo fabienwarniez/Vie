@@ -6,113 +6,155 @@
 #import "FWPatternCollectionViewCell.h"
 #import "FWCellPatternModel.h"
 #import "FWColorSchemeModel.h"
+#import "FWBoardView.h"
+#import "FWBoardSizeModel.h"
+#import "UIColor+FWAppColors.h"
+#import "UIFont+FWAppFonts.h"
+
+static CGFloat const kFWCellPatternBorderWidth = 1.0f;
+static CGFloat const kFWCellPatternPadding = 15.0f;
+static CGFloat const kFWCellPatternTextPadding = 8.0f;
+
+@interface FWPatternCollectionViewCell ()
+
+@property (nonatomic, strong) UIView *titleBar;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) FWBoardView *gameBoardView;
+@property (nonatomic, strong) UILabel *sizeLabel;
+
+@end
 
 @implementation FWPatternCollectionViewCell
-//
-//- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-//{
-//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-//    if (self)
-//    {
-//        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//        _titleLabel.textColor = [UIColor darkGrayColor];
-//        _titleLabel.numberOfLines = 0;
-//        _titleLabel.font = [UIFont systemFontOfSize:12.0f];
-//        [self.contentView addSubview:_titleLabel];
-//
-//        _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//        _sizeLabel.font = [UIFont systemFontOfSize:10.0f];
-//        [self.contentView addSubview:_sizeLabel];
-//
-//        _gameBoardView = [[FWBoardView alloc] init];
-//        _gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-//        _gameBoardView.backgroundColor = [UIColor clearColor];
-//        _gameBoardView.borderWidth = kFWCellPatternTableViewCellBorderWidth;
-//        [self.contentView addSubview:_gameBoardView];
-//    }
-//    return self;
-//}
-//
-//- (void)layoutSubviews
-//{
-//    [super layoutSubviews];
-//
-//    CGSize sizeLabelSize = [self.sizeLabel sizeThatFits:CGSizeMake(kFWCellPatternTableViewCellLabelWidth, self.contentView.bounds.size.height)];
-//    CGSize titleLabelSize = [self.titleLabel sizeThatFits:CGSizeMake(kFWCellPatternTableViewCellLabelWidth, sizeLabelSize.height)];
-//
-//    self.titleLabel.frame = CGRectMake(
-//            kFWCellPatternTableViewCellSpacingWidth,
-//            5.0f,
-//            kFWCellPatternTableViewCellLabelWidth,
-//            titleLabelSize.height);
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        _titleBar = [[UIView alloc] initWithFrame:CGRectZero];
+        _titleBar.backgroundColor = [UIColor mediumGrey];
+        [self.contentView addSubview:_titleBar];
+
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _titleLabel.textColor = [UIColor darkBlue];
+        _titleLabel.font = [UIFont smallCondensedBold];
+        [_titleBar addSubview:_titleLabel];
+
+        _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _sizeLabel.font = [UIFont systemFontOfSize:10.0f];
+        [self.contentView addSubview:_sizeLabel];
+
+        _gameBoardView = [[FWBoardView alloc] init];
+        _gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        _gameBoardView.backgroundColor = [UIColor clearColor];
+        _gameBoardView.borderWidth = kFWCellPatternBorderWidth;
+        [self.contentView addSubview:_gameBoardView];
+    }
+    return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.titleBar.frame = CGRectMake(
+            0,
+            self.contentView.bounds.size.height - [FWPatternCollectionViewCell titleBarHeight],
+            self.contentView.bounds.size.width,
+            [FWPatternCollectionViewCell titleBarHeight]
+    );
+
+    CGSize titleLabelSize = [self.titleLabel sizeThatFits:self.titleBar.bounds.size];
+    if (titleLabelSize.width > self.titleBar.bounds.size.width - 2 * kFWCellPatternTextPadding)
+    {
+        // TODO: trigger animation
+    }
+
+    self.titleLabel.frame = CGRectMake(
+            (self.titleBar.bounds.size.width - titleLabelSize.width) / 2.0f,
+            (self.titleBar.bounds.size.height - titleLabelSize.height) / 2.0f,
+            titleLabelSize.width,
+            titleLabelSize.height
+    );
+
+//    CGSize sizeLabelSize = [self.sizeLabel sizeThatFits:self.titleBar.bounds.size];
 //    self.sizeLabel.frame = CGRectMake(
-//            kFWCellPatternTableViewCellSpacingWidth,
+//            kFWCellPatternSpacingWidth,
 //            self.bounds.size.height - sizeLabelSize.height - 5.0f,
-//            kFWCellPatternTableViewCellLabelWidth,
+//            kFWCellPatternLabelWidth,
 //            sizeLabelSize.height);
-//    self.gameBoardView.frame = CGRectMake(
-//            CGRectGetMaxX(self.titleLabel.frame) + kFWCellPatternTableViewCellSpacingWidth,
-//            kFWCellPatternTableViewCellVerticalPadding,
-//            self.contentView.bounds.size.width - CGRectGetMaxX(self.titleLabel.frame) - 2 * kFWCellPatternTableViewCellSpacingWidth,
-//            self.contentView.bounds.size.height - 2 * kFWCellPatternTableViewCellVerticalPadding);
-//}
-//
-//- (void)setHighlighted:(BOOL)highlighted
-//{
-//    [self setHighlighted:highlighted animated:NO];
-//}
-//
-//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-//{
-//    [super setHighlighted:highlighted animated:animated];
-//
-//    if (highlighted)
-//    {
-//        self.gameBoardView.fillColorScheme = [FWColorSchemeModel colorSchemeWithGuid:nil youngFillColor:[UIColor whiteColor] mediumFillColor:[UIColor whiteColor] oldFillColor:[UIColor whiteColor]];
-//    }
-//    else
-//    {
-//        self.gameBoardView.fillColorScheme = self.colorScheme;
-//    }
-//}
-//
-//- (void)setFitsOnCurrentBoard:(BOOL)fitsOnCurrentBoard
-//{
-//    _fitsOnCurrentBoard = fitsOnCurrentBoard;
-//
-//    if (fitsOnCurrentBoard)
-//    {
-//        self.sizeLabel.textColor = [UIColor lightGrayColor];
-//    }
-//    else
-//    {
-//        self.sizeLabel.textColor = [UIColor redColor];
-//    }
-//}
-//
-//#pragma mark - Accessors
-//
-//- (void)setCellPattern:(FWCellPatternModel *)cellPattern
-//{
-//    _cellPattern = cellPattern;
-//    if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithName:nil numberOfColumns:90 numberOfRows:120]])
-//    {
-//        self.gameBoardView.boardSize = cellPattern.boardSize;
-//        self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];
-//    }
-//    else
-//    {
-//        self.gameBoardView.liveCells = nil;
-//    }
-//    self.titleLabel.text = cellPattern.name;
-//    self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) cellPattern.boardSize.numberOfColumns, (unsigned long) cellPattern.boardSize.numberOfRows];
-//}
-//
-//- (void)setColorScheme:(FWColorSchemeModel *)colorScheme
-//{
-//    _colorScheme = colorScheme;
-//    self.gameBoardView.fillColorScheme = colorScheme;
-//}
+
+    self.gameBoardView.frame = CGRectMake(
+            kFWCellPatternPadding,
+            kFWCellPatternPadding,
+            self.contentView.bounds.size.width - 2 * kFWCellPatternPadding,
+            self.contentView.bounds.size.height - 2 * kFWCellPatternPadding - [FWPatternCollectionViewCell titleBarHeight]
+    );
+}
+
+- (void)prepareForReuse
+{
+    _mainColor = nil;
+    _cellPattern = nil;
+    _colorScheme = nil;
+}
+
++ (CGFloat)titleBarHeight
+{
+    return 22.0f;
+}
+
+#pragma mark - Accessors
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if (highlighted)
+    {
+        self.gameBoardView.fillColorScheme = [FWColorSchemeModel colorSchemeWithGuid:nil youngFillColor:[UIColor whiteColor] mediumFillColor:[UIColor whiteColor] oldFillColor:[UIColor whiteColor]];
+    }
+    else
+    {
+        self.gameBoardView.fillColorScheme = self.colorScheme;
+    }
+}
+
+- (void)setCellPattern:(FWCellPatternModel *)cellPattern
+{
+    _cellPattern = cellPattern;
+    if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithName:nil numberOfColumns:90 numberOfRows:120]])
+    {
+        self.gameBoardView.boardSize = cellPattern.boardSize;
+        self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];
+    }
+    else
+    {
+        self.gameBoardView.liveCells = nil;
+    }
+    self.titleLabel.text = cellPattern.name;
+    self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) cellPattern.boardSize.numberOfColumns, (unsigned long) cellPattern.boardSize.numberOfRows];
+
+    [self setNeedsLayout];
+}
+
+- (void)setColorScheme:(FWColorSchemeModel *)colorScheme
+{
+    _colorScheme = colorScheme;
+    self.gameBoardView.fillColorScheme = colorScheme;
+}
+
+- (void)setFitsOnCurrentBoard:(BOOL)fitsOnCurrentBoard
+{
+    _fitsOnCurrentBoard = fitsOnCurrentBoard;
+
+    if (fitsOnCurrentBoard)
+    {
+        self.sizeLabel.textColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        self.sizeLabel.textColor = [UIColor redColor];
+    }
+}
 
 - (void)drawRect:(CGRect)rect
 {
@@ -120,8 +162,7 @@
 
     CGContextAddRect(context, self.bounds);
 
-    CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
-//    CGContextSetFillColorWithColor(context, self.mainColor.CGColor);
+    CGContextSetFillColorWithColor(context, self.mainColor.CGColor);
     CGContextFillPath(context);
 
     CGContextBeginPath(context);

@@ -10,6 +10,7 @@
 #import "FWBoardSizeModel.h"
 #import "FWPatternCollectionViewCell.h"
 #import "FWCellPatternModel.h"
+#import "UIColor+FWAppColors.h"
 
 static NSString * const kFWPatternTileReuseIdentifier = @"PatternTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
@@ -60,9 +61,9 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     [super viewWillLayoutSubviews];
 
-    CGFloat side = (self.collectionView.frame.size.width - kFWCellSpacing) / 2.0f;
+    CGFloat side = (self.collectionView.bounds.size.width - kFWCellSpacing - 2 * kFWCollectionViewSideMargin) / 2.0f;
 
-    self.collectionViewLayout.itemSize = CGSizeMake(side, side);
+    self.collectionViewLayout.itemSize = CGSizeMake(side, side + [FWPatternCollectionViewCell titleBarHeight]);
     [self.collectionViewLayout invalidateLayout];
 }
 
@@ -130,6 +131,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
         model = self.filteredPatternsArray[(NSUInteger) indexPath.row];
     }
 
+    dequeuedCell.mainColor = [UIColor lightGrey];
     dequeuedCell.cellPattern = model;
     dequeuedCell.colorScheme = self.colorScheme;
     dequeuedCell.fitsOnCurrentBoard = [model.boardSize isSmallerOrEqualToBoardSize:self.boardSize];

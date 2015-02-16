@@ -16,10 +16,6 @@ static CGFloat const kFWCellPatternTableViewCellVerticalPadding = 10.0f;
 
 @interface FWCellPatternTableViewCell ()
 
-@property (nonatomic, strong) FWBoardView *gameBoardView;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *sizeLabel;
-@property (nonatomic, strong) FWBoardSizeModel * boardSize;
 
 @end
 

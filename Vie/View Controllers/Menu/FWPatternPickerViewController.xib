@@ -26,8 +26,10 @@
                     </connections>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="none" id="puz-N6-5Ir">
-                    <rect key="frame" x="26" y="58" width="268" height="510"/>
+                    <rect key="frame" x="0.0" y="58" width="320" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="contentInset" minX="26" minY="36" maxX="26" maxY="36"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="LYG-HZ-Nd9">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
