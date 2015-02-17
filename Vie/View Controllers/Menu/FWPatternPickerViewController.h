@@ -7,10 +7,12 @@
 
 @class FWCellPatternModel;
 @class FWBoardSizeModel;
+@class FWPatternPickerViewController;
 
 @protocol FWPatternPickerViewControllerDelegate
 
-- (void)didSelectCellPattern:(FWCellPatternModel *)cellPattern;
+- (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWCellPatternModel *)cellPattern;
+- (void)patternPickerDidClose:(FWPatternPickerViewController *)patternPickerViewController;
 
 @end
 

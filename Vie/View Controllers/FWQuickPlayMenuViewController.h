@@ -9,7 +9,7 @@
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
 @class FWGameSettingsViewController;
-@class FWSettingsTile;
+@class FWMenuTile;
 
 @protocol FWQuickPlayMenuControllerDelegate
 

@@ -13,7 +13,8 @@
 
 static CGFloat const kFWCellPatternBorderWidth = 1.0f;
 static CGFloat const kFWCellPatternPadding = 15.0f;
-static CGFloat const kFWCellPatternTextPadding = 8.0f;
+static CGFloat const kFWCellPatternTitleLabelPadding = 8.0f;
+static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 
 @interface FWPatternCollectionViewCell ()
 
@@ -41,7 +42,7 @@ static CGFloat const kFWCellPatternTextPadding = 8.0f;
         [_titleBar addSubview:_titleLabel];
 
         _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _sizeLabel.font = [UIFont systemFontOfSize:10.0f];
+        _sizeLabel.font = [UIFont microRegular];
         [self.contentView addSubview:_sizeLabel];
 
         _gameBoardView = [[FWBoardView alloc] init];
@@ -65,7 +66,7 @@ static CGFloat const kFWCellPatternTextPadding = 8.0f;
     );
 
     CGSize titleLabelSize = [self.titleLabel sizeThatFits:self.titleBar.bounds.size];
-    if (titleLabelSize.width > self.titleBar.bounds.size.width - 2 * kFWCellPatternTextPadding)
+    if (titleLabelSize.width > self.titleBar.bounds.size.width - 2 * kFWCellPatternTitleLabelPadding)
     {
         // TODO: trigger animation
     }
@@ -77,12 +78,13 @@ static CGFloat const kFWCellPatternTextPadding = 8.0f;
             titleLabelSize.height
     );
 
-//    CGSize sizeLabelSize = [self.sizeLabel sizeThatFits:self.titleBar.bounds.size];
-//    self.sizeLabel.frame = CGRectMake(
-//            kFWCellPatternSpacingWidth,
-//            self.bounds.size.height - sizeLabelSize.height - 5.0f,
-//            kFWCellPatternLabelWidth,
-//            sizeLabelSize.height);
+    [self.sizeLabel sizeToFit];
+    self.sizeLabel.frame = CGRectMake(
+            self.contentView.bounds.size.width - self.sizeLabel.frame.size.width - kFWCellPatternSizeLabelPadding,
+            self.contentView.bounds.size.height - [FWPatternCollectionViewCell titleBarHeight] - self.sizeLabel.frame.size.height - kFWCellPatternSizeLabelPadding,
+            self.sizeLabel.frame.size.width,
+            self.sizeLabel.frame.size.height
+    );
 
     self.gameBoardView.frame = CGRectMake(
             kFWCellPatternPadding,
@@ -148,7 +150,7 @@ static CGFloat const kFWCellPatternTextPadding = 8.0f;
 
     if (fitsOnCurrentBoard)
     {
-        self.sizeLabel.textColor = [UIColor lightGrayColor];
+        self.sizeLabel.textColor = [UIColor greenColor];
     }
     else
     {

@@ -8,7 +8,7 @@
 #import "FWGameSettingsViewController.h"
 #import "FWColorSchemeModel.h"
 #import "FWBoardSizeModel.h"
-#import "FWSettingsTile.h"
+#import "FWMenuTile.h"
 #import "UIColor+FWAppColors.h"
 
 static NSUInteger const kFWNumberOfSettingsColumns = 2;
@@ -16,19 +16,14 @@ static CGFloat const kFWSettingsCellHorizontalMargin = 27.0f;
 static CGFloat const kFWSettingsCellTopPadding = 36.0f;
 static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
-@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate, FWSettingsTileDelegate>
+@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate, FWMenuTileDelegate>
 
 @property (nonatomic, strong) FWGameSettingsViewController *gameSettingsViewController;
 
-@property (nonatomic, strong) UIButton *saveButton;
-@property (nonatomic, strong) UIButton *createGameButton;
-@property (nonatomic, strong) UIButton *settingsButton;
-@property (nonatomic, strong) UIButton *quitButton;
-
-@property (nonatomic, strong) FWSettingsTile *saveTile;
-@property (nonatomic, strong) FWSettingsTile *createGameTile;
-@property (nonatomic, strong) FWSettingsTile *settingsTile;
-@property (nonatomic, strong) FWSettingsTile *quitTile;
+@property (nonatomic, strong) FWMenuTile *saveTile;
+@property (nonatomic, strong) FWMenuTile *createGameTile;
+@property (nonatomic, strong) FWMenuTile *settingsTile;
+@property (nonatomic, strong) FWMenuTile *quitTile;
 
 @property (nonatomic, assign) BOOL areGameSettingsVisible;
 
@@ -53,10 +48,10 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 {
     [super viewDidLoad];
 
-    self.saveTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"save"] title:@"save" subTitle:nil];
-    self.createGameTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"restart"] title:@"restart" subTitle:nil];
-    self.settingsTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"settings"] title:@"settings" subTitle:nil];
-    self.quitTile = [FWSettingsTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"quit"] title:@"quit" subTitle:@"to main menu"];
+    self.saveTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"save"] title:@"save" subTitle:nil];
+    self.createGameTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"restart"] title:@"restart" subTitle:nil];
+    self.settingsTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"settings"] title:@"settings" subTitle:nil];
+    self.quitTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"quit"] title:@"quit" subTitle:@"to main menu"];
 
     self.saveTile.delegate = self;
     self.createGameTile.delegate = self;
@@ -93,6 +88,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)gameSettingsDidClose:(FWGameSettingsViewController *)gameSettingsViewController
 {
+    [self.gameSettingsViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
     self.areGameSettingsVisible = NO;
 }
 
@@ -111,9 +107,9 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     [self.delegate quickPlayMenu:self gameSpeedDidChange:gameSpeed];
 }
 
-#pragma mark - FWSettingsTileDelegate
+#pragma mark - FWMenuTileDelegate
 
-- (void)tileButtonWasSelected:(FWSettingsTile *)tileButton
+- (void)tileButtonWasSelected:(FWMenuTile *)tileButton
 {
     if (tileButton == self.saveTile)
     {
@@ -159,7 +155,6 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)close
 {
-    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
     [self.delegate quickPlayMenuDidClose:self];
 }
 
@@ -173,7 +168,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
     NSArray *tiles = @[self.saveTile, self.createGameTile, self.settingsTile, self.quitTile];
 
-    for (FWSettingsTile *tile in tiles)
+    for (FWMenuTile *tile in tiles)
     {
         tile.frame = CGRectMake(
                 kFWSettingsCellHorizontalMargin + currentColumn * (cellSideSize + kFWSettingsCellSpacing),

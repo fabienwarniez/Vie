@@ -48,7 +48,7 @@
 		B3935122B861B58E592BEFEB /* FWCellPatternLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935AB2A86E92BA390F4D1C /* FWCellPatternLoader.m */; };
 		B3935135680D968D45AAD95B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B393569A4AFED5F4DAFDDF59 /* Localizable.strings */; };
 		B39351A07451E0E6F888EAA3 /* FWReflectiveTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B393540E31D6591EC0821C6E /* FWReflectiveTile.m */; };
-		B393539DD243836BB5958E25 /* FWSettingsTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B39353334670759C86428AF0 /* FWSettingsTile.m */; };
+		B393539DD243836BB5958E25 /* FWMenuTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B39353334670759C86428AF0 /* FWMenuTile.m */; };
 		B393548F7B8F1B064AE10C7D /* FWColorTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B39357A3B12A8B057AAD77DE /* FWColorTile.m */; };
 		B393556A420DDDCC1BC3926F /* UIFont+FWAppFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = B39354FA427EDDAD37D20935 /* UIFont+FWAppFonts.m */; };
 		B39355BF45D67AD507E80C27 /* FWMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */; };
@@ -148,7 +148,7 @@
 		B393517F0C800643852B9D41 /* UIView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FWConvenience.h"; sourceTree = "<group>"; };
 		B3935226FF194C247A21B7FB /* FWReflectiveTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWReflectiveTile.h; sourceTree = "<group>"; };
 		B393527A37CC8A72862273CC /* FWSizeTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSizeTile.m; sourceTree = "<group>"; };
-		B39353334670759C86428AF0 /* FWSettingsTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSettingsTile.m; sourceTree = "<group>"; };
+		B39353334670759C86428AF0 /* FWMenuTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMenuTile.m; sourceTree = "<group>"; };
 		B393536C6758FDDB585B9FAD /* FWMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainMenuViewController.m; sourceTree = "<group>"; };
 		B393540E31D6591EC0821C6E /* FWReflectiveTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWReflectiveTile.m; sourceTree = "<group>"; };
 		B393542580658638A1A22397 /* FWGameSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameSpeed.h; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		B39357A3B12A8B057AAD77DE /* FWColorTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorTile.m; sourceTree = "<group>"; };
 		B39357EEF679DDD1D5B5F8BC /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B393584039B2DDD70B05D3F7 /* FWQuickPlayMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWQuickPlayMenuViewController.m; sourceTree = "<group>"; };
-		B393585F43474EFF8190097C /* FWSettingsTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSettingsTile.h; sourceTree = "<group>"; };
+		B393585F43474EFF8190097C /* FWMenuTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMenuTile.h; sourceTree = "<group>"; };
 		B39358B9C09DE5678D48CEBF /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B3935957122AC1E35CD981CA /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file.ttc; path = "Avenir Next.ttc"; sourceTree = "<group>"; };
 		B39359B9F55AAEF760E04070 /* FWSpeedTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSpeedTile.h; sourceTree = "<group>"; };
@@ -413,8 +413,8 @@
 				B3935226FF194C247A21B7FB /* FWReflectiveTile.h */,
 				B3935764090B6029FD2384A4 /* FWSpeedTile.m */,
 				B39359B9F55AAEF760E04070 /* FWSpeedTile.h */,
-				B39353334670759C86428AF0 /* FWSettingsTile.m */,
-				B393585F43474EFF8190097C /* FWSettingsTile.h */,
+				B39353334670759C86428AF0 /* FWMenuTile.m */,
+				B393585F43474EFF8190097C /* FWMenuTile.h */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -591,7 +591,7 @@
 				B3935E634DE9C7C44E3480CA /* FWSpeedTile.m in Sources */,
 				B39357CB2D7EC4DA036A2B8E /* FWTitleBar.m in Sources */,
 				B39358E3E71568502E140B8B /* FWGameToolbar.m in Sources */,
-				B393539DD243836BB5958E25 /* FWSettingsTile.m in Sources */,
+				B393539DD243836BB5958E25 /* FWMenuTile.m in Sources */,
 				A6BD8CF255F5265DD20E2D15 /* FWPatternPickerViewController.m in Sources */,
 				A6BD8DEB16ED331141F4F586 /* FWPatternCollectionViewCell.m in Sources */,
 			);

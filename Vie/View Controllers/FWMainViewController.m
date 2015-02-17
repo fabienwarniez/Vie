@@ -132,6 +132,24 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.isQuickGameVisible = YES;
 }
 
+- (void)hideQuickGame
+{
+    [self.gameViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    self.isQuickGameVisible = NO;
+}
+
+- (void)showQuickPlayMenu
+{
+    [self.quickPlayMenuController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+    self.isQuickGameMenuVisible = YES;
+}
+
+- (void)hideQuickPlayMenu
+{
+    [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    self.isQuickGameMenuVisible = NO;
+}
+
 - (void)showPatternPicker
 {
     [self.patternPickerViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
@@ -172,23 +190,20 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         self.quickPlayMenuController = quickPlayMenuController;
     }
 
-    [self.quickPlayMenuController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
-
-    self.isQuickGameMenuVisible = YES;
+    [self showQuickPlayMenu];
 }
 
 #pragma mark - FWQuickPlayMenuControllerDelegate
 
 - (void)quickPlayMenuDidClose:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
 {
-    self.isQuickGameMenuVisible = NO;
+    [self hideQuickPlayMenu];
 }
 
 - (void)quickPlayMenuDidQuit:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
 {
-    [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
-    [self.gameViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.2f];
-    self.isQuickGameMenuVisible = NO;
+    [self hideQuickPlayMenu];
+    [self hideQuickGame];
 }
 
 - (void)quickPlayMenuDidRestart:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
@@ -245,21 +260,22 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 #pragma mark - FWPatternPickerViewControllerDelegate
 
-- (void)didSelectCellPattern:(FWCellPatternModel *)cellPattern
+- (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWCellPatternModel *)cellPattern
 {
     NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
 
     [self.gameViewController setPattern:cellPattern];
 
     [self.gameViewController setForceResumeAfterInterruption:NO];
+
     [self hidePatternPicker];
+
+    [self showQuickGame];
 }
 
-#pragma mark - UINavigationToolbarDelegate
-
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+- (void)patternPickerDidClose:(FWPatternPickerViewController *)patternPickerViewController
 {
-    return UIBarPositionTopAttached;
+    [self hidePatternPicker];
 }
 
 @end

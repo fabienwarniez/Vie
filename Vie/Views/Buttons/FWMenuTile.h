@@ -5,24 +5,22 @@
 
 #import "FWReflectiveTile.h"
 
-@class FWSettingsTile;
+@class FWMenuTile;
 
-@protocol FWSettingsTileDelegate <NSObject>
+@protocol FWMenuTileDelegate <NSObject>
 
-- (void)tileButtonWasSelected:(FWSettingsTile *)tileButton;
+- (void)tileButtonWasSelected:(FWMenuTile *)tileButton;
 
 @end
 
-@interface FWSettingsTile : FWReflectiveTile
+@interface FWMenuTile : FWReflectiveTile
 
-@property (nonatomic, weak) id<FWSettingsTileDelegate> delegate;
+@property (nonatomic, weak) id<FWMenuTileDelegate> delegate;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *subTitle;
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor image:(UIImage *)image title:(NSString *)title subTitle:(NSString *)subTitle;
-
 + (instancetype)tileWithMainColor:(UIColor *)mainColor image:(UIImage *)image title:(NSString *)title subTitle:(NSString *)subTitle;
-
 
 @end

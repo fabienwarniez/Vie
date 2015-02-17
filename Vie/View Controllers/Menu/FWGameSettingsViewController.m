@@ -104,7 +104,6 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
 {
-    [self.view slideTo:[self.parentViewController.view frameBelow] duration:0.3f delay:0.0f];
     [self.delegate gameSettingsDidClose:self];
 }
 

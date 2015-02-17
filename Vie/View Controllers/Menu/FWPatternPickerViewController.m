@@ -38,8 +38,6 @@ static CGFloat const kFWCellSpacing = 1.0f;
         FWUserModel *userModel = [FWUserModel sharedUserModel];
         _colorScheme = [userModel colorScheme];
         _boardSize = [userModel boardSize];
-
-        [self setExtendedLayoutIncludesOpaqueBars:YES];
     }
     return self;
 }
@@ -85,7 +83,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
 {
-    NSLog(@"Pattern close.");
+    [self.delegate patternPickerDidClose:self];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -141,9 +139,40 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 #pragma mark - UICollectionViewDelegate
 
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    FWCellPatternModel *selectedModel = nil;
+
+    if (collectionView == self.collectionView)
+    {
+        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+        selectedModel = modelArray[0];
+    }
+    else
+    {
+        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+    }
+
+    return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    FWCellPatternModel *selectedModel = nil;
 
+    if (collectionView == self.collectionView)
+    {
+        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+        selectedModel = modelArray[0];
+    }
+    else
+    {
+        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+    }
+
+    [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
 }
 
 #pragma mark - UITableViewDataSource

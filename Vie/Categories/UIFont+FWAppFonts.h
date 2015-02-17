@@ -11,6 +11,7 @@
 + (UIFont *)largeCondensedRegular;
 + (UIFont *)tinyBold;
 + (UIFont *)largeBold;
++ (UIFont *)microRegular;
 + (UIFont *)tinyRegular;
 + (UIFont *)largeRegular;
 + (UIFont *)smallRegular;

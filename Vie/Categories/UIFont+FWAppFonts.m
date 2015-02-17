@@ -37,6 +37,11 @@
     return [UIFont fontWithName:@"AvenirNext-DemiBold" size:18.0f];
 }
 
++ (UIFont *)microRegular
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:8.0f];
+}
+
 + (UIFont *)tinyRegular
 {
     return [UIFont fontWithName:@"AvenirNext-Regular" size:13.0f];

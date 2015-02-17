@@ -3,11 +3,11 @@
 // Copyright (c) 2015 Fabien Warniez. All rights reserved.
 //
 
-#import "FWSettingsTile.h"
+#import "FWMenuTile.h"
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
 
-@implementation FWSettingsTile
+@implementation FWMenuTile
 
 - (instancetype)initWithMainColor:(UIColor *)mainColor image:(UIImage *)image title:(NSString *)title subTitle:(NSString *)subTitle
 {
