@@ -8,6 +8,7 @@
 @class FWCellPatternModel;
 @class FWBoardSizeModel;
 @class FWPatternPickerViewController;
+@class FWTextField;
 
 @protocol FWPatternPickerViewControllerDelegate
 
@@ -22,5 +23,7 @@
 
 @property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) IBOutlet UICollectionViewFlowLayout *collectionViewLayout;
+@property (nonatomic, strong) IBOutlet UIView *searchBarContainer;
+@property (nonatomic, strong) IBOutlet FWTextField *searchBar;
 
 @end

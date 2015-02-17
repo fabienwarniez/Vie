@@ -9,6 +9,8 @@
             <connections>
                 <outlet property="collectionView" destination="puz-N6-5Ir" id="naY-BC-jNG"/>
                 <outlet property="collectionViewLayout" destination="LYG-HZ-Nd9" id="lFF-Rq-dw0"/>
+                <outlet property="searchBar" destination="MG5-82-XP3" id="Mgy-E1-Y9f"/>
+                <outlet property="searchBarContainer" destination="dUU-dk-MVT" id="7sV-To-GD7"/>
                 <outlet property="view" destination="LSU-fp-DxA" id="HRT-CJ-XhO"/>
             </connections>
         </placeholder>
@@ -29,7 +31,7 @@
                     <rect key="frame" x="0.0" y="58" width="320" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="contentInset" minX="26" minY="36" maxX="26" maxY="36"/>
+                    <inset key="contentInset" minX="26" minY="110" maxX="26" maxY="36"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="LYG-HZ-Nd9">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -41,6 +43,19 @@
                         <outlet property="delegate" destination="-1" id="UDd-hu-UJ4"/>
                     </connections>
                 </collectionView>
+                <view contentMode="scaleToFill" id="dUU-dk-MVT" userLabel="Search Bar Container">
+                    <rect key="frame" x="0.0" y="58" width="320" height="110"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="MG5-82-XP3" customClass="FWTextField">
+                            <rect key="frame" x="26" y="36" width="268" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="286" y="309"/>

@@ -11,6 +11,7 @@
 #import "FWPatternCollectionViewCell.h"
 #import "FWCellPatternModel.h"
 #import "UIColor+FWAppColors.h"
+#import "FWTextField.h"
 
 static NSString * const kFWPatternTileReuseIdentifier = @"PatternTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
@@ -53,6 +54,8 @@ static CGFloat const kFWCellSpacing = 1.0f;
                                              style:UIBarButtonItemStylePlain
                                             target:nil
                                             action:nil];
+
+    self.searchBar.backgroundColor = [UIColor lightGrey];
 }
 
 - (void)viewWillLayoutSubviews
