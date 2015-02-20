@@ -174,7 +174,7 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
     CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.3), self.bounds.size.height);
     CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
 
-    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05].CGColor);
+    CGContextSetFillColorWithColor(context, [UIColor buttonGrey].CGColor);
     CGContextFillPath(context);
 }
 

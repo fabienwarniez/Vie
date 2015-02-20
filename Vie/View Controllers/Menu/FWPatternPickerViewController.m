@@ -24,6 +24,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong) NSArray *filteredPatternsArray;
+@property (nonatomic, assign) CGFloat lastScrollPosition;
 
 @end
 
@@ -39,6 +40,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
         FWUserModel *userModel = [FWUserModel sharedUserModel];
         _colorScheme = [userModel colorScheme];
         _boardSize = [userModel boardSize];
+        _lastScrollPosition = 0.0f;
     }
     return self;
 }
@@ -55,7 +57,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
                                             target:nil
                                             action:nil];
 
-    self.searchBar.backgroundColor = [UIColor lightGrey];
+    self.searchBar.placeholder = @"Search";
 }
 
 - (void)viewWillLayoutSubviews
@@ -176,6 +178,23 @@ static CGFloat const kFWCellSpacing = 1.0f;
     }
 
     [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y < self.lastScrollPosition)
+    {
+        CGRect newFrame = self.searchBarContainer.frame;
+        newFrame.origin.y = 58.0f;
+        self.searchBarContainer.frame = newFrame;
+    }
+    else
+    {
+        CGRect newFrame = self.searchBarContainer.frame;
+        newFrame.origin.y = -scrollView.contentOffset.y - scrollView.contentInset.top + 58.0f;
+        self.searchBarContainer.frame = newFrame;
+    }
+    self.lastScrollPosition = scrollView.contentOffset.y;
 }
 
 #pragma mark - UITableViewDataSource
