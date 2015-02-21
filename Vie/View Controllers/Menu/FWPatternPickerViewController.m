@@ -58,6 +58,8 @@ static CGFloat const kFWCellSpacing = 1.0f;
                                             action:nil];
 
     self.searchBar.placeholder = @"Search";
+
+    self.lastScrollPosition = self.collectionView.contentOffset.y;
 }
 
 - (void)viewWillLayoutSubviews
@@ -182,18 +184,39 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y < self.lastScrollPosition)
+    CGFloat scrollStep = self.lastScrollPosition - scrollView.contentOffset.y;
+    CGRect newFrame = self.searchBarContainer.frame;
+
+    if (-scrollView.contentOffset.y - scrollView.contentInset.top > 0) // bouncing at the top
     {
-        CGRect newFrame = self.searchBarContainer.frame;
-        newFrame.origin.y = 58.0f;
-        self.searchBarContainer.frame = newFrame;
+        newFrame.origin.y = 58.0f - scrollView.contentOffset.y - scrollView.contentInset.top;
+    }
+    else if (scrollView.contentOffset.y - scrollView.contentInset.bottom > scrollView.contentSize.height - scrollView.bounds.size.height) // bouncing at the bottom
+    {
+        newFrame.origin.y = 58.0f - newFrame.size.height;
     }
     else
     {
-        CGRect newFrame = self.searchBarContainer.frame;
-        newFrame.origin.y = -scrollView.contentOffset.y - scrollView.contentInset.top + 58.0f;
-        self.searchBarContainer.frame = newFrame;
+        if (scrollStep < 0) // scrolling down
+        {
+            NSLog(@"Scrolling Down %f", scrollView.contentOffset.y);
+            newFrame.origin.y += scrollStep;
+            if (newFrame.origin.y < 58.0f - newFrame.size.height)
+            {
+                newFrame.origin.y = 58.0f - newFrame.size.height;
+            }
+        }
+        else // scrolling up
+        {
+            NSLog(@"Scrolling Up %f", scrollView.contentOffset.y);
+            newFrame.origin.y += scrollStep;
+            if (newFrame.origin.y > 58.0f)
+            {
+                newFrame.origin.y = 58.0f;
+            }
+        }
     }
+    self.searchBarContainer.frame = newFrame;
     self.lastScrollPosition = scrollView.contentOffset.y;
 }
 
