@@ -90,6 +90,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
 {
+    [self.searchBar resignFirstResponder];
     [self.delegate patternPickerDidClose:self];
 }
 
@@ -179,6 +180,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
         selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
     }
 
+    [self.searchBar resignFirstResponder];
     [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
 }
 
@@ -220,7 +222,19 @@ static CGFloat const kFWCellSpacing = 1.0f;
     self.lastScrollPosition = scrollView.contentOffset.y;
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+}
+
+#pragma mark - IBActions
+
+- (IBAction)hideKeyboard:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+}
 
 //- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 //{

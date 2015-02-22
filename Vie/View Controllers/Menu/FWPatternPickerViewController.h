@@ -17,7 +17,7 @@
 
 @end
 
-@interface FWPatternPickerViewController : UIViewController <FWTitleBarDelegate>
+@interface FWPatternPickerViewController : UIViewController <FWTitleBarDelegate, UITextFieldDelegate>
 
 @property (nonatomic, weak) id<FWPatternPickerViewControllerDelegate> delegate;
 
@@ -25,5 +25,7 @@
 @property (nonatomic, strong) IBOutlet UICollectionViewFlowLayout *collectionViewLayout;
 @property (nonatomic, strong) IBOutlet UIView *searchBarContainer;
 @property (nonatomic, strong) IBOutlet FWTextField *searchBar;
+
+- (IBAction)hideKeyboard:(UITextField *)textField;
 
 @end
