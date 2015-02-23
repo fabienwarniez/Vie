@@ -46,6 +46,7 @@
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                             <connections>
                                 <action selector="hideKeyboard:" destination="-1" eventType="editingDidEndOnExit" id="BqZ-OD-CUP"/>
+                                <action selector="textFieldChanged:" destination="-1" eventType="editingChanged" id="ART-HO-WHx"/>
                                 <outlet property="delegate" destination="-1" id="M6Z-Z2-mh5"/>
                             </connections>
                         </textField>

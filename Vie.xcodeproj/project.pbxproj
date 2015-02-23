@@ -29,6 +29,7 @@
 		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
 		A6BD82E05F8AA77C187761BD /* FWTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81BEE06639BB968E11BC /* FWTextField.m */; };
 		A6BD83CCA3F3D88E36020196 /* FWBoardSizeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSizeModel.m */; };
+		A6BD843B845BDAA648F50BE8 /* UIScrollView+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8676030DA80E8A98A983 /* UIScrollView+FWConvenience.m */; };
 		A6BD84B829B417077862371D /* FWSmartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD88FE98DB22E022C67288 /* FWSmartTableViewCell.m */; };
 		A6BD851C41609CB297A00D35 /* FWSavedGamePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD833129B45552540EB09D /* FWSavedGamePickerTableViewController.m */; };
 		A6BD857935F006E562D59215 /* FWCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD838C05C9C56987CA9F58 /* FWCellModel.m */; };
@@ -116,9 +117,11 @@
 		A6BD836CE463AA1E6203A65D /* FWBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardView.h; sourceTree = "<group>"; };
 		A6BD838C05C9C56987CA9F58 /* FWCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellModel.m; sourceTree = "<group>"; };
 		A6BD84700A1464DB1494D14C /* FWSavedGameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameTableViewCell.m; sourceTree = "<group>"; };
+		A6BD84857B8F3E34324C8A6D /* UIScrollView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+FWConvenience.h"; sourceTree = "<group>"; };
 		A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSettingsManager.m; sourceTree = "<group>"; };
 		A6BD853AA73F8765DB26E53C /* FWSavedGamePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGamePickerTableViewController.h; sourceTree = "<group>"; };
 		A6BD86536E6892BAEEA8ABCB /* FWSmartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSmartTableViewCell.h; sourceTree = "<group>"; };
+		A6BD8676030DA80E8A98A983 /* UIScrollView+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+FWConvenience.m"; sourceTree = "<group>"; };
 		A6BD86C12D759F5A736D5812 /* FWCellPatternModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternModel.h; sourceTree = "<group>"; };
 		A6BD86C511ED5999B01F1F1B /* FWCellPatternTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWCellPatternTableViewCell.h; sourceTree = "<group>"; };
 		A6BD87C92FF24586F6F1DC83 /* UIColor+FWAppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FWAppColors.m"; sourceTree = "<group>"; };
@@ -385,6 +388,8 @@
 				B3935A6E4750297783C74045 /* UIFont+FWAppFonts.h */,
 				B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */,
 				B393517F0C800643852B9D41 /* UIView+FWConvenience.h */,
+				A6BD8676030DA80E8A98A983 /* UIScrollView+FWConvenience.m */,
+				A6BD84857B8F3E34324C8A6D /* UIScrollView+FWConvenience.h */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -600,6 +605,7 @@
 				A6BD8CF255F5265DD20E2D15 /* FWPatternPickerViewController.m in Sources */,
 				A6BD8DEB16ED331141F4F586 /* FWPatternCollectionViewCell.m in Sources */,
 				A6BD82E05F8AA77C187761BD /* FWTextField.m in Sources */,
+				A6BD843B845BDAA648F50BE8 /* UIScrollView+FWConvenience.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

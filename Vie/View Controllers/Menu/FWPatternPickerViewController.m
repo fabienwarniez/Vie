@@ -12,10 +12,11 @@
 #import "FWCellPatternModel.h"
 #import "UIColor+FWAppColors.h"
 #import "FWTextField.h"
+#import "UIScrollView+FWConvenience.h"
 
 static NSString * const kFWPatternTileReuseIdentifier = @"PatternTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
-static CGFloat const kFWCollectionViewTopMargin = 22.0f;
+static CGFloat const kFWSearchBarContainerTopMargin = 58.0f;
 static CGFloat const kFWCellSpacing = 1.0f;
 
 @interface FWPatternPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -25,6 +26,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong) NSArray *filteredPatternsArray;
 @property (nonatomic, assign) CGFloat lastScrollPosition;
+@property (nonatomic, assign) BOOL areResultsFiltered;
 
 @end
 
@@ -41,6 +43,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
         _colorScheme = [userModel colorScheme];
         _boardSize = [userModel boardSize];
         _lastScrollPosition = 0.0f;
+        _areResultsFiltered = NO;
     }
     return self;
 }
@@ -105,7 +108,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     if (section == 0)
     {
-        if (collectionView == self.collectionView)
+        if (!self.areResultsFiltered)
         {
             return [self.cellPatternLoader numberOfPatterns];
         }
@@ -126,7 +129,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     FWPatternCollectionViewCell *dequeuedCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kFWPatternTileReuseIdentifier forIndexPath:indexPath];
     FWCellPatternModel *model = nil;
 
-    if (collectionView == self.collectionView)
+    if (!self.areResultsFiltered)
     {
         NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
         NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
@@ -151,7 +154,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     FWCellPatternModel *selectedModel = nil;
 
-    if (collectionView == self.collectionView)
+    if (!self.areResultsFiltered)
     {
         NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
         NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
@@ -169,7 +172,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     FWCellPatternModel *selectedModel = nil;
 
-    if (collectionView == self.collectionView)
+    if (!self.areResultsFiltered)
     {
         NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
         NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
@@ -186,52 +189,91 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    NSLog(@"%@", @"Scrolled");
     CGFloat scrollStep = self.lastScrollPosition - scrollView.contentOffset.y;
     CGRect newFrame = self.searchBarContainer.frame;
 
-    if (-scrollView.contentOffset.y - scrollView.contentInset.top > 0) // bouncing at the top
+    if ([scrollView isBouncingAtTop])
     {
-        newFrame.origin.y = 58.0f - scrollView.contentOffset.y - scrollView.contentInset.top;
-    }
-    else if (scrollView.contentOffset.y - scrollView.contentInset.bottom > scrollView.contentSize.height - scrollView.bounds.size.height) // bouncing at the bottom
-    {
-        newFrame.origin.y = 58.0f - newFrame.size.height;
+        newFrame.origin.y = kFWSearchBarContainerTopMargin - scrollView.contentOffset.y - scrollView.contentInset.top;
     }
     else
     {
         if (scrollStep < 0) // scrolling down
         {
-            NSLog(@"Scrolling Down %f", scrollView.contentOffset.y);
             newFrame.origin.y += scrollStep;
-            if (newFrame.origin.y < 58.0f - newFrame.size.height)
+            if ([self isSearchBarHiddenTooFarUp:newFrame.origin.y])
             {
-                newFrame.origin.y = 58.0f - newFrame.size.height;
+                newFrame.origin.y = [self yPositionToHideSearchBar];
             }
         }
         else // scrolling up
         {
-            NSLog(@"Scrolling Up %f", scrollView.contentOffset.y);
-            newFrame.origin.y += scrollStep;
-            if (newFrame.origin.y > 58.0f)
+            if (![scrollView isBouncingAtBottom])
             {
-                newFrame.origin.y = 58.0f;
+                newFrame.origin.y += scrollStep;
+                if ([self isSearchBarTooFarDown:newFrame.origin.y])
+                {
+                    newFrame.origin.y = [self yPositionToFullyShowSearchBar];
+                }
             }
         }
     }
+
     self.searchBarContainer.frame = newFrame;
     self.lastScrollPosition = scrollView.contentOffset.y;
 }
 
-#pragma mark - UITextFieldDelegate
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [textField resignFirstResponder];
+    if ([self.searchBar isFirstResponder])
+    {
+        [self.searchBar resignFirstResponder];
+    }
+}
+
+#pragma mark - Private Methods
+
+- (BOOL)isSearchBarHiddenTooFarUp:(CGFloat)newY
+{
+    return newY < kFWSearchBarContainerTopMargin - self.searchBarContainer.frame.size.height;
+}
+
+- (BOOL)isSearchBarTooFarDown:(CGFloat)newY
+{
+    return newY > kFWSearchBarContainerTopMargin;
+}
+
+- (CGFloat)yPositionToHideSearchBar
+{
+    return kFWSearchBarContainerTopMargin - self.searchBarContainer.frame.size.height;
+}
+
+- (CGFloat)yPositionToFullyShowSearchBar
+{
+    return kFWSearchBarContainerTopMargin;
 }
 
 #pragma mark - IBActions
 
-- (IBAction)hideKeyboard:(UITextField *)textField
+- (IBAction)textFieldChanged:(FWTextField *)textField
+{
+    self.areResultsFiltered = textField.text.length > 0;
+
+    if (self.areResultsFiltered)
+    {
+        NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
+        self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", textField.text]];
+    }
+    else
+    {
+        self.filteredPatternsArray = nil;
+    }
+
+    [self.collectionView reloadData];
+}
+
+- (IBAction)hideKeyboard:(FWTextField *)textField
 {
     [textField resignFirstResponder];
 }

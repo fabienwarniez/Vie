@@ -26,6 +26,7 @@
 @property (nonatomic, strong) IBOutlet UIView *searchBarContainer;
 @property (nonatomic, strong) IBOutlet FWTextField *searchBar;
 
-- (IBAction)hideKeyboard:(UITextField *)textField;
+- (IBAction)textFieldChanged:(FWTextField *)textField;
+- (IBAction)hideKeyboard:(FWTextField *)textField;
 
 @end
