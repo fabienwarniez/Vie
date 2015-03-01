@@ -19,7 +19,8 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 @interface FWPatternCollectionViewCell ()
 
 @property (nonatomic, strong) UIView *titleBar;
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *titleLabel1;
+@property (nonatomic, strong) UILabel *titleLabel2;
 @property (nonatomic, strong) FWBoardView *gameBoardView;
 @property (nonatomic, strong) UILabel *sizeLabel;
 
@@ -34,12 +35,18 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
     {
         _titleBar = [[UIView alloc] initWithFrame:CGRectZero];
         _titleBar.backgroundColor = [UIColor mediumGrey];
+        _titleBar.clipsToBounds = YES;
         [self.contentView addSubview:_titleBar];
 
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLabel.textColor = [UIColor darkBlue];
-        _titleLabel.font = [UIFont smallCondensedBold];
-        [_titleBar addSubview:_titleLabel];
+        _titleLabel1 = [[UILabel alloc] initWithFrame:CGRectZero];
+        _titleLabel1.textColor = [UIColor darkBlue];
+        _titleLabel1.font = [UIFont smallCondensedBold];
+        [_titleBar addSubview:_titleLabel1];
+
+        _titleLabel2 = [[UILabel alloc] initWithFrame:CGRectZero];
+        _titleLabel2.textColor = [UIColor darkBlue];
+        _titleLabel2.font = [UIFont smallCondensedBold];
+        [_titleBar addSubview:_titleLabel2];
 
         _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _sizeLabel.font = [UIFont microRegular];
@@ -65,18 +72,24 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
             [FWPatternCollectionViewCell titleBarHeight]
     );
 
-    CGSize titleLabelSize = [self.titleLabel sizeThatFits:self.titleBar.bounds.size];
-    if (titleLabelSize.width > self.titleBar.bounds.size.width - 2 * kFWCellPatternTitleLabelPadding)
+    CGFloat maxLabelWidth = self.titleBar.bounds.size.width - 2 * kFWCellPatternTitleLabelPadding;
+    CGSize titleLabelSize = [self.titleLabel1 sizeThatFits:self.titleBar.bounds.size];
+    CGPoint titleLabelPoint = CGPointMake(0, (self.titleBar.bounds.size.height - titleLabelSize.height) / 2.0f);
+    if (titleLabelSize.width > maxLabelWidth)
     {
-        // TODO: trigger animation
-    }
+        titleLabelPoint.x = kFWCellPatternTitleLabelPadding;
+        self.titleLabel1.frame = CGRectMake(titleLabelPoint.x, titleLabelPoint.y, titleLabelSize.width, titleLabelSize.height);
+        self.titleLabel2.frame = CGRectMake(2 * kFWCellPatternTitleLabelPadding + titleLabelSize.width, titleLabelPoint.y, titleLabelSize.width, titleLabelSize.height);
+        self.titleLabel2.hidden = NO;
 
-    self.titleLabel.frame = CGRectMake(
-            (self.titleBar.bounds.size.width - titleLabelSize.width) / 2.0f,
-            (self.titleBar.bounds.size.height - titleLabelSize.height) / 2.0f,
-            titleLabelSize.width,
-            titleLabelSize.height
-    );
+        [self startRolling];
+    }
+    else
+    {
+        titleLabelPoint.x = (self.titleBar.bounds.size.width - titleLabelSize.width) / 2.0f;
+        self.titleLabel1.frame = CGRectMake(titleLabelPoint.x, titleLabelPoint.y, titleLabelSize.width, titleLabelSize.height);
+        self.titleLabel2.hidden = YES;
+    }
 
     [self.sizeLabel sizeToFit];
     self.sizeLabel.frame = CGRectMake(
@@ -96,9 +109,11 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 
 - (void)prepareForReuse
 {
-    _mainColor = nil;
-    _cellPattern = nil;
-    _colorScheme = nil;
+    self.mainColor = nil;
+    self.cellPattern = nil;
+    self.colorScheme = nil;
+    [self.titleLabel1.layer removeAllAnimations];
+    [self.titleLabel2.layer removeAllAnimations];
 }
 
 + (CGFloat)titleBarHeight
@@ -132,7 +147,8 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
     {
         self.gameBoardView.liveCells = nil;
     }
-    self.titleLabel.text = cellPattern.name;
+    self.titleLabel1.text = cellPattern.name;
+    self.titleLabel2.text = cellPattern.name;
     self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) cellPattern.boardSize.numberOfColumns, (unsigned long) cellPattern.boardSize.numberOfRows];
 
     [self setNeedsLayout];
@@ -176,6 +192,35 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 
     CGContextSetFillColorWithColor(context, [UIColor buttonGrey].CGColor);
     CGContextFillPath(context);
+}
+
+#pragma mark - Private Methods
+
+- (void)startRolling
+{
+    [self animateLabel:self.titleLabel1 withDuration:4.0f];
+    [self animateLabel:self.titleLabel2 withDuration:8.0f];
+}
+
+- (void)animateLabel:(UILabel *)label withDuration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         CGRect frame = label.frame;
+                         frame.origin.x = -label.frame.size.width;
+                         label.frame = frame;
+                     }
+                     completion:^(BOOL finished) {
+                         if (finished)
+                         {
+                             CGRect frame = label.frame;
+                             frame.origin.x = label.frame.size.width + 2 * kFWCellPatternTitleLabelPadding;
+                             label.frame = frame;
+                             [self animateLabel:label withDuration:8.0f];
+                         }
+                     }];
 }
 
 @end

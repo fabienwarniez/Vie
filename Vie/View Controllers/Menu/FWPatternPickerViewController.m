@@ -13,6 +13,7 @@
 #import "UIColor+FWAppColors.h"
 #import "FWTextField.h"
 #import "UIScrollView+FWConvenience.h"
+#import "UIFont+FWAppFonts.h"
 
 static NSString * const kFWPatternTileReuseIdentifier = @"PatternTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
@@ -62,6 +63,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
     self.searchBar.placeholder = @"Search";
 
+    self.noResultLabel.text = @"0 results.";
+    self.noResultLabel.font = [UIFont largeCondensedRegular];
+    self.noResultLabel.textColor = [UIColor darkGrey];
+    self.noResultContainer.hidden = YES;
+
     self.lastScrollPosition = self.collectionView.contentOffset.y;
 }
 
@@ -108,14 +114,17 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     if (section == 0)
     {
+        NSUInteger count;
         if (!self.areResultsFiltered)
         {
-            return [self.cellPatternLoader numberOfPatterns];
+            count = [self.cellPatternLoader numberOfPatterns];
         }
         else
         {
-            return [self.filteredPatternsArray count];
+            count = [self.filteredPatternsArray count];
         }
+        self.noResultContainer.hidden = count > 0;
+        return count;
     }
     else
     {
@@ -189,7 +198,6 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"%@", @"Scrolled");
     CGFloat scrollStep = self.lastScrollPosition - scrollView.contentOffset.y;
     CGRect newFrame = self.searchBarContainer.frame;
 
