@@ -20,7 +20,7 @@ static CGFloat const kFWCollectionViewSideMargin = 26.0f;
 static CGFloat const kFWSearchBarContainerTopMargin = 58.0f;
 static CGFloat const kFWCellSpacing = 1.0f;
 
-@interface FWPatternPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface FWPatternPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWPatternCollectionViewCellDelegate>
 
 @property (nonatomic, strong) FWCellPatternLoader *cellPatternLoader;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
@@ -136,6 +136,8 @@ static CGFloat const kFWCellSpacing = 1.0f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FWPatternCollectionViewCell *dequeuedCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kFWPatternTileReuseIdentifier forIndexPath:indexPath];
+    dequeuedCell.delegate = self;
+
     FWCellPatternModel *model = nil;
 
     if (!self.areResultsFiltered)
@@ -175,25 +177,6 @@ static CGFloat const kFWCellSpacing = 1.0f;
     }
 
     return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    FWCellPatternModel *selectedModel = nil;
-
-    if (!self.areResultsFiltered)
-    {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-        selectedModel = modelArray[0];
-    }
-    else
-    {
-        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
-    }
-
-    [self.searchBar resignFirstResponder];
-    [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -240,6 +223,30 @@ static CGFloat const kFWCellSpacing = 1.0f;
     }
 }
 
+#pragma mark - FWPatternCollectionViewCellDelegate
+
+- (void)playButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
+{
+    FWCellPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+
+    [self.searchBar resignFirstResponder];
+    [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
+}
+
+- (void)favouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
+{
+    FWCellPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+
+    NSLog(@"Favourited %@", selectedModel.name);
+}
+
+- (void)unfavouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
+{
+    FWCellPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+
+    NSLog(@"Unfavourited %@", selectedModel.name);
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)isSearchBarHiddenTooFarUp:(CGFloat)newY
@@ -260,6 +267,26 @@ static CGFloat const kFWCellSpacing = 1.0f;
 - (CGFloat)yPositionToFullyShowSearchBar
 {
     return kFWSearchBarContainerTopMargin;
+}
+
+- (FWCellPatternModel *)patternModelForCell:(FWPatternCollectionViewCell *)patternCollectionViewCell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:patternCollectionViewCell];
+
+    FWCellPatternModel *selectedModel = nil;
+
+    if (!self.areResultsFiltered)
+    {
+        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
+        selectedModel = modelArray[0];
+    }
+    else
+    {
+        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+    }
+
+    return selectedModel;
 }
 
 #pragma mark - IBActions

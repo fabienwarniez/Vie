@@ -10,6 +10,10 @@
 - (NSString *)titleFor:(FWTitleBar *)titleBar;
 - (void)buttonTappedFor:(FWTitleBar *)titleBar;
 
+@optional
+
+- (UIImage *)imageFor:(FWTitleBar *)titleBar;
+
 @end
 
 @interface FWTitleBar : UIView

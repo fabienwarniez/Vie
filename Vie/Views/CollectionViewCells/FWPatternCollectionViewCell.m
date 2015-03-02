@@ -15,14 +15,20 @@ static CGFloat const kFWCellPatternBorderWidth = 1.0f;
 static CGFloat const kFWCellPatternPadding = 15.0f;
 static CGFloat const kFWCellPatternTitleLabelPadding = 8.0f;
 static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
+static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 
 @interface FWPatternCollectionViewCell ()
 
+@property (nonatomic, strong) UIView *flipContainer;
+@property (nonatomic, strong) UIView *nonSelectedContainer;
+@property (nonatomic, strong) UIView *selectedContainer;
 @property (nonatomic, strong) UIView *titleBar;
 @property (nonatomic, strong) UILabel *titleLabel1;
 @property (nonatomic, strong) UILabel *titleLabel2;
 @property (nonatomic, strong) FWBoardView *gameBoardView;
 @property (nonatomic, strong) UILabel *sizeLabel;
+@property (nonatomic, strong) UIButton *favouriteButton;
+@property (nonatomic, strong) UIButton *playButton;
 
 @end
 
@@ -33,30 +39,50 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
     self = [super initWithFrame:frame];
     if (self)
     {
-        _titleBar = [[UIView alloc] initWithFrame:CGRectZero];
+        _titleBar = [[UIView alloc] init];
         _titleBar.backgroundColor = [UIColor mediumGrey];
         _titleBar.clipsToBounds = YES;
         [self.contentView addSubview:_titleBar];
 
-        _titleLabel1 = [[UILabel alloc] initWithFrame:CGRectZero];
+        _titleLabel1 = [[UILabel alloc] init];
         _titleLabel1.textColor = [UIColor darkBlue];
         _titleLabel1.font = [UIFont smallCondensedBold];
         [_titleBar addSubview:_titleLabel1];
 
-        _titleLabel2 = [[UILabel alloc] initWithFrame:CGRectZero];
+        _titleLabel2 = [[UILabel alloc] init];
         _titleLabel2.textColor = [UIColor darkBlue];
         _titleLabel2.font = [UIFont smallCondensedBold];
         [_titleBar addSubview:_titleLabel2];
 
-        _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _sizeLabel.font = [UIFont microRegular];
-        [self.contentView addSubview:_sizeLabel];
+        _flipContainer = [[UIView alloc] init];
+        [self.contentView addSubview:_flipContainer];
 
-        _gameBoardView = [[FWBoardView alloc] init];
-        _gameBoardView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        _nonSelectedContainer = [[UIView alloc] init];
+        [_flipContainer addSubview:_nonSelectedContainer];
+
+        _sizeLabel = [[UILabel alloc] init];
+        _sizeLabel.font = [UIFont microRegular];
+        [_nonSelectedContainer addSubview:_sizeLabel];
+
+        _gameBoardView = [[FWBoardView alloc] initWithFrame:CGRectZero];
         _gameBoardView.backgroundColor = [UIColor clearColor];
         _gameBoardView.borderWidth = kFWCellPatternBorderWidth;
-        [self.contentView addSubview:_gameBoardView];
+        [_nonSelectedContainer addSubview:_gameBoardView];
+
+        _selectedContainer = [[UIView alloc] init];
+        _selectedContainer.backgroundColor = [UIColor darkBlue];
+
+        _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_playButton setImage:[UIImage imageNamed:@"large-play"] forState:UIControlStateNormal];
+        [_playButton setImage:[UIImage imageNamed:@"large-play-active"] forState:UIControlStateHighlighted];
+        [_playButton addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [_selectedContainer addSubview:_playButton];
+
+        _favouriteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_favouriteButton setImage:[UIImage imageNamed:@"heart"] forState:UIControlStateNormal];
+        [_favouriteButton setImage:[UIImage imageNamed:@"heart-selected"] forState:UIControlStateSelected];
+        [_favouriteButton addTarget:self action:@selector(favouritedButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [_selectedContainer addSubview:_favouriteButton];
     }
     return self;
 }
@@ -65,6 +91,12 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 {
     [super layoutSubviews];
 
+    CGRect containerFrame = CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.width);
+
+    self.flipContainer.frame = containerFrame;
+    self.nonSelectedContainer.frame = containerFrame;
+    self.selectedContainer.frame = containerFrame;
+
     self.titleBar.frame = CGRectMake(
             0,
             self.contentView.bounds.size.height - [FWPatternCollectionViewCell titleBarHeight],
@@ -72,10 +104,9 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
             [FWPatternCollectionViewCell titleBarHeight]
     );
 
-    CGFloat maxLabelWidth = self.titleBar.bounds.size.width - 2 * kFWCellPatternTitleLabelPadding;
     CGSize titleLabelSize = [self.titleLabel1 sizeThatFits:self.titleBar.bounds.size];
     CGPoint titleLabelPoint = CGPointMake(0, (self.titleBar.bounds.size.height - titleLabelSize.height) / 2.0f);
-    if (titleLabelSize.width > maxLabelWidth)
+    if (titleLabelSize.width > self.titleBar.bounds.size.width - 2 * kFWCellPatternTitleLabelPadding)
     {
         titleLabelPoint.x = kFWCellPatternTitleLabelPadding;
         self.titleLabel1.frame = CGRectMake(titleLabelPoint.x, titleLabelPoint.y, titleLabelSize.width, titleLabelSize.height);
@@ -93,8 +124,8 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 
     [self.sizeLabel sizeToFit];
     self.sizeLabel.frame = CGRectMake(
-            self.contentView.bounds.size.width - self.sizeLabel.frame.size.width - kFWCellPatternSizeLabelPadding,
-            self.contentView.bounds.size.height - [FWPatternCollectionViewCell titleBarHeight] - self.sizeLabel.frame.size.height - kFWCellPatternSizeLabelPadding,
+            self.nonSelectedContainer.bounds.size.width - self.sizeLabel.frame.size.width - kFWCellPatternSizeLabelPadding,
+            self.nonSelectedContainer.bounds.size.height - self.sizeLabel.frame.size.height - kFWCellPatternSizeLabelPadding,
             self.sizeLabel.frame.size.width,
             self.sizeLabel.frame.size.height
     );
@@ -102,9 +133,71 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
     self.gameBoardView.frame = CGRectMake(
             kFWCellPatternPadding,
             kFWCellPatternPadding,
-            self.contentView.bounds.size.width - 2 * kFWCellPatternPadding,
-            self.contentView.bounds.size.height - 2 * kFWCellPatternPadding - [FWPatternCollectionViewCell titleBarHeight]
+            self.nonSelectedContainer.bounds.size.width - 2 * kFWCellPatternPadding,
+            self.nonSelectedContainer.bounds.size.height - 2 * kFWCellPatternPadding
     );
+
+    self.playButton.frame = CGRectMake(
+            (self.selectedContainer.bounds.size.width - 76.0f) / 2.0f,
+            (self.selectedContainer.bounds.size.height - 76.0f) / 2.0f,
+            76.0f,
+            76.0f
+    );
+
+    CGSize favouriteIconSize = [self.favouriteButton imageForState:UIControlStateNormal].size;
+    favouriteIconSize.width += 2 * kFWCellPatternFavouriteButtonPadding;
+    favouriteIconSize.height += 2 * kFWCellPatternFavouriteButtonPadding;
+    self.favouriteButton.frame = CGRectMake(
+            0,
+            self.selectedContainer.bounds.size.height - favouriteIconSize.height,
+            favouriteIconSize.width,
+            favouriteIconSize.height
+    );
+}
+
+- (void)setSelected:(BOOL)selected
+{
+    [self setSelected:selected animated:YES];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected];
+
+    if (animated)
+    {
+        if (selected)
+        {
+            [UIView transitionFromView:self.nonSelectedContainer
+                                toView:self.selectedContainer
+                              duration:0.4
+                               options:UIViewAnimationOptionTransitionFlipFromLeft
+                            completion:^(BOOL finished) {
+                            }];
+        }
+        else
+        {
+            [UIView transitionFromView:self.selectedContainer
+                                toView:self.nonSelectedContainer
+                              duration:0.4
+                               options:UIViewAnimationOptionTransitionFlipFromRight
+                            completion:^(BOOL finished) {
+                            }];
+        }
+    }
+    else
+    {
+        if (selected)
+        {
+            [self.nonSelectedContainer removeFromSuperview];
+            [self.flipContainer addSubview:self.selectedContainer];
+        }
+        else
+        {
+            [self.selectedContainer removeFromSuperview];
+            [self.flipContainer addSubview:self.nonSelectedContainer];
+        }
+    }
 }
 
 - (void)prepareForReuse
@@ -114,6 +207,7 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
     self.colorScheme = nil;
     [self.titleLabel1.layer removeAllAnimations];
     [self.titleLabel2.layer removeAllAnimations];
+    [self setSelected:NO animated:NO];
 }
 
 + (CGFloat)titleBarHeight
@@ -122,18 +216,6 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
 }
 
 #pragma mark - Accessors
-
-- (void)setHighlighted:(BOOL)highlighted
-{
-    if (highlighted)
-    {
-        self.gameBoardView.fillColorScheme = [FWColorSchemeModel colorSchemeWithGuid:nil youngFillColor:[UIColor whiteColor] mediumFillColor:[UIColor whiteColor] oldFillColor:[UIColor whiteColor]];
-    }
-    else
-    {
-        self.gameBoardView.fillColorScheme = self.colorScheme;
-    }
-}
 
 - (void)setCellPattern:(FWCellPatternModel *)cellPattern
 {
@@ -221,6 +303,25 @@ static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
                              [self animateLabel:label withDuration:8.0f];
                          }
                      }];
+}
+
+- (void)favouritedButtonTapped:(UIButton *)sender
+{
+    sender.selected = !sender.selected;
+
+    if (sender.selected)
+    {
+        [self.delegate favouriteButtonTappedFor:self];
+    }
+    else
+    {
+        [self.delegate unfavouriteButtonTappedFor:self];
+    }
+}
+
+- (void)playButtonTapped:(UIButton *)sender
+{
+    [self.delegate playButtonTappedFor:self];
 }
 
 @end

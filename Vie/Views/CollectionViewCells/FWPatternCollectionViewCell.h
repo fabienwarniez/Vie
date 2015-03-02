@@ -5,9 +5,19 @@
 
 @class FWCellPatternModel;
 @class FWColorSchemeModel;
+@class FWPatternCollectionViewCell;
+
+@protocol FWPatternCollectionViewCellDelegate <NSObject>
+
+- (void)playButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell;
+- (void)favouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell;
+- (void)unfavouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell;
+
+@end
 
 @interface FWPatternCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) id<FWPatternCollectionViewCellDelegate> delegate;
 @property (nonatomic, strong) UIColor *mainColor;
 @property (nonatomic, strong) FWCellPatternModel *cellPattern;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
