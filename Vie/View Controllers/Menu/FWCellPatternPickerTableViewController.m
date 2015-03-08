@@ -5,10 +5,10 @@
 
 #import "FWCellPatternPickerTableViewController.h"
 #import "FWCellPatternTableViewCell.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternModel.h"
 #import "FWUserModel.h"
 #import "FWColorSchemeModel.h"
-#import "FWCellPatternLoader.h"
+#import "FWPatternLoader.h"
 #import "FWBoardSizeModel.h"
 
 static NSString * const kFWCellPatternPickerViewControllerCellIdentifier = @"PatternCell";
@@ -19,7 +19,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *customSearchDisplayController;
-@property (nonatomic, strong) FWCellPatternLoader *cellPatternLoader;
+@property (nonatomic, strong) FWPatternLoader *cellPatternLoader;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong) NSArray *filteredPatternsArray;
@@ -33,7 +33,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
     self = [super init];
     if (self)
     {
-        _cellPatternLoader = [[FWCellPatternLoader alloc] init];
+        _cellPatternLoader = [[FWPatternLoader alloc] init];
 
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -81,7 +81,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
     [super viewDidAppear:animated];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
+        [self.cellPatternLoader patternsInRange:NSMakeRange(0, [self.cellPatternLoader patternCount])];
     });
 }
 
@@ -91,7 +91,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 {
     if (tableView == self.tableView)
     {
-        return [self.cellPatternLoader numberOfPatterns];
+        return [self.cellPatternLoader patternCount];
     }
     else
     {
@@ -102,11 +102,11 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FWCellPatternTableViewCell *dequeuedCell = [self.tableView dequeueReusableCellWithIdentifier:kFWCellPatternPickerViewControllerCellIdentifier forIndexPath:indexPath];
-    FWCellPatternModel *model = nil;
+    FWPatternModel *model = nil;
 
     if (tableView == self.tableView)
     {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSArray *modelArray = [self.cellPatternLoader patternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
         NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
         model = modelArray[0];
     }
@@ -131,11 +131,11 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWCellPatternModel *selectedModel = nil;
+    FWPatternModel *selectedModel = nil;
 
     if (tableView == self.tableView)
     {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSArray *modelArray = [self.cellPatternLoader patternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
         NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
         selectedModel = modelArray[0];
     }
@@ -151,11 +151,11 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    FWCellPatternModel *selectedModel = nil;
+    FWPatternModel *selectedModel = nil;
 
     if (tableView == self.tableView)
     {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
+        NSArray *modelArray = [self.cellPatternLoader patternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
         NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
         selectedModel = modelArray[0];
     }
@@ -171,7 +171,7 @@ static CGFloat const kFWCellPatternPickerViewControllerCellHeight = 100.0f;
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
+    NSArray *allPatternsArray = [self.cellPatternLoader patternsInRange:NSMakeRange(0, [self.cellPatternLoader patternCount])];
     self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
 
     return YES;

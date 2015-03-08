@@ -10,7 +10,7 @@
 #import "FWRandomNumberGenerator.h"
 #import "FWSavedGameModel.h"
 #import "FWColorSchemeModel.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternModel.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
@@ -314,7 +314,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     self.isRewindingPossible = NO;
 }
 
-- (void)setPattern:(FWCellPatternModel *)cellPattern
+- (void)setPattern:(FWPatternModel *)cellPattern
 {
     NSAssert([self.boardSize isGreaterOrEqualToBoardSize:cellPattern.boardSize], @"The pattern loaded is too big for the board size");
 
@@ -322,36 +322,8 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
                                                                 rows:self.boardSize.numberOfRows
                                                percentageOfLiveCells:0];
 
-    NSUInteger xOffset;
-    NSUInteger yOffset;
-
-    if (cellPattern.recommendedPosition & FWPatternPositionLeft)
-    {
-        xOffset = 0;
-    }
-    else if (cellPattern.recommendedPosition & FWPatternPositionCenter)
-    {
-        xOffset = (NSUInteger) lround((self.boardSize.numberOfColumns - cellPattern.boardSize.numberOfColumns) / 2.0f);
-    }
-    else
-    {
-        NSAssert(cellPattern.recommendedPosition & FWPatternPositionRight, @"The passed position bit mask is invalid.");
-        xOffset = self.boardSize.numberOfColumns - cellPattern.boardSize.numberOfColumns;
-    }
-
-    if (cellPattern.recommendedPosition & FWPatternPositionTop)
-    {
-        yOffset = 0;
-    }
-    else if (cellPattern.recommendedPosition & FWPatternPositionMiddle)
-    {
-        yOffset = (NSUInteger) lround((self.boardSize.numberOfRows - cellPattern.boardSize.numberOfRows) / 2.0f);
-    }
-    else
-    {
-        NSAssert(cellPattern.recommendedPosition & FWPatternPositionBottom, @"The passed position bit mask is invalid.");
-        yOffset = self.boardSize.numberOfRows - cellPattern.boardSize.numberOfRows;
-    }
+    NSUInteger xOffset = (NSUInteger) lround((self.boardSize.numberOfColumns - cellPattern.boardSize.numberOfColumns) / 2.0f);
+    NSUInteger yOffset = (NSUInteger) lround((self.boardSize.numberOfRows - cellPattern.boardSize.numberOfRows) / 2.0f);
 
     NSUInteger numberOfLiveCells = [cellPattern.liveCells count];
     NSUInteger numberOfRows = self.boardSize.numberOfRows;
@@ -600,7 +572,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
         FWCellModel *sourceCell = source[i];
         FWCellModel *destinationCell = destination[i];
 
-        NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same recommendedPosition on grid.");
+        NSAssert(sourceCell.column == destinationCell.column && sourceCell.row == destinationCell.row, @"Cells should represent same position on grid.");
 
         destinationCell.alive = sourceCell.alive;
         destinationCell.age = 0;

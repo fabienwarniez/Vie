@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Fabien Warniez. All rights reserved.
 //
 
-@class FWCellPatternModel;
+@class FWPatternModel;
 @class FWColorSchemeModel;
 @class FWPatternCollectionViewCell;
 
@@ -19,7 +19,7 @@
 
 @property (nonatomic, weak) id<FWPatternCollectionViewCellDelegate> delegate;
 @property (nonatomic, strong) UIColor *mainColor;
-@property (nonatomic, strong) FWCellPatternModel *cellPattern;
+@property (nonatomic, strong) FWPatternModel *cellPattern;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, assign) BOOL fitsOnCurrentBoard;
 

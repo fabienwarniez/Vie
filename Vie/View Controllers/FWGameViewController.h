@@ -10,7 +10,7 @@
 @class FWBoardSizeModel;
 @class FWSavedGameModel;
 @class FWColorSchemeModel;
-@class FWCellPatternModel;
+@class FWPatternModel;
 @class FWGameViewController;
 
 typedef enum FWCellAgeGroup
@@ -60,7 +60,7 @@ typedef enum FWPatternPosition
 - (void)newGame;
 - (void)restart;
 - (void)loadSavedGame:(FWSavedGameModel *)savedGame;
-- (void)setPattern:(FWCellPatternModel *)cellPattern;
+- (void)setPattern:(FWPatternModel *)cellPattern;
 
 - (NSArray *)initialBoardLiveCells;
 

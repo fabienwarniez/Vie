@@ -8,12 +8,14 @@
 #import "FWBoardSizeModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWSavedGameModel.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternModel.h"
 #import "FWMainMenuViewController.h"
 #import "UIView+FWConvenience.h"
 #import "FWQuickPlayMenuViewController.h"
 #import "FWUserModel.h"
 #import "FWPatternPickerViewController.h"
+#import "FWDataManager.h"
+#import "FWPatternManager.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
@@ -260,7 +262,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 #pragma mark - FWPatternPickerViewControllerDelegate
 
-- (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWCellPatternModel *)cellPattern
+- (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWPatternModel *)cellPattern
 {
     NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
 

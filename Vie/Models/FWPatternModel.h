@@ -3,11 +3,12 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 #import "FWGameViewController.h"
 
 @class FWBoardSizeModel;
 
-@interface FWCellPatternModel : NSObject
+@interface FWPatternModel : NSManagedObject
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *fileName;
@@ -15,6 +16,6 @@
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong) NSString *encodedData;
 @property (nonatomic, strong) NSArray *liveCells;
-@property (nonatomic, assign) FWPatternPosition recommendedPosition;
+@property (nonatomic, assign) BOOL favourited;
 
 @end

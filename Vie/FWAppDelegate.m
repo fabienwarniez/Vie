@@ -10,6 +10,10 @@
 #import "FWMainViewController.h"
 #import "UIColor+FWAppColors.h"
 #import "UIFont+FWAppFonts.h"
+#import "FWDataManager.h"
+#import "FWPatternManager.h"
+#import "FWPatternLoader.h"
+#import "FWPatternModel.h"
 
 @interface FWAppDelegate ()
 
@@ -24,6 +28,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
+    [self loadPatternsIntoCoreDataIfNeeded];
+
     self.mainViewController = [[FWMainViewController alloc] init];
     self.window.rootViewController = self.mainViewController;
     
@@ -32,6 +38,20 @@
     [self setGlobalAppearance];
 
     return YES;
+}
+
+- (void)loadPatternsIntoCoreDataIfNeeded
+{
+    FWPatternManager *patternManager = [[FWDataManager sharedDataManager] patternManager];
+    NSUInteger patternCount = [patternManager patternCount];
+
+    if (patternCount == 0) {
+        FWPatternLoader *patternLoader = [[FWPatternLoader alloc] init];
+        NSArray *patterns = [patternLoader patternsInRange:NSMakeRange(0, [patternLoader patternCount])];
+        for (FWPatternModel *patternModel in patterns) {
+            [patternModel.managedObjectContext save:nil];
+        }
+    }
 }
 
 - (void)setGlobalAppearance

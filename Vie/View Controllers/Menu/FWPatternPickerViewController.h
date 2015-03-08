@@ -5,14 +5,14 @@
 
 #import "FWTitleBar.h"
 
-@class FWCellPatternModel;
+@class FWPatternModel;
 @class FWBoardSizeModel;
 @class FWPatternPickerViewController;
 @class FWTextField;
 
 @protocol FWPatternPickerViewControllerDelegate
 
-- (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWCellPatternModel *)cellPattern;
+- (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWPatternModel *)cellPattern;
 - (void)patternPickerDidClose:(FWPatternPickerViewController *)patternPickerViewController;
 
 @end

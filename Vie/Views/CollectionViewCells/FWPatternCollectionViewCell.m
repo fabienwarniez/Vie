@@ -4,7 +4,7 @@
 //
 
 #import "FWPatternCollectionViewCell.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWBoardView.h"
 #import "FWBoardSizeModel.h"
@@ -208,6 +208,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     [self.titleLabel1.layer removeAllAnimations];
     [self.titleLabel2.layer removeAllAnimations];
     [self setSelected:NO animated:NO];
+    [self.favouriteButton setSelected:NO];
 }
 
 + (CGFloat)titleBarHeight
@@ -217,7 +218,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 
 #pragma mark - Accessors
 
-- (void)setCellPattern:(FWCellPatternModel *)cellPattern
+- (void)setCellPattern:(FWPatternModel *)cellPattern
 {
     _cellPattern = cellPattern;
     if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithName:nil numberOfColumns:90 numberOfRows:120]])
@@ -232,6 +233,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     self.titleLabel1.text = cellPattern.name;
     self.titleLabel2.text = cellPattern.name;
     self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) cellPattern.boardSize.numberOfColumns, (unsigned long) cellPattern.boardSize.numberOfRows];
+    [self.favouriteButton setSelected:cellPattern.favourited];
 
     [self setNeedsLayout];
 }

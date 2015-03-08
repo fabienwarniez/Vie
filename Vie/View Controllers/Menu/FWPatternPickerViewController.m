@@ -6,14 +6,15 @@
 #import "FWPatternPickerViewController.h"
 #import "FWUserModel.h"
 #import "FWColorSchemeModel.h"
-#import "FWCellPatternLoader.h"
 #import "FWBoardSizeModel.h"
 #import "FWPatternCollectionViewCell.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternModel.h"
 #import "UIColor+FWAppColors.h"
 #import "FWTextField.h"
 #import "UIScrollView+FWConvenience.h"
 #import "UIFont+FWAppFonts.h"
+#import "FWPatternManager.h"
+#import "FWDataManager.h"
 
 static NSString * const kFWPatternTileReuseIdentifier = @"PatternTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
@@ -22,10 +23,10 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 @interface FWPatternPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWPatternCollectionViewCellDelegate>
 
-@property (nonatomic, strong) FWCellPatternLoader *cellPatternLoader;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
-@property (nonatomic, strong) NSArray *filteredPatternsArray;
+@property (nonatomic, strong) NSArray *patterns;
+@property (nonatomic, strong) NSArray *filteredPatterns;
 @property (nonatomic, assign) CGFloat lastScrollPosition;
 @property (nonatomic, assign) BOOL areResultsFiltered;
 
@@ -38,7 +39,8 @@ static CGFloat const kFWCellSpacing = 1.0f;
     self = [super init];
     if (self)
     {
-        _cellPatternLoader = [[FWCellPatternLoader alloc] init];
+        FWPatternManager *patternManager = [[FWDataManager sharedDataManager] patternManager];
+        _patterns = [patternManager allPatterns];
 
         FWUserModel *userModel = [FWUserModel sharedUserModel];
         _colorScheme = [userModel colorScheme];
@@ -81,15 +83,6 @@ static CGFloat const kFWCellSpacing = 1.0f;
     [self.collectionViewLayout invalidateLayout];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
-    });
-}
-
 #pragma mark - FWTitleBarDelegate
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar
@@ -117,11 +110,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
         NSUInteger count;
         if (!self.areResultsFiltered)
         {
-            count = [self.cellPatternLoader numberOfPatterns];
+            count = [self.patterns count];
         }
         else
         {
-            count = [self.filteredPatternsArray count];
+            count = [self.filteredPatterns count];
         }
         self.noResultContainer.hidden = count > 0;
         return count;
@@ -138,17 +131,15 @@ static CGFloat const kFWCellSpacing = 1.0f;
     FWPatternCollectionViewCell *dequeuedCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kFWPatternTileReuseIdentifier forIndexPath:indexPath];
     dequeuedCell.delegate = self;
 
-    FWCellPatternModel *model = nil;
+    FWPatternModel *model = nil;
 
     if (!self.areResultsFiltered)
     {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-        model = modelArray[0];
+        model = self.patterns[(NSUInteger) indexPath.row];
     }
     else
     {
-        model = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+        model = self.filteredPatterns[(NSUInteger) indexPath.row];
     }
 
     dequeuedCell.mainColor = [UIColor lightGrey];
@@ -163,17 +154,15 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWCellPatternModel *selectedModel = nil;
+    FWPatternModel *selectedModel = nil;
 
     if (!self.areResultsFiltered)
     {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-        selectedModel = modelArray[0];
+        selectedModel = self.patterns[(NSUInteger) indexPath.row];
     }
     else
     {
-        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+        selectedModel = self.filteredPatterns[(NSUInteger) indexPath.row];
     }
 
     return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
@@ -227,7 +216,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)playButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
 {
-    FWCellPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+    FWPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
 
     [self.searchBar resignFirstResponder];
     [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
@@ -235,16 +224,16 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)favouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
 {
-    FWCellPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
-
-    NSLog(@"Favourited %@", selectedModel.name);
+    FWPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+    selectedModel.favourited = YES;
+    [selectedModel.managedObjectContext save:nil];
 }
 
 - (void)unfavouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
 {
-    FWCellPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
-
-    NSLog(@"Unfavourited %@", selectedModel.name);
+    FWPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+    selectedModel.favourited = NO;
+    [selectedModel.managedObjectContext save:nil];
 }
 
 #pragma mark - Private Methods
@@ -269,21 +258,19 @@ static CGFloat const kFWCellSpacing = 1.0f;
     return kFWSearchBarContainerTopMargin;
 }
 
-- (FWCellPatternModel *)patternModelForCell:(FWPatternCollectionViewCell *)patternCollectionViewCell
+- (FWPatternModel *)patternModelForCell:(FWPatternCollectionViewCell *)patternCollectionViewCell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:patternCollectionViewCell];
 
-    FWCellPatternModel *selectedModel = nil;
+    FWPatternModel *selectedModel = nil;
 
     if (!self.areResultsFiltered)
     {
-        NSArray *modelArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange((NSUInteger) indexPath.row, 1)];
-        NSAssert([modelArray count] == 1, @"Array should contain exactly 1 object.");
-        selectedModel = modelArray[0];
+        selectedModel = self.patterns[(NSUInteger) indexPath.row];
     }
     else
     {
-        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+        selectedModel = self.filteredPatterns[(NSUInteger) indexPath.row];
     }
 
     return selectedModel;
@@ -297,12 +284,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
     if (self.areResultsFiltered)
     {
-        NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
-        self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", textField.text]];
+        self.filteredPatterns = [self.patterns filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", textField.text]];
     }
     else
     {
-        self.filteredPatternsArray = nil;
+        self.filteredPatterns = nil;
     }
 
     [self.collectionView reloadData];
@@ -317,18 +303,18 @@ static CGFloat const kFWCellSpacing = 1.0f;
 //{
 //    if (tableView == self.tableView)
 //    {
-//        return [self.cellPatternLoader numberOfPatterns];
+//        return [self.cellPatternLoader patternCount];
 //    }
 //    else
 //    {
-//        return [self.filteredPatternsArray count];
+//        return [self.filteredPatterns count];
 //    }
 //}
 //
 //- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 //{
 //    FWCellPatternTableViewCell *dequeuedCell = [self.tableView dequeueReusableCellWithIdentifier:kFWPatternTileReuseIdentifier forIndexPath:indexPath];
-//    FWCellPatternModel *model = nil;
+//    FWPatternModel *model = nil;
 //
 //    if (tableView == self.tableView)
 //    {
@@ -338,7 +324,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 //    }
 //    else
 //    {
-//        model = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+//        model = self.filteredPatterns[(NSUInteger) indexPath.row];
 //    }
 //
 //    dequeuedCell.cellPattern = model;
@@ -357,7 +343,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 //- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 //{
-//    FWCellPatternModel *selectedModel = nil;
+//    FWPatternModel *selectedModel = nil;
 //
 //    if (tableView == self.tableView)
 //    {
@@ -367,7 +353,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 //    }
 //    else
 //    {
-//        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+//        selectedModel = self.filteredPatterns[(NSUInteger) indexPath.row];
 //    }
 //
 //    return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
@@ -377,7 +363,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 //{
 //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //
-//    FWCellPatternModel *selectedModel = nil;
+//    FWPatternModel *selectedModel = nil;
 //
 //    if (tableView == self.tableView)
 //    {
@@ -387,7 +373,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 //    }
 //    else
 //    {
-//        selectedModel = self.filteredPatternsArray[(NSUInteger) indexPath.row];
+//        selectedModel = self.filteredPatterns[(NSUInteger) indexPath.row];
 //    }
 //
 //    [self.delegate didSelectCellPattern:selectedModel];
@@ -397,8 +383,8 @@ static CGFloat const kFWCellSpacing = 1.0f;
 //
 //- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 //{
-//    NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader numberOfPatterns])];
-//    self.filteredPatternsArray = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
+//    NSArray *allPatternsArray = [self.cellPatternLoader cellPatternsInRange:NSMakeRange(0, [self.cellPatternLoader patternCount])];
+//    self.filteredPatterns = [allPatternsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString]];
 //
 //    return YES;
 //}

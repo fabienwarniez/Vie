@@ -3,12 +3,12 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-@class FWCellPatternModel;
+@class FWPatternModel;
 @class FWBoardSizeModel;
 
 @protocol FWCellPatternPickerTableViewControllerDelegate
 
-- (void)didSelectCellPattern:(FWCellPatternModel *)cellPattern;
+- (void)didSelectCellPattern:(FWPatternModel *)cellPattern;
 
 @end
 

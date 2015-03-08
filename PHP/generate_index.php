@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 $directory = "../Patterns/";
@@ -6,76 +7,53 @@ $directoryHandler = opendir($directory);
 
 $fileArray = array();
 
-while (false !== ($filename = readdir($directoryHandler)))
-{
+while (false !== ($filename = readdir($directoryHandler))) {
     $format = null;
     $name = null;
     $size = null;
     $data = '';
-
-    if (strpos($filename, '.rle') !== false)
-    {
+    if (strpos($filename, '.rle') !== false) {
         $format = 'rle';
 
         $lines = file(sprintf("%s%s", $directory, $filename), FILE_IGNORE_NEW_LINES);
 
-        foreach ($lines as $line)
-        {
-            if (strpos($line, '#N') === 0)
-            {
+        foreach ($lines as $line) {
+            if (strpos($line, '#N') === 0) {
                 $explodedNameLine = explode(' ', $line);
-                if (count($explodedNameLine) >= 2)
-                {
+                if (count($explodedNameLine) >= 2) {
                     array_shift($explodedNameLine);
                     $name = implode(' ', $explodedNameLine);
-                }
-                else
-                {
+                } else {
                     $name = substr($filename, 0, strlen($filename) - 4);
                     echo sprintf("No name, using file name instead: %s \n", $name);
                 }
-            }
-            else if (strpos($line, 'x = ') === 0)
-            {
+            } elseif (strpos($line, 'x = ') === 0) {
                 list($columns, $rows, $rule, $a, $b) = sscanf($line, "x = %i, y = %i,%s = %i/%i");
 
-                if ($columns > 0 && $rows > 0)
-                {
+                if ($columns > 0 && $rows > 0 && $columns <= 180 && $rows <= 240) {
                     $size = sprintf('%d|%d', $columns, $rows);
-                }
-                else
-                {
+                } else {
                     echo sprintf("Bad format for size: %s\n", $line);
                 }
-            }
-            else if (strpos($line, '#') !== 0)
-            {
+            } elseif (strpos($line, '#') !== 0) {
                 $data .= $line;
             }
         }
-    }
-    else if (strpos($filename, '.lif') !== false)
-    {
+    } elseif (strpos($filename, '.lif') !== false) {
         // ignore .lif files for now
         continue;
-    }
-    else if (strpos($filename, '.cells') !== false)
-    {
+    } elseif (strpos($filename, '.cells') !== false) {
         // ignore .cells files for now
         continue;
-    }
-    else
-    {
+    } else {
         // unrecognized extension
         continue;
     }
 
-    if ($format && $name && $size && $data)
-    {
+
+    if ($format && $name && $size && $data) {
         $fileArray []= sprintf('%s|%s|%s|%s|%s', $filename, $format, $name, $size, $data);
-    }
-    else
-    {
+    } else {
         echo sprintf("Incomplete file not added to index: %s\n", $filename);
     }
 }

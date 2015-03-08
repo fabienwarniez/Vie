@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6220.8" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Pattern" representedClassName="FWPatternModel" syncable="YES">
+        <attribute name="boardHeight" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="boardWidth" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="encodedData" attributeType="String" syncable="YES"/>
+        <attribute name="favourited" attributeType="Boolean" syncable="YES"/>
+        <attribute name="fileName" attributeType="String" syncable="YES"/>
+        <attribute name="format" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="SavedGame" representedClassName="FWSavedGameModel" syncable="YES">
-        <attribute name="boardHeight" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="boardWidth" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="serializedLiveCells" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="boardHeight" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="boardWidth" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="serializedLiveCells" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Pattern" positionX="-63" positionY="9" width="128" height="150"/>
         <element name="SavedGame" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
 </model>

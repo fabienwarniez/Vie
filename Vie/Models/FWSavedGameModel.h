@@ -10,7 +10,6 @@
 @interface FWSavedGameModel : NSManagedObject
 
 @property (nonatomic, strong) NSString *name;
-
 @property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong) NSArray *liveCells;
 

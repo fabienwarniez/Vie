@@ -3,18 +3,20 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWCellPatternLoader.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternLoader.h"
+#import "FWPatternModel.h"
 #import "FWBoardSizeModel.h"
+#import "FWPatternManager.h"
+#import "FWDataManager.h"
 
-@interface FWCellPatternLoader ()
+@interface FWPatternLoader ()
 
 @property (nonatomic, strong) NSArray *patternList;
 @property (nonatomic, strong) NSArray *fileLines;
 
 @end
 
-@implementation FWCellPatternLoader
+@implementation FWPatternLoader
 
 - (instancetype)init
 {
@@ -27,7 +29,7 @@
     return self;
 }
 
-- (NSArray *)cellPatternsInRange:(NSRange)range
+- (NSArray *)patternsInRange:(NSRange)range
 {
     NSRange alreadyParsedPatternRange = NSIntersectionRange(range, NSMakeRange(0, [self.patternList count]));
     NSArray *alreadyParsedPatterns = [self.patternList subarrayWithRange:alreadyParsedPatternRange];
@@ -54,6 +56,8 @@
 
         NSLog(@"Loading patterns in range %lu to %lu", (unsigned long) lineIndexStart, (unsigned long) lineIndexEnd);
 
+        FWPatternManager *patternManager = [[FWDataManager sharedDataManager] patternManager];
+
         for (NSUInteger lineIndex = lineIndexStart; lineIndex < lineIndexEnd; ++lineIndex)
         {
             NSString *line = self.fileLines[lineIndex];
@@ -66,8 +70,7 @@
             }
             else
             {
-                FWCellPatternModel *cellPatternModel = [[FWCellPatternModel alloc] init];
-                cellPatternModel.recommendedPosition = FWPatternPositionCenter | FWPatternPositionMiddle;
+                FWPatternModel *cellPatternModel = [patternManager createPatternModel];
                 cellPatternModel.fileName = components[0];
                 cellPatternModel.format = components[1];
                 cellPatternModel.name = components[2];
@@ -81,7 +84,7 @@
                              numberOfRows:[numberOfRows unsignedIntegerValue]
                 ];
                 cellPatternModel.encodedData = components[5];
-
+                cellPatternModel.favourited = NO;
                 [newlyParsedPatterns addObject:cellPatternModel];
             }
         }
@@ -92,7 +95,7 @@
     }
 }
 
-- (NSUInteger)numberOfPatterns
+- (NSUInteger)patternCount
 {
     [self loadFileIfNeeded];
 

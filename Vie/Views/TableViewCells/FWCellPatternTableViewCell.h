@@ -4,12 +4,12 @@
 //
 
 @class FWBoardView;
-@class FWCellPatternModel;
+@class FWPatternModel;
 @class FWColorSchemeModel;
 
 @interface FWCellPatternTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) FWCellPatternModel *cellPattern;
+@property (nonatomic, strong) FWPatternModel *cellPattern;
 @property (nonatomic, strong) FWColorSchemeModel *colorScheme;
 @property (nonatomic, assign) BOOL fitsOnCurrentBoard;
 

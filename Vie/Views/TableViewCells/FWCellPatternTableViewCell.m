@@ -6,7 +6,7 @@
 #import "FWCellPatternTableViewCell.h"
 #import "FWBoardView.h"
 #import "FWBoardSizeModel.h"
-#import "FWCellPatternModel.h"
+#import "FWPatternModel.h"
 #import "FWColorSchemeModel.h"
 
 static CGFloat const kFWCellPatternTableViewCellBorderWidth = 1.0f;
