@@ -14,8 +14,6 @@
 #import "FWQuickPlayMenuViewController.h"
 #import "FWUserModel.h"
 #import "FWPatternPickerViewController.h"
-#import "FWDataManager.h"
-#import "FWPatternManager.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
@@ -40,20 +38,8 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self = [super init];
     if (self)
     {
-        FWUserModel *userModel = [FWUserModel sharedUserModel];
-
-        _gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
-        _gameViewController.boardSize = userModel.boardSize;
-        _gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
-        _gameViewController.cellFillColorScheme = userModel.colorScheme;
-        _gameViewController.gameSpeed = userModel.gameSpeed;
-        _gameViewController.delegate = self;
-
         _mainMenuViewController = [[FWMainMenuViewController alloc] init];
         _mainMenuViewController.delegate = self;
-
-        _patternPickerViewController = [[FWPatternPickerViewController alloc] init];
-        _patternPickerViewController.delegate = self;
 
         _isQuickGameVisible = NO;
         _isQuickGameMenuVisible = NO;
@@ -80,18 +66,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.mainMenuViewController.view.frame = self.view.bounds;
     [self.view addSubview:self.mainMenuViewController.view];
     [self.mainMenuViewController didMoveToParentViewController:self];
-
-    [self addChildViewController:self.gameViewController];
-    self.gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.gameViewController.view.frame = [self.view frameBelow];
-    [self.view addSubview:self.gameViewController.view];
-    [self.gameViewController didMoveToParentViewController:self];
-
-    [self addChildViewController:self.patternPickerViewController];
-    self.patternPickerViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.patternPickerViewController.view.frame = [self.view frameBelow];
-    [self.view addSubview:self.patternPickerViewController.view];
-    [self.patternPickerViewController didMoveToParentViewController:self];
 }
 
 - (void)viewWillLayoutSubviews
@@ -130,37 +104,102 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)showQuickGame
 {
-    [self.gameViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+    FWUserModel *userModel = [FWUserModel sharedUserModel];
+    if (self.gameViewController == nil) {
+        FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
+        gameViewController.boardSize = userModel.boardSize; // board size must be set before the view is accessed
+        gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
+        gameViewController.cellFillColorScheme = userModel.colorScheme;
+        gameViewController.gameSpeed = userModel.gameSpeed;
+        gameViewController.delegate = self;
+        gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.gameViewController = gameViewController;
+    } else {
+        self.gameViewController.boardSize = userModel.boardSize;
+        self.gameViewController.cellFillColorScheme = userModel.colorScheme;
+        self.gameViewController.gameSpeed = userModel.gameSpeed;
+    }
+
+    [self addChildViewController:self.gameViewController];
+    self.gameViewController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.gameViewController.view];
+    [self.gameViewController didMoveToParentViewController:self];
+
+    [self.gameViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
     self.isQuickGameVisible = YES;
 }
 
 - (void)hideQuickGame
 {
-    [self.gameViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    [self.gameViewController.view slideTo:[self.view frameBelow]
+                                 duration:0.3f
+                                    delay:0.0f
+                               completion:^(BOOL finished) {
+                                   [self.gameViewController willMoveToParentViewController:nil];
+                                   [self.gameViewController.view removeFromSuperview];
+                                   [self.gameViewController removeFromParentViewController];
+                               }];
     self.isQuickGameVisible = NO;
 }
 
 - (void)showQuickPlayMenu
 {
-    [self.quickPlayMenuController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+    if (self.quickPlayMenuController == nil) {
+        FWQuickPlayMenuViewController *quickPlayMenuController = [[FWQuickPlayMenuViewController alloc] initWithNibName:@"FWQuickPlayMenuController" bundle:nil];
+        quickPlayMenuController.delegate = self;
+        self.quickPlayMenuController = quickPlayMenuController;
+    }
+
+    [self addChildViewController:self.quickPlayMenuController];
+    self.quickPlayMenuController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.quickPlayMenuController.view];
+    [self.quickPlayMenuController didMoveToParentViewController:self];
+
+    [self.quickPlayMenuController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
     self.isQuickGameMenuVisible = YES;
 }
 
 - (void)hideQuickPlayMenu
 {
-    [self.quickPlayMenuController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    [self.quickPlayMenuController.view slideTo:[self.view frameBelow]
+                                 duration:0.3f
+                                    delay:0.0f
+                               completion:^(BOOL finished) {
+                                   [self.quickPlayMenuController willMoveToParentViewController:nil];
+                                   [self.quickPlayMenuController.view removeFromSuperview];
+                                   [self.quickPlayMenuController removeFromParentViewController];
+                               }];
     self.isQuickGameMenuVisible = NO;
 }
 
 - (void)showPatternPicker
 {
-    [self.patternPickerViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+    if (self.patternPickerViewController == nil) {
+        FWPatternPickerViewController *patternPickerViewController = [[FWPatternPickerViewController alloc] init];
+        patternPickerViewController.delegate = self;
+        self.patternPickerViewController = patternPickerViewController;
+    }
+
+    [self addChildViewController:self.patternPickerViewController];
+    self.patternPickerViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.patternPickerViewController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.patternPickerViewController.view];
+    [self.patternPickerViewController didMoveToParentViewController:self];
+
+    [self.patternPickerViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
     self.isPatternPickerVisible = YES;
 }
 
 - (void)hidePatternPicker
 {
-    [self.patternPickerViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    [self.patternPickerViewController.view slideTo:[self.view frameBelow]
+                                      duration:0.3f
+                                         delay:0.0f
+                                    completion:^(BOOL finished) {
+                                        [self.patternPickerViewController willMoveToParentViewController:nil];
+                                        [self.patternPickerViewController.view removeFromSuperview];
+                                        [self.patternPickerViewController removeFromParentViewController];
+                                    }];
     self.isPatternPickerVisible = NO;
 }
 
@@ -169,7 +208,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)quickGameButtonTapped
 {
     [self showQuickGame];
-    // TODO: load new game
 }
 
 - (void)patternsButtonTapped
@@ -181,17 +219,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)menuButtonTappedForGameViewController:(FWGameViewController *)gameViewController
 {
-    if (self.quickPlayMenuController == nil)
-    {
-        FWQuickPlayMenuViewController *quickPlayMenuController = [[FWQuickPlayMenuViewController alloc] initWithNibName:@"FWQuickPlayMenuController" bundle:nil];
-        quickPlayMenuController.delegate = self;
-        [self addChildViewController:quickPlayMenuController];
-        quickPlayMenuController.view.frame = [self.view frameBelow];
-        [self.view addSubview:quickPlayMenuController.view];
-        [quickPlayMenuController didMoveToParentViewController:self];
-        self.quickPlayMenuController = quickPlayMenuController;
-    }
-
     [self showQuickPlayMenu];
 }
 
@@ -232,6 +259,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     [sharedUserModel setColorScheme:colorScheme];
 
     self.gameViewController.cellFillColorScheme = colorScheme;
+    // TODO: update pattern color
 }
 
 - (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController boardSizeDidChange:(FWBoardSizeModel *)boardSize
@@ -279,5 +307,21 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 {
     [self hidePatternPicker];
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+
+    if (!self.isQuickGameVisible) {
+        self.gameViewController = nil;
+    }
+    if (!self.isPatternPickerVisible) {
+        self.patternPickerViewController = nil;
+    }
+    if (!self.isQuickGameMenuVisible) {
+        self.quickPlayMenuController = nil;
+    }
+}
+
 
 @end

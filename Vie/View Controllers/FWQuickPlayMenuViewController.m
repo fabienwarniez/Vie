@@ -88,7 +88,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)gameSettingsDidClose:(FWGameSettingsViewController *)gameSettingsViewController
 {
-    [self.gameSettingsViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f];
+    [self.gameSettingsViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f completion:nil];
     self.areGameSettingsVisible = NO;
 }
 
@@ -139,7 +139,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
             [self.view addSubview:self.gameSettingsViewController.view];
             [self.gameSettingsViewController didMoveToParentViewController:self];
         }
-        [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f];
+        [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
     }
     else if (tileButton == self.quitTile)
     {

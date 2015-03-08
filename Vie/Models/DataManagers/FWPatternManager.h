@@ -12,7 +12,7 @@
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (FWPatternModel *)createPatternModel;
-- (NSArray *)allPatterns;
+- (NSArray *)patternsForSearchString:(NSString *)searchString;
 - (NSUInteger)patternCount;
 
 @end

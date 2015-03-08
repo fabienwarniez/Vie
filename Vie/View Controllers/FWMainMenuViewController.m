@@ -101,7 +101,7 @@
 
 - (void)animateItems
 {
-    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0.0f];
+    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0.0f completion:nil];
     [self.quickPlayButton fadeInWithDuration:0.5f delay:1.0f];
     [self.patternsButton fadeInWithDuration:0.5f delay:1.0f];
     [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];

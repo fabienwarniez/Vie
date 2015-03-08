@@ -7,7 +7,7 @@
 
 @implementation UIView (FWConvenience)
 
-- (void)slideTo:(CGRect)position duration:(CGFloat)duration delay:(CGFloat)delay
+- (void)slideTo:(CGRect)position duration:(CGFloat)duration delay:(CGFloat)delay completion:(void (^)(BOOL finished))completion
 {
     [UIView animateWithDuration:duration
                           delay:delay
@@ -15,7 +15,7 @@
                      animations:^{
                          self.frame = position;
                      }
-                     completion:nil];
+                     completion:completion];
 }
 
 - (void)fadeInWithDuration:(CGFloat)duration delay:(CGFloat)delay

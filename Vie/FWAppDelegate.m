@@ -8,7 +8,6 @@
 
 #import "FWAppDelegate.h"
 #import "FWMainViewController.h"
-#import "UIColor+FWAppColors.h"
 #import "UIFont+FWAppFonts.h"
 #import "FWDataManager.h"
 #import "FWPatternManager.h"

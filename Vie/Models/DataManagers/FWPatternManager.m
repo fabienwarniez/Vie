@@ -28,11 +28,21 @@ static NSString * const kFWPatternEntityName = @"Pattern";
     return cellPatternModel;
 }
 
-- (NSArray *)allPatterns
+- (NSArray *)patternsForSearchString:(NSString *)searchString
 {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kFWPatternEntityName];
-    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    return result;
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kFWPatternEntityName inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entityDescription];
+
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+
+    if (searchString != nil && [searchString length] > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString];
+        [fetchRequest setPredicate:predicate];
+    }
+
+    return [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
 }
 
 - (NSUInteger)patternCount

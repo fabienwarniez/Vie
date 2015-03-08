@@ -30,6 +30,13 @@
 
 @synthesize liveCells=_liveCells;
 
+- (void)awakeFromFetch
+{
+    [super awakeFromFetch];
+
+    NSLog(@"Awake model from fetch.");
+}
+
 - (NSArray *)liveCells
 {
     if (_liveCells == nil && self.encodedData != nil)
