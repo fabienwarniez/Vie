@@ -10,22 +10,23 @@
 #import "FWBoardSizeModel.h"
 #import "FWMenuTile.h"
 #import "UIColor+FWAppColors.h"
+#import "FWSaveGameViewController.h"
 
 static NSUInteger const kFWNumberOfSettingsColumns = 2;
 static CGFloat const kFWSettingsCellHorizontalMargin = 27.0f;
 static CGFloat const kFWSettingsCellTopPadding = 36.0f;
 static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
-@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate, FWMenuTileDelegate>
+@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate, FWMenuTileDelegate, FWSaveGameViewControllerDelegate>
 
 @property (nonatomic, strong) FWGameSettingsViewController *gameSettingsViewController;
-
+@property (nonatomic, strong) FWSaveGameViewController *saveGameViewController;
 @property (nonatomic, strong) FWMenuTile *saveTile;
 @property (nonatomic, strong) FWMenuTile *createGameTile;
 @property (nonatomic, strong) FWMenuTile *settingsTile;
 @property (nonatomic, strong) FWMenuTile *quitTile;
-
 @property (nonatomic, assign) BOOL areGameSettingsVisible;
+@property (nonatomic, assign) BOOL isSaveGameVisible;
 
 @end
 
@@ -39,6 +40,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     if (self)
     {
         _areGameSettingsVisible = NO;
+        _isSaveGameVisible = NO;
     }
 
     return self;
@@ -71,6 +73,67 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     [self layoutSizeTilesStartingAt:kFWSettingsCellTopPadding];
 }
 
+#pragma mark - Private Methods
+
+- (void)showSettings
+{
+    if (self.gameSettingsViewController == nil)
+    {
+        FWGameSettingsViewController *gameSettingsViewController = [[FWGameSettingsViewController alloc] initWithNibName:@"FWGameSettingsViewController" bundle:nil];
+        gameSettingsViewController.delegate = self;
+        self.gameSettingsViewController = gameSettingsViewController;
+    }
+
+    [self addChildViewController:self.gameSettingsViewController];
+    self.gameSettingsViewController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.gameSettingsViewController.view];
+    [self.gameSettingsViewController didMoveToParentViewController:self];
+
+    [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+}
+
+- (void)hideSettings
+{
+    [self.gameSettingsViewController.view slideTo:[self.view frameBelow]
+                                      duration:0.3f
+                                         delay:0.0f
+                                    completion:^(BOOL finished) {
+                                        [self.gameSettingsViewController willMoveToParentViewController:nil];
+                                        [self.gameSettingsViewController.view removeFromSuperview];
+                                        [self.gameSettingsViewController removeFromParentViewController];
+                                    }];
+    self.areGameSettingsVisible = NO;
+}
+
+- (void)showSaveGame
+{
+    if (self.saveGameViewController == nil)
+    {
+        FWSaveGameViewController *saveGameViewController = [[FWSaveGameViewController alloc] initWithNibName:@"FWSaveGameViewController" bundle:nil];
+        saveGameViewController.delegate = self;
+        self.saveGameViewController = saveGameViewController;
+    }
+
+    [self addChildViewController:self.saveGameViewController];
+    self.saveGameViewController.view.frame = [self.view frameToTheRight];
+    [self.view addSubview:self.saveGameViewController.view];
+    [self.saveGameViewController didMoveToParentViewController:self];
+
+    [self.saveGameViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+}
+
+- (void)hideSaveGame
+{
+    [self.saveGameViewController.view slideTo:[self.view frameToTheRight]
+                                         duration:0.3f
+                                            delay:0.0f
+                                       completion:^(BOOL finished) {
+                                           [self.saveGameViewController willMoveToParentViewController:nil];
+                                           [self.saveGameViewController.view removeFromSuperview];
+                                           [self.saveGameViewController removeFromParentViewController];
+                                       }];
+    self.isSaveGameVisible = NO;
+}
 
 #pragma mark - FWTitleBarDelegate
 
@@ -88,8 +151,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)gameSettingsDidClose:(FWGameSettingsViewController *)gameSettingsViewController
 {
-    [self.gameSettingsViewController.view slideTo:[self.view frameBelow] duration:0.3f delay:0.0f completion:nil];
-    self.areGameSettingsVisible = NO;
+    [self hideSettings];
 }
 
 - (void)gameSettings:(FWGameSettingsViewController *)gameSettingsViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme
@@ -113,7 +175,8 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 {
     if (tileButton == self.saveTile)
     {
-        [self.delegate quickPlayMenuDidSave:self];
+        [self showSaveGame];
+//        [self.delegate quickPlayMenuDidSave:self];
     }
     else if (tileButton == self.createGameTile)
     {
@@ -122,24 +185,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     }
     else if (tileButton == self.settingsTile)
     {
-        if (self.gameSettingsViewController == nil)
-        {
-            FWGameSettingsViewController *gameSettingsViewController = [[FWGameSettingsViewController alloc] initWithNibName:@"FWGameSettingsViewController" bundle:nil];
-            gameSettingsViewController.delegate = self;
-            [self addChildViewController:gameSettingsViewController];
-            gameSettingsViewController.view.frame = [self.view frameBelow];
-            [self.view addSubview:gameSettingsViewController.view];
-            [gameSettingsViewController didMoveToParentViewController:self];
-            self.gameSettingsViewController = gameSettingsViewController;
-        }
-        else
-        {
-            [self addChildViewController:self.gameSettingsViewController];
-            self.gameSettingsViewController.view.frame = [self.view frameBelow];
-            [self.view addSubview:self.gameSettingsViewController.view];
-            [self.gameSettingsViewController didMoveToParentViewController:self];
-        }
-        [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+        [self showSettings];
     }
     else if (tileButton == self.quitTile)
     {
@@ -149,6 +195,18 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     {
         NSAssert(NO, @"Unrecognized tile.");
     }
+}
+
+#pragma mark - FWSaveGameViewControllerDelegate
+
+- (void)saveGameViewController:(FWSaveGameViewController *)saveGameViewController didSaveWithName:(NSString *)name
+{
+
+}
+
+- (void)saveGameViewControllerDidCancel:(FWSaveGameViewController *)saveGameViewController
+{
+    [self hideSaveGame];
 }
 
 #pragma mark - Private Methods

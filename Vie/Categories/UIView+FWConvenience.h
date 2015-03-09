@@ -8,6 +8,7 @@
 - (void)slideTo:(CGRect)position duration:(CGFloat)duration delay:(CGFloat)delay completion:(void (^)(BOOL finished))completion;
 - (void)fadeInWithDuration:(CGFloat)duration delay:(CGFloat)delay;
 - (CGRect)frameShiftedVerticallyByOffset:(CGFloat)offset;
+- (CGRect)frameToTheRight;
 - (CGRect)frameBelow;
 
 + (void)distributeVerticallyViews:(NSArray *)views startingAtPoint:(CGPoint)point withIncrementsOf:(CGFloat)increment;

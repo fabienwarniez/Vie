@@ -5,32 +5,27 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWQuickPlayMenuViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWSaveGameViewController">
             <connections>
-                <outlet property="contentView" destination="fbo-Zz-h05" id="RBC-c8-Vzl"/>
-                <outlet property="view" destination="IHF-Ba-l0f" id="zDk-pv-uLO"/>
+                <outlet property="view" destination="iN0-l3-epB" id="Mzc-m2-Yvq"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="IHF-Ba-l0f">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="1oJ-Ub-WJx" customClass="FWTitleBar">
+                <view contentMode="scaleToFill" id="due-4n-QhR" customClass="FWTitleBar">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="gw4-7E-RcR"/>
+                        <outlet property="delegate" destination="-1" id="U2V-mU-vZQ"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" id="fbo-Zz-h05" userLabel="Content View">
-                    <rect key="frame" x="0.0" y="66" width="320" height="502"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <point key="canvasLocation" x="286" y="381"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

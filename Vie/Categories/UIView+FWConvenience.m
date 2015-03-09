@@ -34,6 +34,11 @@
     return CGRectMake(self.frame.origin.x, self.frame.origin.y + offset, self.frame.size.width, self.frame.size.height);
 }
 
+- (CGRect)frameToTheRight
+{
+    return CGRectMake(self.frame.origin.x + self.frame.size.width, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+}
+
 - (CGRect)frameBelow
 {
     return CGRectMake(self.frame.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, self.frame.size.height);
