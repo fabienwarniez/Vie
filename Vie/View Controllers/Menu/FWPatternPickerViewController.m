@@ -4,7 +4,6 @@
 //
 
 #import "FWPatternPickerViewController.h"
-#import "FWUserModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWBoardSizeModel.h"
 #import "FWPatternCollectionViewCell.h"
@@ -24,8 +23,6 @@ static CGFloat const kFWCellSpacing = 1.0f;
 @interface FWPatternPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWPatternCollectionViewCellDelegate>
 
 @property (nonatomic, strong) FWPatternManager *patternManager;
-@property (nonatomic, strong) FWColorSchemeModel *colorScheme;
-@property (nonatomic, strong) FWBoardSizeModel *boardSize;
 @property (nonatomic, strong) NSArray *patterns;
 @property (nonatomic, assign) CGFloat lastScrollPosition;
 
@@ -33,17 +30,13 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 @implementation FWPatternPickerViewController
 
-- (instancetype)init
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
         _patternManager = [[FWDataManager sharedDataManager] patternManager];
-        _patterns = [_patternManager patternsForSearchString:nil];
-
-        FWUserModel *userModel = [FWUserModel sharedUserModel];
-        _colorScheme = [userModel colorScheme];
-        _boardSize = [userModel boardSize];
+        _patterns = [_patternManager patternsForSearchString:nil onlyFavourites:NO];
         _lastScrollPosition = 0.0f;
     }
     return self;
@@ -71,13 +64,6 @@ static CGFloat const kFWCellSpacing = 1.0f;
     self.lastScrollPosition = self.collectionView.contentOffset.y;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    // TODO: update color
-}
-
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
@@ -86,6 +72,14 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
     self.collectionViewLayout.itemSize = CGSizeMake(side, side + [FWPatternCollectionViewCell titleBarHeight]);
     [self.collectionViewLayout invalidateLayout];
+}
+
+#pragma mark - Accessors
+
+- (void)setColorScheme:(FWColorSchemeModel *)colorScheme
+{
+    _colorScheme = colorScheme;
+    [self.collectionView reloadData];
 }
 
 #pragma mark - FWTitleBarDelegate
@@ -250,7 +244,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (IBAction)textFieldChanged:(FWTextField *)textField
 {
-    self.patterns = [self.patternManager patternsForSearchString:textField.text];
+    self.patterns = [self.patternManager patternsForSearchString:textField.text onlyFavourites:NO];
 
     [self.collectionView reloadData];
 }

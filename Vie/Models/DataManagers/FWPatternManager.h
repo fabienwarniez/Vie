@@ -12,7 +12,8 @@
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (FWPatternModel *)createPatternModel;
-- (NSArray *)patternsForSearchString:(NSString *)searchString;
+
+- (NSArray *)patternsForSearchString:(NSString *)searchString onlyFavourites:(BOOL)onlyFavourites;
 - (NSUInteger)patternCount;
 
 @end

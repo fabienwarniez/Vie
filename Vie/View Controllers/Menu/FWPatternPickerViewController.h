@@ -9,6 +9,7 @@
 @class FWBoardSizeModel;
 @class FWPatternPickerViewController;
 @class FWTextField;
+@class FWColorSchemeModel;
 
 @protocol FWPatternPickerViewControllerDelegate
 
@@ -20,6 +21,8 @@
 @interface FWPatternPickerViewController : UIViewController <FWTitleBarDelegate, UITextFieldDelegate>
 
 @property (nonatomic, weak) id<FWPatternPickerViewControllerDelegate> delegate;
+@property (nonatomic, strong) FWColorSchemeModel *colorScheme;
+@property (nonatomic, strong) FWBoardSizeModel *boardSize;
 
 @property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) IBOutlet UICollectionViewFlowLayout *collectionViewLayout;

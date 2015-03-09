@@ -28,7 +28,7 @@ static NSString * const kFWPatternEntityName = @"Pattern";
     return cellPatternModel;
 }
 
-- (NSArray *)patternsForSearchString:(NSString *)searchString
+- (NSArray *)patternsForSearchString:(NSString *)searchString onlyFavourites:(BOOL)onlyFavourites
 {
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kFWPatternEntityName inManagedObjectContext:self.managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -37,7 +37,13 @@ static NSString * const kFWPatternEntityName = @"Pattern";
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
 
-    if (searchString != nil && [searchString length] > 0) {
+    if (searchString != nil && [searchString length] > 0 && onlyFavourites) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@ AND favourited == %@", searchString, @(onlyFavourites)];
+        [fetchRequest setPredicate:predicate];
+    } else if (onlyFavourites) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"favourited == %@", @(onlyFavourites)];
+        [fetchRequest setPredicate:predicate];
+    } else if (searchString != nil && [searchString length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchString];
         [fetchRequest setPredicate:predicate];
     }

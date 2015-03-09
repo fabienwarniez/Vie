@@ -105,7 +105,8 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)showQuickGame
 {
     FWUserModel *userModel = [FWUserModel sharedUserModel];
-    if (self.gameViewController == nil) {
+    if (self.gameViewController == nil)
+    {
         FWGameViewController *gameViewController = [[FWGameViewController alloc] initWithNibName:@"FWGameViewController" bundle:nil];
         gameViewController.boardSize = userModel.boardSize; // board size must be set before the view is accessed
         gameViewController.cellBorderWidth = kFWGameViewControllerCellBorderWidth;
@@ -115,10 +116,13 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         gameViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.gameViewController = gameViewController;
     } else {
-        self.gameViewController.boardSize = userModel.boardSize;
-        self.gameViewController.cellFillColorScheme = userModel.colorScheme;
-        self.gameViewController.gameSpeed = userModel.gameSpeed;
+        if (![self.gameViewController.boardSize isEqualToBoardSize:userModel.boardSize]) {
+            self.gameViewController.boardSize = userModel.boardSize;
+        }
     }
+
+    self.gameViewController.cellFillColorScheme = userModel.colorScheme;
+    self.gameViewController.gameSpeed = userModel.gameSpeed;
 
     [self addChildViewController:self.gameViewController];
     self.gameViewController.view.frame = [self.view frameBelow];
@@ -180,6 +184,10 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         self.patternPickerViewController = patternPickerViewController;
     }
 
+    FWUserModel *userModel = [FWUserModel sharedUserModel];
+    self.patternPickerViewController.colorScheme = [userModel colorScheme];
+    self.patternPickerViewController.boardSize = [userModel boardSize];
+
     [self addChildViewController:self.patternPickerViewController];
     self.patternPickerViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.patternPickerViewController.view.frame = [self.view frameBelow];
@@ -193,13 +201,13 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)hidePatternPicker
 {
     [self.patternPickerViewController.view slideTo:[self.view frameBelow]
-                                      duration:0.3f
-                                         delay:0.0f
-                                    completion:^(BOOL finished) {
-                                        [self.patternPickerViewController willMoveToParentViewController:nil];
-                                        [self.patternPickerViewController.view removeFromSuperview];
-                                        [self.patternPickerViewController removeFromParentViewController];
-                                    }];
+                                          duration:0.3f
+                                             delay:0.0f
+                                        completion:^(BOOL finished) {
+                                            [self.patternPickerViewController willMoveToParentViewController:nil];
+                                            [self.patternPickerViewController.view removeFromSuperview];
+                                            [self.patternPickerViewController removeFromParentViewController];
+                                        }];
     self.isPatternPickerVisible = NO;
 }
 
@@ -208,6 +216,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)quickGameButtonTapped
 {
     [self showQuickGame];
+    // TODO: create new game
 }
 
 - (void)patternsButtonTapped
@@ -259,7 +268,6 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     [sharedUserModel setColorScheme:colorScheme];
 
     self.gameViewController.cellFillColorScheme = colorScheme;
-    // TODO: update pattern color
 }
 
 - (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController boardSizeDidChange:(FWBoardSizeModel *)boardSize
@@ -294,13 +302,13 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 {
     NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
 
-    [self.gameViewController setPattern:cellPattern];
-
-    [self.gameViewController setForceResumeAfterInterruption:NO];
-
     [self hidePatternPicker];
 
     [self showQuickGame];
+
+    [self.gameViewController setPattern:cellPattern];
+
+    [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 
 - (void)patternPickerDidClose:(FWPatternPickerViewController *)patternPickerViewController
@@ -315,13 +323,12 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     if (!self.isQuickGameVisible) {
         self.gameViewController = nil;
     }
-    if (!self.isPatternPickerVisible) {
-        self.patternPickerViewController = nil;
-    }
     if (!self.isQuickGameMenuVisible) {
         self.quickPlayMenuController = nil;
     }
+    if (!self.isPatternPickerVisible) {
+        self.patternPickerViewController = nil;
+    }
 }
-
 
 @end
