@@ -249,17 +249,12 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     [self.gameViewController restart];
 }
 
-- (void)quickPlayMenuDidSave:(FWQuickPlayMenuViewController *)quickPlayMenuViewController
+- (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController didSaveWithName:(NSString *)name
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM dd, yyyy HH:mm"];
-    NSDate *now = [[NSDate alloc] init];
-    NSString *dateString = [dateFormatter stringFromDate:now];
-
     NSArray *liveCells = [self.gameViewController initialBoardLiveCells];
 
     FWUserModel *userModel = [FWUserModel sharedUserModel];
-    [userModel saveGameWithName:dateString boardSize:self.gameViewController.boardSize liveCells:liveCells];
+    [userModel saveGameWithName:name boardSize:self.gameViewController.boardSize liveCells:liveCells];
 }
 
 - (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme

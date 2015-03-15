@@ -9,10 +9,7 @@
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar;
 - (void)buttonTappedFor:(FWTitleBar *)titleBar;
-
-@optional
-
-- (UIImage *)imageFor:(FWTitleBar *)titleBar;
+- (UIImage *)buttonImageFor:(FWTitleBar *)titleBar;
 
 @end
 

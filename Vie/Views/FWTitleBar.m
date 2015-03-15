@@ -48,7 +48,6 @@
     _label.font = [UIFont largeBold];
     _button = [UIButton buttonWithType:UIButtonTypeCustom];
     _button.backgroundColor = [UIColor vieGreenDark];
-    [_button setImage:[UIImage imageNamed:@"hamburger"] forState:UIControlStateNormal];
     [_button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
 
     [self addSubview:_label];
@@ -64,6 +63,13 @@
     self.label.center = self.center;
 
     self.button.frame = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.height);
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+
+    [self.button setImage:[self.delegate buttonImageFor:self] forState:UIControlStateNormal];
 }
 
 - (void)buttonTapped

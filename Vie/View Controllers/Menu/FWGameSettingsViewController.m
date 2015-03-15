@@ -107,6 +107,11 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     [self.delegate gameSettingsDidClose:self];
 }
 
+- (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
+{
+    return [UIImage imageNamed:@"x"];
+}
+
 #pragma mark - FWColorTileDelegate
 
 - (void)tileButtonWasSelected:(FWColorTile *)selectedColorTile

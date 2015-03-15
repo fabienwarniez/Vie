@@ -6,6 +6,7 @@
 #import "FWTitleBar.h"
 
 @class FWSaveGameViewController;
+@class FWTextField;
 
 @protocol FWSaveGameViewControllerDelegate
 
@@ -17,5 +18,13 @@
 @interface FWSaveGameViewController : UIViewController <FWTitleBarDelegate>
 
 @property (nonatomic, weak) id<FWSaveGameViewControllerDelegate> delegate;
+@property (nonatomic, strong) IBOutlet FWTextField *textField;
+@property (nonatomic, strong) IBOutlet UIButton *addButton;
+@property (nonatomic, strong) IBOutlet UIButton *cancelButton;
+
+- (IBAction)addButtonTapped:(UIButton *)addButton;
+- (IBAction)cancelButtonTapped:(UIButton *)cancelButton;
+- (IBAction)textFieldValueDidChange:(FWTextField *)textField;
+- (IBAction)hideKeyboard:(FWTextField *)textField;
 
 @end

@@ -5,4 +5,6 @@
 
 @interface FWTextField : UITextField
 
+@property (nonatomic, strong) UIImage *rightImage;
+
 @end

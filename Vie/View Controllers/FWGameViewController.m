@@ -140,6 +140,11 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     [self.delegate menuButtonTappedForGameViewController:self];
 }
 
+- (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
+{
+    return [UIImage imageNamed:@"hamburger"];
+}
+
 #pragma mark - FWGameToolbarDelegate
 
 - (void)rewindButtonTappedFor:(FWGameToolbar *)gameToolbar

@@ -107,8 +107,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)showSaveGame
 {
-    if (self.saveGameViewController == nil)
-    {
+    if (self.saveGameViewController == nil) {
         FWSaveGameViewController *saveGameViewController = [[FWSaveGameViewController alloc] initWithNibName:@"FWSaveGameViewController" bundle:nil];
         saveGameViewController.delegate = self;
         self.saveGameViewController = saveGameViewController;
@@ -133,6 +132,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
                                            [self.saveGameViewController removeFromParentViewController];
                                        }];
     self.isSaveGameVisible = NO;
+    self.saveGameViewController = nil;
 }
 
 #pragma mark - FWTitleBarDelegate
@@ -145,6 +145,11 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
 {
     [self close];
+}
+
+- (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
+{
+    return [UIImage imageNamed:@"x"];
 }
 
 #pragma mark - FWGameSettingsViewControllerDelegate
@@ -201,7 +206,11 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (void)saveGameViewController:(FWSaveGameViewController *)saveGameViewController didSaveWithName:(NSString *)name
 {
+    [self.delegate quickPlayMenu:self didSaveWithName:name];
 
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hideSaveGame];
+    });
 }
 
 - (void)saveGameViewControllerDidCancel:(FWSaveGameViewController *)saveGameViewController

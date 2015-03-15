@@ -9,7 +9,7 @@
 
 @implementation FWTextField
 
-- (id)initWithCoder:(NSCoder *)coder
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self)
@@ -33,7 +33,12 @@
 
 - (CGRect)textRectForBounds:(CGRect)bounds
 {
-    return UIEdgeInsetsInsetRect(bounds, UIEdgeInsetsMake(0.0f, 20.0f, 0.0f, 50.0f));
+    CGFloat rightPadding = 10.0f;
+
+    if (self.rightImage != nil) {
+        rightPadding += 10.0f + self.rightImage.size.width;
+    }
+    return UIEdgeInsetsInsetRect(bounds, UIEdgeInsetsMake(0.0f, 20.0f, 0.0f, rightPadding));
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds
@@ -44,8 +49,21 @@
 - (CGRect)rightViewRectForBounds:(CGRect)bounds
 {
     CGRect textRect = [super rightViewRectForBounds:bounds];
-    textRect.origin.x -= textRect.origin.y;
+    textRect.origin.x -= 15.0f;
     return textRect;
+}
+
+#pragma mark - Accessors
+
+- (void)setRightImage:(UIImage *)rightImage
+{
+    _rightImage = rightImage;
+    if (rightImage == nil) {
+        self.rightView = nil;
+    } else {
+        self.rightView = [[UIImageView alloc] initWithImage:rightImage];
+    }
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Private Methods
@@ -54,7 +72,6 @@
 {
     self.backgroundColor = [UIColor lightGrey];
     self.rightViewMode = UITextFieldViewModeAlways;
-    self.rightView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"magnifier"]];
     self.font = [UIFont smallCondensed];
     self.textColor = [UIColor darkGrey];
 }

@@ -55,6 +55,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
                                             action:nil];
 
     self.searchBar.placeholder = @"Search";
+    self.searchBar.rightImage = [UIImage imageNamed:@"magnifier"];
 
     self.noResultLabel.text = @"0 results.";
     self.noResultLabel.font = [UIFont largeCondensedRegular];
@@ -93,6 +94,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     [self.searchBar resignFirstResponder];
     [self.delegate patternPickerDidClose:self];
+}
+
+- (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
+{
+    return [UIImage imageNamed:@"x"];
 }
 
 #pragma mark - UICollectionViewDataSource
