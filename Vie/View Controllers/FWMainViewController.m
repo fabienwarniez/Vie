@@ -14,18 +14,21 @@
 #import "FWQuickPlayMenuViewController.h"
 #import "FWUserModel.h"
 #import "FWPatternPickerViewController.h"
+#import "FWSavedGamePickerViewController.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
-@interface FWMainViewController () <UINavigationBarDelegate, FWMainMenuViewControllerDelegate, FWGameViewControllerDelegate, FWQuickPlayMenuControllerDelegate, FWPatternPickerViewControllerDelegate>
+@interface FWMainViewController () <FWMainMenuViewControllerDelegate, FWGameViewControllerDelegate, FWQuickPlayMenuControllerDelegate, FWPatternPickerViewControllerDelegate, FWSavedGamePickerViewControllerDelegate>
 
 @property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
 @property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWQuickPlayMenuViewController *quickPlayMenuController;
 @property (nonatomic, strong) FWPatternPickerViewController *patternPickerViewController;
+@property (nonatomic, strong) FWSavedGamePickerViewController *savedGamePickerViewController;
 @property (nonatomic, assign) BOOL isQuickGameVisible;
 @property (nonatomic, assign) BOOL isQuickGameMenuVisible;
 @property (nonatomic, assign) BOOL isPatternPickerVisible;
+@property (nonatomic, assign) BOOL isSavedGamePickerVisible;
 
 @end
 
@@ -44,6 +47,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         _isQuickGameVisible = NO;
         _isQuickGameMenuVisible = NO;
         _isPatternPickerVisible = NO;
+        _isSavedGamePickerVisible = NO;
     }
     return self;
 }
@@ -97,6 +101,15 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     else
     {
         self.patternPickerViewController.view.frame = [self.view frameBelow];
+    }
+
+    if (self.isSavedGamePickerVisible)
+    {
+        self.savedGamePickerViewController.view.frame = self.view.bounds;
+    }
+    else
+    {
+        self.savedGamePickerViewController.view.frame = [self.view frameBelow];
     }
 }
 
@@ -211,6 +224,40 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.isPatternPickerVisible = NO;
 }
 
+- (void)showSavedGamePicker
+{
+    if (self.savedGamePickerViewController == nil) {
+        FWSavedGamePickerViewController *savedGamePickerViewController = [[FWSavedGamePickerViewController alloc] init];
+        savedGamePickerViewController.delegate = self;
+        self.savedGamePickerViewController = savedGamePickerViewController;
+    }
+
+    FWUserModel *userModel = [FWUserModel sharedUserModel];
+    self.savedGamePickerViewController.colorScheme = [userModel colorScheme];
+
+    [self addChildViewController:self.savedGamePickerViewController];
+    self.savedGamePickerViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.savedGamePickerViewController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.savedGamePickerViewController.view];
+    [self.savedGamePickerViewController didMoveToParentViewController:self];
+
+    [self.savedGamePickerViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+    self.isSavedGamePickerVisible = YES;
+}
+
+- (void)hideSavedGamePicker
+{
+    [self.savedGamePickerViewController.view slideTo:[self.view frameBelow]
+                                          duration:0.3f
+                                             delay:0.0f
+                                        completion:^(BOOL finished) {
+                                            [self.savedGamePickerViewController willMoveToParentViewController:nil];
+                                            [self.savedGamePickerViewController.view removeFromSuperview];
+                                            [self.savedGamePickerViewController removeFromParentViewController];
+                                        }];
+    self.isSavedGamePickerVisible = NO;
+}
+
 #pragma mark - FWMainMenuViewControllerDelegate
 
 - (void)quickGameButtonTapped
@@ -222,6 +269,11 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 - (void)patternsButtonTapped
 {
     [self showPatternPicker];
+}
+
+- (void)savedGamesButtonTapped
+{
+    [self showSavedGamePicker];
 }
 
 #pragma mark - FWGameViewControllerDelegate
@@ -281,14 +333,24 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.gameViewController.gameSpeed = gameSpeed;
 }
 
-#pragma mark - FWSavedGamePickerTableViewControllerDelegate
+#pragma mark - FWSavedGamePickerViewControllerDelegate
 
-- (void)loadSavedGame:(FWSavedGameModel *)savedGame
+- (void)savedGamePicker:(FWSavedGamePickerViewController *)savedGamePickerViewController didSelectSavedGame:(FWSavedGameModel *)savedGame
 {
-//    [self.gameViewController loadSavedGame:savedGame];
-//
-//    [self.gameViewController setForceResumeAfterInterruption:NO];
-//    [self closeMenu];
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, savedGame.name);
+
+    [self hideSavedGamePicker];
+
+    [self showQuickGame];
+
+    [self.gameViewController loadSavedGame:savedGame];
+
+    [self.gameViewController setForceResumeAfterInterruption:NO];
+}
+
+- (void)savedGamePickerDidClose:(FWSavedGamePickerViewController *)savedGamePickerViewController
+{
+    [self hideSavedGamePicker];
 }
 
 #pragma mark - FWPatternPickerViewControllerDelegate
@@ -323,6 +385,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     }
     if (!self.isPatternPickerVisible) {
         self.patternPickerViewController = nil;
+    }
+    if (!self.isSavedGamePickerVisible) {
+        self.savedGamePickerViewController = nil;
     }
 }
 

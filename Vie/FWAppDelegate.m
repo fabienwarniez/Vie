@@ -8,7 +8,6 @@
 
 #import "FWAppDelegate.h"
 #import "FWMainViewController.h"
-#import "UIFont+FWAppFonts.h"
 #import "FWDataManager.h"
 #import "FWPatternManager.h"
 #import "FWPatternLoader.h"
@@ -34,8 +33,6 @@
     
     [self.window makeKeyAndVisible];
 
-    [self setGlobalAppearance];
-
     return YES;
 }
 
@@ -51,14 +48,6 @@
             [patternModel.managedObjectContext save:nil];
         }
     }
-}
-
-- (void)setGlobalAppearance
-{
-    [[UINavigationBar appearance] setTitleTextAttributes:@{
-            NSForegroundColorAttributeName:[UIColor whiteColor],
-            NSFontAttributeName:[UIFont smallCondensed]
-    }];
 }
 
 @end

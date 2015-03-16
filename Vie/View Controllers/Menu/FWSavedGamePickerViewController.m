@@ -1,42 +1,40 @@
 //
-// Created by Fabien Warniez on 2014-05-07.
+// Created by Fabien Warniez on 2015-03-14.
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import "FWPatternPickerViewController.h"
+#import "FWSavedGamePickerViewController.h"
 #import "FWColorSchemeModel.h"
-#import "FWBoardSizeModel.h"
-#import "FWPatternCollectionViewCell.h"
-#import "FWPatternModel.h"
 #import "UIColor+FWAppColors.h"
 #import "FWTextField.h"
 #import "UIScrollView+FWConvenience.h"
 #import "UIFont+FWAppFonts.h"
-#import "FWPatternManager.h"
 #import "FWDataManager.h"
+#import "FWSavedGameManager.h"
+#import "FWSavedGameModel.h"
+#import "FWSavedGameCollectionViewCell.h"
 
-static NSString * const kFWPatternTileReuseIdentifier = @"PatternTile";
+static NSString * const kFWSavedGameTileReuseIdentifier = @"SavedGameTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
 static CGFloat const kFWSearchBarContainerTopMargin = 58.0f;
 static CGFloat const kFWCellSpacing = 1.0f;
 
-@interface FWPatternPickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWPatternCollectionViewCellDelegate>
+@interface FWSavedGamePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWSavedGameCollectionViewCellDelegate>
 
-@property (nonatomic, strong) FWPatternManager *patternManager;
-@property (nonatomic, strong) NSArray *patterns;
+@property (nonatomic, strong) FWSavedGameManager *savedGameManager;
+@property (nonatomic, strong) NSArray *savedGames;
 @property (nonatomic, assign) CGFloat lastScrollPosition;
 
 @end
 
-@implementation FWPatternPickerViewController
+@implementation FWSavedGamePickerViewController
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _patternManager = [[FWDataManager sharedDataManager] patternManager];
-        _patterns = [_patternManager patternsForSearchString:nil onlyFavourites:NO];
+        _savedGameManager = [[FWDataManager sharedDataManager] savedGameManager];
         _lastScrollPosition = 0.0f;
     }
     return self;
@@ -44,7 +42,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)viewDidLoad
 {
-    [self.collectionView registerClass:[FWPatternCollectionViewCell class] forCellWithReuseIdentifier:kFWPatternTileReuseIdentifier];
+    [self.collectionView registerClass:[FWSavedGameCollectionViewCell class] forCellWithReuseIdentifier:kFWSavedGameTileReuseIdentifier];
 
     self.searchBar.placeholder = @"Search";
     self.searchBar.rightImage = [UIImage imageNamed:@"magnifier"];
@@ -63,8 +61,16 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
     CGFloat side = (self.collectionView.bounds.size.width - kFWCellSpacing - 2 * kFWCollectionViewSideMargin) / 2.0f;
 
-    self.collectionViewLayout.itemSize = CGSizeMake(side, side + [FWPatternCollectionViewCell titleBarHeight]);
+    self.collectionViewLayout.itemSize = CGSizeMake(side, side);
     [self.collectionViewLayout invalidateLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.savedGames = [_savedGameManager savedGamesForSearchString:nil];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - Accessors
@@ -79,13 +85,13 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return @"Patterns";
+    return @"Saved Games";
 }
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
 {
     [self.searchBar resignFirstResponder];
-    [self.delegate patternPickerDidClose:self];
+    [self.delegate savedGamePickerDidClose:self];
 }
 
 - (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
@@ -104,7 +110,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     if (section == 0)
     {
-        NSUInteger count = [self.patterns count];
+        NSUInteger count = [self.savedGames count];
         self.noResultContainer.hidden = count > 0;
         return count;
     }
@@ -117,27 +123,18 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FWPatternCollectionViewCell *dequeuedCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kFWPatternTileReuseIdentifier forIndexPath:indexPath];
+    FWSavedGameCollectionViewCell *dequeuedCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:kFWSavedGameTileReuseIdentifier forIndexPath:indexPath];
     dequeuedCell.delegate = self;
 
-    FWPatternModel *model = self.patterns[(NSUInteger) indexPath.row];
+    FWSavedGameModel *model = self.savedGames[(NSUInteger) indexPath.row];
 
     dequeuedCell.mainColor = [UIColor lightGrey];
-    dequeuedCell.cellPattern = model;
-    dequeuedCell.colorScheme = self.colorScheme;
-    dequeuedCell.fitsOnCurrentBoard = [model.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
+    dequeuedCell.savedGame = model;
 
     return dequeuedCell;
 }
 
 #pragma mark - UICollectionViewDelegate
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    FWPatternModel *selectedModel = self.patterns[(NSUInteger) indexPath.row];
-
-    return [selectedModel.boardSize isSmallerOrEqualToBoardSize:self.boardSize];
-}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -183,28 +180,14 @@ static CGFloat const kFWCellSpacing = 1.0f;
     }
 }
 
-#pragma mark - FWPatternCollectionViewCellDelegate
+#pragma mark - FWSavedGameCollectionViewCellDelegate
 
-- (void)playButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
+- (void)playButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell
 {
-    FWPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
+    FWSavedGameModel *selectedModel = [self savedGameModelForCell:savedGameCollectionViewCell];
 
     [self.searchBar resignFirstResponder];
-    [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
-}
-
-- (void)favouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
-{
-    FWPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
-    selectedModel.favourited = YES;
-    [selectedModel.managedObjectContext save:nil];
-}
-
-- (void)unfavouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
-{
-    FWPatternModel *selectedModel = [self patternModelForCell:patternCollectionViewCell];
-    selectedModel.favourited = NO;
-    [selectedModel.managedObjectContext save:nil];
+    [self.delegate savedGamePicker:self didSelectSavedGame:selectedModel];
 }
 
 #pragma mark - Private Methods
@@ -229,11 +212,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
     return kFWSearchBarContainerTopMargin;
 }
 
-- (FWPatternModel *)patternModelForCell:(FWPatternCollectionViewCell *)patternCollectionViewCell
+- (FWSavedGameModel *)savedGameModelForCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell
 {
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:patternCollectionViewCell];
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:savedGameCollectionViewCell];
 
-    FWPatternModel *selectedModel = self.patterns[(NSUInteger) indexPath.row];
+    FWSavedGameModel *selectedModel = self.savedGames[(NSUInteger) indexPath.row];
 
     return selectedModel;
 }
@@ -242,7 +225,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (IBAction)textFieldChanged:(FWTextField *)textField
 {
-    self.patterns = [self.patternManager patternsForSearchString:textField.text onlyFavourites:NO];
+    self.savedGames = [self.savedGameManager savedGamesForSearchString:textField.text];
 
     [self.collectionView reloadData];
 }

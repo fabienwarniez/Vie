@@ -17,7 +17,7 @@ static CGFloat const kFWSettingsCellHorizontalMargin = 27.0f;
 static CGFloat const kFWSettingsCellTopPadding = 36.0f;
 static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
-@interface FWQuickPlayMenuViewController () <UINavigationBarDelegate, FWGameSettingsViewControllerDelegate, FWMenuTileDelegate, FWSaveGameViewControllerDelegate>
+@interface FWQuickPlayMenuViewController () <FWGameSettingsViewControllerDelegate, FWMenuTileDelegate, FWSaveGameViewControllerDelegate>
 
 @property (nonatomic, strong) FWGameSettingsViewController *gameSettingsViewController;
 @property (nonatomic, strong) FWSaveGameViewController *saveGameViewController;

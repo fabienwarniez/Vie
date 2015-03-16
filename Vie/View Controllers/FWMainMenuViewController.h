@@ -7,6 +7,7 @@
 
 - (void)quickGameButtonTapped;
 - (void)patternsButtonTapped;
+- (void)savedGamesButtonTapped;
 
 @end
 

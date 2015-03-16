@@ -4,10 +4,12 @@
 //
 
 @class FWPatternManager;
+@class FWSavedGameManager;
 
 @interface FWDataManager : NSObject
 
 + (instancetype)sharedDataManager;
 - (FWPatternManager *)patternManager;
+- (FWSavedGameManager *)savedGameManager;
 
 @end

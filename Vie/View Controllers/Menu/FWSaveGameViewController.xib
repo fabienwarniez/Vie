@@ -30,7 +30,7 @@
                     <rect key="frame" x="48" y="94" width="224" height="52"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="no" returnKeyType="done"/>
                     <connections>
                         <action selector="hideKeyboard:" destination="-1" eventType="editingDidEndOnExit" id="4nv-xR-5hX"/>
                         <action selector="textFieldValueDidChange:" destination="-1" eventType="editingChanged" id="inr-2E-m0x"/>

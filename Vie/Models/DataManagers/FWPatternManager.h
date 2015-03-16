@@ -8,8 +8,6 @@
 
 @interface FWPatternManager : NSObject
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (FWPatternModel *)createPatternModel;
 

@@ -6,6 +6,7 @@
 #import <CoreData/CoreData.h>
 #import "FWDataManager.h"
 #import "FWPatternManager.h"
+#import "FWSavedGameManager.h"
 
 @interface FWDataManager ()
 
@@ -16,6 +17,7 @@
 @implementation FWDataManager
 {
     FWPatternManager *_patternManager;
+    FWSavedGameManager *_savedGameManager;
 }
 
 - (instancetype)init
@@ -43,12 +45,20 @@
 
 - (FWPatternManager *)patternManager
 {
-    if (_patternManager == nil)
-    {
+    if (_patternManager == nil) {
         _patternManager = [[FWPatternManager alloc] initWithManagedObjectContext:self.managedObjectContext];
     }
 
     return _patternManager;
+}
+
+- (FWSavedGameManager *)savedGameManager
+{
+    if (_savedGameManager == nil) {
+        _savedGameManager = [[FWSavedGameManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    }
+
+    return _savedGameManager;
 }
 
 #pragma mark - Private Methods

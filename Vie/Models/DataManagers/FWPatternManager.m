@@ -9,6 +9,12 @@
 
 static NSString * const kFWPatternEntityName = @"Pattern";
 
+@interface FWPatternManager ()
+
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+@end
+
 @implementation FWPatternManager
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext

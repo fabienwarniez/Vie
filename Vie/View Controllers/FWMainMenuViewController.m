@@ -65,8 +65,9 @@
 {
     [super viewDidLoad];
 
-    [self.quickPlayButton addTarget:self action:@selector(quickGameButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.patternsButton addTarget:self action:@selector(patternsButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.quickPlayButton addTarget:self action:@selector(quickGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.patternsButton addTarget:self action:@selector(patternsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.savedGamesButton addTarget:self action:@selector(savedGamesButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillLayoutSubviews
@@ -107,14 +108,19 @@
     [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];
 }
 
-- (void)quickGameButtonTapped
+- (void)quickGameButtonTapped:(UIButton *)quickGameButton
 {
     [self.delegate quickGameButtonTapped];
 }
 
-- (void)patternsButtonTapped
+- (void)patternsButtonTapped:(UIButton *)patternsButton
 {
     [self.delegate patternsButtonTapped];
+}
+
+- (void)savedGamesButtonTapped:(UIButton *)savedGamesButton
+{
+    [self.delegate savedGamesButtonTapped];
 }
 
 + (UIButton *)createMenuButtonWithTitle:(NSString *)title
