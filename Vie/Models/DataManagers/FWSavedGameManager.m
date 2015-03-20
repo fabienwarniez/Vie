@@ -6,6 +6,7 @@
 #import <CoreData/CoreData.h>
 #import "FWSavedGameManager.h"
 #import "FWSavedGameModel.h"
+#import "FWBoardSizeModel.h"
 
 static NSString * const kFWSavedGameEntityName = @"SavedGame";
 
@@ -27,11 +28,17 @@ static NSString * const kFWSavedGameEntityName = @"SavedGame";
     return self;
 }
 
-- (FWSavedGameModel *)createSavedGameModel
+- (FWSavedGameModel *)createSavedGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells creationDate:(NSDate *)creationDate
 {
-    FWSavedGameModel *savedGameModel = [NSEntityDescription insertNewObjectForEntityForName:kFWSavedGameEntityName inManagedObjectContext:self.managedObjectContext];
+    FWSavedGameModel *savedGame = [NSEntityDescription insertNewObjectForEntityForName:kFWSavedGameEntityName
+                                                                inManagedObjectContext:self.managedObjectContext];
 
-    return savedGameModel;
+    savedGame.name = name;
+    savedGame.boardSize = boardSize;
+    savedGame.liveCells = liveCells;
+    savedGame.creationDate = [NSDate date];
+
+    return savedGame;
 }
 
 - (NSArray *)savedGamesForSearchString:(NSString *)searchString
@@ -48,12 +55,6 @@ static NSString * const kFWSavedGameEntityName = @"SavedGame";
     }
 
     return [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-}
-
-- (NSUInteger)savedGameCount
-{
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kFWSavedGameEntityName];
-    return [self.managedObjectContext countForFetchRequest:fetchRequest error:nil];
 }
 
 @end

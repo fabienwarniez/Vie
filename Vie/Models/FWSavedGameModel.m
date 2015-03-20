@@ -21,6 +21,7 @@
 @dynamic serializedLiveCells;
 @dynamic boardWidth;
 @dynamic boardHeight;
+@dynamic creationDate;
 
 @synthesize liveCells=_liveCells;
 @synthesize boardSize=_boardSize;

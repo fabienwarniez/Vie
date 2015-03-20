@@ -15,6 +15,8 @@
 #import "FWUserModel.h"
 #import "FWPatternPickerViewController.h"
 #import "FWSavedGamePickerViewController.h"
+#import "FWSavedGameManager.h"
+#import "FWDataManager.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
@@ -305,8 +307,12 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 {
     NSArray *liveCells = [self.gameViewController initialBoardLiveCells];
 
-    FWUserModel *userModel = [FWUserModel sharedUserModel];
-    [userModel saveGameWithName:name boardSize:self.gameViewController.boardSize liveCells:liveCells];
+    FWSavedGameManager *savedGameManager = [[FWDataManager sharedDataManager] savedGameManager];
+    FWSavedGameModel *savedGame = [savedGameManager createSavedGameWithName:name
+                                                                  boardSize:self.gameViewController.boardSize
+                                                                  liveCells:liveCells
+                                                               creationDate:[NSDate date]];
+    [savedGame.managedObjectContext save:nil];
 }
 
 - (void)quickPlayMenu:(FWQuickPlayMenuViewController *)quickPlayMenuViewController colorSchemeDidChange:(FWColorSchemeModel *)colorScheme
@@ -337,14 +343,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)savedGamePicker:(FWSavedGamePickerViewController *)savedGamePickerViewController didSelectSavedGame:(FWSavedGameModel *)savedGame
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, savedGame.name);
-
     [self hideSavedGamePicker];
-
     [self showQuickGame];
-
     [self.gameViewController loadSavedGame:savedGame];
-
     [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 
@@ -357,14 +358,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
 - (void)patternPicker:(FWPatternPickerViewController *)patternPickerViewController didSelectCellPattern:(FWPatternModel *)cellPattern
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, cellPattern.name);
-
     [self hidePatternPicker];
-
     [self showQuickGame];
-
     [self.gameViewController setPattern:cellPattern];
-
     [self.gameViewController setForceResumeAfterInterruption:NO];
 }
 

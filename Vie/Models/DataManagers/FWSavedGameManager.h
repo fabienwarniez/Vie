@@ -5,13 +5,12 @@
 
 @class NSManagedObjectContext;
 @class FWSavedGameModel;
+@class FWBoardSizeModel;
 
 @interface FWSavedGameManager : NSObject
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (FWSavedGameModel *)createSavedGameModel;
-
+- (FWSavedGameModel *)createSavedGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells creationDate:(NSDate *)creationDate;
 - (NSArray *)savedGamesForSearchString:(NSString *)searchString;
-- (NSUInteger)savedGameCount;
 
 @end

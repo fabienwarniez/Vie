@@ -8,7 +8,6 @@
 #import "FWColorSchemeModel.h"
 #import "FWSettingsManager.h"
 #import "FWBoardSizeModel.h"
-#import "FWSavedGameModel.h"
 #import "FWGameSpeed.h"
 
 @interface FWUserModel ()
@@ -137,44 +136,6 @@
 {
     _gameSpeed = gameSpeed;
     [FWSettingsManager saveUserGameSpeed:gameSpeed];
-}
-
-- (NSArray *)savedGames
-{
-    NSManagedObjectContext *context = self.managedObjectContext;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedGame" inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-
-    NSError *error;
-    NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
-    if (result != nil)
-    {
-        for (FWSavedGameModel *object in result)
-        {
-            NSLog(@"%@", object.name);
-        }
-    }
-    return result;
-}
-
-- (void)saveGameWithName:(NSString *)name boardSize:(FWBoardSizeModel *)boardSize liveCells:(NSArray *)liveCells
-{
-    NSManagedObjectContext *context = self.managedObjectContext;
-    FWSavedGameModel *savedGame = [NSEntityDescription insertNewObjectForEntityForName:@"SavedGame"
-                                                           inManagedObjectContext:context];
-    savedGame.name = name;
-    savedGame.boardSize = boardSize;
-    savedGame.liveCells = liveCells;
-
-    [context save:nil];
-}
-
-- (void)editSavedGame:(FWSavedGameModel *)savedGame
-{
-    NSManagedObjectContext *context = savedGame.managedObjectContext;
-    NSAssert(context != nil, @"The saved game context is nil.");
-    [context save:nil];
 }
 
 @end
