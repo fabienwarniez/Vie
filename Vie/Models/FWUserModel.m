@@ -3,18 +3,11 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
 #import "FWUserModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWSettingsManager.h"
 #import "FWBoardSizeModel.h"
 #import "FWGameSpeed.h"
-
-@interface FWUserModel ()
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-
-@end
 
 @implementation FWUserModel
 {
@@ -31,21 +24,8 @@
         _colorScheme = nil;
         _boardSize = nil;
         _gameSpeed = 0;
-        _managedObjectContext = [self createManagedObjectContext];
     }
     return self;
-}
-
-- (NSManagedObjectContext *)createManagedObjectContext
-{
-    NSURL *url = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"Database.sqlite"];
-    NSManagedObjectModel *model = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
-    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-    [persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:nil];
-    NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
-
-    return managedObjectContext;
 }
 
 + (instancetype)sharedUserModel
