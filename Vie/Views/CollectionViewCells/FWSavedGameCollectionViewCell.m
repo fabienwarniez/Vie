@@ -186,8 +186,6 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
 
 - (void)setSavedGame:(FWSavedGameModel *)savedGame
 {
-    _savedGame = savedGame;
-
     self.titleLabel.text = savedGame.name;
     self.dateLabel.text = [self formattedDate:savedGame.creationDate];
     self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) savedGame.boardSize.numberOfColumns, (unsigned long) savedGame.boardSize.numberOfRows];
@@ -245,7 +243,7 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
 
 - (void)optionsButtonTapped:(UIButton *)optionsButton
 {
-    NSLog(@"Options button tapped.");
+    [self.delegate optionsButtonTappedForSavedGameCollectionViewCell:self];
 }
 
 - (NSString *)formattedDate:(NSDate *)date

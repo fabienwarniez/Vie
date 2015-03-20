@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWSaveGameViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWEditSavedGameViewController">
             <connections>
-                <outlet property="addButton" destination="4Cu-SG-Jj0" id="bdp-vn-8iT"/>
                 <outlet property="cancelButton" destination="728-te-k8g" id="1d4-gr-26H"/>
+                <outlet property="okButton" destination="4Cu-SG-Jj0" id="bdp-vn-8iT"/>
                 <outlet property="textField" destination="Oto-Aa-mj9" id="LKo-OG-5gF"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Mzc-m2-Yvq"/>
             </connections>
@@ -36,16 +36,16 @@
                         <action selector="textFieldValueDidChange:" destination="-1" eventType="editingChanged" id="inr-2E-m0x"/>
                     </connections>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4Cu-SG-Jj0" userLabel="Add Button">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4Cu-SG-Jj0" userLabel="OK Button">
                     <rect key="frame" x="126" y="180" width="68" height="68"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="add">
+                    <state key="normal" image="ok">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="add-active"/>
-                    <state key="highlighted" image="add-active"/>
+                    <state key="selected" image="ok-active"/>
+                    <state key="highlighted" image="ok-active"/>
                     <connections>
-                        <action selector="addButtonTapped:" destination="-1" eventType="touchUpInside" id="Brn-FH-uqd"/>
+                        <action selector="okButtonTapped:" destination="-1" eventType="touchUpInside" id="Brn-FH-uqd"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="728-te-k8g">
@@ -64,8 +64,8 @@
         </view>
     </objects>
     <resources>
-        <image name="add" width="68" height="68"/>
-        <image name="add-active" width="68" height="68"/>
+        <image name="ok" width="68" height="68"/>
+        <image name="ok-active" width="68" height="68"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

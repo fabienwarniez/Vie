@@ -11,6 +11,7 @@
 @protocol FWSavedGameCollectionViewCellDelegate <NSObject>
 
 - (void)playButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell;
+- (void)optionsButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell;
 
 @end
 
@@ -18,6 +19,7 @@
 
 @property (nonatomic, weak) id<FWSavedGameCollectionViewCellDelegate> delegate;
 @property (nonatomic, strong) UIColor *mainColor;
-@property (nonatomic, strong) FWSavedGameModel *savedGame;
+
+- (void)setSavedGame:(FWSavedGameModel *)savedGame;
 
 @end

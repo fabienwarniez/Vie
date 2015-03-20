@@ -13,17 +13,21 @@
 #import "FWSavedGameManager.h"
 #import "FWSavedGameModel.h"
 #import "FWSavedGameCollectionViewCell.h"
+#import "UIView+FWConvenience.h"
+#import "FWEditSavedGameViewController.h"
 
 static NSString * const kFWSavedGameTileReuseIdentifier = @"SavedGameTile";
 static CGFloat const kFWCollectionViewSideMargin = 26.0f;
 static CGFloat const kFWSearchBarContainerTopMargin = 58.0f;
 static CGFloat const kFWCellSpacing = 1.0f;
 
-@interface FWSavedGamePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWSavedGameCollectionViewCellDelegate>
+@interface FWSavedGamePickerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, FWSavedGameCollectionViewCellDelegate, FWEditSavedGameViewControllerDelegate>
 
+@property (nonatomic, strong) FWEditSavedGameViewController *editSavedGameViewController;
 @property (nonatomic, strong) FWSavedGameManager *savedGameManager;
 @property (nonatomic, strong) NSArray *savedGames;
 @property (nonatomic, assign) CGFloat lastScrollPosition;
+@property (nonatomic, assign) BOOL isEditSavedGameViewControllerVisible;
 
 @end
 
@@ -36,6 +40,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     {
         _savedGameManager = [[FWDataManager sharedDataManager] savedGameManager];
         _lastScrollPosition = 0.0f;
+        _isEditSavedGameViewControllerVisible = NO;
     }
     return self;
 }
@@ -184,13 +189,78 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)playButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell
 {
-    FWSavedGameModel *selectedModel = [self savedGameModelForCell:savedGameCollectionViewCell];
-
     [self.searchBar resignFirstResponder];
+
+    FWSavedGameModel *selectedModel = [self savedGameModelForCell:savedGameCollectionViewCell];
     [self.delegate savedGamePicker:self didSelectSavedGame:selectedModel];
 }
 
+- (void)optionsButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell
+{
+    [self.searchBar resignFirstResponder];
+
+    FWSavedGameModel *selectedModel = [self savedGameModelForCell:savedGameCollectionViewCell];
+    [self showEditViewForSavedGame:selectedModel];
+}
+
+#pragma mark - FWEditSavedGameViewControllerDelegate
+
+- (void)editSavedGameDidEdit:(FWEditSavedGameViewController *)editSavedGameViewController
+{
+    [self.collectionView reloadData];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hideEditView];
+    });
+}
+
+- (void)editSavedGameDidDelete:(FWEditSavedGameViewController *)editSavedGameViewController
+{
+    [self.collectionView reloadData];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hideEditView];
+    });
+}
+
+- (void)editSavedGameDidCancel:(FWEditSavedGameViewController *)editSavedGameViewController
+{
+    [self hideEditView];
+}
+
 #pragma mark - Private Methods
+
+- (void)showEditViewForSavedGame:(FWSavedGameModel *)model
+{
+    if (self.editSavedGameViewController == nil)
+    {
+        FWEditSavedGameViewController *editSavedGameViewController = [[FWEditSavedGameViewController alloc] initWithNibName:@"FWEditSavedGameViewController" bundle:nil];
+        editSavedGameViewController.savedGame = model;
+        editSavedGameViewController.delegate = self;
+        self.editSavedGameViewController = editSavedGameViewController;
+    }
+
+    [self addChildViewController:self.editSavedGameViewController];
+    self.editSavedGameViewController.view.frame = [self.view frameToTheRight];
+    [self.view addSubview:self.editSavedGameViewController.view];
+    [self.editSavedGameViewController didMoveToParentViewController:self];
+
+    [self.editSavedGameViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+}
+
+- (void)hideEditView
+{
+    [self.editSavedGameViewController.view slideTo:[self.view frameToTheRight]
+                                         duration:0.3f
+                                            delay:0.0f
+                                       completion:^(BOOL finished) {
+                                           [self.editSavedGameViewController willMoveToParentViewController:nil];
+                                           [self.editSavedGameViewController.view removeFromSuperview];
+                                           [self.editSavedGameViewController removeFromParentViewController];
+                                           self.editSavedGameViewController = nil;
+                                       }];
+    self.isEditSavedGameViewControllerVisible = NO;
+}
 
 - (BOOL)isSearchBarHiddenTooFarUp:(CGFloat)newY
 {

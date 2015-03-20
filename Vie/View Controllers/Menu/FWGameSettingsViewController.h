@@ -8,7 +8,6 @@
 @class FWColorSchemeModel;
 @class FWBoardSizeModel;
 @class FWGameSettingsViewController;
-@class FWTitleBar;
 
 @protocol FWGameSettingsViewControllerDelegate <NSObject>
 

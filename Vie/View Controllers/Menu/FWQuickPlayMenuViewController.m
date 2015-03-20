@@ -130,9 +130,9 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
                                            [self.saveGameViewController willMoveToParentViewController:nil];
                                            [self.saveGameViewController.view removeFromSuperview];
                                            [self.saveGameViewController removeFromParentViewController];
+                                           self.saveGameViewController = nil;
                                        }];
     self.isSaveGameVisible = NO;
-    self.saveGameViewController = nil;
 }
 
 #pragma mark - FWTitleBarDelegate

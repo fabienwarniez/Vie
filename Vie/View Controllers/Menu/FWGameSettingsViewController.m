@@ -6,7 +6,6 @@
 #import "FWGameSettingsViewController.h"
 #import "FWColorSchemeModel.h"
 #import "FWUserModel.h"
-#import "UIView+FWConvenience.h"
 #import "UIFont+FWAppFonts.h"
 #import "UIColor+FWAppColors.h"
 #import "FWColorTile.h"
