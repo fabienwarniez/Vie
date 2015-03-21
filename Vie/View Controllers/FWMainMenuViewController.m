@@ -14,7 +14,10 @@
 @property (nonatomic, strong) UIImageView *logoImageView;
 @property (nonatomic, strong) UIButton *quickPlayButton;
 @property (nonatomic, strong) UIButton *patternsButton;
+@property (nonatomic, strong) UIButton *favouritesButton;
 @property (nonatomic, strong) UIButton *savedGamesButton;
+@property (nonatomic, strong) UIButton *aboutButton;
+@property (nonatomic, strong) UILabel *copyrightLabel;
 @property (nonatomic, assign) BOOL areFirstLoadAnimationsExecuted;
 
 @end
@@ -48,15 +51,25 @@
             | UIViewAutoresizingFlexibleLeftMargin;
     self.logoImageView = logoImageView;
 
-    self.quickPlayButton = [FWMainMenuViewController createMenuButtonWithTitle:@"quick play"];
-    self.patternsButton = [FWMainMenuViewController createMenuButtonWithTitle:@"patterns"];
-    self.savedGamesButton = [FWMainMenuViewController createMenuButtonWithTitle:@"saved games"];
+    self.quickPlayButton = [FWMainMenuViewController createMenuButtonWithTitle:@"Quick Play"];
+    self.patternsButton = [FWMainMenuViewController createMenuButtonWithTitle:@"Patterns"];
+    self.favouritesButton = [FWMainMenuViewController createMenuButtonWithTitle:@"Favourites"];
+    self.savedGamesButton = [FWMainMenuViewController createMenuButtonWithTitle:@"Saved Games"];
+    self.aboutButton = [FWMainMenuViewController createMenuButtonWithTitle:@"About"];
+
+    self.copyrightLabel = [[UILabel alloc] init];
+    self.copyrightLabel.text = NSLocalizedString(@"© 2014 dot dot software, inc.", @"© 2014 dot dot software, inc.");
+    self.copyrightLabel.font = [UIFont tinyBold];
+    self.copyrightLabel.textColor = [UIColor whiteColor];
 
     [view addSubview:backgroundImageView];
     [view addSubview:logoImageView];
     [view addSubview:self.quickPlayButton];
     [view addSubview:self.patternsButton];
+    [view addSubview:self.favouritesButton];
     [view addSubview:self.savedGamesButton];
+    [view addSubview:self.aboutButton];
+    [view addSubview:self.copyrightLabel];
 
     self.view = view;
 }
@@ -80,11 +93,17 @@
             self.backgroundImageView.frame.size.width,
             self.backgroundImageView.frame.size.height
     );
-    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f + 23, 286.0f);
+    self.logoImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f + 23, 186.0f);
 
-    [UIView distributeVerticallyViews:@[self.quickPlayButton, self.patternsButton, self.savedGamesButton]
-                      startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 400.0f)
-                     withIncrementsOf:40.0f];
+    [UIView distributeVerticallyViews:@[self.quickPlayButton, self.patternsButton, self.favouritesButton, self.savedGamesButton, self.aboutButton]
+                      startingAtPoint:CGPointMake(self.view.bounds.size.width / 2.0f, 280.0f)
+                     withIncrementsOf:50.0f];
+
+    [self.copyrightLabel sizeToFit];
+    CGRect copyrightFrame = self.copyrightLabel.frame;
+    copyrightFrame.origin.x = (self.view.bounds.size.width - copyrightFrame.size.width) / 2.0f;
+    copyrightFrame.origin.y = self.view.bounds.size.height - copyrightFrame.size.height - 12.0f;
+    self.copyrightLabel.frame = copyrightFrame;
 }
 
 - (void)viewDidLayoutSubviews
@@ -102,10 +121,12 @@
 
 - (void)animateItems
 {
-    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-50.0f] duration:1.0f delay:0.0f completion:nil];
-    [self.quickPlayButton fadeInWithDuration:0.5f delay:1.0f];
-    [self.patternsButton fadeInWithDuration:0.5f delay:1.0f];
-    [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];
+    [self.logoImageView slideTo:[self.logoImageView frameShiftedVerticallyByOffset:-100.0f] duration:1.0f delay:0.5f completion:nil];
+    [self.quickPlayButton fadeInWithDuration:0.5f delay:1.5f];
+    [self.patternsButton fadeInWithDuration:0.5f delay:1.5f];
+    [self.favouritesButton fadeInWithDuration:0.5f delay:1.5f];
+    [self.savedGamesButton fadeInWithDuration:0.5f delay:1.5f];
+    [self.aboutButton fadeInWithDuration:0.5f delay:1.5f];
 }
 
 - (void)quickGameButtonTapped:(UIButton *)quickGameButton
