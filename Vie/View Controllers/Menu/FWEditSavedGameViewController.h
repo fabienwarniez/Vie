@@ -8,6 +8,7 @@
 @class FWEditSavedGameViewController;
 @class FWTextField;
 @class FWSavedGameModel;
+@class FWDeleteButton;
 
 @protocol FWEditSavedGameViewControllerDelegate <NSObject>
 
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) IBOutlet FWTextField *textField;
 @property (nonatomic, strong) IBOutlet UIButton *okButton;
 @property (nonatomic, strong) IBOutlet UIButton *cancelButton;
+@property (nonatomic, strong) IBOutlet FWDeleteButton *deleteButton;
 
 - (IBAction)okButtonTapped:(UIButton *)okButton;
 - (IBAction)cancelButtonTapped:(UIButton *)cancelButton;

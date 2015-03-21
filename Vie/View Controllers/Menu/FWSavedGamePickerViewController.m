@@ -203,6 +203,12 @@ static CGFloat const kFWCellSpacing = 1.0f;
     [self showEditViewForSavedGame:selectedModel];
 }
 
+- (void)savedGameCollectionViewCellDidCancel:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell
+{
+    NSIndexPath *selectedIndexPath = [self.collectionView indexPathForCell:savedGameCollectionViewCell];
+    [self.collectionView deselectItemAtIndexPath:selectedIndexPath animated:NO];
+}
+
 #pragma mark - FWEditSavedGameViewControllerDelegate
 
 - (void)editSavedGameDidEdit:(FWEditSavedGameViewController *)editSavedGameViewController
@@ -216,9 +222,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (void)editSavedGameDidDelete:(FWEditSavedGameViewController *)editSavedGameViewController
 {
+    self.savedGames = [self.savedGameManager savedGamesForSearchString:self.searchBar.text];
+
     [self.collectionView reloadData];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self hideEditView];
     });
 }

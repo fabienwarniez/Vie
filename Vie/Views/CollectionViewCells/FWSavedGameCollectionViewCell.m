@@ -60,6 +60,7 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
 
         _selectedContainer = [[UIView alloc] init];
         _selectedContainer.backgroundColor = [UIColor darkBlue];
+        [_selectedContainer addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)]];
 
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_playButton setImage:[UIImage imageNamed:@"large-play"] forState:UIControlStateNormal];
@@ -179,7 +180,6 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
     self.mainColor = nil;
     self.savedGame = nil;
     [self setSelected:NO animated:NO];
-    [self.optionsButton setSelected:NO];
 }
 
 #pragma mark - Accessors
@@ -244,6 +244,11 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
 - (void)optionsButtonTapped:(UIButton *)optionsButton
 {
     [self.delegate optionsButtonTappedForSavedGameCollectionViewCell:self];
+}
+
+- (void)backgroundTapped
+{
+    [self.delegate savedGameCollectionViewCellDidCancel:self];
 }
 
 - (NSString *)formattedDate:(NSDate *)date

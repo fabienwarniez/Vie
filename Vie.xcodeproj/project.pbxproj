@@ -49,6 +49,7 @@
 		A6BD8B547B83212FC6157D0C /* FWSavedGameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD85951BF04312AB753E68 /* FWSavedGameManager.m */; };
 		A6BD8B7C075A22118D5D046C /* FWColorSchemeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD88C336DCDC398652CC42 /* FWColorSchemeTableViewCell.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainViewController.m */; };
+		A6BD8C14E2CA24F46F95FC72 /* FWDeleteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD850BF525AE5907310CBB /* FWDeleteButton.m */; };
 		A6BD8CF1E6DD767C30C6EA31 /* FWSavedGameCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81D67574471A4DCE5B21 /* FWSavedGameCollectionViewCell.m */; };
 		A6BD8CF255F5265DD20E2D15 /* FWPatternPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C92FE91E66F48C87311 /* FWPatternPickerViewController.m */; };
 		A6BD8D4E382AD099F9168486 /* FWSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */; };
@@ -131,6 +132,7 @@
 		A6BD84700A1464DB1494D14C /* FWSavedGameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameTableViewCell.m; sourceTree = "<group>"; };
 		A6BD84857B8F3E34324C8A6D /* UIScrollView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+FWConvenience.h"; sourceTree = "<group>"; };
 		A6BD84EC2D10EFF62891DCBB /* FWSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSettingsManager.m; sourceTree = "<group>"; };
+		A6BD850BF525AE5907310CBB /* FWDeleteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWDeleteButton.m; sourceTree = "<group>"; };
 		A6BD85790BB88B0A02FD8F50 /* FWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWDataManager.h; sourceTree = "<group>"; };
 		A6BD85951BF04312AB753E68 /* FWSavedGameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameManager.m; sourceTree = "<group>"; };
 		A6BD86536E6892BAEEA8ABCB /* FWSmartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSmartTableViewCell.h; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		A6BD8A8C8A24BC057374AE68 /* FWColorSchemeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorSchemeModel.m; sourceTree = "<group>"; };
 		A6BD8A9FE5A6088AB496D9F1 /* FWPatternCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWPatternCollectionViewCell.m; sourceTree = "<group>"; };
 		A6BD8AD6579DFC560A5015F9 /* FWGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameViewController.h; sourceTree = "<group>"; };
+		A6BD8B048923A6EB3809A42C /* FWDeleteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWDeleteButton.h; sourceTree = "<group>"; };
 		A6BD8B0C949CFF6CF58FDA44 /* FWEditSavedGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWEditSavedGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B5B9B458663491B4BA2 /* FWSaveGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSaveGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardView.m; sourceTree = "<group>"; };
@@ -472,6 +475,8 @@
 				B39359B9F55AAEF760E04070 /* FWSpeedTile.h */,
 				B39353334670759C86428AF0 /* FWMenuTile.m */,
 				B393585F43474EFF8190097C /* FWMenuTile.h */,
+				A6BD850BF525AE5907310CBB /* FWDeleteButton.m */,
+				A6BD8B048923A6EB3809A42C /* FWDeleteButton.h */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -662,6 +667,7 @@
 				A6BD8CF1E6DD767C30C6EA31 /* FWSavedGameCollectionViewCell.m in Sources */,
 				A6BD819D6ABFEAFE5507AA6B /* FWQuickPlayMenuViewController.m in Sources */,
 				A6BD8D81AFCACD86055E8752 /* FWEditSavedGameViewController.m in Sources */,
+				A6BD8C14E2CA24F46F95FC72 /* FWDeleteButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,7 @@
 
 - (void)playButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell;
 - (void)optionsButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell;
+- (void)savedGameCollectionViewCellDidCancel:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell;
 
 @end
 

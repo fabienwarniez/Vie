@@ -71,6 +71,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 
         _selectedContainer = [[UIView alloc] init];
         _selectedContainer.backgroundColor = [UIColor darkBlue];
+        [_selectedContainer addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)]];
 
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_playButton setImage:[UIImage imageNamed:@"large-play"] forState:UIControlStateNormal];
@@ -324,6 +325,11 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 - (void)playButtonTapped:(UIButton *)sender
 {
     [self.delegate playButtonTappedFor:self];
+}
+
+- (void)backgroundTapped
+{
+    [self.delegate patternCollectionViewCellDidCancel:self];
 }
 
 @end

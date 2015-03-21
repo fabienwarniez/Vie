@@ -22,3 +22,5 @@
 "saved_game_picker_title" = "Saved Games";
 "menu_item_load_patterns" = "Load Patterns";
 "name" = "Name";
+"Edit" = "Edit";
+"delete" = "delete";

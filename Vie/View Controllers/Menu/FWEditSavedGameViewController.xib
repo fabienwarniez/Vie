@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FWEditSavedGameViewController">
             <connections>
                 <outlet property="cancelButton" destination="728-te-k8g" id="1d4-gr-26H"/>
+                <outlet property="deleteButton" destination="HGy-f2-bEy" id="8Xy-We-Mql"/>
                 <outlet property="okButton" destination="4Cu-SG-Jj0" id="bdp-vn-8iT"/>
                 <outlet property="textField" destination="Oto-Aa-mj9" id="LKo-OG-5gF"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Mzc-m2-Yvq"/>
@@ -27,7 +28,7 @@
                     </connections>
                 </view>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="Oto-Aa-mj9" customClass="FWTextField">
-                    <rect key="frame" x="48" y="94" width="224" height="52"/>
+                    <rect key="frame" x="26" y="94" width="216" height="52"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="no" returnKeyType="done"/>
@@ -58,6 +59,11 @@
                         <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="Dyb-tu-y5l"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" id="HGy-f2-bEy" customClass="FWDeleteButton">
+                    <rect key="frame" x="255" y="94" width="52" height="52"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="286" y="381"/>

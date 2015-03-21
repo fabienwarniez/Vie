@@ -207,6 +207,12 @@ static CGFloat const kFWCellSpacing = 1.0f;
     [selectedModel.managedObjectContext save:nil];
 }
 
+- (void)patternCollectionViewCellDidCancel:(FWPatternCollectionViewCell *)patternCollectionViewCell
+{
+    NSIndexPath *selectedIndexPath = [self.collectionView indexPathForCell:patternCollectionViewCell];
+    [self.collectionView deselectItemAtIndexPath:selectedIndexPath animated:NO];
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)isSearchBarHiddenTooFarUp:(CGFloat)newY

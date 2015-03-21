@@ -12,6 +12,7 @@
 - (void)playButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell;
 - (void)favouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell;
 - (void)unfavouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell;
+- (void)patternCollectionViewCellDidCancel:(FWPatternCollectionViewCell *)patternCollectionViewCell;
 
 @end
 

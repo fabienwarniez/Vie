@@ -22,3 +22,5 @@
 "saved_game_picker_title" = "Parties";
 "menu_item_load_patterns" = "Motifs";
 "name" = "Name";
+"Edit" = "Edit";
+"delete" = "delete";

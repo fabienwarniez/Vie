@@ -9,6 +9,11 @@
 #import "UIFont+FWAppFonts.h"
 #import "UIImage+FWConvenience.h"
 #import "FWSavedGameModel.h"
+#import "FWDeleteButton.h"
+
+@interface FWEditSavedGameViewController () <FWDeleteButtonDelegate>
+
+@end
 
 @implementation FWEditSavedGameViewController
 
@@ -28,13 +33,15 @@
     UIImage *disabledOkImage = [okImage translucentImageWithAlpha:0.3f];
     [self.okButton setImage:disabledOkImage forState:UIControlStateDisabled];
     [self updateOkButtonState];
+
+    self.deleteButton.delegate = self;
 }
 
 #pragma mark - FWTitleBarDelegate
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return @"Edit";
+    return NSLocalizedString(@"Edit", @"Edit");
 }
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
@@ -45,6 +52,18 @@
 - (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
 {
     return [UIImage imageNamed:@"x"];
+}
+
+#pragma mark - FWDeleteButtonDelegate
+
+- (void)deleteButtonDidDelete:(FWDeleteButton *)deleteButton
+{
+    [self.textField resignFirstResponder];
+
+    [self.savedGame.managedObjectContext deleteObject:self.savedGame];
+    [self.savedGame.managedObjectContext save:nil];
+
+    [self.delegate editSavedGameDidDelete:self];
 }
 
 #pragma mark - IBAction
