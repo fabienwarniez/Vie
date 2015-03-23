@@ -17,20 +17,29 @@
 #import "FWSavedGameManager.h"
 #import "FWDataManager.h"
 #import "FWLaunchScreenViewController.h"
+#import "FWAboutViewController.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
-@interface FWMainViewController () <FWLaunchScreenViewControllerDelegate, FWGameViewControllerDelegate, FWQuickPlayMenuControllerDelegate, FWPatternPickerViewControllerDelegate, FWSavedGamePickerViewControllerDelegate>
+@interface FWMainViewController ()
+        <FWLaunchScreenViewControllerDelegate,
+        FWGameViewControllerDelegate,
+        FWQuickPlayMenuControllerDelegate,
+        FWPatternPickerViewControllerDelegate,
+        FWSavedGamePickerViewControllerDelegate,
+        FWAboutViewControllerDelegate>
 
 @property (nonatomic, strong) FWLaunchScreenViewController *launchScreenViewController;
 @property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWQuickPlayMenuViewController *quickPlayMenuController;
 @property (nonatomic, strong) FWPatternPickerViewController *patternPickerViewController;
 @property (nonatomic, strong) FWSavedGamePickerViewController *savedGamePickerViewController;
+@property (nonatomic, strong) FWAboutViewController *aboutViewController;
 @property (nonatomic, assign) BOOL isQuickGameVisible;
 @property (nonatomic, assign) BOOL isQuickGameMenuVisible;
 @property (nonatomic, assign) BOOL isPatternPickerVisible;
 @property (nonatomic, assign) BOOL isSavedGamePickerVisible;
+@property (nonatomic, assign) BOOL isAboutVisible;
 
 @end
 
@@ -50,6 +59,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
         _isQuickGameMenuVisible = NO;
         _isPatternPickerVisible = NO;
         _isSavedGamePickerVisible = NO;
+        _isAboutVisible = NO;
     }
     return self;
 }
@@ -112,6 +122,15 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     else
     {
         self.savedGamePickerViewController.view.frame = [self.view frameBelow];
+    }
+
+    if (self.isAboutVisible)
+    {
+        self.aboutViewController.view.frame = self.view.bounds;
+    }
+    else
+    {
+        self.aboutViewController.view.frame = [self.view frameBelow];
     }
 }
 
@@ -260,22 +279,59 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self.isSavedGamePickerVisible = NO;
 }
 
+- (void)showAbout
+{
+    if (self.aboutViewController == nil) {
+        FWAboutViewController *aboutViewController = [[FWAboutViewController alloc] init];
+        aboutViewController.delegate = self;
+        self.aboutViewController = aboutViewController;
+    }
+
+    [self addChildViewController:self.aboutViewController];
+    self.aboutViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.aboutViewController.view.frame = [self.view frameBelow];
+    [self.view addSubview:self.aboutViewController.view];
+    [self.aboutViewController didMoveToParentViewController:self];
+
+    [self.aboutViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+    self.isAboutVisible = YES;
+}
+
+- (void)hideAbout
+{
+    [self.aboutViewController.view slideTo:[self.view frameBelow]
+                                          duration:0.3f
+                                             delay:0.0f
+                                        completion:^(BOOL finished) {
+                                            [self.aboutViewController willMoveToParentViewController:nil];
+                                            [self.aboutViewController.view removeFromSuperview];
+                                            [self.aboutViewController removeFromParentViewController];
+                                            self.aboutViewController = nil;
+                                        }];
+    self.isAboutVisible = NO;
+}
+
 #pragma mark - FWMainMenuViewControllerDelegate
 
-- (void)quickGameButtonTapped
+- (void)quickGameButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController
 {
     [self showQuickGame];
     // TODO: create new game
 }
 
-- (void)patternsButtonTapped
+- (void)patternsButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController
 {
     [self showPatternPicker];
 }
 
-- (void)savedGamesButtonTapped
+- (void)savedGamesButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController
 {
     [self showSavedGamePicker];
+}
+
+- (void)aboutButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController
+{
+    [self showAbout];
 }
 
 #pragma mark - FWGameViewControllerDelegate
@@ -369,6 +425,15 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     [self hidePatternPicker];
 }
 
+#pragma mark - FWAboutViewControllerDelegate
+
+- (void)aboutDidClose:(FWAboutViewController *)aboutViewController
+{
+    [self hideAbout];
+}
+
+#pragma mark - UIViewController
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -384,6 +449,9 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     }
     if (!self.isSavedGamePickerVisible) {
         self.savedGamePickerViewController = nil;
+    }
+    if (!self.isAboutVisible) {
+        self.aboutViewController = nil;
     }
 }
 

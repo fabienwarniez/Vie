@@ -28,3 +28,5 @@
 "save-game.cancel" = "annuler";
 "save-game.save" = "Sauvegarder";
 "game.quick-play" = "Partie Rapide";
+"about.about" = "A propos";
+"about.wikipedia-url" = "http://fr.m.wikipedia.org/wiki/Jeu_de_la_vie";

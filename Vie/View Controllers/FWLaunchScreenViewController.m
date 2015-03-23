@@ -45,6 +45,7 @@
     [self.quickPlayButton addTarget:self action:@selector(quickGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.patternsButton addTarget:self action:@selector(patternsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.savedGamesButton addTarget:self action:@selector(savedGamesButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.aboutButton addTarget:self action:@selector(aboutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     self.copyrightLabel = [[UILabel alloc] init];
     self.copyrightLabel.text = NSLocalizedString(@"launch.copyright", @"© 2014 dot dot software, inc.");
@@ -102,17 +103,22 @@
 
 - (void)quickGameButtonTapped:(UIButton *)quickGameButton
 {
-    [self.delegate quickGameButtonTapped];
+    [self.delegate quickGameButtonTappedForLaunchScreen:self];
 }
 
 - (void)patternsButtonTapped:(UIButton *)patternsButton
 {
-    [self.delegate patternsButtonTapped];
+    [self.delegate patternsButtonTappedForLaunchScreen:self];
 }
 
 - (void)savedGamesButtonTapped:(UIButton *)savedGamesButton
 {
-    [self.delegate savedGamesButtonTapped];
+    [self.delegate savedGamesButtonTappedForLaunchScreen:self];
+}
+
+- (void)aboutButtonTapped:(UIButton *)aboutButton
+{
+    [self.delegate aboutButtonTappedForLaunchScreen:self];
 }
 
 + (UIButton *)createMenuButtonWithTitle:(NSString *)title

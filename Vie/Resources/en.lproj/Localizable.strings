@@ -28,3 +28,5 @@
 "save-game.cancel" = "cancel";
 "save-game.save" = "Save";
 "game.quick-play" = "Quick Play";
+"about.about" = "About";
+"about.wikipedia-url" = "http://en.m.wikipedia.org/wiki/Conway%27s_Game_of_Life";

@@ -20,16 +20,6 @@ typedef enum FWCellAgeGroup
     FWCellAgeGroupOld = 2
 } FWCellAgeGroup;
 
-typedef enum FWPatternPosition
-{
-    FWPatternPositionTop = 1 << 0,
-    FWPatternPositionMiddle = 1 << 1,
-    FWPatternPositionBottom = 1 << 2,
-    FWPatternPositionLeft = 1 << 3,
-    FWPatternPositionCenter = 1 << 4,
-    FWPatternPositionRight = 1 << 5
-} FWPatternPosition;
-
 @protocol FWGameViewControllerDelegate
 
 - (void)menuButtonTappedForGameViewController:(FWGameViewController *)gameViewController;

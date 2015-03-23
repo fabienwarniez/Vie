@@ -3,11 +3,14 @@
 // Copyright (c) 2014 Fabien Warniez. All rights reserved.
 //
 
+@class FWLaunchScreenViewController;
+
 @protocol FWLaunchScreenViewControllerDelegate
 
-- (void)quickGameButtonTapped;
-- (void)patternsButtonTapped;
-- (void)savedGamesButtonTapped;
+- (void)quickGameButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController;
+- (void)patternsButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController;
+- (void)savedGamesButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController;
+- (void)aboutButtonTappedForLaunchScreen:(FWLaunchScreenViewController *)launchScreenViewController;
 
 @end
 
