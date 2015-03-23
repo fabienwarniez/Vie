@@ -36,18 +36,18 @@
 
 - (void)viewDidLoad
 {
-    self.quickPlayButton = [FWLaunchScreenViewController createMenuButtonWithTitle:@"Quick Play"];
-    self.patternsButton = [FWLaunchScreenViewController createMenuButtonWithTitle:@"Patterns"];
-    self.favouritesButton = [FWLaunchScreenViewController createMenuButtonWithTitle:@"Favourites"];
-    self.savedGamesButton = [FWLaunchScreenViewController createMenuButtonWithTitle:@"Saved Games"];
-    self.aboutButton = [FWLaunchScreenViewController createMenuButtonWithTitle:@"About"];
+    self.quickPlayButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.quick-play", @"Quick Play")];
+    self.patternsButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.patterns", @"Patterns")];
+    self.favouritesButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.favourites", @"Favourites")];
+    self.savedGamesButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.saved-games", @"Saved Games")];
+    self.aboutButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.about", @"About")];
 
     [self.quickPlayButton addTarget:self action:@selector(quickGameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.patternsButton addTarget:self action:@selector(patternsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.savedGamesButton addTarget:self action:@selector(savedGamesButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     self.copyrightLabel = [[UILabel alloc] init];
-    self.copyrightLabel.text = NSLocalizedString(@"© 2014 dot dot software, inc.", @"© 2014 dot dot software, inc.");
+    self.copyrightLabel.text = NSLocalizedString(@"launch.copyright", @"© 2014 dot dot software, inc.");
     self.copyrightLabel.font = [UIFont tinyBold];
     self.copyrightLabel.textColor = [UIColor whiteColor];
 

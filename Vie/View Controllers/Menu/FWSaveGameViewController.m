@@ -16,7 +16,7 @@
     [super viewDidLoad];
 
     NSAttributedString *titleText = [[NSAttributedString alloc]
-            initWithString:[@"cancel" uppercaseString]
+            initWithString:[NSLocalizedString(@"save-game.cancel", @"cancel") uppercaseString]
                 attributes:@{NSForegroundColorAttributeName: [UIColor darkGrey], NSFontAttributeName: [UIFont smallUppercase]}
     ];
     [self.cancelButton setAttributedTitle:titleText forState:UIControlStateNormal];
@@ -31,7 +31,7 @@
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return @"Save";
+    return NSLocalizedString(@"save-game.save", @"Save");
 }
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar

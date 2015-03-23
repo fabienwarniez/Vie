@@ -10,7 +10,6 @@
 		46330F9A18E2964100E5C7EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9918E2964100E5C7EC /* Foundation.framework */; };
 		46330F9C18E2964100E5C7EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9B18E2964100E5C7EC /* CoreGraphics.framework */; };
 		46330F9E18E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
-		46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FA218E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FA618E2964100E5C7EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FA518E2964100E5C7EC /* main.m */; };
 		46330FAA18E2964100E5C7EC /* FWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FA918E2964100E5C7EC /* FWAppDelegate.m */; };
 		46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46330FAB18E2964100E5C7EC /* Images.xcassets */; };
@@ -22,6 +21,7 @@
 		463BAF1B1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 463BAF1A1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib */; };
 		469E76861ABFA22400319877 /* FWLaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469E76851ABFA22400319877 /* FWLaunchScreen.xib */; };
 		46DB436F1A7F387300AF3366 /* FWPatternPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46DB436E1A7F387300AF3366 /* FWPatternPickerViewController.xib */; };
+		46DFD8F91ABFD39000AD8E43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
 		5F29805819B29ED8006C4C91 /* FWSavedGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */; };
 		5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4510D19B542EC0040F524 /* FWGameViewController.xib */; };
@@ -58,7 +58,6 @@
 		A6BD8EF33DB873B053629C89 /* FWLaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8E598D196F2CEE8BA33A /* FWLaunchScreenViewController.m */; };
 		A6BD8FCD8CA8F9F4DB687236 /* FWPatternModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8C08B7E4AF2AD65E3BF5 /* FWPatternModel.m */; };
 		B3935122B861B58E592BEFEB /* FWPatternLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3935AB2A86E92BA390F4D1C /* FWPatternLoader.m */; };
-		B3935135680D968D45AAD95B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B393569A4AFED5F4DAFDDF59 /* Localizable.strings */; };
 		B39351A07451E0E6F888EAA3 /* FWReflectiveTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B393540E31D6591EC0821C6E /* FWReflectiveTile.m */; };
 		B393539DD243836BB5958E25 /* FWMenuTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B39353334670759C86428AF0 /* FWMenuTile.m */; };
 		B393548F7B8F1B064AE10C7D /* FWColorTile.m in Sources */ = {isa = PBXBuildFile; fileRef = B39357A3B12A8B057AAD77DE /* FWColorTile.m */; };
@@ -93,7 +92,6 @@
 		46330F9B18E2964100E5C7EC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		46330F9D18E2964100E5C7EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		46330FA118E2964100E5C7EC /* Vie-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vie-Info.plist"; sourceTree = "<group>"; };
-		46330FA318E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FA518E2964100E5C7EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		46330FA718E2964100E5C7EC /* Vie-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Vie-Prefix.pch"; sourceTree = "<group>"; };
 		46330FA818E2964100E5C7EC /* FWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FWAppDelegate.h; sourceTree = "<group>"; };
@@ -105,9 +103,10 @@
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
 		463BAF1A1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWSaveGameViewController.xib; sourceTree = "<group>"; };
-		4647352118FA1C1B003C2D15 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		469E76851ABFA22400319877 /* FWLaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWLaunchScreen.xib; sourceTree = "<group>"; };
 		46DB436E1A7F387300AF3366 /* FWPatternPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWPatternPickerViewController.xib; sourceTree = "<group>"; };
+		46DFD8FA1ABFD39000AD8E43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		46DFD8FC1ABFD39700AD8E43 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5F29805419B29BB3006C4C91 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5F29805619B29ED8006C4C91 /* FWSavedGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameModel.h; sourceTree = "<group>"; };
 		5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameModel.m; sourceTree = "<group>"; };
@@ -187,9 +186,7 @@
 		B3935764090B6029FD2384A4 /* FWSpeedTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSpeedTile.m; sourceTree = "<group>"; };
 		B3935764A58EADFAA8362858 /* FWRleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWRleReader.h; sourceTree = "<group>"; };
 		B39357A3B12A8B057AAD77DE /* FWColorTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWColorTile.m; sourceTree = "<group>"; };
-		B39357EEF679DDD1D5B5F8BC /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = Vie/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B393585F43474EFF8190097C /* FWMenuTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMenuTile.h; sourceTree = "<group>"; };
-		B39358B9C09DE5678D48CEBF /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Vie/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		B3935957122AC1E35CD981CA /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file.ttc; path = "Avenir Next.ttc"; sourceTree = "<group>"; };
 		B39359B9F55AAEF760E04070 /* FWSpeedTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSpeedTile.h; sourceTree = "<group>"; };
 		B39359E3F8913EF80F49CF55 /* FWGameSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWGameSettingsViewController.m; sourceTree = "<group>"; };
@@ -287,7 +284,6 @@
 			isa = PBXGroup;
 			children = (
 				46330FA118E2964100E5C7EC /* Vie-Info.plist */,
-				46330FA218E2964100E5C7EC /* InfoPlist.strings */,
 				46330FA518E2964100E5C7EC /* main.m */,
 				46330FA718E2964100E5C7EC /* Vie-Prefix.pch */,
 				A6BD80B9FD7A4E846BF8D942 /* Macros.h */,
@@ -464,9 +460,9 @@
 		B39354A54140E1EC0816A136 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B393569A4AFED5F4DAFDDF59 /* Localizable.strings */,
 				B3935125771F4A068BE99A04 /* patterns.dat */,
 				B3935CCC9C5FAD86A0A8E105 /* Fonts */,
+				46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -536,7 +532,7 @@
 			attributes = {
 				CLASSPREFIX = FW;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Fabien Warniez";
+				ORGANIZATIONNAME = "Dot Dot Software Inc.";
 				TargetAttributes = {
 					46330F9518E2964100E5C7EC = {
 						DevelopmentTeam = RQ4AYF5N4T;
@@ -570,11 +566,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46330FA418E2964100E5C7EC /* InfoPlist.strings in Resources */,
 				463BAF1B1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib in Resources */,
 				46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */,
 				46DB436F1A7F387300AF3366 /* FWPatternPickerViewController.xib in Resources */,
-				B3935135680D968D45AAD95B /* Localizable.strings in Resources */,
 				B3935FA6823798258F5203A1 /* patterns.dat in Resources */,
 				5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */,
 				B3935820369BEF29F55BEF35 /* FWGameSettingsViewController.xib in Resources */,
@@ -585,6 +579,7 @@
 				A6BD804BEB2C55446EB5C794 /* FWQuickPlayMenuController.xib in Resources */,
 				A6BD8122C4087A44E5F2683A /* FWEditSavedGameViewController.xib in Resources */,
 				A6BD8DC37BF764309C748FE4 /* FWLaunchScreenViewController.xib in Resources */,
+				46DFD8F91ABFD39000AD8E43 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,15 +663,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		46330FA218E2964100E5C7EC /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46330FA318E2964100E5C7EC /* en */,
-				4647352118FA1C1B003C2D15 /* fr */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		46330FBB18E2964100E5C7EC /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -685,11 +671,11 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		B393569A4AFED5F4DAFDDF59 /* Localizable.strings */ = {
+		46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B39358B9C09DE5678D48CEBF /* en */,
-				B39357EEF679DDD1D5B5F8BC /* fr */,
+				46DFD8FA1ABFD39000AD8E43 /* en */,
+				46DFD8FC1ABFD39700AD8E43 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

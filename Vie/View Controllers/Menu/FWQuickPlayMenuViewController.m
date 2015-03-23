@@ -50,10 +50,10 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 {
     [super viewDidLoad];
 
-    self.saveTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"save"] title:@"save" subTitle:nil];
-    self.createGameTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"restart"] title:@"restart" subTitle:nil];
-    self.settingsTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"settings"] title:@"settings" subTitle:nil];
-    self.quitTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"quit"] title:@"quit" subTitle:@"to main menu"];
+    self.saveTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"save"] title:NSLocalizedString(@"quick-play-menu.save", @"save") subTitle:nil];
+    self.createGameTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"restart"] title:NSLocalizedString(@"quick-play-menu.restart", @"restart") subTitle:nil];
+    self.settingsTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"settings"] title:NSLocalizedString(@"quick-play-menu.settings", @"settings") subTitle:nil];
+    self.quitTile = [FWMenuTile tileWithMainColor:[UIColor lightGrey] image:[UIImage imageNamed:@"quit"] title:NSLocalizedString(@"quick-play-menu.quit", @"quit") subTitle:NSLocalizedString(@"quick-play-menu.to-main-menu", @"to main menu")];
 
     self.saveTile.delegate = self;
     self.createGameTile.delegate = self;
@@ -139,7 +139,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar
 {
-    return @"Menu";
+    return NSLocalizedString(@"quick-play-menu.menu", @"Menu");
 }
 
 - (void)buttonTappedFor:(FWTitleBar *)titleBar
@@ -181,7 +181,6 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     if (tileButton == self.saveTile)
     {
         [self showSaveGame];
-//        [self.delegate quickPlayMenuDidSave:self];
     }
     else if (tileButton == self.createGameTile)
     {

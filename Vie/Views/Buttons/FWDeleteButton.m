@@ -58,7 +58,7 @@
             newLabelFrame.origin.x = self.deleteImageView.frame.origin.x + self.deleteImageView.frame.size.width + padding;
             self.deleteLabel.frame = newLabelFrame;
 
-            self.deleteImageView.transform = CGAffineTransformMakeRotation(FWDegreesToRadians(90));
+            self.deleteImageView.transform = CGAffineTransformMakeRotation((CGFloat) (FWDegreesToRadians(90)));
             CGRect newFrame = self.frame;
             newFrame.size.width += self.deleteLabel.frame.size.width + padding;
             newFrame.origin.x -= self.deleteLabel.frame.size.width + padding;

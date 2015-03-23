@@ -1,0 +1,30 @@
+/****************************************************************************/
+/* Localization file */
+
+"launch.copyright" = "© 2014 dot dot software, inc.";
+"launch.quick-play" = "Partie Rapide";
+"launch.patterns" = "Motifs";
+"launch.favourites" = "Favoris";
+"launch.saved-games" = "Parties Sauvegardées";
+"launch.about" = "A propos";
+"edit.edit" = "Modifier";
+"common.cancel" = "annuler";
+"game-settings.colour" = "couleur";
+"game-settings.size" = "taille";
+"game-settings.speed" = "vitesse";
+"game-settings.settings" = "Paramètres";
+"patterns.search" = "Recherche";
+"patterns.no-results" = "Pas de résultats.";
+"patterns.patterns" = "Motifs";
+"quick-play-menu.save" = "sauvegarder";
+"quick-play-menu.restart" = "recommencer";
+"quick-play-menu.settings" = "paramètres";
+"quick-play-menu.quit" = "quitter";
+"quick-play-menu.to-main-menu" = "menu principal";
+"quick-play-menu.menu" = "Menu";
+"saved-games.search" = "Recherche";
+"saved-games.no-results" = "Pas de résultats.";
+"saved-games.saved-games" = "Parties sauvegardées";
+"save-game.cancel" = "annuler";
+"save-game.save" = "Sauvegarder";
+"game.quick-play" = "Partie Rapide";
