@@ -29,6 +29,8 @@
 		<string>Avenir Next.ttc</string>
 		<string>Avenir Next Condensed.ttc</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>FWLaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

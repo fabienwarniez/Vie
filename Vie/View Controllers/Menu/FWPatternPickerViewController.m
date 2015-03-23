@@ -61,7 +61,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     [super viewWillLayoutSubviews];
 
-    CGFloat side = (self.collectionView.bounds.size.width - kFWCellSpacing - 2 * kFWCollectionViewSideMargin) / 2.0f;
+    CGFloat side = FWRoundFloat((self.collectionView.bounds.size.width - kFWCellSpacing - 2 * kFWCollectionViewSideMargin) / 2.0f);
 
     self.collectionViewLayout.itemSize = CGSizeMake(side, side + [FWPatternCollectionViewCell titleBarHeight]);
     [self.collectionViewLayout invalidateLayout];

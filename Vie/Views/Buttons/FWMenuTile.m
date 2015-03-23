@@ -46,12 +46,12 @@
     };
     CGSize mainTitleSize = [self.title sizeWithAttributes:mainTitleAttributes];
 
-    CGFloat imageX = (self.bounds.size.width - self.image.size.width) / 2.0f;
-    CGFloat imageY = (self.bounds.size.height - (mainTitleSize.height + self.image.size.height + 12.0f)) / 2.0f;
+    CGFloat imageX = FWRoundFloat((self.bounds.size.width - self.image.size.width) / 2.0f);
+    CGFloat imageY = FWRoundFloat((self.bounds.size.height - (mainTitleSize.height + self.image.size.height + 12.0f)) / 2.0f);
 
     [self.image drawAtPoint:CGPointMake(imageX, imageY)];
 
-    CGFloat mainTitleX = (self.bounds.size.width - mainTitleSize.width) / 2.0f;
+    CGFloat mainTitleX = FWRoundFloat((self.bounds.size.width - mainTitleSize.width) / 2.0f);
     CGFloat mainTitleY = imageY + self.image.size.height + 12.0f;
 
     [self.title drawInRect:CGRectMake(mainTitleX, mainTitleY, mainTitleSize.width, mainTitleSize.height) withAttributes:mainTitleAttributes];
@@ -64,7 +64,7 @@
         };
         CGSize subTitleSize = [self.subTitle sizeWithAttributes:subtitleAttributes];
 
-        CGFloat subTitleX = (self.bounds.size.width - subTitleSize.width) / 2.0f;
+        CGFloat subTitleX = FWRoundFloat((self.bounds.size.width - subTitleSize.width) / 2.0f);
         CGFloat subTitleY = mainTitleY + mainTitleSize.height + 0.0f;
 
         [self.subTitle drawInRect:CGRectMake(subTitleX, subTitleY, subTitleSize.width, subTitleSize.height) withAttributes:subtitleAttributes];
@@ -73,8 +73,8 @@
     if (self.isSelected)
     {
         CGPoint imagePoint = CGPointMake(
-                (self.bounds.size.width - self.image.size.width) / 2.0f,
-                (self.bounds.size.height - self.image.size.height) / 2.0f
+                FWRoundFloat((self.bounds.size.width - self.image.size.width) / 2.0f),
+                FWRoundFloat((self.bounds.size.height - self.image.size.height) / 2.0f)
         );
 
         [self.image drawAtPoint:imagePoint];

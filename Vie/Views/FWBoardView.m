@@ -60,10 +60,8 @@ static NSUInteger const kFWNumberOfCellAgeGroups = 3;
 
     CGFloat finalBoardWidth = self.cellSize.width * self.boardSize.numberOfColumns + totalBorderWidth;
     CGFloat finalBoardHeight = self.cellSize.height * self.boardSize.numberOfRows + totalBorderHeight;
-    CGFloat finalHorizontalPadding = (self.bounds.size.width - finalBoardWidth) / 2.0f;
-    CGFloat finalVerticalPadding = (self.bounds.size.height - finalBoardHeight) / 2.0f;
-    finalHorizontalPadding = floorf(pixelScale * finalHorizontalPadding) / pixelScale;
-    finalVerticalPadding = floorf(pixelScale * finalVerticalPadding) / pixelScale;
+    CGFloat finalHorizontalPadding = FWRoundFloat((self.bounds.size.width - finalBoardWidth) / 2.0f);
+    CGFloat finalVerticalPadding = FWRoundFloat((self.bounds.size.height - finalBoardHeight) / 2.0f);
 
     self.cellContainerFrame = CGRectMake(finalHorizontalPadding, finalVerticalPadding, finalBoardWidth, finalBoardHeight);
 }

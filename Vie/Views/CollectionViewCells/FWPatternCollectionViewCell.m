@@ -106,7 +106,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     );
 
     CGSize titleLabelSize = [self.titleLabel1 sizeThatFits:self.titleBar.bounds.size];
-    CGPoint titleLabelPoint = CGPointMake(0, (self.titleBar.bounds.size.height - titleLabelSize.height) / 2.0f);
+    CGPoint titleLabelPoint = CGPointMake(0, FWRoundFloat((self.titleBar.bounds.size.height - titleLabelSize.height) / 2.0f));
     if (titleLabelSize.width > self.titleBar.bounds.size.width - 2 * kFWCellPatternTitleLabelPadding)
     {
         titleLabelPoint.x = kFWCellPatternTitleLabelPadding;
@@ -118,7 +118,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     }
     else
     {
-        titleLabelPoint.x = (self.titleBar.bounds.size.width - titleLabelSize.width) / 2.0f;
+        titleLabelPoint.x = FWRoundFloat((self.titleBar.bounds.size.width - titleLabelSize.width) / 2.0f);
         self.titleLabel1.frame = CGRectMake(titleLabelPoint.x, titleLabelPoint.y, titleLabelSize.width, titleLabelSize.height);
         self.titleLabel2.hidden = YES;
     }
@@ -139,8 +139,8 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     );
 
     self.playButton.frame = CGRectMake(
-            (self.selectedContainer.bounds.size.width - 76.0f) / 2.0f,
-            (self.selectedContainer.bounds.size.height - 76.0f) / 2.0f,
+            FWRoundFloat((self.selectedContainer.bounds.size.width - 76.0f) / 2.0f),
+            FWRoundFloat((self.selectedContainer.bounds.size.height - 76.0f) / 2.0f),
             76.0f,
             76.0f
     );
@@ -269,11 +269,11 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     CGContextFillPath(context);
 
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
+    CGContextMoveToPoint(context, FWRoundFloat((self.bounds.size.width * 0.9)), 0.0);
     CGContextAddLineToPoint(context, self.bounds.size.width, 0);
     CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height);
-    CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.3), self.bounds.size.height);
-    CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
+    CGContextAddLineToPoint(context, FWRoundFloat((self.bounds.size.width * 0.3)), self.bounds.size.height);
+    CGContextAddLineToPoint(context, FWRoundFloat((self.bounds.size.width * 0.9)), 0);
 
     CGContextSetFillColorWithColor(context, [UIColor buttonGrey].CGColor);
     CGContextFillPath(context);

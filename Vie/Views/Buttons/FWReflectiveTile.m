@@ -46,11 +46,11 @@
     CGContextFillPath(context);
 
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
+    CGContextMoveToPoint(context, FWRoundFloat((self.bounds.size.width * 0.9)), 0.0);
     CGContextAddLineToPoint(context, self.bounds.size.width, 0);
     CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height);
-    CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.3), self.bounds.size.height);
-    CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
+    CGContextAddLineToPoint(context, FWRoundFloat((self.bounds.size.width * 0.3)), self.bounds.size.height);
+    CGContextAddLineToPoint(context, FWRoundFloat((self.bounds.size.width * 0.9)), 0);
 
     CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05].CGColor);
     CGContextFillPath(context);

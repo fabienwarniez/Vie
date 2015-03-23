@@ -29,9 +29,11 @@
                      completion:nil];
 }
 
-- (CGRect)frameShiftedVerticallyByOffset:(CGFloat)offset
+- (CGRect)frameWithY:(CGFloat)y
 {
-    return CGRectMake(self.frame.origin.x, self.frame.origin.y + offset, self.frame.size.width, self.frame.size.height);
+    CGRect frame = self.frame;
+    frame.origin.y = y;
+    return frame;
 }
 
 - (CGRect)frameToTheRight
@@ -44,14 +46,25 @@
     return CGRectMake(self.frame.origin.x, self.frame.origin.y + self.frame.size.height, self.frame.size.width, self.frame.size.height);
 }
 
-+ (void)distributeVerticallyViews:(NSArray *)views startingAtPoint:(CGPoint)point withIncrementsOf:(CGFloat)increment
++ (CGFloat)verticalSpaceToDistributeViews:(NSArray *)views inAvailableVerticalSpace:(CGFloat)height
+{
+    CGFloat totalViewsHeight = 0.0f;
+
+    for (UIView *view in views) {
+        totalViewsHeight += view.frame.size.height;
+    }
+
+    return FWRoundFloat((height - totalViewsHeight) / (views.count + 1));
+}
+
++ (void)distributeVerticallyViews:(NSArray *)views startingAtPoint:(CGPoint)point withSpacing:(CGFloat)spacing
 {
     CGFloat y = point.y;
 
     for (UIView *view in views)
     {
         view.center = CGPointMake(point.x, y);
-        y += increment;
+        y += spacing + view.frame.size.height;
     }
 }
 

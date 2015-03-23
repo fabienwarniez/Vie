@@ -98,7 +98,7 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
 
     [self.sizeLabel sizeToFit];
     self.sizeLabel.frame = CGRectMake(
-            (self.nonSelectedContainer.bounds.size.width - self.sizeLabel.frame.size.width) / 2.0f,
+            FWRoundFloat((self.nonSelectedContainer.bounds.size.width - self.sizeLabel.frame.size.width) / 2.0f),
             self.nonSelectedContainer.bounds.size.height - self.sizeLabel.frame.size.height - 15.0f,
             self.sizeLabel.frame.size.width,
             self.sizeLabel.frame.size.height
@@ -106,15 +106,15 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
 
     [self.dateLabel sizeToFit];
     self.dateLabel.frame = CGRectMake(
-            (self.nonSelectedContainer.bounds.size.width - self.dateLabel.frame.size.width) / 2.0f,
+            FWRoundFloat((self.nonSelectedContainer.bounds.size.width - self.dateLabel.frame.size.width) / 2.0f),
             self.sizeLabel.frame.origin.y - self.dateLabel.frame.size.height - 0.0f,
             self.dateLabel.frame.size.width,
             self.dateLabel.frame.size.height
     );
 
     self.playButton.frame = CGRectMake(
-            (self.selectedContainer.bounds.size.width - 76.0f) / 2.0f,
-            (self.selectedContainer.bounds.size.height - 76.0f) / 2.0f,
+            FWRoundFloat((self.selectedContainer.bounds.size.width - 76.0f) / 2.0f),
+            FWRoundFloat((self.selectedContainer.bounds.size.height - 76.0f) / 2.0f),
             76.0f,
             76.0f
     );
@@ -203,11 +203,11 @@ static CGFloat const kFWCellSavedGameOptionsButtonPadding = 15.0f;
     CGContextFillPath(context);
 
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
+    CGContextMoveToPoint(context, FWRoundFloat((self.bounds.size.width * 0.9)), 0.0);
     CGContextAddLineToPoint(context, self.bounds.size.width, 0);
     CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height);
-    CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.3), self.bounds.size.height);
-    CGContextAddLineToPoint(context, (CGFloat) (self.bounds.size.width * 0.9), 0);
+    CGContextAddLineToPoint(context, FWRoundFloat((self.bounds.size.width * 0.3)), self.bounds.size.height);
+    CGContextAddLineToPoint(context, FWRoundFloat((self.bounds.size.width * 0.9)), 0);
 
     CGContextSetFillColorWithColor(context, [UIColor buttonGrey].CGColor);
     CGContextFillPath(context);

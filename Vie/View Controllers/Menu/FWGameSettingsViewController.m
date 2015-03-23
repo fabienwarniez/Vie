@@ -183,7 +183,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 {
     [label sizeToFit];
     label.frame = CGRectMake(
-            (self.view.bounds.size.width - label.frame.size.width) / 2.0f,
+            FWRoundFloat((self.view.bounds.size.width - label.frame.size.width) / 2.0f),
             y,
             label.frame.size.width,
             label.frame.size.height

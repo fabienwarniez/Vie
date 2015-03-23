@@ -49,7 +49,7 @@
         [self.deleteLabel sizeToFit];
         CGRect labelFrame = self.deleteLabel.frame;
         labelFrame.origin.x = self.bounds.size.width;
-        labelFrame.origin.y = (self.bounds.size.height - labelFrame.size.height) / 2.0f;
+        labelFrame.origin.y = FWRoundFloat((self.bounds.size.height - labelFrame.size.height) / 2.0f);
         self.deleteLabel.frame = labelFrame;
         self.deleteLabel.hidden = NO;
 
@@ -58,7 +58,7 @@
             newLabelFrame.origin.x = self.deleteImageView.frame.origin.x + self.deleteImageView.frame.size.width + padding;
             self.deleteLabel.frame = newLabelFrame;
 
-            self.deleteImageView.transform = CGAffineTransformMakeRotation((CGFloat) (90 * M_PI / 180.0f));
+            self.deleteImageView.transform = CGAffineTransformMakeRotation(FWDegreesToRadians(90));
             CGRect newFrame = self.frame;
             newFrame.size.width += self.deleteLabel.frame.size.width + padding;
             newFrame.origin.x -= self.deleteLabel.frame.size.width + padding;
@@ -77,8 +77,8 @@
 
     if (!self.selected) {
         self.deleteImageView.frame = CGRectMake(
-                (self.bounds.size.width - self.deleteImageView.frame.size.width) / 2.0f,
-                (self.bounds.size.height - self.deleteImageView.frame.size.height) / 2.0f,
+                FWRoundFloat((self.bounds.size.width - self.deleteImageView.frame.size.width) / 2.0f),
+                FWRoundFloat((self.bounds.size.height - self.deleteImageView.frame.size.height) / 2.0f),
                 self.deleteImageView.frame.size.width,
                 self.deleteImageView.frame.size.height
         );

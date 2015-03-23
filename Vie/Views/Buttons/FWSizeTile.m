@@ -44,10 +44,15 @@
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGFloat squareWidth = self.bounds.size.width * self.widthAsPercentage / 100.0f;
-    CGFloat squareHeight = self.bounds.size.height * self.widthAsPercentage / 100.0f;
+    CGFloat squareWidth = FWRoundFloat(self.bounds.size.width * self.widthAsPercentage / 100.0f);
+    CGFloat squareHeight = FWRoundFloat(self.bounds.size.height * self.widthAsPercentage / 100.0f);
 
-    CGRect squareRect = CGRectMake((self.bounds.size.width - squareWidth) / 2.0f, (self.bounds.size.height - squareHeight) / 2.0f, squareWidth, squareHeight);
+    CGRect squareRect = CGRectMake(
+            FWRoundFloat((self.bounds.size.width - squareWidth) / 2.0f),
+            FWRoundFloat((self.bounds.size.height - squareHeight) / 2.0f),
+            squareWidth,
+            squareHeight
+    );
     CGContextAddRect(context, squareRect);
     CGContextSetFillColorWithColor(context, [UIColor vieGreen].CGColor);
     CGContextFillPath(context);

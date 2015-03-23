@@ -42,8 +42,8 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGPoint imagePoint = CGPointMake(
-            (self.bounds.size.width - self.image.size.width) / 2.0f,
-            (self.bounds.size.height - self.image.size.height) / 2.0f
+            FWRoundFloat((self.bounds.size.width - self.image.size.width) / 2.0f),
+            FWRoundFloat((self.bounds.size.height - self.image.size.height) / 2.0f)
     );
     [self.image drawAtPoint:imagePoint];
 

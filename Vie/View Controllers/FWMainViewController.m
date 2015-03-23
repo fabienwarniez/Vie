@@ -9,7 +9,6 @@
 #import "FWColorSchemeModel.h"
 #import "FWSavedGameModel.h"
 #import "FWPatternModel.h"
-#import "FWMainMenuViewController.h"
 #import "UIView+FWConvenience.h"
 #import "FWQuickPlayMenuViewController.h"
 #import "FWUserModel.h"
@@ -17,12 +16,13 @@
 #import "FWSavedGamePickerViewController.h"
 #import "FWSavedGameManager.h"
 #import "FWDataManager.h"
+#import "FWLaunchScreenViewController.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
-@interface FWMainViewController () <FWMainMenuViewControllerDelegate, FWGameViewControllerDelegate, FWQuickPlayMenuControllerDelegate, FWPatternPickerViewControllerDelegate, FWSavedGamePickerViewControllerDelegate>
+@interface FWMainViewController () <FWLaunchScreenViewControllerDelegate, FWGameViewControllerDelegate, FWQuickPlayMenuControllerDelegate, FWPatternPickerViewControllerDelegate, FWSavedGamePickerViewControllerDelegate>
 
-@property (nonatomic, strong) FWMainMenuViewController *mainMenuViewController;
+@property (nonatomic, strong) FWLaunchScreenViewController *launchScreenViewController;
 @property (nonatomic, strong) FWGameViewController *gameViewController;
 @property (nonatomic, strong) FWQuickPlayMenuViewController *quickPlayMenuController;
 @property (nonatomic, strong) FWPatternPickerViewController *patternPickerViewController;
@@ -43,8 +43,8 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     self = [super init];
     if (self)
     {
-        _mainMenuViewController = [[FWMainMenuViewController alloc] init];
-        _mainMenuViewController.delegate = self;
+        _launchScreenViewController = [[FWLaunchScreenViewController alloc] initWithNibName:@"FWLaunchScreenViewController" bundle:nil];
+        _launchScreenViewController.delegate = self;
 
         _isQuickGameVisible = NO;
         _isQuickGameMenuVisible = NO;
@@ -67,11 +67,11 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 {
     [super viewDidLoad];
 
-    [self addChildViewController:self.mainMenuViewController];
-    self.mainMenuViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.mainMenuViewController.view.frame = self.view.bounds;
-    [self.view addSubview:self.mainMenuViewController.view];
-    [self.mainMenuViewController didMoveToParentViewController:self];
+    [self addChildViewController:self.launchScreenViewController];
+    self.launchScreenViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.launchScreenViewController.view.frame = self.view.bounds;
+    [self.view addSubview:self.launchScreenViewController.view];
+    [self.launchScreenViewController didMoveToParentViewController:self];
 }
 
 - (void)viewWillLayoutSubviews
