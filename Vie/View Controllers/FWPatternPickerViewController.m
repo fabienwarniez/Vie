@@ -253,6 +253,13 @@ static CGFloat const kFWCellSpacing = 1.0f;
     [self.collectionView reloadData];
 }
 
+- (IBAction)favouriteButtonTapped:(UIButton *)favouriteButton
+{
+    favouriteButton.selected = !favouriteButton.selected;
+    self.patterns = [self.patternManager patternsForSearchString:self.searchBar.text onlyFavourites:favouriteButton.selected];
+    [self.collectionView reloadData];
+}
+
 - (IBAction)hideKeyboard:(FWTextField *)textField
 {
     [textField resignFirstResponder];

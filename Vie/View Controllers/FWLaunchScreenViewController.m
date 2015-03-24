@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) UIButton *quickPlayButton;
 @property (nonatomic, strong) UIButton *patternsButton;
-@property (nonatomic, strong) UIButton *favouritesButton;
 @property (nonatomic, strong) UIButton *savedGamesButton;
 @property (nonatomic, strong) UIButton *aboutButton;
 @property (nonatomic, strong) UILabel *copyrightLabel;
@@ -38,7 +37,6 @@
 {
     self.quickPlayButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.quick-play", @"Quick Play")];
     self.patternsButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.patterns", @"Patterns")];
-    self.favouritesButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.favourites", @"Favourites")];
     self.savedGamesButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.saved-games", @"Saved Games")];
     self.aboutButton = [FWLaunchScreenViewController createMenuButtonWithTitle:NSLocalizedString(@"launch.about", @"About")];
 
@@ -54,7 +52,6 @@
 
     [self.view addSubview:self.quickPlayButton];
     [self.view addSubview:self.patternsButton];
-    [self.view addSubview:self.favouritesButton];
     [self.view addSubview:self.savedGamesButton];
     [self.view addSubview:self.aboutButton];
     [self.view addSubview:self.copyrightLabel];
@@ -70,7 +67,7 @@
     copyrightFrame.origin.y = self.view.bounds.size.height - copyrightFrame.size.height - 12.0f;
     self.copyrightLabel.frame = copyrightFrame;
 
-    NSArray *buttons = @[self.quickPlayButton, self.patternsButton, self.favouritesButton, self.savedGamesButton, self.aboutButton];
+    NSArray *buttons = @[self.quickPlayButton, self.patternsButton, self.savedGamesButton, self.aboutButton];
     CGFloat availableHeight = self.copyrightLabel.frame.origin.y - CGRectGetMaxY(self.logoImageView.frame);
     CGFloat buttonSpacing = [UIView verticalSpaceToDistributeViews:buttons inAvailableVerticalSpace:availableHeight];
     [UIView distributeVerticallyViews:buttons
@@ -96,7 +93,6 @@
     [self.logoImageView slideTo:[self.logoImageView frameWithY:50.0f] duration:0.7f delay:0.4f completion:nil];
     [self.quickPlayButton fadeInWithDuration:0.5f delay:1.0f];
     [self.patternsButton fadeInWithDuration:0.5f delay:1.0f];
-    [self.favouritesButton fadeInWithDuration:0.5f delay:1.0f];
     [self.savedGamesButton fadeInWithDuration:0.5f delay:1.0f];
     [self.aboutButton fadeInWithDuration:0.5f delay:1.0f];
 }
