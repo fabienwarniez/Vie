@@ -30,7 +30,7 @@ while (false !== ($filename = readdir($directoryHandler))) {
             } elseif (strpos($line, 'x = ') === 0) {
                 list($columns, $rows, $rule, $a, $b) = sscanf($line, "x = %i, y = %i,%s = %i/%i");
 
-                if ($columns > 0 && $rows > 0 && $columns <= 180 && $rows <= 240) {
+                if ($columns > 0 && $rows > 0 && $columns <= 90 && $rows <= 120) {
                     $size = sprintf('%d|%d', $columns, $rows);
                 } else {
                     echo sprintf("Bad format for size: %s\n", $line);
