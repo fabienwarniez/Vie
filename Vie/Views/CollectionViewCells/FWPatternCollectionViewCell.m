@@ -222,7 +222,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 - (void)setCellPattern:(FWPatternModel *)cellPattern
 {
     _cellPattern = cellPattern;
-    if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithName:nil numberOfColumns:90 numberOfRows:120]])
+    if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithNumberOfColumns:90 numberOfRows:120]])
     {
         self.gameBoardView.boardSize = cellPattern.boardSize;
         self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];

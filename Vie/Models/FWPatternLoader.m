@@ -78,11 +78,7 @@
                 [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
                 NSNumber *numberOfColumns = [numberFormatter numberFromString:components[3]];
                 NSNumber *numberOfRows = [numberFormatter numberFromString:components[4]];
-                cellPatternModel.boardSize = [FWBoardSizeModel
-                        boardSizeWithName:nil
-                          numberOfColumns:[numberOfColumns unsignedIntegerValue]
-                             numberOfRows:[numberOfRows unsignedIntegerValue]
-                ];
+                cellPatternModel.boardSize = [FWBoardSizeModel boardSizeWithNumberOfColumns:[numberOfColumns unsignedIntegerValue] numberOfRows:[numberOfRows unsignedIntegerValue]];
                 cellPatternModel.encodedData = components[5];
                 cellPatternModel.favourited = NO;
                 [newlyParsedPatterns addObject:cellPatternModel];

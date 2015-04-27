@@ -65,7 +65,7 @@
 - (FWBoardSizeModel *)boardSize
 {
     if (_boardSize == nil) {
-        _boardSize = [FWBoardSizeModel boardSizeWithName:nil numberOfColumns:[self.boardWidth unsignedIntegerValue] numberOfRows:[self.boardHeight unsignedIntegerValue]];
+        _boardSize = [FWBoardSizeModel boardSizeWithNumberOfColumns:[self.boardWidth unsignedIntegerValue] numberOfRows:[self.boardHeight unsignedIntegerValue]];
     }
     return _boardSize;
 }

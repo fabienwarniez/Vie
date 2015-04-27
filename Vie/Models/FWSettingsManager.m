@@ -41,7 +41,7 @@ static NSString * const kFWUserGameSpeedKey = @"game_speed";
     numberOfColumns = numberOfColumns >= 0 ? numberOfColumns : 0;
     numberOfRows = numberOfRows >= 0 ? numberOfRows : 0;
 
-    return [FWBoardSizeModel boardSizeWithName:nil numberOfColumns:(NSUInteger) numberOfColumns numberOfRows:(NSUInteger) numberOfRows];
+    return [FWBoardSizeModel boardSizeWithNumberOfColumns:(NSUInteger) numberOfColumns numberOfRows:(NSUInteger) numberOfRows];
 }
 
 + (void)saveUserBoardSize:(FWBoardSizeModel *)boardSize

@@ -1,0 +1,36 @@
+body {
+    font-family: 'AvenirNext-Regular', sans-serif;
+    font-size: 15px;
+    color: #333333;
+    padding: 1em;
+}
+
+h1 {
+    font-size: 1.6em;
+    margin: 0.6em 0;
+}
+
+h2 {
+    font-size:1.2em;
+    margin: 0.8em 0;
+}
+
+p {
+    margin: 0 0 0.5em 0;
+}
+
+img {
+    margin: 0;
+    border: solid 1px #EEEEEE;
+}
+
+.legend {
+    font-size: 0.8em;
+    text-align: right;
+}
+
+.caption {
+    font-size: 0.9em;
+    margin-bottom: 1.5em;
+    font-style: italic;
+}

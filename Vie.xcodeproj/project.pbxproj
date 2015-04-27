@@ -19,6 +19,11 @@
 		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
 		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
 		463BAF1B1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 463BAF1A1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib */; };
+		464EA5631AEDEDD100E08B8E /* normalize.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 464EA5621AEDEDD100E08B8E /* normalize.min.css */; };
+		464EA5641AEDEF0400E08B8E /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 464EA5661AEDEF0400E08B8E /* about.html */; };
+		46844F791AED4FCA00E73FB7 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A6BD8FB065F12CE98CAFE2ED /* style.css */; };
+		46844F7C1AED8ADC00E73FB7 /* cycle-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46844F7A1AED8ADC00E73FB7 /* cycle-1@2x.png */; };
+		46844F7D1AED8ADC00E73FB7 /* cycle-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46844F7B1AED8ADC00E73FB7 /* cycle-2@2x.png */; };
 		469E76861ABFA22400319877 /* FWLaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469E76851ABFA22400319877 /* FWLaunchScreen.xib */; };
 		46DFD8F91ABFD39000AD8E43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
@@ -105,6 +110,11 @@
 		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
 		463BAF1A1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWSaveGameViewController.xib; sourceTree = "<group>"; };
+		464EA5621AEDEDD100E08B8E /* normalize.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = normalize.min.css; sourceTree = "<group>"; };
+		464EA5651AEDEF0400E08B8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/about.html; sourceTree = "<group>"; };
+		464EA5671AEDEF0800E08B8E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/about.html; sourceTree = "<group>"; };
+		46844F7A1AED8ADC00E73FB7 /* cycle-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cycle-1@2x.png"; sourceTree = "<group>"; };
+		46844F7B1AED8ADC00E73FB7 /* cycle-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cycle-2@2x.png"; sourceTree = "<group>"; };
 		469E76851ABFA22400319877 /* FWLaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWLaunchScreen.xib; sourceTree = "<group>"; };
 		46DFD8FA1ABFD39000AD8E43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		46DFD8FC1ABFD39700AD8E43 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -174,6 +184,7 @@
 		A6BD8F008B945759E90FEF5C /* FWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainViewController.m; sourceTree = "<group>"; };
 		A6BD8F649E802D2BEBAACD84 /* FWSavedGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameManager.h; sourceTree = "<group>"; };
 		A6BD8F9D674CEC3A48FDCFC4 /* FWSavedGamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGamePickerViewController.h; sourceTree = "<group>"; };
+		A6BD8FB065F12CE98CAFE2ED /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		A6BD8FBF87791C0CA1B66517 /* FWPatternManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternManager.h; sourceTree = "<group>"; };
 		A6BD8FC14DFAEF94530D71C9 /* FWQuickPlayMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWQuickPlayMenuViewController.h; sourceTree = "<group>"; };
 		B39350255D4CEE63ED6B6129 /* UIView+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FWConvenience.m"; sourceTree = "<group>"; };
@@ -353,6 +364,18 @@
 			path = DataManagers;
 			sourceTree = "<group>";
 		};
+		A6BD81501ADFEC767F7D96D7 /* HTML */ = {
+			isa = PBXGroup;
+			children = (
+				464EA5621AEDEDD100E08B8E /* normalize.min.css */,
+				46844F7A1AED8ADC00E73FB7 /* cycle-1@2x.png */,
+				46844F7B1AED8ADC00E73FB7 /* cycle-2@2x.png */,
+				464EA5661AEDEF0400E08B8E /* about.html */,
+				A6BD8FB065F12CE98CAFE2ED /* style.css */,
+			);
+			path = HTML;
+			sourceTree = "<group>";
+		};
 		A6BD84DC839C08995F3571F3 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,6 +494,7 @@
 				B3935125771F4A068BE99A04 /* patterns.dat */,
 				B3935CCC9C5FAD86A0A8E105 /* Fonts */,
 				46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */,
+				A6BD81501ADFEC767F7D96D7 /* HTML */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -580,12 +604,17 @@
 				5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */,
 				B3935820369BEF29F55BEF35 /* FWGameSettingsViewController.xib in Resources */,
 				B39356087CF49AA8E207FB15 /* Avenir Next Condensed.ttc in Resources */,
+				46844F7D1AED8ADC00E73FB7 /* cycle-2@2x.png in Resources */,
 				B3935D369E6968DCAC9D8292 /* Avenir Next.ttc in Resources */,
 				469E76861ABFA22400319877 /* FWLaunchScreen.xib in Resources */,
+				464EA5641AEDEF0400E08B8E /* about.html in Resources */,
+				46844F7C1AED8ADC00E73FB7 /* cycle-1@2x.png in Resources */,
 				A6BD804BEB2C55446EB5C794 /* FWQuickPlayMenuController.xib in Resources */,
 				A6BD8122C4087A44E5F2683A /* FWEditSavedGameViewController.xib in Resources */,
 				A6BD8DC37BF764309C748FE4 /* FWLaunchScreenViewController.xib in Resources */,
 				46DFD8F91ABFD39000AD8E43 /* Localizable.strings in Resources */,
+				464EA5631AEDEDD100E08B8E /* normalize.min.css in Resources */,
+				46844F791AED4FCA00E73FB7 /* style.css in Resources */,
 				A6BD8044BFE801A0B7B5B657 /* FWAboutViewController.xib in Resources */,
 				A6BD889B5DA300DFCDC3A427 /* FWSavedGamePickerViewController.xib in Resources */,
 				A6BD807F5C8B62ED6C6AD727 /* FWPatternPickerViewController.xib in Resources */,
@@ -679,6 +708,15 @@
 				46330FBC18E2964100E5C7EC /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		464EA5661AEDEF0400E08B8E /* about.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				464EA5651AEDEF0400E08B8E /* en */,
+				464EA5671AEDEF0800E08B8E /* fr */,
+			);
+			name = about.html;
 			sourceTree = "<group>";
 		};
 		46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */ = {

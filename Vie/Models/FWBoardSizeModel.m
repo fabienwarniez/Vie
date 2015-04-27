@@ -9,21 +9,20 @@ static NSArray *kFWBoardSizeList = nil;
 
 @implementation FWBoardSizeModel
 
-- (instancetype)initWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
+- (instancetype)initWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
 {
     self = [super init];
     if (self)
     {
-        _name = name;
         _numberOfColumns = numberOfColumns;
         _numberOfRows = numberOfRows;
     }
     return self;
 }
 
-+ (instancetype)boardSizeWithName:(NSString *)name numberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
++ (instancetype)boardSizeWithNumberOfColumns:(NSUInteger)numberOfColumns numberOfRows:(NSUInteger)numberOfRows
 {
-    return [[self alloc] initWithName:name numberOfColumns:numberOfColumns numberOfRows:numberOfRows];
+    return [[self alloc] initWithNumberOfColumns:numberOfColumns numberOfRows:numberOfRows];
 }
 
 - (BOOL)isEqual:(id)other
@@ -71,10 +70,11 @@ static NSArray *kFWBoardSizeList = nil;
     if (kFWBoardSizeList == nil)
     {
         kFWBoardSizeList = @[
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_small", @"Small") numberOfColumns:30 numberOfRows:40],
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_medium", @"Medium") numberOfColumns:45 numberOfRows:60],
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_large", @"Large") numberOfColumns:60 numberOfRows:80],
-            [FWBoardSizeModel boardSizeWithName:NSLocalizedString(@"board_size_extra_large", @"Extra Large") numberOfColumns:90 numberOfRows:120]
+                [FWBoardSizeModel boardSizeWithNumberOfColumns:6 numberOfRows:10],
+                [FWBoardSizeModel boardSizeWithNumberOfColumns:30 numberOfRows:40],
+                [FWBoardSizeModel boardSizeWithNumberOfColumns:45 numberOfRows:60],
+                [FWBoardSizeModel boardSizeWithNumberOfColumns:60 numberOfRows:80],
+                [FWBoardSizeModel boardSizeWithNumberOfColumns:90 numberOfRows:120]
         ];
     }
     return kFWBoardSizeList;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <h1>What is Vie?</h1>
+    <p>Vie (<em>life</em> in French) is my take on Conway's Game of Life. The app allows players to create randomized Game of Life boards, as well as pick from over a thousand of patterns and run them on their device.</p>
+
+    <h1>The "game"</h1>
+    <p>The Game of Life is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. A player interacts with the Game of Life by creating an initial configuration and observing how it evolves.</p>
+
+    <h2>John Conway</h2>
+    <p>John Horton Conway is a British mathematician active in the theory of finite groups, knot theory, number theory, combinatorial game theory and coding theory. He has also contributed to many branches of recreational mathematics, notably the invention of the cellular automaton called the Game of Life. Conway is currently Professor of Mathematics at Princeton University.</p>
+    <p class="legend">From Wikipedia</p>
+
+    <h2>Rules</h2>
+    <p>The rules are rather simple, each cycle:</p>
+    <ul>
+        <li>every live cell that is surrounded by 2 or 3 live neighbours lives on</li>
+        <li>every live cell that is surrounded by less than 2 or more than 3 live cells dies (of underpopulation or overpopulation, respectively)</li>
+        <li>every dead cell that is surrounded by exactly 3 live cells is resurrected</li>
+    </ul>
+    <p>The game goes on cycle after cycle until the board is solely composed of stills and oscillators.</p>
+
+    <h2>Example</h2>
+    <img src="../cycle-1@2x.png" />
+    <p class="caption">Initial board</p>
+    <p>The cell in the top right corner is going to die of underpopulation because it has only 1 neighbour. The cell in the bottom left corner is going to die for the same reason. The cell in the middle will live on because it has 2 neighbours.</p>
+    <p>The cells in the top left and bottom right corners will not be resurrected because they each have 1 neighbour. The dead cell in the middle will be resurrected because it has exactly 3 neighbours.</p>
+    <img src="../cycle-2@2x.png" />
+    <p class="caption">Resulting grid after 1 cycle</p>
+
+    <h2>Patterns</h2>
+    <p>The app includes over a thousand patterns that can be loaded and run. A pattern is a given initial board that evolves in an interesting way. There are several major families of patterns: oscillators, stills, gliders, and more.</p>
+    <p>All the patterns used in this app come from the website <a href="http://www.conwaylife.com">www.conwaylife.com</a>, which is a great source of information for everything to do with the Game of Life.</p>
+
+    <h1>Author</h1>
+    <p>My name is Fabien Warniez, I am a software engineer living in Vancouver, Canada. I built the app from the ground up, with the help of my wife Katrina Warniez who designed the interface.</p>
+
+    <h2>Why this app?</h2>
+    <p>I built this app as a mean to sharpen my iOS development skills. I chose the Game of Life because I find the idea and the infinite possibilities fascinating, especially given the simplicity of the rules.</p>
+
+</body>
+</html>

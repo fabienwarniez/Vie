@@ -46,7 +46,7 @@
 - (void)awakeFromFetch
 {
     [super awakeFromFetch];
-    self.boardSize = [FWBoardSizeModel boardSizeWithName:nil numberOfColumns:[self.boardWidth unsignedIntegerValue] numberOfRows:[self.boardHeight unsignedIntegerValue]];
+    self.boardSize = [FWBoardSizeModel boardSizeWithNumberOfColumns:[self.boardWidth unsignedIntegerValue] numberOfRows:[self.boardHeight unsignedIntegerValue]];
     self.liveCells = [self deserializeLiveCells];
 }
 

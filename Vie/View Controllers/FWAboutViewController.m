@@ -10,8 +10,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:NSLocalizedString(@"about.wikipedia-url", @"http://en.m.wikipedia.org/wiki/Conway%27s_Game_of_Life")]]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]];
+    [self.webView loadRequest:request];
 }
 
 - (NSString *)titleFor:(FWTitleBar *)titleBar
@@ -27,6 +28,15 @@
 - (UIImage *)buttonImageFor:(FWTitleBar *)titleBar
 {
     return [UIImage imageNamed:@"x"];
+}
+
+- (BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType
+{
+    if (inType == UIWebViewNavigationTypeLinkClicked) {
+        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        return NO;
+    }
+    return YES;
 }
 
 @end

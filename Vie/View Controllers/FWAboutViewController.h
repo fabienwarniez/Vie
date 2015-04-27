@@ -13,7 +13,7 @@
 
 @end
 
-@interface FWAboutViewController : UIViewController <FWTitleBarDelegate>
+@interface FWAboutViewController : UIViewController <FWTitleBarDelegate, UIWebViewDelegate>
 
 @property (nonatomic, weak) id<FWAboutViewControllerDelegate> delegate;
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
