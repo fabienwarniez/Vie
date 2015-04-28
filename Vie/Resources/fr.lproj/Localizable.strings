@@ -15,6 +15,7 @@
 "game-settings.settings" = "Paramètres";
 "patterns.search" = "Recherche";
 "patterns.no-results" = "Pas de résultats.";
+"patterns.no-preview" = "pas d'aperçu";
 "patterns.patterns" = "Motifs";
 "quick-play-menu.save" = "sauvegarder";
 "quick-play-menu.restart" = "recommencer";
@@ -29,4 +30,3 @@
 "save-game.save" = "Sauvegarder";
 "game.quick-play" = "Partie Rapide";
 "about.about" = "A propos";
-"about.wikipedia-url" = "http://fr.m.wikipedia.org/wiki/Jeu_de_la_vie";

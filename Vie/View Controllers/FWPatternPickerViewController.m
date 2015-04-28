@@ -55,6 +55,16 @@ static CGFloat const kFWCellSpacing = 1.0f;
     self.noResultContainer.hidden = YES;
 
     self.lastScrollPosition = self.collectionView.contentOffset.y;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadCollectionView)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)reloadCollectionView
+{
+    [self.collectionView reloadData];
 }
 
 - (void)viewWillLayoutSubviews
@@ -65,6 +75,11 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
     self.collectionViewLayout.itemSize = CGSizeMake(side, side + [FWPatternCollectionViewCell titleBarHeight]);
     [self.collectionViewLayout invalidateLayout];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Accessors

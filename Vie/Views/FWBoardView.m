@@ -48,13 +48,9 @@ static NSUInteger const kFWNumberOfCellAgeGroups = 3;
 {
     [super layoutSubviews];
 
-    CGFloat pixelScale = [[UIScreen mainScreen] scale];
-
-    CGFloat totalBorderWidth = (self.boardSize.numberOfColumns - 1) * self.borderWidth;
-    CGFloat totalBorderHeight = (self.boardSize.numberOfRows - 1) * self.borderWidth;
-    CGFloat maxCellWidth = (self.bounds.size.width - 2 * self.minimumBoardPadding - totalBorderWidth) / self.boardSize.numberOfColumns;
-    CGFloat maxCellHeight = (self.bounds.size.height - 2 * self.minimumBoardPadding - totalBorderHeight) / self.boardSize.numberOfRows;
-    CGFloat finalCellSideLength = floorf(pixelScale * MIN(maxCellWidth, maxCellHeight)) / pixelScale;
+    CGFloat totalBorderWidth = [self totalBorderWidth];
+    CGFloat totalBorderHeight = [self totalBorderHeight];
+    CGFloat finalCellSideLength = [self cellSideLengthForTotalBorderWidth:totalBorderWidth totalBorderHeight:totalBorderHeight];
 
     self.cellSize = CGSizeMake(finalCellSideLength, finalCellSideLength);
 
@@ -64,6 +60,28 @@ static NSUInteger const kFWNumberOfCellAgeGroups = 3;
     CGFloat finalVerticalPadding = FWRoundFloat((self.bounds.size.height - finalBoardHeight) / 2.0f);
 
     self.cellContainerFrame = CGRectMake(finalHorizontalPadding, finalVerticalPadding, finalBoardWidth, finalBoardHeight);
+}
+
+- (CGFloat)totalBorderWidth
+{
+    return (self.boardSize.numberOfColumns - 1) * self.borderWidth;
+}
+
+- (CGFloat)totalBorderHeight
+{
+    return (self.boardSize.numberOfRows - 1) * self.borderWidth;
+}
+
+- (CGFloat)cellSideLength
+{
+    return [self cellSideLengthForTotalBorderWidth:[self totalBorderWidth] totalBorderHeight:[self totalBorderHeight]];
+}
+
+- (CGFloat)cellSideLengthForTotalBorderWidth:(CGFloat)width totalBorderHeight:(CGFloat)height
+{
+    CGFloat maxCellWidth = (self.bounds.size.width - 2 * self.minimumBoardPadding - width) / self.boardSize.numberOfColumns;
+    CGFloat maxCellHeight = (self.bounds.size.height - 2 * self.minimumBoardPadding - height) / self.boardSize.numberOfRows;
+    return FWRoundFloat(MIN(maxCellWidth, maxCellHeight));
 }
 
 - (void)drawRect:(CGRect)rect

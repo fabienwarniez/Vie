@@ -11,7 +11,7 @@
 #import "UIColor+FWAppColors.h"
 #import "UIFont+FWAppFonts.h"
 
-static CGFloat const kFWCellPatternBorderWidth = 1.0f;
+static CGFloat const kFWCellPatternBorderWidth = 0.5f;
 static CGFloat const kFWCellPatternPadding = 15.0f;
 static CGFloat const kFWCellPatternTitleLabelPadding = 8.0f;
 static CGFloat const kFWCellPatternSizeLabelPadding = 4.0f;
@@ -27,6 +27,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 @property (nonatomic, strong) UILabel *titleLabel2;
 @property (nonatomic, strong) FWBoardView *gameBoardView;
 @property (nonatomic, strong) UILabel *sizeLabel;
+@property (nonatomic, strong) UILabel *noPreviewLabel;
 @property (nonatomic, strong) UIButton *favouriteButton;
 @property (nonatomic, strong) UIButton *playButton;
 
@@ -63,6 +64,13 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
         _sizeLabel = [[UILabel alloc] init];
         _sizeLabel.font = [UIFont microRegular];
         [_nonSelectedContainer addSubview:_sizeLabel];
+
+        _noPreviewLabel = [[UILabel alloc] init];
+        _noPreviewLabel.text = NSLocalizedString(@"patterns.no-preview", @"no preview");
+        _noPreviewLabel.textColor = [UIColor mediumGrey];
+        _noPreviewLabel.font = [UIFont smallCondensed];
+        _noPreviewLabel.hidden = YES;
+        [_nonSelectedContainer addSubview:_noPreviewLabel];
 
         _gameBoardView = [[FWBoardView alloc] initWithFrame:CGRectZero];
         _gameBoardView.backgroundColor = [UIColor clearColor];
@@ -138,6 +146,25 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
             self.nonSelectedContainer.bounds.size.height - 2 * kFWCellPatternPadding
     );
 
+    self.gameBoardView.boardSize = self.cellPattern.boardSize;
+    CGFloat cellSide = [self.gameBoardView cellSideLength];
+    if (cellSide >= 1.0f)
+    {
+        self.gameBoardView.liveCells = @[self.cellPattern.liveCells, @[], @[]];
+    }
+    else
+    {
+        self.gameBoardView.liveCells = nil;
+        self.noPreviewLabel.hidden = NO;
+        [self.noPreviewLabel sizeToFit];
+        self.noPreviewLabel.frame = CGRectMake(
+                (self.nonSelectedContainer.bounds.size.width - self.noPreviewLabel.frame.size.width) / 2.0f,
+                (self.nonSelectedContainer.bounds.size.height - self.noPreviewLabel.frame.size.height) / 2.0f,
+                self.noPreviewLabel.frame.size.width,
+                self.noPreviewLabel.frame.size.height
+        );
+    }
+
     self.playButton.frame = CGRectMake(
             FWRoundFloat((self.selectedContainer.bounds.size.width - 76.0f) / 2.0f),
             FWRoundFloat((self.selectedContainer.bounds.size.height - 76.0f) / 2.0f),
@@ -210,6 +237,7 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
     [self.titleLabel2.layer removeAllAnimations];
     [self setSelected:NO animated:NO];
     [self.favouriteButton setSelected:NO];
+    self.noPreviewLabel.hidden = YES;
 }
 
 + (CGFloat)titleBarHeight
@@ -222,15 +250,6 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 - (void)setCellPattern:(FWPatternModel *)cellPattern
 {
     _cellPattern = cellPattern;
-    if ([cellPattern.boardSize isSmallerOrEqualToBoardSize:[FWBoardSizeModel boardSizeWithNumberOfColumns:90 numberOfRows:120]])
-    {
-        self.gameBoardView.boardSize = cellPattern.boardSize;
-        self.gameBoardView.liveCells = @[cellPattern.liveCells, @[], @[]];
-    }
-    else
-    {
-        self.gameBoardView.liveCells = nil;
-    }
     self.titleLabel1.text = cellPattern.name;
     self.titleLabel2.text = cellPattern.name;
     self.sizeLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long) cellPattern.boardSize.numberOfColumns, (unsigned long) cellPattern.boardSize.numberOfRows];
@@ -251,11 +270,11 @@ static CGFloat const kFWCellPatternFavouriteButtonPadding = 9.0f;
 
     if (fitsOnCurrentBoard)
     {
-        self.sizeLabel.textColor = [UIColor greenColor];
+        self.sizeLabel.textColor = [UIColor darkGrey];
     }
     else
     {
-        self.sizeLabel.textColor = [UIColor redColor];
+        self.sizeLabel.textColor = [UIColor brightPink];
     }
 }
 

@@ -15,6 +15,7 @@
 "game-settings.settings" = "Settings";
 "patterns.search" = "Search";
 "patterns.no-results" = "0 results.";
+"patterns.no-preview" = "no preview";
 "patterns.patterns" = "Patterns";
 "quick-play-menu.save" = "save";
 "quick-play-menu.restart" = "restart";
@@ -29,4 +30,3 @@
 "save-game.save" = "Save";
 "game.quick-play" = "Quick Play";
 "about.about" = "About";
-"about.wikipedia-url" = "http://en.m.wikipedia.org/wiki/Conway%27s_Game_of_Life";

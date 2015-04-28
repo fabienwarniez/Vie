@@ -14,4 +14,6 @@
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, strong) FWColorSchemeModel *fillColorScheme;
 
+- (CGFloat)cellSideLength;
+
 @end

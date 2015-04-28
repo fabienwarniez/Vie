@@ -70,7 +70,6 @@ static NSArray *kFWBoardSizeList = nil;
     if (kFWBoardSizeList == nil)
     {
         kFWBoardSizeList = @[
-                [FWBoardSizeModel boardSizeWithNumberOfColumns:6 numberOfRows:10],
                 [FWBoardSizeModel boardSizeWithNumberOfColumns:30 numberOfRows:40],
                 [FWBoardSizeModel boardSizeWithNumberOfColumns:45 numberOfRows:60],
                 [FWBoardSizeModel boardSizeWithNumberOfColumns:60 numberOfRows:80],
