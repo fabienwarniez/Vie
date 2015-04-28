@@ -7,45 +7,45 @@
     <link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 <body>
-    <h1>What is Vie?</h1>
-    <p>Vie (<em>life</em> in French) is my take on Conway's Game of Life. The app allows players to create randomized Game of Life boards, as well as pick from over a thousand of patterns and run them on their device.</p>
+    <h1>Vie, c'est quoi ?</h1>
+    <p>Vie est une application qui permet de jouer au Jeu de la Vie de John Conway. On peut générer des grilles aléatoires ou choisir parmis presque 1000 motifs disponibles.</p>
 
-    <h1>The "game"</h1>
-    <p>The Game of Life is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. A player interacts with the Game of Life by creating an initial configuration and observing how it evolves.</p>
+    <h1>Le "jeu"</h1>
+    <p>Le Jeu de la Vie est un jeu sans joueur, ce qui veut dire que son évolution est uniquement determinée par son état initial. Le joueur intéragit avec le Jeu de la Vie en créant une grille initiale et en observant son évolution.</p>
 
     <h2>John Conway</h2>
-    <p>John Horton Conway is a British mathematician active in the theory of finite groups, knot theory, number theory, combinatorial game theory and coding theory. He has also contributed to many branches of recreational mathematics, notably the invention of the cellular automaton called the Game of Life. Conway is currently Professor of Mathematics at Princeton University.</p>
-    <p class="legend">From Wikipedia</p>
+    <p>John Horton Conway est un mathématicien britannique. Extrêmement prolifique, il s'est penché sur les théories des groupes finis, des n&oelig;uds, des nombres, des jeux et du codage. Il est actuellement professeur de mathématiques à l'université de Princeton.</p>
+    <p class="legend">De Wikipedia</p>
 
-    <h2>Rules</h2>
-    <p>The rules are rather simple, each cycle:</p>
+    <h2>Règles</h2>
+    <p>Les règles sont plutôt simples, à chaque tour :</p>
     <ul>
-        <li>every live cell that is surrounded by 2 or 3 live neighbours lives on</li>
-        <li>every live cell that is surrounded by less than 2 or more than 3 live cells dies (of underpopulation or overpopulation, respectively)</li>
-        <li>every dead cell that is surrounded by exactly 3 live cells is resurrected</li>
+        <li>chaque cellule vivante entourée de 2 ou 3 cellules voisines survit</li>
+        <li>chaque cellule vivante entourée de moins de 2 ou plus de 3 cellules meurt (de sous-peuplement ou de surpeuplement, respectivement)</li>
+        <li>chaque cellule morte entourée de exactement 3 cellules voisines est rescusitée </li>
     </ul>
-    <p>The game goes on cycle after cycle until the board is solely composed of stills and oscillators.</p>
+    <p>La partie continue de tour en tour jusqu'à ce qu'il n'y ait plus que des structures stables ou des oscillateurs.</p>
 
-    <h2>Example</h2>
+    <h2>Exemple</h2>
     <img src="../cycle-1@2x.png" />
-    <p class="caption">Initial board</p>
-    <p>The cell in the top right corner is going to die of underpopulation because it has only 1 neighbour. The cell in the bottom left corner is going to die for the same reason. The cell in the middle will live on because it has 2 neighbours.</p>
-    <p>The cells in the top left and bottom right corners will not be resurrected because they each have 1 neighbour. The dead cell in the middle will be resurrected because it has exactly 3 neighbours.</p>
+    <p class="caption">Grille initiale</p>
+    <p>La cellule en haut à droite va mourir de sous-peuplement parcequ'elle n'a qu'une seule voisine. La cellule en bas à gauche va mourir pour la même raison. La cellule du milieu va survivre grâce à ses 2 voisines.</p>
+    <p>Les cellules d'en haut à gauche et en bas à droite ne seront pas rescusitées parcequ'elles n'ont qu'une voisine chacune. La cellule morte du milieu sera rescusitée parcequ'elle a exactement 3 voisines.</p>
     <img src="../cycle-2@2x.png" />
-    <p class="caption">Resulting grid after 1 cycle</p>
+    <p class="caption">La grille après un cycle</p>
 
-    <h2>Patterns</h2>
-    <p>The app includes over a thousand patterns that can be loaded and run. A pattern is a given initial board that evolves in an interesting way. There are several major families of patterns: oscillators, stills, gliders, and more.</p>
-    <p>All the patterns used in this app come from the website <a href="http://www.conwaylife.com">www.conwaylife.com</a>, which is a great source of information for everything to do with the Game of Life.</p>
+    <h2>Motifs</h2>
+    <p>L'application vient chargée avec presque 1000 motifs. Un motif est une grille initiale qui évolue de manière intéressante. Il y a plusieurs familles de motifs : oscillateurs, structures stables, vaisseaux, etc.</p>
+    <p>Tous les motifs disponibles dans Vie viennent du site <a href="http://www.conwaylife.com">www.conwaylife.com (en anglais)</a>, qui est un site riche en informations si vous désirez en savoir plus.</p>
 
-    <h1>Author</h1>
-    <p>My name is Fabien Warniez, I am a software engineer living in Vancouver, Canada. I built the app from the ground up, with the help of my wife Katrina Warniez who designed the interface.</p>
+    <h1>Auteur</h1>
+    <p>Mon nom est Fabien Warniez, je suis un ingénieur logiciel et je vis à Vancouver, Canada. J'ai créé cette application de toute pièce, avec l'aide de ma femme Katrina Warniez qui a conçu l'interface graphique.</p>
 
-    <h2>Why this app?</h2>
-    <p>I built this app as a mean to sharpen my iOS development skills. I chose the Game of Life because I find the idea and the infinite possibilities fascinating, especially given the simplicity of the rules.</p>
+    <h2>Pourquoi cette application ?</h2>
+    <p>J'ai créé cette application pour étendre mes compétences en développement iOS. J'ai choisi le Jeu de la Vie parceque je trouve l'idée ainsi que l'infinité de combinaisons fascinantes, surtout quand on réalise la simplicité des règles du jeu.</p>
 
     <h2>Open Source</h2>
-    <p>The code of this app can be found on <a href="https://bitbucket.org/fabienwarniez/vie">Bitbucket</a>. Pull requests welcome!</p>
+    <p>Le code de cette application est disponible sur <a href="https://bitbucket.org/fabienwarniez/vie">Bitbucket</a>. Toutes contributions sont les bienvenues !</p>
 
 </body>
 </html>
