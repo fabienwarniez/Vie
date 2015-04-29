@@ -64,7 +64,8 @@ static CGFloat const kFWCellSpacing = 1.0f;
 {
     [super viewWillLayoutSubviews];
 
-    CGFloat side = FWRoundFloat((self.collectionView.bounds.size.width - kFWCellSpacing - 2 * kFWCollectionViewSideMargin) / 2.0f);
+    NSUInteger numberOfColums = [FWSavedGamePickerViewController numberOfColumns];
+    CGFloat side = FWRoundFloat((self.collectionView.bounds.size.width - (numberOfColums - 1) * kFWCellSpacing - 2 * kFWCollectionViewSideMargin) / numberOfColums);
 
     self.collectionViewLayout.itemSize = CGSizeMake(side, side);
     [self.collectionViewLayout invalidateLayout];
@@ -297,6 +298,15 @@ static CGFloat const kFWCellSpacing = 1.0f;
     FWSavedGameModel *selectedModel = self.savedGames[(NSUInteger) indexPath.row];
 
     return selectedModel;
+}
+
++ (NSUInteger)numberOfColumns
+{
+    if ([UIScreen mainScreen].bounds.size.width > 360.0f) {
+        return 3;
+    } else {
+        return 2;
+    }
 }
 
 #pragma mark - IBActions
