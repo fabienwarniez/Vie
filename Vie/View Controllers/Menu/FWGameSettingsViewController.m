@@ -127,6 +127,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     FWColorSchemeModel *newColorScheme = self.colors[index];
     self.currentlyActiveColorScheme = newColorScheme;
     [self.delegate gameSettings:self colorSchemeDidChange:newColorScheme];
+
+    [Flurry logEvent:@"change_color" withParameters:@{@"color": @(index)}];
 }
 
 #pragma mark - FWSizeTileDelegate
@@ -145,6 +147,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     FWBoardSizeModel *newBoardSize = self.boardSizes[index];
     self.currentlyActiveBoardSize = newBoardSize;
     [self.delegate gameSettings:self boardSizeDidChange:newBoardSize];
+
+    [Flurry logEvent:@"change_size" withParameters:@{@"size": @(index)}];
 }
 
 #pragma mark - FWSpeedTileDelegate
@@ -163,6 +167,8 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     NSUInteger newGameSpeed = [self.gameSpeeds[index] unsignedIntegerValue];
     self.currentlyActiveSpeed = newGameSpeed;
     [self.delegate gameSettings:self gameSpeedDidChange:newGameSpeed];
+
+    [Flurry logEvent:@"change_speed" withParameters:@{@"speed": @(index)}];
 }
 
 #pragma mark - Private Methods

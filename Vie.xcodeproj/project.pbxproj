@@ -24,6 +24,8 @@
 		46844F791AED4FCA00E73FB7 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A6BD8FB065F12CE98CAFE2ED /* style.css */; };
 		46844F7C1AED8ADC00E73FB7 /* cycle-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46844F7A1AED8ADC00E73FB7 /* cycle-1@2x.png */; };
 		46844F7D1AED8ADC00E73FB7 /* cycle-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46844F7B1AED8ADC00E73FB7 /* cycle-2@2x.png */; };
+		468562DF1AF1CA7300DC6B7C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 468562DE1AF1CA7300DC6B7C /* SystemConfiguration.framework */; };
+		468562E11AF1CA7C00DC6B7C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 468562E01AF1CA7C00DC6B7C /* Security.framework */; };
 		469E76861ABFA22400319877 /* FWLaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 469E76851ABFA22400319877 /* FWLaunchScreen.xib */; };
 		46DFD8F91ABFD39000AD8E43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
@@ -51,6 +53,7 @@
 		A6BD87C0603660092EF459E0 /* FWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD868DC9D23C12FFB0A2C4 /* FWDataManager.m */; };
 		A6BD889B5DA300DFCDC3A427 /* FWSavedGamePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BD87FD288D97A5A1544EC4 /* FWSavedGamePickerViewController.xib */; };
 		A6BD88AB0269B101CA8B092A /* FWColorSchemeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8A8C8A24BC057374AE68 /* FWColorSchemeModel.m */; };
+		A6BD8A6FBB10DAE6D5DAFDC2 /* libFlurry_6.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6BD8636978972BF48DE3F29 /* libFlurry_6.3.0.a */; };
 		A6BD8ADD381D2DD448526568 /* FWSavedGamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD831A82F8AB73519759E1 /* FWSavedGamePickerViewController.m */; };
 		A6BD8B547B83212FC6157D0C /* FWSavedGameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD85951BF04312AB753E68 /* FWSavedGameManager.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainViewController.m */; };
@@ -115,6 +118,8 @@
 		464EA5671AEDEF0800E08B8E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/about.html; sourceTree = "<group>"; };
 		46844F7A1AED8ADC00E73FB7 /* cycle-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cycle-1@2x.png"; sourceTree = "<group>"; };
 		46844F7B1AED8ADC00E73FB7 /* cycle-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cycle-2@2x.png"; sourceTree = "<group>"; };
+		468562DE1AF1CA7300DC6B7C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		468562E01AF1CA7C00DC6B7C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		469E76851ABFA22400319877 /* FWLaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWLaunchScreen.xib; sourceTree = "<group>"; };
 		46DFD8FA1ABFD39000AD8E43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		46DFD8FC1ABFD39700AD8E43 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -142,6 +147,7 @@
 		A6BD836CE463AA1E6203A65D /* FWBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardView.h; sourceTree = "<group>"; };
 		A6BD8371513E20C29A91C1C4 /* FWQuickPlayMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWQuickPlayMenuViewController.m; sourceTree = "<group>"; };
 		A6BD838C05C9C56987CA9F58 /* FWCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellModel.m; sourceTree = "<group>"; };
+		A6BD83EE653D67E50DFE8CD5 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		A6BD83F1A46518921715C6A8 /* FWAboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FWAboutViewController.xib; sourceTree = "<group>"; };
 		A6BD84407110B7542EC437A6 /* FWEditSavedGameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FWEditSavedGameViewController.xib; sourceTree = "<group>"; };
 		A6BD84857B8F3E34324C8A6D /* UIScrollView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+FWConvenience.h"; sourceTree = "<group>"; };
@@ -149,6 +155,7 @@
 		A6BD850BF525AE5907310CBB /* FWDeleteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWDeleteButton.m; sourceTree = "<group>"; };
 		A6BD85790BB88B0A02FD8F50 /* FWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWDataManager.h; sourceTree = "<group>"; };
 		A6BD85951BF04312AB753E68 /* FWSavedGameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameManager.m; sourceTree = "<group>"; };
+		A6BD8636978972BF48DE3F29 /* libFlurry_6.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.3.0.a; sourceTree = "<group>"; };
 		A6BD8676030DA80E8A98A983 /* UIScrollView+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+FWConvenience.m"; sourceTree = "<group>"; };
 		A6BD868DC9D23C12FFB0A2C4 /* FWDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWDataManager.m; sourceTree = "<group>"; };
 		A6BD86C12D759F5A736D5812 /* FWPatternModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternModel.h; sourceTree = "<group>"; };
@@ -225,11 +232,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				468562E11AF1CA7C00DC6B7C /* Security.framework in Frameworks */,
+				468562DF1AF1CA7300DC6B7C /* SystemConfiguration.framework in Frameworks */,
 				5FFB649219C01196007F1DC7 /* iAd.framework in Frameworks */,
 				5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */,
 				46330F9C18E2964100E5C7EC /* CoreGraphics.framework in Frameworks */,
 				46330F9E18E2964100E5C7EC /* UIKit.framework in Frameworks */,
 				46330F9A18E2964100E5C7EC /* Foundation.framework in Frameworks */,
+				A6BD8A6FBB10DAE6D5DAFDC2 /* libFlurry_6.3.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +263,7 @@
 				46330FB818E2964100E5C7EC /* VieTests */,
 				46330F9818E2964100E5C7EC /* Frameworks */,
 				46330F9718E2964100E5C7EC /* Products */,
+				A6BD82678DE8F1D6999027D2 /* Libs */,
 			);
 			sourceTree = "<group>";
 		};
@@ -268,6 +279,8 @@
 		46330F9818E2964100E5C7EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				468562E01AF1CA7C00DC6B7C /* Security.framework */,
+				468562DE1AF1CA7300DC6B7C /* SystemConfiguration.framework */,
 				5FFB649119C01196007F1DC7 /* iAd.framework */,
 				5FB868B919C010E5002FD7D7 /* AdSupport.framework */,
 				5FF3D86719B29AEB00F97192 /* CoreData.framework */,
@@ -374,6 +387,23 @@
 				A6BD8FB065F12CE98CAFE2ED /* style.css */,
 			);
 			path = HTML;
+			sourceTree = "<group>";
+		};
+		A6BD8169B025E105093F2BCD /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD8636978972BF48DE3F29 /* libFlurry_6.3.0.a */,
+				A6BD83EE653D67E50DFE8CD5 /* Flurry.h */,
+			);
+			path = Flurry;
+			sourceTree = "<group>";
+		};
+		A6BD82678DE8F1D6999027D2 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD8169B025E105093F2BCD /* Flurry */,
+			);
+			path = Libs;
 			sourceTree = "<group>";
 		};
 		A6BD84DC839C08995F3571F3 /* Menu */ = {
@@ -814,6 +844,7 @@
 				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/Libs\"/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -833,6 +864,7 @@
 				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/Libs\"/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

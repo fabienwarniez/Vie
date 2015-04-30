@@ -90,6 +90,8 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     [self.gameSettingsViewController didMoveToParentViewController:self];
 
     [self.gameSettingsViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
+
+    [Flurry logEvent:@"settings_page" timed:YES];
 }
 
 - (void)hideSettings
@@ -103,6 +105,8 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
                                         [self.gameSettingsViewController removeFromParentViewController];
                                     }];
     self.areGameSettingsVisible = NO;
+
+    [Flurry endTimedEvent:@"settings_page" withParameters:nil];
 }
 
 - (void)showSaveGame
@@ -206,6 +210,8 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 - (void)saveGameViewController:(FWSaveGameViewController *)saveGameViewController didSaveWithName:(NSString *)name
 {
     [self.delegate quickPlayMenu:self didSaveWithName:name];
+
+    [Flurry logEvent:@"save_game"];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self hideSaveGame];
