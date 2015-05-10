@@ -49,7 +49,7 @@
 
 + (UIFont *)largeRegular
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:23.0f];
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:18.0f];
 }
 
 + (UIFont *)smallRegular

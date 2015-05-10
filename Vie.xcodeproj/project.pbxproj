@@ -32,7 +32,6 @@
 		5F29805819B29ED8006C4C91 /* FWSavedGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */; };
 		5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4510D19B542EC0040F524 /* FWGameViewController.xib */; };
 		5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF3D86719B29AEB00F97192 /* CoreData.framework */; };
-		5FFB649219C01196007F1DC7 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB649119C01196007F1DC7 /* iAd.framework */; };
 		A6BD8044BFE801A0B7B5B657 /* FWAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BD83F1A46518921715C6A8 /* FWAboutViewController.xib */; };
 		A6BD804BEB2C55446EB5C794 /* FWQuickPlayMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BD89B6678BDA714B57E7F8 /* FWQuickPlayMenuController.xib */; };
 		A6BD807F5C8B62ED6C6AD727 /* FWPatternPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BD8134B1159BEAFE694FC5 /* FWPatternPickerViewController.xib */; };
@@ -129,7 +128,6 @@
 		5FB4510D19B542EC0040F524 /* FWGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWGameViewController.xib; sourceTree = "<group>"; };
 		5FB868B919C010E5002FD7D7 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		5FF3D86719B29AEB00F97192 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		5FFB649119C01196007F1DC7 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
 		A6BD809C09E771E503F8B86F /* UIImage+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FWConvenience.h"; sourceTree = "<group>"; };
 		A6BD80B591A06737518F65E8 /* FWSavedGameCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameCollectionViewCell.h; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 			files = (
 				468562E11AF1CA7C00DC6B7C /* Security.framework in Frameworks */,
 				468562DF1AF1CA7300DC6B7C /* SystemConfiguration.framework in Frameworks */,
-				5FFB649219C01196007F1DC7 /* iAd.framework in Frameworks */,
 				5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */,
 				46330F9C18E2964100E5C7EC /* CoreGraphics.framework in Frameworks */,
 				46330F9E18E2964100E5C7EC /* UIKit.framework in Frameworks */,
@@ -281,7 +278,6 @@
 			children = (
 				468562E01AF1CA7C00DC6B7C /* Security.framework */,
 				468562DE1AF1CA7300DC6B7C /* SystemConfiguration.framework */,
-				5FFB649119C01196007F1DC7 /* iAd.framework */,
 				5FB868B919C010E5002FD7D7 /* AdSupport.framework */,
 				5FF3D86719B29AEB00F97192 /* CoreData.framework */,
 				46330F9918E2964100E5C7EC /* Foundation.framework */,
@@ -793,7 +789,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -826,7 +822,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

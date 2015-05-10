@@ -279,15 +279,14 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 - (IBAction)textFieldChanged:(FWTextField *)textField
 {
-    self.patterns = [self.patternManager patternsForSearchString:textField.text onlyFavourites:NO];
-
+    self.patterns = [self.patternManager patternsForSearchString:self.searchBar.text onlyFavourites:self.favouriteButton.selected];
     [self.collectionView reloadData];
 }
 
 - (IBAction)favouriteButtonTapped:(UIButton *)favouriteButton
 {
     favouriteButton.selected = !favouriteButton.selected;
-    self.patterns = [self.patternManager patternsForSearchString:self.searchBar.text onlyFavourites:favouriteButton.selected];
+    self.patterns = [self.patternManager patternsForSearchString:self.searchBar.text onlyFavourites:self.favouriteButton.selected];
     [self.collectionView reloadData];
 }
 

@@ -14,7 +14,7 @@
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
-@interface FWGameViewController () <ADBannerViewDelegate>
+@interface FWGameViewController ()
 {
     FWCellModel * __unsafe_unretained *_currentCellsArray;
     FWCellModel * __unsafe_unretained *_previousArrayOfCells;
@@ -107,8 +107,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 {
     [super viewDidLoad];
 
-    self.adBannerView.delegate = self;
-
     self.gameBoardView.minimumBoardPadding = kFWGameViewControllerBoardPadding;
 
     // Needed to update the play / pause buttons
@@ -196,18 +194,6 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     {
         [self calculateNextCycle];
     }
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-    NSLog(@"Ad loaded");
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-    NSLog(@"Ad could not load");
 }
 
 #pragma mark - Game Lifecycle Management
