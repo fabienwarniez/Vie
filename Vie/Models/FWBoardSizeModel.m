@@ -69,12 +69,22 @@ static NSArray *kFWBoardSizeList = nil;
 {
     if (kFWBoardSizeList == nil)
     {
-        kFWBoardSizeList = @[
-                [FWBoardSizeModel boardSizeWithNumberOfColumns:30 numberOfRows:40],
-                [FWBoardSizeModel boardSizeWithNumberOfColumns:45 numberOfRows:60],
-                [FWBoardSizeModel boardSizeWithNumberOfColumns:60 numberOfRows:80],
-                [FWBoardSizeModel boardSizeWithNumberOfColumns:90 numberOfRows:120]
-        ];
+        if ([UIScreen mainScreen].bounds.size.width < 768.0f) {
+            kFWBoardSizeList = @[
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:30 numberOfRows:40],
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:45 numberOfRows:60],
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:60 numberOfRows:80],
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:90 numberOfRows:120]
+            ];
+        } else {
+            kFWBoardSizeList = @[
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:60 numberOfRows:80],
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:90 numberOfRows:120],
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:120 numberOfRows:160],
+                    [FWBoardSizeModel boardSizeWithNumberOfColumns:150 numberOfRows:200]
+            ];
+        }
+
     }
     return kFWBoardSizeList;
 }

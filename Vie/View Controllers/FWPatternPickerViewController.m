@@ -268,10 +268,12 @@ static CGFloat const kFWCellSpacing = 1.0f;
 
 + (NSUInteger)numberOfColumns
 {
-    if ([UIScreen mainScreen].bounds.size.width > 360.0f) {
+    if ([UIScreen mainScreen].bounds.size.width < 360.0f) {
+        return 2;
+    } else if ([UIScreen mainScreen].bounds.size.width < 768.0f) {
         return 3;
     } else {
-        return 2;
+        return 5;
     }
 }
 

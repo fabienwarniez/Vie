@@ -13,7 +13,6 @@
 #import "FWSaveGameViewController.h"
 
 static NSUInteger const kFWNumberOfSettingsColumns = 2;
-static CGFloat const kFWSettingsCellHorizontalMargin = 27.0f;
 static CGFloat const kFWSettingsCellTopPadding = 36.0f;
 static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
@@ -232,8 +231,9 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
 - (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
 {
+    CGFloat horizontalMargin = [self horizontalMargin];
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSettingsCellHorizontalMargin - (kFWNumberOfSettingsColumns - 1) * kFWSettingsCellSpacing) / kFWNumberOfSettingsColumns;
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * horizontalMargin - (kFWNumberOfSettingsColumns - 1) * kFWSettingsCellSpacing) / kFWNumberOfSettingsColumns;
     cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
     NSUInteger currentColumn = 0;
@@ -243,7 +243,7 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
     for (FWMenuTile *tile in tiles)
     {
         tile.frame = CGRectMake(
-                kFWSettingsCellHorizontalMargin + currentColumn * (cellSideSize + kFWSettingsCellSpacing),
+                horizontalMargin + currentColumn * (cellSideSize + kFWSettingsCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
@@ -262,6 +262,15 @@ static CGFloat const kFWSettingsCellSpacing = 1.0f;
 
     NSUInteger numberOfRows = (tiles.count + kFWNumberOfSettingsColumns - 1) / kFWNumberOfSettingsColumns;
     return numberOfRows * cellSideSize + (numberOfRows - 1) * kFWSettingsCellSpacing;
+}
+
+- (CGFloat)horizontalMargin
+{
+    if ([UIScreen mainScreen].bounds.size.width < 768.0f) {
+        return 27.0f;
+    } else {
+        return 177.0f;
+    }
 }
 
 @end

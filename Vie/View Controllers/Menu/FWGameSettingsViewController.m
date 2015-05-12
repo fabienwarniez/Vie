@@ -18,8 +18,6 @@
 static NSUInteger const kFWNumberOfColorColumns = 3;
 static NSUInteger const kFWNumberOfSizeColumns = 2;
 static NSUInteger const kFWNumberOfSpeedColumns = 3;
-static CGFloat const kFWColorCellHorizontalMargin = 46.0f;
-static CGFloat const kFWSizeCellHorizontalMargin = 60.0f;
 static CGFloat const kFWColorCellTopPadding = 36.0f;
 static CGFloat const kFWCellSpacing = 1.0f;
 static CGFloat const kFWLabelBottomMargin = 22.0f;
@@ -217,8 +215,9 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 
 - (CGFloat)layoutColorTilesStartingAt:(CGFloat)y
 {
+    CGFloat colorCellHorizontalMargin = [self colorCellHorizontalMargin];
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWColorCellHorizontalMargin - (kFWNumberOfColorColumns - 1) * kFWCellSpacing) / kFWNumberOfColorColumns;
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * colorCellHorizontalMargin - (kFWNumberOfColorColumns - 1) * kFWCellSpacing) / kFWNumberOfColorColumns;
     cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
     NSUInteger currentColumn = 0;
@@ -226,7 +225,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     for (FWColorTile *tile in self.colorTiles)
     {
         tile.frame = CGRectMake(
-                kFWColorCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
+                colorCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
@@ -268,8 +267,9 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 
 - (CGFloat)layoutSizeTilesStartingAt:(CGFloat)y
 {
+    CGFloat sizeCellHorizontalMargin = [self sizeCellHorizontalMargin];
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSizeCellHorizontalMargin - (kFWNumberOfSizeColumns - 1) * kFWCellSpacing) / kFWNumberOfSizeColumns;
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * sizeCellHorizontalMargin - (kFWNumberOfSizeColumns - 1) * kFWCellSpacing) / kFWNumberOfSizeColumns;
     cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
     NSUInteger currentColumn = 0;
@@ -277,7 +277,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     for (FWSizeTile *tile in self.sizeTiles)
     {
         tile.frame = CGRectMake(
-                kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
+                sizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
@@ -318,8 +318,9 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
 
 - (CGFloat)layoutSpeedTilesStartingAt:(CGFloat)y
 {
+    CGFloat sizeCellHorizontalMargin = [self sizeCellHorizontalMargin];
     CGFloat pixelScale = [[UIScreen mainScreen] scale];
-    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * kFWSizeCellHorizontalMargin - (kFWNumberOfSpeedColumns - 1) * kFWCellSpacing) / kFWNumberOfSpeedColumns;
+    CGFloat cellSideSize = (self.view.bounds.size.width - 2 * sizeCellHorizontalMargin - (kFWNumberOfSpeedColumns - 1) * kFWCellSpacing) / kFWNumberOfSpeedColumns;
     cellSideSize = floorf(pixelScale * cellSideSize) / pixelScale;
     CGFloat currentY = y;
     NSUInteger currentColumn = 0;
@@ -327,7 +328,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     for (FWSpeedTile *tile in self.speedTiles)
     {
         tile.frame = CGRectMake(
-                kFWSizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
+                sizeCellHorizontalMargin + currentColumn * (cellSideSize + kFWCellSpacing),
                 currentY,
                 cellSideSize,
                 cellSideSize
@@ -390,6 +391,24 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     }
 
     return image;
+}
+
+- (CGFloat)colorCellHorizontalMargin
+{
+    if ([UIScreen mainScreen].bounds.size.width < 768.0f) {
+        return 46.0f;
+    } else {
+        return 196.0f;
+    }
+}
+
+- (CGFloat)sizeCellHorizontalMargin
+{
+    if ([UIScreen mainScreen].bounds.size.width < 768.0f) {
+        return 60.0f;
+    } else {
+        return 210.0f;
+    }
 }
 
 @end

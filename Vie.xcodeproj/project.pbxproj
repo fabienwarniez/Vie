@@ -13,11 +13,6 @@
 		46330FA618E2964100E5C7EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FA518E2964100E5C7EC /* main.m */; };
 		46330FAA18E2964100E5C7EC /* FWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FA918E2964100E5C7EC /* FWAppDelegate.m */; };
 		46330FAC18E2964100E5C7EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46330FAB18E2964100E5C7EC /* Images.xcassets */; };
-		46330FB318E2964100E5C7EC /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330FB218E2964100E5C7EC /* XCTest.framework */; };
-		46330FB418E2964100E5C7EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9918E2964100E5C7EC /* Foundation.framework */; };
-		46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46330F9D18E2964100E5C7EC /* UIKit.framework */; };
-		46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46330FBB18E2964100E5C7EC /* InfoPlist.strings */; };
-		46330FBF18E2964100E5C7EC /* VieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46330FBE18E2964100E5C7EC /* VieTests.m */; };
 		463BAF1B1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 463BAF1A1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib */; };
 		464EA5631AEDEDD100E08B8E /* normalize.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 464EA5621AEDEDD100E08B8E /* normalize.min.css */; };
 		464EA5641AEDEF0400E08B8E /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 464EA5661AEDEF0400E08B8E /* about.html */; };
@@ -87,16 +82,6 @@
 		B3935FA6823798258F5203A1 /* patterns.dat in Resources */ = {isa = PBXBuildFile; fileRef = B3935125771F4A068BE99A04 /* patterns.dat */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		46330FB618E2964100E5C7EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 46330F8E18E2964100E5C7EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 46330F9518E2964100E5C7EC;
-			remoteInfo = Vie;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		46330F9618E2964100E5C7EC /* Vie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46330F9918E2964100E5C7EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -108,11 +93,6 @@
 		46330FA818E2964100E5C7EC /* FWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FWAppDelegate.h; sourceTree = "<group>"; };
 		46330FA918E2964100E5C7EC /* FWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FWAppDelegate.m; sourceTree = "<group>"; };
 		46330FAB18E2964100E5C7EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		46330FB118E2964100E5C7EC /* VieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		46330FB218E2964100E5C7EC /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		46330FBA18E2964100E5C7EC /* VieTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VieTests-Info.plist"; sourceTree = "<group>"; };
-		46330FBC18E2964100E5C7EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		46330FBE18E2964100E5C7EC /* VieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VieTests.m; sourceTree = "<group>"; };
 		463BAF1A1AAD2A7B00F9CC10 /* FWSaveGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWSaveGameViewController.xib; sourceTree = "<group>"; };
 		464EA5621AEDEDD100E08B8E /* normalize.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = normalize.min.css; sourceTree = "<group>"; };
 		464EA5651AEDEF0400E08B8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/about.html; sourceTree = "<group>"; };
@@ -128,7 +108,6 @@
 		5F29805619B29ED8006C4C91 /* FWSavedGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameModel.h; sourceTree = "<group>"; };
 		5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameModel.m; sourceTree = "<group>"; };
 		5FB4510D19B542EC0040F524 /* FWGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWGameViewController.xib; sourceTree = "<group>"; };
-		5FB868B919C010E5002FD7D7 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		5FF3D86719B29AEB00F97192 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
 		A6BD809C09E771E503F8B86F /* UIImage+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FWConvenience.h"; sourceTree = "<group>"; };
@@ -247,16 +226,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		46330FAE18E2964100E5C7EC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46330FB318E2964100E5C7EC /* XCTest.framework in Frameworks */,
-				46330FB518E2964100E5C7EC /* UIKit.framework in Frameworks */,
-				46330FB418E2964100E5C7EC /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -264,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				46330F9F18E2964100E5C7EC /* Vie */,
-				46330FB818E2964100E5C7EC /* VieTests */,
 				46330F9818E2964100E5C7EC /* Frameworks */,
 				46330F9718E2964100E5C7EC /* Products */,
 				A6BD82678DE8F1D6999027D2 /* Libs */,
@@ -275,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				46330F9618E2964100E5C7EC /* Vie.app */,
-				46330FB118E2964100E5C7EC /* VieTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,12 +252,10 @@
 			children = (
 				468562E01AF1CA7C00DC6B7C /* Security.framework */,
 				468562DE1AF1CA7300DC6B7C /* SystemConfiguration.framework */,
-				5FB868B919C010E5002FD7D7 /* AdSupport.framework */,
 				5FF3D86719B29AEB00F97192 /* CoreData.framework */,
 				46330F9918E2964100E5C7EC /* Foundation.framework */,
 				46330F9B18E2964100E5C7EC /* CoreGraphics.framework */,
 				46330F9D18E2964100E5C7EC /* UIKit.framework */,
-				46330FB218E2964100E5C7EC /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -321,24 +286,6 @@
 				46330FA518E2964100E5C7EC /* main.m */,
 				46330FA718E2964100E5C7EC /* Vie-Prefix.pch */,
 				A6BD80B9FD7A4E846BF8D942 /* Macros.h */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		46330FB818E2964100E5C7EC /* VieTests */ = {
-			isa = PBXGroup;
-			children = (
-				46330FBE18E2964100E5C7EC /* VieTests.m */,
-				46330FB918E2964100E5C7EC /* Supporting Files */,
-			);
-			path = VieTests;
-			sourceTree = "<group>";
-		};
-		46330FB918E2964100E5C7EC /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				46330FBA18E2964100E5C7EC /* VieTests-Info.plist */,
-				46330FBB18E2964100E5C7EC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -584,24 +531,6 @@
 			productReference = 46330F9618E2964100E5C7EC /* Vie.app */;
 			productType = "com.apple.product-type.application";
 		};
-		46330FB018E2964100E5C7EC /* VieTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 46330FC518E2964100E5C7EC /* Build configuration list for PBXNativeTarget "VieTests" */;
-			buildPhases = (
-				46330FAD18E2964100E5C7EC /* Sources */,
-				46330FAE18E2964100E5C7EC /* Frameworks */,
-				46330FAF18E2964100E5C7EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				46330FB718E2964100E5C7EC /* PBXTargetDependency */,
-			);
-			name = VieTests;
-			productName = VieTests;
-			productReference = 46330FB118E2964100E5C7EC /* VieTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -614,9 +543,6 @@
 				TargetAttributes = {
 					46330F9518E2964100E5C7EC = {
 						DevelopmentTeam = RQ4AYF5N4T;
-					};
-					46330FB018E2964100E5C7EC = {
-						TestTargetID = 46330F9518E2964100E5C7EC;
 					};
 				};
 			};
@@ -634,7 +560,6 @@
 			projectRoot = "";
 			targets = (
 				46330F9518E2964100E5C7EC /* Vie */,
-				46330FB018E2964100E5C7EC /* VieTests */,
 			);
 		};
 /* End PBXProject section */
@@ -664,14 +589,6 @@
 				A6BD8044BFE801A0B7B5B657 /* FWAboutViewController.xib in Resources */,
 				A6BD889B5DA300DFCDC3A427 /* FWSavedGamePickerViewController.xib in Resources */,
 				A6BD807F5C8B62ED6C6AD727 /* FWPatternPickerViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		46330FAF18E2964100E5C7EC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46330FBD18E2964100E5C7EC /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,33 +648,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		46330FAD18E2964100E5C7EC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46330FBF18E2964100E5C7EC /* VieTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		46330FB718E2964100E5C7EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 46330F9518E2964100E5C7EC /* Vie */;
-			targetProxy = 46330FB618E2964100E5C7EC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		46330FBB18E2964100E5C7EC /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46330FBC18E2964100E5C7EC /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		464EA5661AEDEF0400E08B8E /* about.html */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -867,7 +760,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -887,48 +780,8 @@
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/Libs\"/**";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		46330FC618E2964100E5C7EC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Vie.app/Vie";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "VieTests/VieTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		46330FC718E2964100E5C7EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Vie.app/Vie";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
-				INFOPLIST_FILE = "VieTests/VieTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -949,15 +802,6 @@
 			buildConfigurations = (
 				46330FC318E2964100E5C7EC /* Debug */,
 				46330FC418E2964100E5C7EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		46330FC518E2964100E5C7EC /* Build configuration list for PBXNativeTarget "VieTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				46330FC618E2964100E5C7EC /* Debug */,
-				46330FC718E2964100E5C7EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
