@@ -18,6 +18,7 @@
 #import "FWDataManager.h"
 #import "FWLaunchScreenViewController.h"
 #import "FWAboutViewController.h"
+#import "Flurry.h"
 
 static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
 
@@ -166,7 +167,7 @@ static CGFloat const kFWGameViewControllerCellBorderWidth = 1.0f;
     [self.gameViewController.view slideTo:self.view.bounds duration:0.3f delay:0.0f completion:nil];
     self.isQuickGameVisible = YES;
     
-    [Flurry logEvent:@"game_board" timed:YES];
+    [FWFlurry logEvent:@"game_board" timed:YES];
 }
 
 - (void)hideQuickGame

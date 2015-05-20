@@ -12,6 +12,7 @@
 #import "FWPatternManager.h"
 #import "FWPatternLoader.h"
 #import "FWPatternModel.h"
+#import "FWSettingsManager.h"
 
 @interface FWAppDelegate ()
 
@@ -23,12 +24,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [Flurry startSession:@"NCWY32JF9G39SQ7PYVKH"];
+    [FWFlurry startSession:@"NCWY32JF9G39SQ7PYVKH"];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    [self loadPatternsIntoCoreDataIfNeeded];
+    FWPatternManager *patternManager = [[FWDataManager sharedDataManager] patternManager];
+    [patternManager performDataUpdates];
 
     self.mainViewController = [[FWMainViewController alloc] init];
     self.window.rootViewController = self.mainViewController;
@@ -36,20 +38,6 @@
     [self.window makeKeyAndVisible];
 
     return YES;
-}
-
-- (void)loadPatternsIntoCoreDataIfNeeded
-{
-    FWPatternManager *patternManager = [[FWDataManager sharedDataManager] patternManager];
-    NSUInteger patternCount = [patternManager patternCount];
-
-    if (patternCount == 0) {
-        FWPatternLoader *patternLoader = [[FWPatternLoader alloc] init];
-        NSArray *patterns = [patternLoader patternsInRange:NSMakeRange(0, [patternLoader patternCount])];
-        for (FWPatternModel *patternModel in patterns) {
-            [patternModel.managedObjectContext save:nil];
-        }
-    }
 }
 
 @end

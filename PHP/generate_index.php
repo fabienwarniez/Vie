@@ -2,6 +2,7 @@
 <?php
 
 $directory = "../Patterns/";
+$validRules = ['B3/S23', 'b3/s23', '23/3', 's23/b3'];
 
 $directoryHandler = opendir($directory);
 
@@ -28,12 +29,10 @@ while (false !== ($filename = readdir($directoryHandler))) {
                     echo sprintf("No name, using file name instead: %s \n", $name);
                 }
             } elseif (strpos($line, 'x = ') === 0) {
-                list($columns, $rows, $rule, $a, $b) = sscanf($line, "x = %i, y = %i,%s = %i/%i");
+                list($columns, $rows, $rule) = sscanf($line, "x = %i, y = %i, rule = %s");
 
-                if ($columns > 0 && $rows > 0 && $columns <= 90 && $rows <= 120) {
+                if (in_array($rule, $validRules) && $columns > 0 && $rows > 0 && $columns <= 90 && $rows <= 120) {
                     $size = sprintf('%d|%d', $columns, $rows);
-                } else {
-                    echo sprintf("Bad format for size: %s\n", $line);
                 }
             } elseif (strpos($line, '#') !== 0) {
                 $data .= $line;

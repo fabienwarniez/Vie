@@ -6,6 +6,8 @@
 #import <CoreData/CoreData.h>
 #import "FWPatternManager.h"
 #import "FWPatternModel.h"
+#import "FWPatternLoader.h"
+#import "FWSettingsManager.h"
 
 static NSString * const kFWPatternEntityName = @"Pattern";
 
@@ -61,6 +63,45 @@ static NSString * const kFWPatternEntityName = @"Pattern";
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kFWPatternEntityName];
     return [self.managedObjectContext countForFetchRequest:fetchRequest error:nil];
+}
+
+- (void)performDataUpdates
+{
+    NSUInteger patternCount = [self patternCount];
+
+    if (patternCount == 0) {
+        [self loadPatternsIntoCoreData];
+    } else if (![FWSettingsManager getDataUpdate1Status]) {
+        [self updateData1];
+    }
+}
+
+- (void)loadPatternsIntoCoreData
+{
+    FWPatternLoader *patternLoader = [[FWPatternLoader alloc] init];
+    NSArray *patterns = [patternLoader patternsInRange:NSMakeRange(0, [patternLoader patternCount])];
+    for (FWPatternModel *patternModel in patterns) {
+        [patternModel.managedObjectContext save:nil];
+    }
+    [FWSettingsManager setDataUpdate1Status:YES];
+}
+
+- (void)updateData1
+{
+    FWPatternLoader *patternLoader = [[FWPatternLoader alloc] init];
+    NSArray *newPatternList = [patternLoader patternsInRange:NSMakeRange(0, [patternLoader patternCount])];
+    NSArray *oldPatternList = [self patternsForSearchString:nil onlyFavourites:NO];
+
+    for (FWPatternModel *savedPatternModel in oldPatternList) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fileName == %@", savedPatternModel.fileName];
+        NSArray *searchResult = [newPatternList filteredArrayUsingPredicate:predicate];
+
+        if (searchResult == nil) {
+            [savedPatternModel.managedObjectContext deleteObject:savedPatternModel];
+            [savedPatternModel.managedObjectContext save:nil];
+        }
+    }
+    [FWSettingsManager setDataUpdate1Status:YES];
 }
 
 @end

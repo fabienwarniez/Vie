@@ -12,6 +12,7 @@
 - (FWPatternModel *)createPatternModel;
 
 - (NSArray *)patternsForSearchString:(NSString *)searchString onlyFavourites:(BOOL)onlyFavourites;
-- (NSUInteger)patternCount;
+
+- (void)performDataUpdates;
 
 @end

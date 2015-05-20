@@ -53,7 +53,7 @@
         if (userColorScheme == nil) // guid retrieved is either nil or invalid, setting back to default value
         {
             userColorScheme = [colorSchemes firstObject]; // first object is the default
-            [FWSettingsManager saveUserColorSchemeGuid:userColorScheme.guid];
+            [FWSettingsManager setUserColorSchemeGuid:userColorScheme.guid];
         }
 
         _colorScheme = userColorScheme;
@@ -65,7 +65,7 @@
 - (void)setColorScheme:(FWColorSchemeModel *)colorScheme
 {
     _colorScheme = colorScheme;
-    [FWSettingsManager saveUserColorSchemeGuid:colorScheme.guid];
+    [FWSettingsManager setUserColorSchemeGuid:colorScheme.guid];
 }
 
 - (FWBoardSizeModel *)boardSize
@@ -80,7 +80,7 @@
         {
             userGameBoardSize = [FWBoardSizeModel defaultBoardSize];
 
-            [FWSettingsManager saveUserBoardSize:userGameBoardSize];
+            [FWSettingsManager setUserBoardSize:userGameBoardSize];
         }
         _boardSize = userGameBoardSize;
     }
@@ -91,7 +91,7 @@
 - (void)setBoardSize:(FWBoardSizeModel *)boardSize
 {
     _boardSize = boardSize;
-    [FWSettingsManager saveUserBoardSize:boardSize];
+    [FWSettingsManager setUserBoardSize:boardSize];
 }
 
 - (NSUInteger)gameSpeed
@@ -104,7 +104,7 @@
         {
             userGameSpeed = [FWGameSpeed defaultGameSpeed];
 
-            [FWSettingsManager saveUserGameSpeed:userGameSpeed];
+            [FWSettingsManager setUserGameSpeed:userGameSpeed];
         }
         _gameSpeed = userGameSpeed;
     }
@@ -115,7 +115,7 @@
 - (void)setGameSpeed:(NSUInteger)gameSpeed
 {
     _gameSpeed = gameSpeed;
-    [FWSettingsManager saveUserGameSpeed:gameSpeed];
+    [FWSettingsManager setUserGameSpeed:gameSpeed];
 }
 
 @end

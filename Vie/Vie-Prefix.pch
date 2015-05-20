@@ -15,5 +15,5 @@
     #import <Foundation/Foundation.h>
     #import <iAd/iAd.h>
     #import "Macros.h"
-    #import "Flurry.h"
+    #import "FWFlurry.h"
 #endif

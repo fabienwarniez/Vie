@@ -195,7 +195,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     FWSavedGameModel *selectedModel = [self savedGameModelForCell:savedGameCollectionViewCell];
     [self.delegate savedGamePicker:self didSelectSavedGame:selectedModel];
 
-    [Flurry logEvent:@"play_saved_game" withParameters:@{@"name": selectedModel.name}];
+    [FWFlurry logEvent:@"play_saved_game" withParameters:@{@"name": selectedModel.name}];
 }
 
 - (void)optionsButtonTappedForSavedGameCollectionViewCell:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell
@@ -205,7 +205,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     FWSavedGameModel *selectedModel = [self savedGameModelForCell:savedGameCollectionViewCell];
     [self showEditViewForSavedGame:selectedModel];
 
-    [Flurry logEvent:@"edit_saved_game" withParameters:@{@"name": selectedModel.name}];
+    [FWFlurry logEvent:@"edit_saved_game" withParameters:@{@"name": selectedModel.name}];
 }
 
 - (void)savedGameCollectionViewCellDidCancel:(FWSavedGameCollectionViewCell *)savedGameCollectionViewCell

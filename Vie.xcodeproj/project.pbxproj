@@ -40,6 +40,7 @@
 		A6BD819898C8F3C3BACF861D /* UIImage+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8804CB45858318030438 /* UIImage+FWConvenience.m */; };
 		A6BD819D6ABFEAFE5507AA6B /* FWQuickPlayMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8371513E20C29A91C1C4 /* FWQuickPlayMenuViewController.m */; };
 		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
+		A6BD827ADCCC5BBB40EF56AF /* FWFlurry.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8FA17C9A803F716E332D /* FWFlurry.m */; };
 		A6BD828CD6447FA72D079651 /* FWPatternPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD878A901EAAF0A2924183 /* FWPatternPickerViewController.m */; };
 		A6BD82E05F8AA77C187761BD /* FWTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81BEE06639BB968E11BC /* FWTextField.m */; };
 		A6BD83CCA3F3D88E36020196 /* FWBoardSizeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSizeModel.m */; };
@@ -188,7 +189,9 @@
 		A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSizeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizeModel.m; sourceTree = "<group>"; };
 		A6BD8F008B945759E90FEF5C /* FWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainViewController.m; sourceTree = "<group>"; };
 		A6BD8F649E802D2BEBAACD84 /* FWSavedGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameManager.h; sourceTree = "<group>"; };
+		A6BD8F8344AC7A627B9D8CDE /* FWFlurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWFlurry.h; sourceTree = "<group>"; };
 		A6BD8F9D674CEC3A48FDCFC4 /* FWSavedGamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGamePickerViewController.h; sourceTree = "<group>"; };
+		A6BD8FA17C9A803F716E332D /* FWFlurry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWFlurry.m; sourceTree = "<group>"; };
 		A6BD8FB065F12CE98CAFE2ED /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		A6BD8FBF87791C0CA1B66517 /* FWPatternManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternManager.h; sourceTree = "<group>"; };
 		A6BD8FC14DFAEF94530D71C9 /* FWQuickPlayMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWQuickPlayMenuViewController.h; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				A6BD88C89AEEA4B5BF5737BA /* Categories */,
 				B39354A54140E1EC0816A136 /* Resources */,
 				5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */,
+				A6BD8FA17C9A803F716E332D /* FWFlurry.m */,
+				A6BD8F8344AC7A627B9D8CDE /* FWFlurry.h */,
 			);
 			path = Vie;
 			sourceTree = "<group>";
@@ -706,6 +711,7 @@
 				A6BD84194B78BA4714C0B77A /* FWAboutViewController.m in Sources */,
 				A6BD8ADD381D2DD448526568 /* FWSavedGamePickerViewController.m in Sources */,
 				A6BD828CD6447FA72D079651 /* FWPatternPickerViewController.m in Sources */,
+				A6BD827ADCCC5BBB40EF56AF /* FWFlurry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,12 +10,15 @@
 @interface FWSettingsManager : NSObject
 
 + (NSString *)getUserColorSchemeGuid;
-+ (void)saveUserColorSchemeGuid:(NSString *)colorSchemeGuid;
++ (void)setUserColorSchemeGuid:(NSString *)colorSchemeGuid;
 
 + (FWBoardSizeModel *)getUserBoardSize;
-+ (void)saveUserBoardSize:(FWBoardSizeModel *)boardSize;
++ (void)setUserBoardSize:(FWBoardSizeModel *)boardSize;
 
 + (NSUInteger)getUserGameSpeed;
-+ (void)saveUserGameSpeed:(NSUInteger)gameSpeed;
++ (void)setUserGameSpeed:(NSUInteger)gameSpeed;
+
++ (BOOL)getDataUpdate1Status;
++ (void)setDataUpdate1Status:(BOOL)status;
 
 @end

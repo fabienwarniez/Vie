@@ -208,7 +208,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     [self.searchBar resignFirstResponder];
     [self.delegate patternPicker:self didSelectCellPattern:selectedModel];
 
-    [Flurry logEvent:@"play_pattern" withParameters:@{@"name": selectedModel.name}];
+    [FWFlurry logEvent:@"play_pattern" withParameters:@{@"name": selectedModel.name}];
 }
 
 - (void)favouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
@@ -217,7 +217,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     selectedModel.favourited = YES;
     [selectedModel.managedObjectContext save:nil];
 
-    [Flurry logEvent:@"favourite_pattern" withParameters:@{@"name": selectedModel.name}];
+    [FWFlurry logEvent:@"favourite_pattern" withParameters:@{@"name": selectedModel.name}];
 }
 
 - (void)unfavouriteButtonTappedFor:(FWPatternCollectionViewCell *)patternCollectionViewCell
@@ -226,7 +226,7 @@ static CGFloat const kFWCellSpacing = 1.0f;
     selectedModel.favourited = NO;
     [selectedModel.managedObjectContext save:nil];
 
-    [Flurry logEvent:@"unfavourite_pattern" withParameters:@{@"name": selectedModel.name}];
+    [FWFlurry logEvent:@"unfavourite_pattern" withParameters:@{@"name": selectedModel.name}];
 }
 
 - (void)patternCollectionViewCellDidCancel:(FWPatternCollectionViewCell *)patternCollectionViewCell

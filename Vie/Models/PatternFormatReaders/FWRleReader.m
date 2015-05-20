@@ -32,7 +32,7 @@
         else if ([nextCharacter isEqualToString:@"$"]) // line end
         {
             columnIndex = 0;
-            rowIndex++;
+            rowIndex += numberOfOccurences;
         }
         else if ([nextCharacter isEqualToString:@"b"]) // dead cell
         {

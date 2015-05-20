@@ -13,6 +13,7 @@
 #import "FWSizeTile.h"
 #import "FWGameSpeed.h"
 #import "FWSpeedTile.h"
+#import "Flurry.h"
 
 static NSUInteger const kFWNumberOfColorColumns = 3;
 static NSUInteger const kFWNumberOfSizeColumns = 2;
@@ -128,7 +129,7 @@ static CGFloat const kFWVerticalSpacing = 36.0f;
     self.currentlyActiveColorScheme = newColorScheme;
     [self.delegate gameSettings:self colorSchemeDidChange:newColorScheme];
 
-    [Flurry logEvent:@"change_color" withParameters:@{@"color": @(index)}];
+    [FWFlurry logEvent:@"change_color" withParameters:@{@"color": @(index)}];
 }
 
 #pragma mark - FWSizeTileDelegate
