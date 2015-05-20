@@ -31,9 +31,8 @@ static NSString * const kFWPatternEntityName = @"Pattern";
 
 - (FWPatternModel *)createPatternModel
 {
-    FWPatternModel *cellPatternModel = [NSEntityDescription insertNewObjectForEntityForName:kFWPatternEntityName inManagedObjectContext:self.managedObjectContext];
-
-    return cellPatternModel;
+    NSEntityDescription *entity = [NSEntityDescription entityForName:kFWPatternEntityName inManagedObjectContext:self.managedObjectContext];
+    return [[FWPatternModel alloc] initWithEntity:entity insertIntoManagedObjectContext:nil];
 }
 
 - (NSArray *)patternsForSearchString:(NSString *)searchString onlyFavourites:(BOOL)onlyFavourites
@@ -81,7 +80,8 @@ static NSString * const kFWPatternEntityName = @"Pattern";
     FWPatternLoader *patternLoader = [[FWPatternLoader alloc] init];
     NSArray *patterns = [patternLoader patternsInRange:NSMakeRange(0, [patternLoader patternCount])];
     for (FWPatternModel *patternModel in patterns) {
-        [patternModel.managedObjectContext save:nil];
+        [self.managedObjectContext insertObject:patternModel];
+        [self.managedObjectContext save:nil];
     }
     [FWSettingsManager setDataUpdate1Status:YES];
 }
@@ -96,7 +96,7 @@ static NSString * const kFWPatternEntityName = @"Pattern";
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fileName == %@", savedPatternModel.fileName];
         NSArray *searchResult = [newPatternList filteredArrayUsingPredicate:predicate];
 
-        if (searchResult == nil) {
+        if ([searchResult count] == 0) {
             [savedPatternModel.managedObjectContext deleteObject:savedPatternModel];
             [savedPatternModel.managedObjectContext save:nil];
         }
