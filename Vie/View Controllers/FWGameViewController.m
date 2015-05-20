@@ -11,6 +11,8 @@
 #import "FWSavedGameModel.h"
 #import "FWColorSchemeModel.h"
 #import "FWPatternModel.h"
+#import "FWGameRuleProtocol.h"
+#import "FWB3S23.h"
 
 static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
 
@@ -20,6 +22,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     FWCellModel * __unsafe_unretained *_previousArrayOfCells;
 }
 
+@property (nonatomic, strong) id<FWGameRuleProtocol> gameRule;
 @property (nonatomic, assign) BOOL cArraysAllocated;
 @property (nonatomic, strong) NSArray *currentCellsNSArray;
 @property (nonatomic, strong) NSArray *previousNSArrayOfCells;
@@ -37,6 +40,7 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        _gameRule = [[FWB3S23 alloc] init];
         _cArraysAllocated = NO;
         _isRewindingPossible = NO;
     }
@@ -441,45 +445,32 @@ static CGFloat const kFWGameViewControllerBoardPadding = 15.0f;
             FWCellModel * __unsafe_unretained nextCycleCell = nextCycleArray[columnIndex * numberOfRows + rowIndex];
 
             NSUInteger numberOfNeighbours = 0;
-            for (NSUInteger neighbourIndex = 0; neighbourIndex < 9; neighbourIndex++)
-            {
-                if (neighbourIndex != 4)
-                {
+            for (NSUInteger neighbourIndex = 0; neighbourIndex < 9; neighbourIndex++) {
+                if (neighbourIndex != 4) {
                     FWCellModel * __unsafe_unretained neighbourCell = neighbourCells[neighbourIndex];
-                    if (neighbourCell != nil && neighbourCell.alive)
-                    {
+                    if (neighbourCell != nil && neighbourCell.alive) {
                         numberOfNeighbours++;
                     }
                 }
             }
 
-            if (currentCell.alive)
-            {
-                if (numberOfNeighbours < 2 || numberOfNeighbours > 3)
-                {
-                    nextCycleCell.alive = NO;
-                }
-                else
-                {
+            if (currentCell.alive) {
+                if ([self.gameRule survivesWithNeighbourCount:numberOfNeighbours]) {
                     nextCycleCell.alive = YES;
                     nextCycleCell.age = currentCell.age + 1;
+                } else {
+                    nextCycleCell.alive = NO;
                 }
-            }
-            else
-            {
-                if (numberOfNeighbours == 3)
-                {
+            } else {
+                if ([self.gameRule birthWithNeighbourCount:numberOfNeighbours]) {
                     nextCycleCell.alive = YES;
                     nextCycleCell.age = 0;
-                }
-                else
-                {
+                } else {
                     nextCycleCell.alive = NO;
                 }
             }
 
-            if (nextCycleCell.alive)
-            {
+            if (nextCycleCell.alive) {
                 [liveCellsArray[[FWGameViewController ageGroupFromAge:nextCycleCell.age]] addObject:nextCycleCell];
             }
         }

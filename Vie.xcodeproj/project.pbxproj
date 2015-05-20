@@ -39,6 +39,7 @@
 		A6BD8124E049047037CBD3FE /* FWPatternManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD89C697119D06D0A3547D /* FWPatternManager.m */; };
 		A6BD819898C8F3C3BACF861D /* UIImage+FWConvenience.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8804CB45858318030438 /* UIImage+FWConvenience.m */; };
 		A6BD819D6ABFEAFE5507AA6B /* FWQuickPlayMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8371513E20C29A91C1C4 /* FWQuickPlayMenuViewController.m */; };
+		A6BD827814FB187EE4F05227 /* FWB3S23.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8D7485D6463088A1500F /* FWB3S23.m */; };
 		A6BD827A3B45D34D4E4F1AD2 /* FWGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD81239C5465908CDDAA83 /* FWGameViewController.m */; };
 		A6BD827ADCCC5BBB40EF56AF /* FWFlurry.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8FA17C9A803F716E332D /* FWFlurry.m */; };
 		A6BD828CD6447FA72D079651 /* FWPatternPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD878A901EAAF0A2924183 /* FWPatternPickerViewController.m */; };
@@ -178,13 +179,16 @@
 		A6BD8B0C949CFF6CF58FDA44 /* FWEditSavedGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWEditSavedGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B5B9B458663491B4BA2 /* FWSaveGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSaveGameViewController.h; sourceTree = "<group>"; };
 		A6BD8B6BF68F5AB7427B5296 /* FWBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardView.m; sourceTree = "<group>"; };
+		A6BD8B6C1FFD2D5A7D8333D5 /* FWB3S23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWB3S23.h; sourceTree = "<group>"; };
 		A6BD8C08B7E4AF2AD65E3BF5 /* FWPatternModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWPatternModel.m; sourceTree = "<group>"; };
 		A6BD8C834C55A943F824AAB0 /* FWAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWAboutViewController.m; sourceTree = "<group>"; };
 		A6BD8D0C66A406A3CF3F47C9 /* FWUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWUserModel.h; sourceTree = "<group>"; };
 		A6BD8D54F5A43C9B1B468EB5 /* FWLaunchScreenViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FWLaunchScreenViewController.xib; sourceTree = "<group>"; };
+		A6BD8D7485D6463088A1500F /* FWB3S23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWB3S23.m; sourceTree = "<group>"; };
 		A6BD8DE6A8589D299FCD00C5 /* FWTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWTextField.h; sourceTree = "<group>"; };
 		A6BD8DFA99B9F370BEA463E6 /* FWEditSavedGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWEditSavedGameViewController.m; sourceTree = "<group>"; };
 		A6BD8E598D196F2CEE8BA33A /* FWLaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWLaunchScreenViewController.m; sourceTree = "<group>"; };
+		A6BD8E6E61F18202FD8F3B5F /* FWGameRuleProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWGameRuleProtocol.h; sourceTree = "<group>"; };
 		A6BD8EC4545250BB51B5318D /* FWSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSettingsManager.h; sourceTree = "<group>"; };
 		A6BD8EEE1A070EFC4A7E8FA7 /* FWBoardSizeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWBoardSizeModel.m; sourceTree = "<group>"; };
 		A6BD8F008B945759E90FEF5C /* FWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWMainViewController.m; sourceTree = "<group>"; };
@@ -451,6 +455,7 @@
 				B3935D54FA0ACE6E624116C7 /* FWGameSpeed.m */,
 				B393542580658638A1A22397 /* FWGameSpeed.h */,
 				A6BD809D983E4491F77A3ACE /* DataManagers */,
+				A6BD87503601AB19F280F89A /* GameRules */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -464,6 +469,16 @@
 				A6BD80B591A06737518F65E8 /* FWSavedGameCollectionViewCell.h */,
 			);
 			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
+		A6BD87503601AB19F280F89A /* GameRules */ = {
+			isa = PBXGroup;
+			children = (
+				A6BD8D7485D6463088A1500F /* FWB3S23.m */,
+				A6BD8B6C1FFD2D5A7D8333D5 /* FWB3S23.h */,
+				A6BD8E6E61F18202FD8F3B5F /* FWGameRuleProtocol.h */,
+			);
+			path = GameRules;
 			sourceTree = "<group>";
 		};
 		A6BD88C89AEEA4B5BF5737BA /* Categories */ = {
@@ -712,6 +727,7 @@
 				A6BD8ADD381D2DD448526568 /* FWSavedGamePickerViewController.m in Sources */,
 				A6BD828CD6447FA72D079651 /* FWPatternPickerViewController.m in Sources */,
 				A6BD827ADCCC5BBB40EF56AF /* FWFlurry.m in Sources */,
+				A6BD827814FB187EE4F05227 /* FWB3S23.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
