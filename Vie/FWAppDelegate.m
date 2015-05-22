@@ -10,9 +10,6 @@
 #import "FWMainViewController.h"
 #import "FWDataManager.h"
 #import "FWPatternManager.h"
-#import "FWPatternLoader.h"
-#import "FWPatternModel.h"
-#import "FWSettingsManager.h"
 
 @interface FWAppDelegate ()
 
