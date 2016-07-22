@@ -46,7 +46,7 @@
     [self.aboutButton addTarget:self action:@selector(aboutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     self.copyrightLabel = [[UILabel alloc] init];
-    self.copyrightLabel.text = NSLocalizedString(@"launch.copyright", @"© 2014 dot dot software, inc.");
+    self.copyrightLabel.text = NSLocalizedString(@"launch.copyright", @"© 2016 (fabien & katrina) warniez");
     self.copyrightLabel.font = [UIFont tinyBold];
     self.copyrightLabel.textColor = [UIColor whiteColor];
 

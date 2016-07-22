@@ -25,6 +25,7 @@
 		46DFD8F91ABFD39000AD8E43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46DFD8FB1ABFD39000AD8E43 /* Localizable.strings */; };
 		5F29805519B29BB3006C4C91 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805319B29BB3006C4C91 /* DataModel.xcdatamodeld */; };
 		5F29805819B29ED8006C4C91 /* FWSavedGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */; };
+		5F3EF7C71CDA87F500B6DEA6 /* libFlurry_7.6.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3EF7C61CDA87F500B6DEA6 /* libFlurry_7.6.0.a */; };
 		5FB4510F19B542EC0040F524 /* FWGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB4510D19B542EC0040F524 /* FWGameViewController.xib */; };
 		5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF3D86719B29AEB00F97192 /* CoreData.framework */; };
 		A6BD8044BFE801A0B7B5B657 /* FWAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BD83F1A46518921715C6A8 /* FWAboutViewController.xib */; };
@@ -49,7 +50,6 @@
 		A6BD87C0603660092EF459E0 /* FWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD868DC9D23C12FFB0A2C4 /* FWDataManager.m */; };
 		A6BD889B5DA300DFCDC3A427 /* FWSavedGamePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BD87FD288D97A5A1544EC4 /* FWSavedGamePickerViewController.xib */; };
 		A6BD88AB0269B101CA8B092A /* FWColorSchemeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8A8C8A24BC057374AE68 /* FWColorSchemeModel.m */; };
-		A6BD8A6FBB10DAE6D5DAFDC2 /* libFlurry_6.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6BD8636978972BF48DE3F29 /* libFlurry_6.3.0.a */; };
 		A6BD8ADD381D2DD448526568 /* FWSavedGamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD831A82F8AB73519759E1 /* FWSavedGamePickerViewController.m */; };
 		A6BD8B547B83212FC6157D0C /* FWSavedGameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD85951BF04312AB753E68 /* FWSavedGameManager.m */; };
 		A6BD8BB22C87B072BCAA3DE5 /* FWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BD8F008B945759E90FEF5C /* FWMainViewController.m */; };
@@ -107,6 +107,8 @@
 		5F29805419B29BB3006C4C91 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5F29805619B29ED8006C4C91 /* FWSavedGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWSavedGameModel.h; sourceTree = "<group>"; };
 		5F29805719B29ED8006C4C91 /* FWSavedGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameModel.m; sourceTree = "<group>"; };
+		5F3EF7C61CDA87F500B6DEA6 /* libFlurry_7.6.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.6.0.a; sourceTree = "<group>"; };
+		5F3EF7C81CDA881400B6DEA6 /* Flurry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		5FB4510D19B542EC0040F524 /* FWGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FWGameViewController.xib; sourceTree = "<group>"; };
 		5FF3D86719B29AEB00F97192 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A6BD808AFF54817340C0A620 /* FWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWMainViewController.h; sourceTree = "<group>"; };
@@ -126,7 +128,6 @@
 		A6BD836CE463AA1E6203A65D /* FWBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWBoardView.h; sourceTree = "<group>"; };
 		A6BD8371513E20C29A91C1C4 /* FWQuickPlayMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWQuickPlayMenuViewController.m; sourceTree = "<group>"; };
 		A6BD838C05C9C56987CA9F58 /* FWCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWCellModel.m; sourceTree = "<group>"; };
-		A6BD83EE653D67E50DFE8CD5 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		A6BD83F1A46518921715C6A8 /* FWAboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FWAboutViewController.xib; sourceTree = "<group>"; };
 		A6BD84407110B7542EC437A6 /* FWEditSavedGameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FWEditSavedGameViewController.xib; sourceTree = "<group>"; };
 		A6BD84857B8F3E34324C8A6D /* UIScrollView+FWConvenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+FWConvenience.h"; sourceTree = "<group>"; };
@@ -134,7 +135,6 @@
 		A6BD850BF525AE5907310CBB /* FWDeleteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWDeleteButton.m; sourceTree = "<group>"; };
 		A6BD85790BB88B0A02FD8F50 /* FWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWDataManager.h; sourceTree = "<group>"; };
 		A6BD85951BF04312AB753E68 /* FWSavedGameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWSavedGameManager.m; sourceTree = "<group>"; };
-		A6BD8636978972BF48DE3F29 /* libFlurry_6.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.3.0.a; sourceTree = "<group>"; };
 		A6BD8676030DA80E8A98A983 /* UIScrollView+FWConvenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+FWConvenience.m"; sourceTree = "<group>"; };
 		A6BD868DC9D23C12FFB0A2C4 /* FWDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWDataManager.m; sourceTree = "<group>"; };
 		A6BD86C12D759F5A736D5812 /* FWPatternModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWPatternModel.h; sourceTree = "<group>"; };
@@ -219,10 +219,10 @@
 				468562E11AF1CA7C00DC6B7C /* Security.framework in Frameworks */,
 				468562DF1AF1CA7300DC6B7C /* SystemConfiguration.framework in Frameworks */,
 				5FF3D86819B29AEB00F97192 /* CoreData.framework in Frameworks */,
+				5F3EF7C71CDA87F500B6DEA6 /* libFlurry_7.6.0.a in Frameworks */,
 				46330F9C18E2964100E5C7EC /* CoreGraphics.framework in Frameworks */,
 				46330F9E18E2964100E5C7EC /* UIKit.framework in Frameworks */,
 				46330F9A18E2964100E5C7EC /* Foundation.framework in Frameworks */,
-				A6BD8A6FBB10DAE6D5DAFDC2 /* libFlurry_6.3.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,8 +344,8 @@
 		A6BD8169B025E105093F2BCD /* Flurry */ = {
 			isa = PBXGroup;
 			children = (
-				A6BD8636978972BF48DE3F29 /* libFlurry_6.3.0.a */,
-				A6BD83EE653D67E50DFE8CD5 /* Flurry.h */,
+				5F3EF7C81CDA881400B6DEA6 /* Flurry.h */,
+				5F3EF7C61CDA87F500B6DEA6 /* libFlurry_7.6.0.a */,
 			);
 			path = Flurry;
 			sourceTree = "<group>";
@@ -538,11 +538,11 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FW;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Dot Dot Software Inc.";
 				TargetAttributes = {
 					46330F9518E2964100E5C7EC = {
-						DevelopmentTeam = RQ4AYF5N4T;
+						DevelopmentTeam = 5B2VH4PD78;
 					};
 				};
 			};
@@ -688,8 +688,9 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fabien Warniez (CP79F94PHA)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -727,7 +728,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fabien Warniez (5B2VH4PD78)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -756,7 +757,11 @@
 				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/Libs\"/**";
+				LIBRARY_SEARCH_PATHS = (
+					"\"${PROJECT_DIR}/Libs\"/**",
+					"$(PROJECT_DIR)/Libs/Flurry",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ca.dotdotsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -777,7 +782,11 @@
 				GCC_PREFIX_HEADER = "Vie/Vie-Prefix.pch";
 				INFOPLIST_FILE = "Vie/Vie-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/Libs\"/**";
+				LIBRARY_SEARCH_PATHS = (
+					"\"${PROJECT_DIR}/Libs\"/**",
+					"$(PROJECT_DIR)/Libs/Flurry",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "ca.dotdotsoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
