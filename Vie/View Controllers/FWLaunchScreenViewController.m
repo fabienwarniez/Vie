@@ -61,17 +61,24 @@
 {
     [super viewWillLayoutSubviews];
 
+    CGRect backgroundFrame = self.backgroundImageView.frame;
+    CGRect bounds = self.view.bounds;
+    CGFloat horizontalSpace = MIN(backgroundFrame.size.width, bounds.size.width);
+    CGFloat horizontalOffset = MAX(backgroundFrame.origin.x, bounds.origin.x);
+    CGFloat verticalSpace = MIN(backgroundFrame.size.height, bounds.size.height);
+    CGFloat bottomOfLogo = CGRectGetMaxY(self.logoImageView.frame);
+    
     [self.copyrightLabel sizeToFit];
     CGRect copyrightFrame = self.copyrightLabel.frame;
-    copyrightFrame.origin.x = FWRoundFloat((self.view.bounds.size.width - copyrightFrame.size.width) / 2.0f);
-    copyrightFrame.origin.y = self.view.bounds.size.height - copyrightFrame.size.height - 12.0f;
+    copyrightFrame.origin.x = horizontalOffset + FWRoundFloat((horizontalSpace - copyrightFrame.size.width) / 2.0f);
+    copyrightFrame.origin.y = verticalSpace - copyrightFrame.size.height - 12.0f;
     self.copyrightLabel.frame = copyrightFrame;
 
     NSArray *buttons = @[self.quickPlayButton, self.patternsButton, self.savedGamesButton, self.aboutButton];
-    CGFloat availableHeight = self.copyrightLabel.frame.origin.y - CGRectGetMaxY(self.logoImageView.frame);
+    CGFloat availableHeight = copyrightFrame.origin.y - bottomOfLogo;
     CGFloat buttonSpacing = [UIView verticalSpaceToDistributeViews:buttons inAvailableVerticalSpace:availableHeight];
     [UIView distributeVerticallyViews:buttons
-                      startingAtPoint:CGPointMake(FWRoundFloat(self.view.bounds.size.width / 2.0f), CGRectGetMaxY(self.logoImageView.frame) + buttonSpacing)
+                      startingAtPoint:CGPointMake((FWRoundFloat(horizontalSpace / 2.0f) + horizontalOffset), bottomOfLogo + buttonSpacing)
                           withSpacing:buttonSpacing];
 }
 
